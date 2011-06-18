@@ -1,0 +1,103 @@
+连接服务器：
+服务器没启动：
+出现异常
+SLF4J: The requested version 1.5.8 by your slf4j binding is not compatible with [1.6]
+SLF4J: See http://www.slf4j.org/codes.html#version_mismatch for further details.
+Exception in thread "main" org.apache.mina.core.RuntimeIoException: Failed to get the session.
+	at org.apache.mina.core.future.DefaultConnectFuture.getSession(DefaultConnectFuture.java:60)
+	at com.test.client.TestClient.main(TestClient.java:40)
+Caused by: java.net.ConnectException: Connection refused: no further information
+	at sun.nio.ch.SocketChannelImpl.checkConnect(Native Method)
+	at sun.nio.ch.SocketChannelImpl.finishConnect(SocketChannelImpl.java:574)
+	at org.apache.mina.transport.socket.nio.NioSocketConnector.finishConnect(NioSocketConnector.java:223)
+	at org.apache.mina.transport.socket.nio.NioSocketConnector.finishConnect(NioSocketConnector.java:45)
+	at org.apache.mina.core.polling.AbstractPollingIoConnector.processConnections(AbstractPollingIoConnector.java:431)
+	at org.apache.mina.core.polling.AbstractPollingIoConnector.access$500(AbstractPollingIoConnector.java:63)
+	at org.apache.mina.core.polling.AbstractPollingIoConnector$Connector.run(AbstractPollingIoConnector.java:480)
+	at org.apache.mina.util.NamePreservingRunnable.run(NamePreservingRunnable.java:64)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+	
+	
+-----
+2 ，打开
+
+IoSession session = cf.getSession();
+		
+System.out.println();
+
+断开连接  再发送
+
+03:37:04,104  WARN IoHandlerAdapter:58 - EXCEPTION, please implement com.test.client.MinaDBCoreGWHandler.exceptionCaught() for proper handling:
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:25)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:233)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:206)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:236)
+	
+	------有一种 没测试 就是 网络断了 ，电脑没重启 ，是否 还能发送？
+	
+	
+new ProtocolCodecFilter(
+new TextLineCodecFactory(
+Charset.forName("UTF-8"),
+LineDelimeter.WINDOWS.getValue(),
+LineDelimiter. WINDOWS.getValue()
+)
+
+没有设置字符
+
+
+
+----------设置一个错误的ip  地址 
+过超时时间
+SLF4J: The requested version 1.5.8 by your slf4j binding is not compatible with [1.6]
+SLF4J: See http://www.slf4j.org/codes.html#version_mismatch for further details.
+Exception in thread "main" org.apache.mina.core.RuntimeIoException: Failed to get the session.
+	at org.apache.mina.core.future.DefaultConnectFuture.getSession(DefaultConnectFuture.java:60)
+	at com.test.client.TestClient.main(TestClient.java:41)
+Caused by: java.net.ConnectException: Connection timed out.
+	at org.apache.mina.core.polling.AbstractPollingIoConnector.processTimedOutSessions(AbstractPollingIoConnector.java:459)
+	at org.apache.mina.core.polling.AbstractPollingIoConnector.access$600(AbstractPollingIoConnector.java:63)
+	at org.apache.mina.core.polling.AbstractPollingIoConnector$Connector.run(AbstractPollingIoConnector.java:483)
+	at org.apache.mina.util.NamePreservingRunnable.run(NamePreservingRunnable.java:64)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+
+	----------------客户端关闭后  服务器提示关闭异常
+	16:16:42,975  WARN IoHandlerAdapter:58 - EXCEPTION, please implement com.test.mina.MinaDBCoreEbsHandler.exceptionCaught() for proper handling:
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:25)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:233)
+	at sun.nio.ch.IOUtil.read(IOUtil.java:206)
+	at sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:236)
+	at org.apache.mina.transport.socket.nio.NioProcessor.read(NioProcessor.java:202)
+	at org.apache.mina.transport.socket.nio.NioProcessor.read(NioProcessor.java:42)
+	at org.apache.mina.core.polling.AbstractPollingIoProcessor.read(AbstractPollingIoProcessor.java:620)
+	at org.apache.mina.core.polling.AbstractPollingIoProcessor.process(AbstractPollingIoProcessor.java:598)
+	at org.apache.mina.core.polling.AbstractPollingIoProcessor.process(AbstractPollingIoProcessor.java:587)
+	at org.apache.mina.core.polling.AbstractPollingIoProcessor.access$400(AbstractPollingIoProcessor.java:61)
+	at org.apache.mina.core.polling.AbstractPollingIoProcessor$Processor.run(AbstractPollingIoProcessor.java:969)
+	at org.apache.mina.util.NamePreservingRunnable.run(NamePreservingRunnable.java:64)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:886)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:908)
+	at java.lang.Thread.run(Thread.java:619)
+	
+	
+-----客户端或者 服务端 对于  回执 处理后是否需要 关闭连接？？
+
+
+---断开网线后 有错误
+	// 当一个客户端关闭�?   但是这个不好用， 我创建完之后 要关闭。
+	@Override
+	public void sessionClosed(IoSession session) {
+		System.out.println("one Clinet Disconnect(DB) !");
+	}
+	
+	
+			System.out.println("客户端 打开incomming client(DB) : " + session.getRemoteAddress());
+		session.write("1234555");
