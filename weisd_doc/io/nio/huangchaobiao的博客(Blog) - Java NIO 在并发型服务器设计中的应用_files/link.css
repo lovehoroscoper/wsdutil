@@ -1,0 +1,27 @@
+﻿/*-----------超链接样式---------------
+ 说明: 伪类:link :visited :hover分别代表超链接的通常、被访问后、和鼠标接触链接是的样式
+ a标签代表通用超链接样式
+ .menuA代表Blog导航条菜单的样式
+ .titleA代表日志标题的样式
+ .sideA代表侧栏的超链接样式
+ .CategoryA代表树形分类的链接样式
+ .more代表更多链接的样式
+------------------------------------*/
+ a:link,a:visited{text-decoration:none;color:#CC0000;}
+ a:hover{color:#666666;text-decoration:underline}
+ .sidepanel a:link,.sidepanel a:visited{text-decoration:none;color:#000000;}
+ .sidepanel a:hover{color:#cc0000;text-decoration:underline}
+ #container #foot a:link,#container #foot a:visited{text-decoration:none;color:#000;}
+ #container #foot a:hover{color:#cc0000;text-decoration:underline}
+ .menuA:link,.menuA:visited{float:left;text-align:center;padding:6px 4px 0px 4px;text-decoration:none;color:#000;}  
+ .menuA:hover{color:#0066ff;text-decoration:underline;} 
+ .titleA:link,.titleA:visited{font-size:12px;text-decoration:none;text-align:left;color:#0066ff;background:url(bullet-arrow.gif) no-repeat;margin:0px 0px 0px 0px;padding:0px 0px 0px 30px;}
+ .titleA:hover{color:#000099;text-decoration:underline;}
+ .sideA:link,.sideA:visited{padding-left:18px;background:url(pot1.gif) 4px 2px no-repeat;height:16px;overflow:hidden;display:block;margin-bottom:2px;width:160px;line-height:140%}
+ .sideA:hover{padding-left:18px;background:url(pot2.gif) 4px 2px no-repeat;height:16px;overflow:hidden}
+ .CategoryA:link,.CategoryA:visited{text-decoration:none;}
+ .CategoryA:hover{text-decoration:underline;}
+ 
+ .more:link,.more:visited{color:#0066ff;background:url(bullet-arrow.gif) no-repeat;padding-left:23px;margin:5px;text-decoration:none;}
+ .more:hover{color:#000099;background:url(bullet-arrow.gif) no-repeat;}  
+ /*---超链接样式定义结束---*/

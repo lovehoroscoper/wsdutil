@@ -1,0 +1,15 @@
+body{
+        font-size:12px;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0px;
+	text-align:center;
+	background:url(allbg.jpg);
+	color:#000;
+	font-family: Verdana, Arial, "ËÎÌו";
+}
+ img {max-width: 100%;height: auto;}
+ select{font-family: Verdana, Arial;font-size:12px;}
+ th{background:#FAFAFA;border-bottom:1px solid #CCCCCC}

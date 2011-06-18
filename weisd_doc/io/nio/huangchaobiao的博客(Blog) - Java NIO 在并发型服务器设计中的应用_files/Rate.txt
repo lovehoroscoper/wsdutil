@@ -1,0 +1,214 @@
+
+// Provide a default path to dwr.engine
+if (dwr == null) var dwr = {};
+if (dwr.engine == null) dwr.engine = {};
+if (DWREngine == null) var DWREngine = dwr.engine;
+
+dwr.engine._defaultPath = '/dwr';
+
+if (Rate == null) var Rate = {};
+Rate._path = '/dwr';
+Rate.getObjectID = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getObjectID', callback);
+}
+Rate.getObjectType = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getObjectType', callback);
+}
+Rate.getRatingCount = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getRatingCount', p0, p1, callback);
+}
+Rate.getMeanRating = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getMeanRating', p0, p1, callback);
+}
+Rate.addRating = function(p0, p1, p2, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'addRating', p0, p1, p2, callback);
+}
+Rate.getRatingDelegator = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getRatingDelegator', callback);
+}
+Rate.setObjectType = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setObjectType', p0, callback);
+}
+Rate.setObjectID = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setObjectID', p0, callback);
+}
+Rate.isAllowedToRate = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'isAllowedToRate', callback);
+}
+Rate.getUserRating = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getUserRating', p0, p1, callback);
+}
+Rate.execute = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'execute', callback);
+}
+Rate.getUser = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getUser', callback);
+}
+Rate.setUser = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setUser', p0, callback);
+}
+Rate.isOwner = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'isOwner', p0, callback);
+}
+Rate.getBlogFactory = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getBlogFactory', callback);
+}
+Rate.setBlogFactory = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setBlogFactory', p0, callback);
+}
+Rate.getPageUser = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getPageUser', callback);
+}
+Rate.getPageBlog = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getPageBlog', callback);
+}
+Rate.setBlog = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setBlog', p0, callback);
+}
+Rate.isSystemAdmin = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'isSystemAdmin', callback);
+}
+Rate.canDelComment = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'canDelComment', p0, callback);
+}
+Rate.isAuthor = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'isAuthor', p0, callback);
+}
+Rate.getTimeZone = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getTimeZone', callback);
+}
+Rate.getLocales = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getLocales', callback);
+}
+Rate.getSession = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getSession', callback);
+}
+Rate.getAuthToken = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getAuthToken', callback);
+}
+Rate.getBlog = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getBlog', callback);
+}
+Rate.getBaduProperty = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getBaduProperty', p0, callback);
+}
+Rate.setAuthToken = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setAuthToken', p0, callback);
+}
+Rate.isGuest = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'isGuest', callback);
+}
+Rate.getTimeZones = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getTimeZones', callback);
+}
+Rate.getPageURL = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getPageURL', callback);
+}
+Rate.setLoginAttributes = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setLoginAttributes', callback);
+}
+Rate.setServletRequest = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setServletRequest', false, callback);
+}
+Rate.setServletResponse = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setServletResponse', false, callback);
+}
+Rate.clone = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'clone', callback);
+}
+Rate.doInput = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'doInput', callback);
+}
+Rate.validate = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'validate', callback);
+}
+Rate.getLocale = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getLocale', callback);
+}
+Rate.getText = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, callback);
+}
+Rate.getText = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, callback);
+}
+Rate.getText = function(p0, p1, p2, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, p2, callback);
+}
+Rate.getText = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, callback);
+}
+Rate.getText = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, callback);
+}
+Rate.getText = function(p0, p1, p2, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, p2, callback);
+}
+Rate.getText = function(p0, p1, p2, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, p2, callback);
+}
+Rate.getText = function(p0, p1, p2, p3, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, p2, p3, callback);
+}
+Rate.getText = function(p0, p1, p2, p3, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getText', p0, p1, p2, p3, callback);
+}
+Rate.pause = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'pause', p0, callback);
+}
+Rate.hasErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'hasErrors', callback);
+}
+Rate.getErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getErrors', callback);
+}
+Rate.setActionErrors = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setActionErrors', p0, callback);
+}
+Rate.getActionErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getActionErrors', callback);
+}
+Rate.setActionMessages = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setActionMessages', p0, callback);
+}
+Rate.getActionMessages = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getActionMessages', callback);
+}
+Rate.getErrorMessages = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getErrorMessages', callback);
+}
+Rate.setFieldErrors = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'setFieldErrors', p0, callback);
+}
+Rate.getFieldErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getFieldErrors', callback);
+}
+Rate.getTexts = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getTexts', callback);
+}
+Rate.getTexts = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'getTexts', p0, callback);
+}
+Rate.addActionError = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'addActionError', p0, callback);
+}
+Rate.addActionMessage = function(p0, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'addActionMessage', p0, callback);
+}
+Rate.addFieldError = function(p0, p1, callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'addFieldError', p0, p1, callback);
+}
+Rate.doDefault = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'doDefault', callback);
+}
+Rate.hasActionErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'hasActionErrors', callback);
+}
+Rate.hasActionMessages = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'hasActionMessages', callback);
+}
+Rate.hasFieldErrors = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'hasFieldErrors', callback);
+}
+Rate.clearErrorsAndMessages = function(callback) {
+  dwr.engine._execute(Rate._path, 'Rate', 'clearErrorsAndMessages', callback);
+}

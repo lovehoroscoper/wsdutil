@@ -1,0 +1,1568 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="UTF-8"><head>
+
+
+
+
+
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Language" content="UTF-8">
+	<meta name="robots" content="all">
+	<meta name="author" content="blog@chinajavaworld.com,chinajavaworld 
+blog system">
+	<meta name="Copyright" content="CJWBlog CopyRight 2006">
+	<meta name="keywords" 
+content="Blog,JAVA,j2ee,web,standards,xhtml,css,w3c">
+	<meta name="description" content="huangchaobiao的博客(Blog) - 事前不怕，事后不悔！
+决心 + 勇气 + 行动 + 机遇 = 成功！">
+	<title>huangchaobiao的博客(Blog) - Java NIO 在并发型服务器设计中的应用</title>
+	
+	<link rel="alternate" type="application/rss+xml" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3823/0/feed.asp?cateID=3"
+ title="订阅 JAVA开发者 - JSP/Servlet 所有文章(rss2)">
+	<link rel="alternate" type="application/atom+xml" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3823/0/atom.asp?cateID=3"
+ title="订阅 JAVA开发者 - JSP/Servlet 所有文章(atom)">
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/common.css"
+ type="text/css" media="all"><!--通用样式表-->
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/global.css"
+ type="text/css" media="all"><!--全局样式表-->
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/layout.css"
+ type="text/css" media="all"><!--层次样式表-->
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/typography.css"
+ type="text/css" media="all"><!--局部样式表-->
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/link.css"
+ type="text/css" media="all"><!--超链接样式表-->
+	<link rel="stylesheet" rev="stylesheet" 
+href="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/editor.css"
+ type="text/css" media="all"><!--UBB编辑器代码-->
+	<link rel="icon" href="http://blog.chinajavaworld.com/favicon.ico" 
+type="image/x-icon">
+	<link rel="shortcut icon" 
+href="http://blog.chinajavaworld.com/favicon.ico" type="image/x-icon">
+	<script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/common.js"></script>
+	<script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/common_002.js"></script>
+	<script>
+	function showVcode(i){
+	var isNone=false;
+	if(document.getElementById('vcode').style.display=='none'){
+	document.getElementById('vcode').style.display='';
+	isNone = true;
+	}
+	if(isNone || i==1)
+		 document.getElementById('imgvcode').innerHTML='&nbsp;&nbsp;<img src="/verify/img/'+new Date()+'.gif">&nbsp;<a href="javascript:showVcode(1)">看不清?&nbsp;换张图片</a><br>&nbsp;&nbsp;<input name="verifycode" id="verifycode" style="width:135" value="">&nbsp;输入图片中的字符';
+	}
+	</script>
+<script src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/UBBCode_Gecko.js" type="text/javascript"></script></head><body
+ onload="initJS()" onkeydown="PressKey()">
+<a href="http://huangchaobiao111.blog.chinajavaworld.com/" accesskey="i"></a>
+<a href="javascript:history.go(-1)" accesskey="z"></a>
+
+ <div id="container">
+ <!--顶部-->
+  <div id="header">
+   <div id="blogname">huangchaobiao的博客(Blog)
+    <div id="blogTitle">事前不怕，事后不悔！
+决心 + 勇气 + 行动 + 机遇 = 成功！
+								<div id="blogLink">
+					<a id="blogURL" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/">http://huangchaobiao111.blog.chinajavaworld.com</a>&gt;
+
+					<a id="copyBlogURL" href="javascript:void(0)">复制</a>&nbsp;&nbsp;&gt;
+
+					<a id="toFavorite" href="javascript:void(0)">收藏本页</a>
+				</div>
+    	</div>
+   </div>
+   		<div id="menu"><div id="Left"></div><div id="Right"></div><ul><li 
+class="menuL"></li><li><a class="menuA" 
+href="http://blog.chinajavaworld.com/" title="JAVA开发者">开发者博客</a></li><li
+ class="menuDiv"></li><li><a class="menuA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/" title="日志首页">日志首
+页</a></li><li class="menuDiv"></li><li><a class="menuA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/" 
+title="">标签列表</a></li><li class="menuDiv"></li><li><a class="menuA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/createEntry%21default.jspa"
+ title="写日志">我要写日志</a></li><li class="menuR"></li></ul></div>
+  </div>
+
+ <!--内容-->
+  <div id="Tbody">
+  <div id="mainContent">
+   <div id="innermainContent">
+       <div id="mainContent-topimg"></div>
+	           
+		<div id="Content_ContentList" class="content-width"><a name="body" 
+accesskey="B" href="#body"></a>
+			<div class="pageContent">
+					<div style="float: right; width: 180px ! important;">
+						  <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1389"
+ target="_blank" title="订阅所有JSP/Servlet的日志" accesskey="F"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ alt="订阅所有JSP/Servlet的日志" style="margin-bottom: -1px;" border="0"> 订阅</a>
+						   | 
+                        
+                            
+                                
+                                <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/Cprevious1.gif"
+ alt="这是最新一篇日志" border="0">
+                                
+                                    
+                                    上一篇
+                                
+                                |
+                                 <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/Cnext1.gif"
+ alt="下一篇日志" border="0">
+                                
+                                    
+                                    <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3726/1/">下一篇</a>
+                                
+                                ]
+                            
+                        
+					</div> 
+						   <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/1.gif"
+ style="margin: 0px 2px -4px 0px;" alt=""> <strong><a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3823/0/blog.jspa?id=216810&amp;categoryID=1389"
+ title="查看所有JAVA技术的日志">JAVA技术</a></strong> </div>
+						   <div class="Content">
+						   <div class="Content-top"><div class="ContentLeft"></div><div 
+class="ContentRight"></div>
+						     <h1 class="ContentTitle"><strong>Java NIO 在并发型服务器设计中的应用</strong></h1>
+						     <h2 class="ContentAuthor">作者:huangchaobiao111 日期:2007-12-03 
+19:47:58</h2>
+						   </div>
+						    <div class="Content-Info">
+							  <div class="InfoOther">字体大小: <a 
+href="javascript:SetFont('12px')" accesskey="1">小</a> <a 
+href="javascript:SetFont('14px')" accesskey="2">中</a> <a 
+href="javascript:SetFont('16px')" accesskey="3">大</a></div>
+							  <div class="InfoAuthor"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/hn2_sunny.gif"
+ style="margin: 0px 2px -6px 0px;" alt=""><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/hn2_t_sunny.gif"
+ alt=""> <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/level5.gif"
+ style="margin: 0px 2px -1px 0px;" alt=""> 
+					              
+							  </div>
+							</div>
+							
+							
+						  <div id="logPanel" class="Content-body">
+						   	
+							<!--attachment-->
+
+							<!--attachment end-->
+						   	
+1. 引言 <br> 随着多处理机体系结构的演变、网络技术的发展和分布式应用的兴起，并发型多任务的 <br> 
+服务器程序设计技术已越来越显示其重要性，这要求服务器程序能够在几百个甚至更多的客 <br> 
+户端同时发出请求信息的情况下，仍能保持高性能的并发处理机制，迅速完成所有并发请求 <br> 的处理。传统的并发型服务器设计是利用阻塞型网络I/O
+ 以多线程的模式来实现的，然而由 <br> 于系统常常在进行网络读写时处于阻塞状态，会大大影响系统的性能；自Java1. 4 开始引入 <br>
+ 了NIO(新I/O) API，通过使用非阻塞型I/O，实现流畅的网络读写操作，为开发高性能并发 <br> 
+型服务器程序提供了一个很好的解决方案。 <br> 2. 传统阻塞型网络I/O 的不足 <br> Java 平台传统的I/O 
+系统都是基于Byte（字节）和Stream（数据流）的，相应的I/O 操 <br> 作都是阻塞型的，所以服务器程序也采用阻塞型I/O 
+进行数据的读、写操作。本文以TCP <br> 长连接模式来讨论并发型服务器的相关设计，为了实现服务器程序的并发性要求，系统由一 <br> 
+个单独的主线程来监听用户发起的连接请求，一直处于阻塞状态；当有用户连接请求到来时， <br> 
+程序都会启一个新的线程来统一处理用户数据的读、写操作，其操作模式如图1[1]所示。 <br> 图1 基于阻塞I/O 的多线程TCP 
+服务器操作模式 <br> 这种模式的优点是简单、实用、易管理；然而缺点也是显而易见的：由于是为每一个客 <br> 
+户端分配一个线程来处理输入、输出数据，其线程与客户机的比例近似为1：1，随着线程 <br> 
+数量的不断增加，服务器启动了大量的并发线程，会大大加大系统对线程的管理开销，这将 <br> 成为吞吐量瓶颈的主要原因；其次由于底层的I/O 
+操作采用的同步模式，I/O 操作的阻塞管 <br> - 2 - <br> 
+理粒度是以服务于请求的线程为单位的,有可能大量的线程会闲置,处于盲等状态，造成I/O <br> 资源利用率不高，影响整个系统的性能。 <br> 
+对于并发型服务器，系统用在阻塞型I/O 等待和线程间切换的时间远远多于CPU 在内 <br> 存中处理数据的时间，因此传统的阻塞型I/O 
+已经成为制约系统性能的瓶颈。Java1.4 版本 <br> 后推出的NIO 工具包，提供了非阻塞型I/O 
+的异步输入输出机制，为提高系统的性能提供 <br> 了可实现的基础机制。 <br> 3. NIO 包及工作原理 <br> 针对传统I/O 
+工作模式的不足，NIO 工具包提出了基于Buffer（缓冲区）、Channel（通 <br> 
+道）、Selector（选择器）的新模式[2]；Selector（选择器）、可选择的Channel（通道）和 <br> 
+SelectionKey（选择键）配合起来使用，可以实现并发的非阻塞型I/O 能力。 <br> 3.1 NIO 工具包的成员[3] <br> 
+3.1.1 Buffer（缓冲器） <br> Buffer 类是一个抽象类，它有7 个子类分别对应于七种基本的数据类型：ByteBuffer、 <br>
+ CharBuffer、DoubleBuffer、FloatBuffer、IntBuffer、LongBuffer 
+和ShortBuffer。每一个Buffer <br> 对象相当于一个数据容器，可以把它看作内存中的一个大的数组，用来存储和提取所有基本 <br>
+ 类型(boolean 型除外)的数据。Buffer 类的核心是一块内存区，可以直接对其执行与内存有关 <br> 
+的操作，利用操作系统特性和能力提高和改善Java 传统I/O 的性能。 <br> 3.1.2 Channel（通道） <br> Channel 
+被认为是NIO 工具包的一大创新点，是(Buffer)缓冲器和I/O 服务之间的通道， <br> 
+具有双向性，既可以读入也可以写出，可以更高效的传递数据。我们这里主要讨论 <br> ServerSocketChannel 
+和SocketChannel，它们都继承了SelectableChannel，是可选择的通道， <br> 
+分别可以工作在同步和异步两种方式下（这里的可选择不是指可以选择两种工作方式，而是 <br> 
+指可以有选择的注册自己感兴趣的事件）。当通道工作在同步方式时，它的功能和编程方法 <br> 与传统的ServerSocket、Socket 
+对象相似；当通道工作在异步工作方式时，进行输入输出处 <br> 理不必等到输入输出完毕才返回，并且可以将其感兴趣的（如：接受操作、连接操作、读出
+ <br> 操作、写入操作）事件注册到Selector 对象上，与Selector 对象协同工作可以更有效率的支 <br> 
+持和管理并发的网络套接字连接。 <br> 3.1.3 Selector（选择器）和SelectionKey（选择键） <br> 各类Buffer
+ 是数据的容器对象；各类Channel 实现在各类Buffer 与各类I/O 服务间传输 <br> 数据。Selector 
+是实现并发型非阻塞I/O 的核心，各种可选择的通道将其感兴趣的事件注册 <br> 到Selector 对象上，Selector 
+在一个循环中不断轮循监视这各些注册在其上的Socket 通道。 <br> SelectionKey 类则封装了SelectableChannel
+ 对象在Selector 中的注册信息。当Selector 监测 <br> 到在某个注册的SelectableChannel 
+上发生了感兴趣的事件时,自动激活产生一个SelectionKey <br> 对象,在这个对象中记录了哪一个SelectableChannel 
+上发生了哪种事件，通过对被激活的 <br> SelectionKey 的分析,外界可以知道每个SelectableChannel 
+发生的具体事件类型,进行相应的 <br> 处理。 <br> - 3 - <br> 3.2 NIO 工作原理 <br> 
+通过上面的讨论，我们可以看出在并发型服务器程序中使用NIO，实际上是通过网络事 <br> 件驱动模型实现的。我们应用Select 
+机制，不用为每一个客户端连接新启线程处理，而是将 <br> 其注册到特定的Selector 对象上，这就可以在单线程中利用Selector 
+对象管理大量并发的网 <br> 络连接，更好的利用了系统资源；采用非阻塞I/O 的通信方式，不要求阻塞等待I/O 操作完 <br> 
+成即可返回，从而减少了管理I/O 连接导致的系统开销，大幅度提高了系统性能。NIO 的结 <br> 构如图2 所示。 <br> 图2 
+非阻塞网络I/O 原理 <br> 从图中可以看出，当有读或写等任何注册的事件发生时，可以从Selector 中获得相应的 <br> 
+SelectionKey ， 从SelectionKey 中可以找到发生的事件和该事件所发生的具体的 <br> 
+SelectableChannel，以获得客户端发送过来的数据。由于在非阻塞网络I/O 中采用了事件触 <br> 
+发机制，处理程序可以得到系统的主动通知，从而可以实现底层网络I/O 无阻塞、流畅地读 <br> 
+写，而不像在原来的阻塞模式下处理程序需要不断循环等待。使用NIO，可以编写出性能更 <br> 好、更易扩展的并发型服务器程序。 <br> 4. 
+并发型服务器程序的实现代码 <br> 应用NIO 工具包，基于非阻塞网络I/O 设计的并发型服务器程序与以往基于阻塞I/O 的 <br> 
+实现程序有很大不同，在使用非阻塞网络I/O 的情况下，程序读取数据和写入数据的时机不 <br> 是由程序员控制的，而是Selector 
+决定的。下面便给出基于非阻塞网络I/O 的并发型服务器 <br> 程序的核心代码片段[4]： <br>  <br> <table 
+bgcolor="#999999" border="0" cellpadding="3" cellspacing="1"><tbody><tr><td
+ align="left" bgcolor="#dddddd" valign="top" width="1"><font 
+color="#555555"><pre>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>28<br>29<br>30<br>31<br>32<br>33<br>34<br>35<br>36<br>37<br>38<br>39<br>40<br>41<br>42<br>43<br>44<br>45<br>46<br>47<br>48<br>49<br>50<br>51<br>52<br>53<br>54<br>55<br>56<br>57<br>58<br>59<br>60<br>61<br>62<br>63<br>64<br>65<br>66<br>67<br>68<br>69<br>70<br>71<br>72<br>73<br>74<br>75<br>76<br>77<br>78<br>79<br>80<br>81<br>82<br>83<br>84<br>85<br>86<br>87<br>88<br>89<br>90<br>91<br>92<br>93<br>94<br>95<br>96<br>97<br>98<br>99<br>100<br>101<br>102<br>103<br>104<br>105<br>106<br>107<br>108<br>109<br>110<br>111<br>112<br>113<br>114<br>115<br>116<br>117<br>118<br>119<br>120<br>121<br>122<br>123<br>124<br>125<br>126<br>127<br>128<br>129<br>130<br>131<br>132<br>133<br>134<br>135<br>136<br>137<br>138<br>139<br>140<br>141<br>142<br>143<br>144<br>145<br>146<br>147<br></pre></font></td><td
+ align="left" bgcolor="#ffffff" valign="top"><pre><font color="navy"><b>import</b></font> java.io.*； <font color="darkgreen">//引入Java.io包</font>
+<font color="navy"><b>import</b></font> java.net.*； <font color="darkgreen">//引入Java.net包</font>
+<font color="navy"><b>import</b></font> java.nio.channels.*； <font color="darkgreen">//引入Java.nio.channels包</font>
+<font color="navy"><b>import</b></font> java.util.*； <font color="darkgreen">//引入Java.util包</font>
+<font color="navy"><b>public</b></font> <font color="navy"><b>class</b></font> TestServer <font color="navy"><b>implements</b></font> Runnable
+<font color="navy">{</font>
+<font color="darkgreen">/**
+- 4 -
+* 服务器Channel对象，负责接受用户连接
+*/</font>
+<font color="navy"><b>private</b></font> ServerSocketChannel server；
+<font color="darkgreen">/**
+* Selector对象，负责监控所有的连接到服务器的网络事件的发生
+*/</font>
+<font color="navy"><b>private</b></font> Selector selector；
+<font color="darkgreen">/**
+* 总的活动连接数
+*/</font>
+<font color="navy"><b>private</b></font> <font color="navy"><b>int</b></font> activeSockets；
+<font color="darkgreen">/**
+* 服务器Channel绑定的端口号
+*/</font>
+<font color="navy"><b>private</b></font> <font color="navy"><b>int</b></font> port ；
+<font color="darkgreen">/**
+* 构造函数
+*/</font>
+<font color="navy"><b>public</b></font> TestServer()<font color="navy"><b>throws</b></font> IOException
+<font color="navy">{</font>
+activeSockets=0；
+port=9999；<font color="darkgreen">//初始化服务器Channel绑定的端口号为9999</font>
+selector= Selector.open()；<font color="darkgreen">//初始化Selector对象</font>
+server=ServerSocketChannel.open()；<font color="darkgreen">//初始化服务器Channel对象</font>
+ServerSocket socket=server.socket()；<font color="darkgreen">//获取服务器Channel对应的//ServerSocket对象</font>
+socket.bind(<font color="navy"><b>new</b></font> InetSocketAddress(port))；<font color="darkgreen">//把Socket绑定到监听端口9999上</font>
+server.configureBlocking(<font color="navy"><b>false</b></font>)；<font color="darkgreen">//将服务器Channel设置为非阻塞模式</font>
+server.register(selector,SelectionKey.OP_ACCEPT)；<font color="darkgreen">//将服务器Channel注册到</font>
+Selector对象，并指出服务器Channel所感兴趣的事件为可接受请求操作
+<font color="navy">}</font>
+<font color="navy"><b>public</b></font> <font color="navy"><b>void</b></font> run()
+<font color="navy">{</font>
+<font color="navy"><b>while</b></font>(<font color="navy"><b>true</b></font>)
+<font color="navy">{</font>
+<font color="navy"><b>try</b></font>
+<font color="navy">{</font>
+<font color="darkgreen">/**
+* 应用Select机制轮循是否有用户感兴趣的新的网络事件发生，当没有
+- 5 -
+* 新的网络事件发生时，此方法会阻塞，直到有新的网络事件发生为止
+*/</font>
+selector.select()；
+<font color="navy">}</font>
+<font color="navy"><b>catch</b></font>(IOException e)
+<font color="navy">{</font>
+continue；<font color="darkgreen">//当有异常发生时，继续进行循环操作</font>
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 得到活动的网络连接选择键的集合
+*/</font>
+Set&lt;SelectionKey&gt; keys=selector.selectedKeys()；
+activeSockets=keys.size()；<font color="darkgreen">//获取活动连接的数目</font>
+<font color="navy"><b>if</b></font>(activeSockets==0)
+<font color="navy">{</font>
+continue；<font color="darkgreen">//如果连接数为0，则继续进行循环操作</font>
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 应用For—Each循环遍历整个选择键集合
+*/</font>
+<font color="navy"><b>for</b></font>(SelectionKey key :keys)
+<font color="navy">{</font>
+<font color="darkgreen">/**
+* 如果关键字状态是为可接受，则接受连接，注册通道，以接受更多的*
+事件，进行相关的服务器程序处理
+*/</font>
+<font color="navy"><b>if</b></font>(key.isAcceptable())
+<font color="navy">{</font>
+doServerSocketEvent(key)；
+continue；
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 如果关键字状态为可读，则说明Channel是一个客户端的连接通道，
+* 进行相应的读取客户端数据的操作
+*/</font>
+<font color="navy"><b>if</b></font>(key.isReadable())
+<font color="navy">{</font>
+doClientReadEvent(key)；
+continue；
+- 6 -
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 如果关键字状态为可写，则也说明Channel是一个客户端的连接通道，
+* 进行相应的向客户端写数据的操作
+*/</font>
+<font color="navy"><b>if</b></font>(key.isWritable())
+<font color="navy">{</font>
+doClinetWriteEvent(key)；
+continue；
+<font color="navy">}</font>
+<font color="navy">}</font>
+<font color="navy">}</font>
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 处理服务器事件操作
+* @param key 服务器选择键对象
+*/</font>
+<font color="navy"><b>private</b></font> <font color="navy"><b>void</b></font> doServerSocketEvent(SelectionKey key)
+<font color="navy">{</font>
+SocketChannel client=null；
+<font color="navy"><b>try</b></font>
+<font color="navy">{</font>
+ServerSocketChannel server=(ServerSocketChannel)key.channel()；
+client=server.accept()；
+<font color="navy"><b>if</b></font>(client==<font color="navy"><b>null</b></font>)
+<font color="navy">{</font>
+return；
+<font color="navy">}</font>
+client.configureBlocking(<font color="navy"><b>false</b></font>)；<font color="darkgreen">//将客户端Channel设置为非阻塞型</font>
+<font color="darkgreen">/**
+* 将客户端Channel注册到Selector对象上，并且指出客户端Channel所感
+* 兴趣的事件为可读和可写
+*/</font>
+client.register(selector,SelectionKey.OP_READ|SelectionKey.OP_READ)；
+<font color="navy">}</font><font color="navy"><b>catch</b></font>(IOException e)
+<font color="navy">{</font>
+<font color="navy"><b>try</b></font>
+<font color="navy">{</font>
+client.close();
+- 7 -
+<font color="navy">}</font><font color="navy"><b>catch</b></font>(IOException e1)<font color="navy">{</font><font color="navy">}</font>
+<font color="navy">}</font>
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 进行向客户端写数据操作
+* @param key 客户端选择键对象
+*/</font>
+<font color="navy"><b>private</b></font> <font color="navy"><b>void</b></font> doClinetWriteEvent(SelectionKey key)
+<font color="navy">{</font>
+代码实现略；
+<font color="navy">}</font>
+<font color="darkgreen">/**
+* 进行读取客户短数据操作
+* @param key 客户端选择键对象
+*/</font>
+<font color="navy"><b>private</b></font> <font color="navy"><b>void</b></font> doClientReadEvent(SelectionKey key)
+<font color="navy">{</font>
+代码实现略；
+<font color="navy">}</font>
+<font color="navy">}</font>
+</pre></td></tr></tbody></table> <br> 
+从上面对代码可以看出，使用非阻塞性I/O进行并发型服务器程序设计分三个部分：1. <br> 
+向Selector对象注册感兴趣的事件；2.从Selector中获取所感兴趣的事件；3.根据不同的事件进 <br> 行相应的处理。 <br> 
+5. 结语 <br> 通过使用NIO 工具包进行并发型服务器程序设计，一个或者很少几个Socket 线程就可 <br> 
+以处理成千上万个活动的Socket 连接，大大降低了服务器端程序的开销；同时网络I/O 采取 <br> 
+非阻塞模式，线程不再在读或写时阻塞，操作系统可以更流畅的读写数据并可以更有效地向 <br> CPU 
+传递数据进行处理，以便更有效地提高系统的性能。
+<br><br>
+<div id="rating">
+
+ 
+ 
+
+
+
+
+    
+    <script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/Rate.txt"></script>
+            <script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/engine.js"></script>
+    <script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/util.js"></script>
+ 
+
+<script language="JavaScript" type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/prototype.js"></script>
+     
+<script language="JavaScript" type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/events.js"></script>
+<script language="JavaScript" type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/scriptaculous.js"></script><script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/builder.js"></script><script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/effects.js"></script><script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/dragdrop.js"></script><script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/controls.js"></script><script type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/slider.js"></script>
+
+    <script type="text/javascript">
+
+      var userRating = 0;
+        var inProgress = false;
+
+        var RateInclude = {
+
+            update: function() {
+                Rate.getMeanRating('1', '3823', {
+                    callback:function(data) {
+                        RateInclude.updateMeanRating(data);
+                    }
+                });
+                Rate.getRatingCount('1', '3823', {
+                    callback:function(data) {
+                        RateInclude.updateRatingCount(data);
+                    }
+                });
+                Rate.getUserRating('1', '3823', {
+                    callback:function(data) {
+                        RateInclude.updateUserRating(data);
+                    }
+                });
+            },
+
+            updateMeanRating: function(data) {
+                // change the title of the span to reflect the new mean rating
+                $('jive-content-avgrating-score').title = '<@ww.text name="rate.avg_user_rating.label"/> ' + data;
+
+                // loop though each mean rating icon and change according to the new mean rating
+                 
+                    if (data >= 1) {
+                        $('jive-icon-avgrating-1').className = 'jive-icon-avgrating-on';
+                    } else if (data >= (1 - 0.50)) {
+                        $('jive-icon-avgrating-1').className = 'jive-icon-avgrating-half'
+                    } else {
+                        $('jive-icon-avgrating-1').className = 'jive-icon-avgrating-off'
+                    }
+                
+                    if (data >= 2) {
+                        $('jive-icon-avgrating-2').className = 'jive-icon-avgrating-on';
+                    } else if (data >= (2 - 0.50)) {
+                        $('jive-icon-avgrating-2').className = 'jive-icon-avgrating-half'
+                    } else {
+                        $('jive-icon-avgrating-2').className = 'jive-icon-avgrating-off'
+                    }
+                
+                    if (data >= 3) {
+                        $('jive-icon-avgrating-3').className = 'jive-icon-avgrating-on';
+                    } else if (data >= (3 - 0.50)) {
+                        $('jive-icon-avgrating-3').className = 'jive-icon-avgrating-half'
+                    } else {
+                        $('jive-icon-avgrating-3').className = 'jive-icon-avgrating-off'
+                    }
+                
+                    if (data >= 4) {
+                        $('jive-icon-avgrating-4').className = 'jive-icon-avgrating-on';
+                    } else if (data >= (4 - 0.50)) {
+                        $('jive-icon-avgrating-4').className = 'jive-icon-avgrating-half'
+                    } else {
+                        $('jive-icon-avgrating-4').className = 'jive-icon-avgrating-off'
+                    }
+                
+                    if (data >= 5) {
+                        $('jive-icon-avgrating-5').className = 'jive-icon-avgrating-on';
+                    } else if (data >= (5 - 0.50)) {
+                        $('jive-icon-avgrating-5').className = 'jive-icon-avgrating-half'
+                    } else {
+                        $('jive-icon-avgrating-5').className = 'jive-icon-avgrating-off'
+                    }
+                
+            },
+
+            updateRatingCount: function(data) {
+                // update the rating count based on the new rating
+                var ratingString = (data == 1) ? '评分' : '评分';
+                $('jive-content-avgrating-count').innerHTML= '(' + data + ' ' + ratingString + ')';
+            },
+
+            updateUserRating: function(data) {
+                // set the javascript variable userRating to the new user rating value
+                userRating = data;
+
+                // reload the user rating
+                RateInclude.showUserRating(data);
+            },
+
+            addRating: function(score) {
+                inProgress = true;
+
+                var objectType = '1';
+                var objectID = '3823';
+
+                // hide user rating
+                $('jive-content-userrating-score').style.display = 'none';
+
+                // show saving message
+                $('jive-content-userrating-saved').innerHTML = '正在保存...';
+                $('jive-content-userrating-saved').style.display = '';
+
+                // dwr call to add rating
+                Rate.addRating(objectType, objectID, score, {
+                    callback:function() {
+                        RateInclude.update();
+
+                        // changed saving message to saved
+                        $('jive-content-userrating-saved').innerHTML = '已经保存.';
+
+                        // hide saved message
+                        Effect.Fade('jive-content-userrating-saved', {afterFinish:RateInclude.testShow});
+     
+                        inProgress = false;
+                    }
+                });
+            },
+
+            testShow: function() {
+                $('jive-content-userrating-score').style.display = '';
+            },
+
+            showUserRating: function(score) {
+                
+                    if (score == 0 || inProgress) {
+                        $('jive-content-userrating-desc').innerHTML = '';
+                    }
+                    if (score >= 1) {
+                        $('jive-icon-userrating-1').className = 'jive-icon-userrating-on';
+                        if (score == 1) {
+                            $('jive-content-userrating-desc').innerHTML = '很差';
+                        }
+                    } else {
+                        $('jive-icon-userrating-1').className = 'jive-icon-userrating-off'
+                    }
+                
+                    if (score == 0 || inProgress) {
+                        $('jive-content-userrating-desc').innerHTML = '';
+                    }
+                    if (score >= 2) {
+                        $('jive-icon-userrating-2').className = 'jive-icon-userrating-on';
+                        if (score == 2) {
+                            $('jive-content-userrating-desc').innerHTML = '较差';
+                        }
+                    } else {
+                        $('jive-icon-userrating-2').className = 'jive-icon-userrating-off'
+                    }
+                
+                    if (score == 0 || inProgress) {
+                        $('jive-content-userrating-desc').innerHTML = '';
+                    }
+                    if (score >= 3) {
+                        $('jive-icon-userrating-3').className = 'jive-icon-userrating-on';
+                        if (score == 3) {
+                            $('jive-content-userrating-desc').innerHTML = '一般';
+                        }
+                    } else {
+                        $('jive-icon-userrating-3').className = 'jive-icon-userrating-off'
+                    }
+                
+                    if (score == 0 || inProgress) {
+                        $('jive-content-userrating-desc').innerHTML = '';
+                    }
+                    if (score >= 4) {
+                        $('jive-icon-userrating-4').className = 'jive-icon-userrating-on';
+                        if (score == 4) {
+                            $('jive-content-userrating-desc').innerHTML = '不错';
+                        }
+                    } else {
+                        $('jive-icon-userrating-4').className = 'jive-icon-userrating-off'
+                    }
+                
+                    if (score == 0 || inProgress) {
+                        $('jive-content-userrating-desc').innerHTML = '';
+                    }
+                    if (score >= 5) {
+                        $('jive-icon-userrating-5').className = 'jive-icon-userrating-on';
+                        if (score == 5) {
+                            $('jive-content-userrating-desc').innerHTML = '很好';
+                        }
+                    } else {
+                        $('jive-icon-userrating-5').className = 'jive-icon-userrating-off'
+                    }
+                
+            }
+        };
+
+    </script>
+
+    <div id="jive-content-rating">
+        
+        
+
+            <div id="jive-content-avgrating">
+
+                <div id="jive-content-avgrating-title" 
+style="padding-right: 38px;">平均得分</div>
+
+                <!--@jive.ratingDisplay meanRating=""/-->
+                 
+    <div id="jive-content-avgrating-score" title="平均分: 0">
+     	                
+            <span id="jive-icon-avgrating-1" 
+class="jive-icon-avgrating-off"></span>
+        
+            <span id="jive-icon-avgrating-2" 
+class="jive-icon-avgrating-off"></span>
+        
+            <span id="jive-icon-avgrating-3" 
+class="jive-icon-avgrating-off"></span>
+        
+            <span id="jive-icon-avgrating-4" 
+class="jive-icon-avgrating-off"></span>
+        
+            <span id="jive-icon-avgrating-5" 
+class="jive-icon-avgrating-off"></span>
+        
+    </div>
+
+                <div id="jive-content-avgrating-count">(0 次评分)</div>
+
+
+            
+
+            </div>
+
+
+        
+    </div>
+
+    
+    <br><br>
+    <br><br>
+
+
+
+
+
+</div>
+						   <br>
+						    
+
+
+						     
+						   </div>
+						   <div class="Content-body">
+					             
+							<img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/From.gif"
+ style="margin: 0px 2px -4px 0px;" alt=""><strong>文章来自:</strong> <a 
+href="http://gmail.com/" target="_blank">丁辉</a><br>
+							<!--<img src="/images/icon_trackback.gif" style="margin:0px 2px -4px 0px" alt=""/><strong>引用通告地址:</strong> <a href="trackback.asp?tbID=1" target="_blank">trackback.asp?tbID=1</a><br/>-->
+						    <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/tag.gif"
+ style="margin: 4px 2px -4px 0px;" alt=""><strong>标签:</strong> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/1/">java</a>&nbsp;<a
+ 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/139/"></a>&nbsp;<a
+ 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/597/">NIO</a>&nbsp;<a
+ 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/1932/">阻
+塞</a>&nbsp;<a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/1933/">非
+阻塞</a>&nbsp;<br>
+						   </div>
+						   <div class="Content-bottom"><div class="ContentBLeft"></div><div
+ class="ContentBRight"></div>评论: 0 <!--| <a href="/trackback.asp?tbID=1" target="_blank">引用: 0</a>-->|
+ 查看次数: 3823
+			</div></div></div>
+<a name="comm_top" href="#comm_top" accesskey="C"></a>
+
+<a name="add_comment"></a>
+	  <div id="MsgContent" style="width: 94%;">
+      <div id="MsgHead">发表评论</div>
+      <div id="MsgBody">
+      
+      <form name="frm" action="/entry!addComment.jspa" method="post" 
+onsubmit="return CheckPost()" style="margin: 0px;">	  
+      <input name="tstart" id="tstart" value="0" type="hidden">
+	  <table cellpadding="0" cellspacing="0" width="100%">	  
+	  <tbody><tr><td align="right" width="70"><strong>昵　称：</strong></td><td
+ style="padding: 3px;" align="left"><input name="username" size="18" 
+class="userpass" maxlength="24" value="游客" readonly="readonly" 
+type="text">&nbsp;&nbsp;<a href="javascript:login();">登录</a></td></tr>
+      
+	  <tr><td align="right" valign="top" width="70"><strong>内　容：</strong><br>
+	  </td><td style="padding: 2px;"><script language="javascript" type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/UBBCode.js"></script><script language="javascript" type="text/javascript" src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/UBBCode_help.js"></script><div
+ id="UBBSmiliesPanel" class="UBBSmiliesPanel"><table cellpadding="0" 
+cellspacing="2"><tbody><tr><td><a href="javascript:AddSmiley('[smile]')"
+ class="Smilie" title="[smile]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/smile.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[lol]')" 
+class="Smilie" title="[lol]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/lol.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[wink]')"
+ class="Smilie" title="[wink]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/wink.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[eek]')" 
+class="Smilie" title="[eek]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/eek.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[razz]')"
+ class="Smilie" title="[razz]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/razz.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[cool]')"
+ class="Smilie" title="[cool]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/cool.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[angry]')" class="Smilie" title="[angry]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/angry.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[redface]')" class="Smilie" 
+title="[redface]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/redface.gif"
+ alt="" border="0"></a></td></tr><tr><td><a 
+href="javascript:AddSmiley('[muteness]')" class="Smilie" 
+title="[muteness]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/muteness.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[sad]')" 
+class="Smilie" title="[sad]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/sad.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[cry]')" 
+class="Smilie" title="[cry]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/cry.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[stun]')"
+ class="Smilie" title="[stun]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/stun.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[belial]')" class="Smilie" title="[Belial]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/belial.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[angel]')" class="Smilie" title="[angel]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/angel.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[heart]')" class="Smilie" title="[heart]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/heart.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[breakheart]')" class="Smilie" 
+title="[breakheart]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/breakheart.gif"
+ alt="" border="0"></a></td></tr><tr><td><a 
+href="javascript:AddSmiley('[msn]')" class="Smilie" title="[msn]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/msn.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[cat]')" 
+class="Smilie" title="[cat]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/cat.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[dog]')" 
+class="Smilie" title="[dog]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/dog.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[month]')" class="Smilie" title="[month]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/month.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[star]')"
+ class="Smilie" title="[star]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/star.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[film]')"
+ class="Smilie" title="[film]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/film.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[music]')" class="Smilie" title="[music]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/music.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[email]')" class="Smilie" title="[email]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/email.gif"
+ alt="" border="0"></a></td></tr><tr><td><a 
+href="javascript:AddSmiley('[flower]')" class="Smilie" title="[flower]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/flower.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[flower1]')" class="Smilie" 
+title="[flower1]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/flower1.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[clock]')" class="Smilie" title="[clock]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/clock.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[kiss]')"
+ class="Smilie" title="[kiss]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/kiss.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[gift]')"
+ class="Smilie" title="[gift]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/gift.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[birthday]')" class="Smilie" 
+title="[birthday]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/birthday.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[photo]')" class="Smilie" title="[photo]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/photo.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[idea]')"
+ class="Smilie" title="[idea]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/idea.gif"
+ alt="" border="0"></a></td></tr><tr><td><a 
+href="javascript:AddSmiley('[tea]')" class="Smilie" title="[tea]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/tea.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[phone]')" class="Smilie" title="[phone]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/phone.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[rhug]')"
+ class="Smilie" title="[rhug]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rhug.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[lhug]')"
+ class="Smilie" title="[lhug]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/lhug.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[stopper]')" class="Smilie" 
+title="[stopper]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/stopper.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[teeth]')" class="Smilie" title="[teeth]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/teeth.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[bookworm]')" class="Smilie" 
+title="[bookworm]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/bookworm.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[confused]')" class="Smilie" 
+title="[confused]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/confused.gif"
+ alt="" border="0"></a></td></tr><tr><td><a 
+href="javascript:AddSmiley('[handclap]')" class="Smilie" 
+title="[handclap]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/handclap.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[askance]')" class="Smilie" 
+title="[askance]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/askance.gif"
+ alt="" border="0"></a></td><td><a href="javascript:AddSmiley('[loo]')" 
+class="Smilie" title="[loo]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/loo.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[rolleyes]')" class="Smilie" 
+title="[rolleyes]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rolleyes.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[sleepy]')" class="Smilie" title="[sleepy]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/sleepy.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[goodluck]')" class="Smilie" 
+title="[goodluck]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/goodluck.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[party]')" class="Smilie" title="[party]"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/party.gif"
+ alt="" border="0"></a></td><td><a 
+href="javascript:AddSmiley('[illness]')" class="Smilie" 
+title="[illness]"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/illness.gif"
+ alt="" border="0"></a></td></tr></tbody></table></div><textarea 
+id="editMask" class="editTextarea" style="width: 99%; height: 100px;" 
+onfocus="showUBB('Message')"></textarea><div id="editorbody" 
+style="display: none;"><div id="editorHead"></div><script>var ubbTools='<div class="editorTools"><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_bold" href="javascript:UBB_bold();void(0)" title="粗体" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/bold.gif" border="0" alt="粗体" /></a></li><li><a id="A_italic" href="javascript:UBB_italic();void(0)" title="斜体" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/italic.gif" border="0" alt="斜体" /></a></li><li><a id="A_underline" href="javascript:UBB_underline();void(0)" title="下划线" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/underline.gif" border="0" alt="下划线" /></a></li></ul></div><div class="Toolsbar"><ul class="ToolsUL"><li><a id="A_image" href="javascript:UBB_image();void(0)" title="插入图像" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/image.gif" border="0" alt="插入图像" /></a></li><li><a id="A_link" href="javascript:UBB_link();void(0)" title="超链接" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/link.gif" border="0" alt="超链接" /></a></li><li><a id="A_mail" href="javascript:UBB_mail();void(0)" title="电子邮件" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/mail.gif" border="0" alt="电子邮件" /></a></li><li><a id="A_quote" href="javascript:UBB_quote();void(0)" title="插入引用" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/quote.gif" border="0" alt="插入引用" /></a></li><li><a id="A_smiley" href="javascript:UBB_smiley();void(0)" title="表情符号" class="Toolsbutton"><img src="/skins/Nuvola/UBB/Icons/smiley.gif" border="0" alt="表情符号" /></a></li></ul></div><div style="clear: both;display: block;height:1px;overflow:hidden"></div></div>'</script><div
+ class="editorContent"><textarea name="Message" class="editTextarea" 
+style="height: 150px;" cols="1" rows="1" accesskey="R" 
+onfocus="showVcode(0)"></textarea></div></div><script language="javascript" type="text/javascript">initUBB("Message")</script></td></tr>
+	   <tr id="vcode" style="display: none;">
+	    <td align="right" width="70"><b>验证码：</b></td><td id="imgvcode" 
+align="left">
+	     </td>
+	    
+	   </tr>
+	    
+ 	  <tr><td align="right" valign="top" width="70"><strong>选　项:</strong></td><td
+ style="padding: 3px;" align="left">
+             <label for="label5"><input name="disable_sm" id="label5" 
+value="1" type="checkbox">禁止表情转换</label>
+             <label for="label6"><input name="disable_url" id="label6" 
+value="1" type="checkbox">禁止自动转换链接</label>
+	  </td></tr>
+          <tr>
+            <td colspan="2" style="padding: 3px;" align="center">
+			  <input name="id" value="3823" type="hidden">
+			  <input name="submit2" class="userbutton" value="发表评论" accesskey="S"
+ type="submit">
+              <input name="button" class="userbutton" value="重写" 
+type="reset"></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="right">
+			  
+	  字数限制 <b>1000 字</b> | 
+	  UBB代码 <b>开启</b> | 
+	  [img]标签 <b>开启</b>
+
+			</td>
+          </tr>		  
+	  </tbody></table></form>
+	   </div></div>
+       <div id="mainContent-bottomimg"></div>
+   </div>
+   </div>
+   
+   <div id="sidebar">
+	   <div id="innersidebar">
+		     <div id="sidebar-topimg"><!--工具条顶部图象--></div>
+
+
+<div id="Side_Calendar" class="sidepanel">
+	<h4 class="Ptitle">日历┊Calendar</h4>
+ 
+
+ 
+
+ 
+
+<div class="Pcontent">
+<div id="Calendar_Body"><div id="Calendar_Top">
+		
+		<div id="LeftB" onclick="location.href='/u/216810/2011/5/'"></div>
+		<div id="RightB" onclick="location.href='/u/216810/2011/7/'"></div>2011
+年6月</div>
+		<div id="Calendar_week"><ul class="Week_UL"><li><font color="#ff0000">日</font></li><li>一</li><li>二</li><li>三</li><li>四</li><li>五</li><li>六</li></ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>1</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>2</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>3</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>4</a>
+
+</li>
+ 
+</ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a>5</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>6</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>7</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>8</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>9</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>10</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>11</a>
+
+</li>
+ 
+</ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a>12</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>13</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>14</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>15</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>16</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>17</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a class="click">18</a>
+
+</li>
+ 
+</ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a>19</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>20</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>21</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>22</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>23</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>24</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>25</a>
+
+</li>
+ 
+</ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a>26</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>27</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>28</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>29</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a>30</a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+</ul></div>
+ 
+<div class="Calendar_Day"><ul class="Day_UL">
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+<li class="DayA">
+
+<a></a>
+
+</li>
+ 
+</ul></div>
+ 
+</div></div>
+		      
+			  <div class="Pfoot"></div></div>
+			    
+<div id="Side_AboutMe" class="sidepanel"><h4 class="Ptitle">关于我┊About Me</h4><div
+ class="Pcontent"><div id="borderImg" style="padding-left: 6px;"><img 
+alt="" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/100.png"
+ onerror="this.src='/people/guest/avatar/100.png'"></div><div 
+style="padding-left: 6px; padding-top: 4px;"><img alt="离线" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/offline.gif"
+ border="0"></div><div style="padding-left: 6px; padding-top: 6px;"><span
+ style="font-family: Tahoma,Verdana; font-size: 10px; line-height: 
+138%;">&nbsp;Name:<span style="font-size: 12px;">莫言</span><br>&nbsp;Birth:1985/9/10
+ <br>&nbsp;<a target="blank" 
+href="tencent://message/?uin=81598263&amp;Site=huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29&amp;Menu=yes"
+ title="与他/她QQ聊天">QQ:81598263</a><br>&nbsp;MSN:---</span></div>
+</div><div class="Pfoot"></div></div>
+			   
+
+			  <div id="Side_Category" class="sidepanel"><h4 class="Ptitle">分类
+┊Category</h4><div class="Pcontent"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/22.gif"
+ style="margin: 3px 4px -4px 0px;" alt="日志首页" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/" title="日志首页">日志首
+页</a><br><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/10.gif"
+ style="margin: 3px 4px -4px 0px;" alt="" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/tag/" 
+title="标签列表">标签列表</a><br>
+			  
+			  <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/1.gif"
+ style="margin: 3px 4px -4px 0px;" alt="J2EE" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/0_0_0_-1_1389"
+ title="J2EE">JAVA技术 [21]</a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1389"
+ title="订阅该分类内容"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ style="margin: 0px;" alt="" border="0"></a><br>
+			  
+			  <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/21.gif"
+ style="margin: 3px 4px -4px 0px;" alt="Oracle/Mysql" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/0_0_0_-1_1390"
+ title="Oracle/Mysql">数据库 [10]</a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1390"
+ title="订阅该分类内容"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ style="margin: 0px;" alt="" border="0"></a><br>
+			  
+			  <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/12.gif"
+ style="margin: 3px 4px -4px 0px;" alt="Turbolinux" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/0_0_0_-1_1391"
+ title="Turbolinux">Unix/Linux [9]</a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1391"
+ title="订阅该分类内容"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ style="margin: 0px;" alt="" border="0"></a><br>
+			  
+			  <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/2.gif"
+ style="margin: 3px 4px -4px 0px;" alt="生活点滴" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/0_0_0_-1_1392"
+ title="生活点滴">个人随笔 [2]</a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1392"
+ title="订阅该分类内容"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ style="margin: 0px;" alt="" border="0"></a><br>
+			  
+			  <img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/3.gif"
+ style="margin: 3px 4px -4px 0px;" alt="个人爱好" border="0"><a 
+class="CategoryA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/u/216810/0_0_0_-1_1393"
+ title="个人爱好">诗词 [5]</a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810&amp;categoryID=1393"
+ title="订阅该分类内容"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss.png"
+ style="margin: 0px;" alt="" border="0"></a><br>
+			  
+			  </div><div class="Pfoot"></div></div>
+
+			     
+	    <!--div id="Side_Musicplayer" class="sidepanel"><h4 class="Ptitle">播放器</h4><div class="Pcontent">
+
+<center>
+<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000"  width="200" height="335" id="mp3player"
+		codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" >
+	<param name="movie" value="plugins/music/mp3player.swf" />
+	<param nam="allowScriptAccess" value="always">
+	<embed src="../Plugins/music/mp3player.swf" allowScriptAccess="always" width="200" height="335" name="mp3player"
+		type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />
+</object>
+</center>
+
+	    </div><div class="Pfoot"></div></div-->
+			   
+ 
+<div id="Side_User" class="sidepanel"><h4 class="Ptitle">用户面板┊User Panel</h4>
+ <div class="Pcontent">
+ 
+ <a href="javascript:login();" class="sideA" accesskey="L">登录</a><a 
+href="http://bbs.chinajavaworld.com/account%21default.jspa" 
+class="sideA" accesskey="U">免费注册</a>
+ 
+ </div>
+ <div class="Pfoot"></div></div>
+ 
+ <div id="Side_BlogInfo" class="sidepanel"><h4 class="Ptitle">信息┊Info</h4><div
+ class="Pcontent">日志: <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3823/0/blog.jspa?id=216810"><b>47</b>
+ 篇</a><br>
+<!--评论: <a href=""><b>1</b> 个</a><br/>
+引用: <a href=""><b>0</b> 个</a><br/>
+留言: <b>0</b> 个<br/>
+-->
+访问: <b>588688</b> 次<br>
+<!--在线: <b>2</b> 人<br/>-->
+建站时间: <strong>2007-06-07</strong></div><div class="Pfoot"></div></div>
+      
+	    <div id="Side_Online" class="sidepanel"><h4 class="Ptitle">在线(<font
+ color="red">3</font>人)┊Online</h4><div class="Pcontent">
+
+    目前共有访客0人，游客3人。
+    <div id="onlineImg"><table border="0" width="100%">
+    
+   </table>最高84人同时在线。</div>
+
+	    </div><div class="Pfoot"></div></div>
+	     
+	    <div id="Side_RecentVisitor" class="sidepanel"><h4 class="Ptitle">最
+近来访┊Recent Cjwer</h4><div class="Pcontent">
+
+    <div id="onlineImg"><table border="0" width="100%">
+     
+ 	<tbody><tr>
+ 	<td align="center" valign="bottom"><a 
+href="http://plihuo.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_002.png"
+ border="0"></a><br><a href="http://plihuo.blog.chinajavaworld.com/" 
+target="_blank">Plihuo</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://yxy1026.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_008.png"
+ border="0"></a><br><a href="http://yxy1026.blog.chinajavaworld.com/" 
+target="_blank">yxy1026</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://richardzhou.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_010.png"
+ border="0"></a><br><a 
+href="http://richardzhou.blog.chinajavaworld.com/" target="_blank">RichardZ..</a></td>
+ 	</tr>
+ 	 
+ 	<tr>
+ 	<td align="center" valign="bottom"><a 
+href="http://ymzyf2007.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_007.png"
+ border="0"></a><br><a href="http://ymzyf2007.blog.chinajavaworld.com/" 
+target="_blank">ymzyf200..</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://zjhdreams.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_011.png"
+ border="0"></a><br><a href="http://zjhdreams.blog.chinajavaworld.com/" 
+target="_blank">zjhdream..</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://fczfr.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_012.png"
+ border="0"></a><br><a href="http://fczfr.blog.chinajavaworld.com/" 
+target="_blank">fczfr</a></td>
+ 	</tr>
+ 	 
+ 	<tr>
+ 	<td align="center" valign="bottom"><a 
+href="http://bin937567842.blog.chinajavaworld.com/" target="_blank"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_006.png"
+ border="0"></a><br><a 
+href="http://bin937567842.blog.chinajavaworld.com/" target="_blank">bin93756..</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://a330978443.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_003.png"
+ border="0"></a><br><a href="http://a330978443.blog.chinajavaworld.com/"
+ target="_blank">a3309784..</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://hczpl.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_004.png"
+ border="0"></a><br><a href="http://hczpl.blog.chinajavaworld.com/" 
+target="_blank">HCZpl</a></td>
+ 	</tr>
+ 	 
+ 	<tr>
+ 	<td align="center" valign="bottom"><a 
+href="http://gentlemanlance.blog.chinajavaworld.com/" target="_blank"><img
+ 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_009.png"
+ border="0"></a><br><a 
+href="http://gentlemanlance.blog.chinajavaworld.com/" target="_blank">Gentlema..</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://happylwg.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40.png"
+ border="0"></a><br><a href="http://happylwg.blog.chinajavaworld.com/" 
+target="_blank">happylwg</a></td>
+ 	
+ 	 
+ 	
+ 	<td align="center" valign="bottom"><a 
+href="http://hechi158.blog.chinajavaworld.com/" target="_blank"><img 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/40_005.png"
+ border="0"></a><br><a href="http://hechi158.blog.chinajavaworld.com/" 
+target="_blank">hechi158</a></td>
+ 	</tr>
+ 	
+   </tbody></table></div>
+
+	    </div><div class="Pfoot"></div></div>
+
+<div id="Side_Comment" class="sidepanel"><h4 class="Ptitle">最新评论┊Comment</h4><div
+ class="Pcontent">		 <div class="commentTable">
+
+		  <a class="sideA" 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3811#comm_1"
+ title="hechi158 于 2011-02-21 16:33:54 发表评论
+[url=http://shsy.info/shweb/]网站优化SEO网站推广[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=14]网站推广[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=12]上海网站优化[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=10]上海搜索引擎优化[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=8]上海网站建设[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=6]上海网络公司[/url] &lt;br /&gt; 
+[url=http://shsy.info/shweb/?p=4]SEO[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/]网站优化SEO网站推广[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=14]网站推广[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=12]SEO[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=10]网站优化[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=8]上海网站建设[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=6]上海网络公司[/url] &lt;br /&gt; 
+[url=http://hongtuvalve.com/shweb/?p=4]搜索引擎优化[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/]网站优化SEO网站推广[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=8]网站建设[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=6]上海网络公司[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=4]SEO[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=16]上海搜索引擎优化[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=14]网站优化[/url] &lt;br /&gt; 
+[url=http://acmgs.info/shweb/?p=11]网站推广[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/]网站优化SEO网站推广[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=16]上海网站优化[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=12]上海搜索引擎优化[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=10]上海网站推广[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=7]SEO[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=5]网站建设[/url] &lt;br /&gt; 
+[url=http://hot-seo.net/shweb/?p=3]上海网络公司[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/]网站优化SEO网站推广[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=18]上海网站优化[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=15]上海网站推广[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=13]上海SEO[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=11]上海搜索引擎优化[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=9]上海网站建设[/url] &lt;br /&gt; 
+[url=http://aolipumps.com/shweb/?p=7]上海网络公司[/url]">[url=http://sh...</a>
+
+	     </div></div><div class="Pfoot"></div></div>
+	    <!-- <div id="Side_Archive" class="sidepanel"><h4 class="Ptitle">归档</h4><div class="Pcontent"><a class="sideA" href="default.asp?log_Year=2006&amp;log_Month=8" title="查看当前日期的日志">2006年八月 [1]</a></div><div class="Pfoot"></div></div-->
+	     
+	       
+<div id="Side_PJBlogger" class="sidepanel"><h4 class="Ptitle">友情链接
+┊Friend Link</h4><div class="Pcontent">
+
+<a class="sideA" href="http://www.itpub.net/" target="_blank" 
+title="ITPUT技术门户">ITPUT技术门户</a>
+
+<div align="right"><a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/link%21default.jspa?id=216810"><br>更
+多 | 申请链接… </a>&nbsp;</div></div><div class="Pfoot"></div></div>
+	      
+	    <div id="Side_Search" class="sidepanel"><h4 class="Ptitle">搜索
+┊Search</h4><div class="Pcontent"><form style="margin: 0px;" 
+onsubmit="if (this.q.value.length<2) 
+{alert('关键字不能少于2个字');this.SearchContent.focus();return false}" 
+action="search.jspa" method="get">
+    关键字 <input class="userpass" name="q">
+    <div style="overflow: hidden; height: 3px;">&nbsp;</div>
+    类　型 <select name="searchType" style="font-size: 9pt;">
+    <option value="all" selected="selected">全文</option>
+    <!--option value="Content">日志内容</option>
+    <option value="Comments">日志评论</option>
+    <option value="trackback">引用通告</option-->
+    </select> <input class="userbutton" value="搜 索" type="submit">
+</form></div><div class="Pfoot"></div></div>
+<!--div id="Side_Links" class="sidepanel"><h4 class="Ptitle">链接┊Link</h4><div class="Pcontent"><div class="LinkTable"> </div><div align="right"><a href="bloglink.asp">更多链接… </a>&nbsp;</div></div>
+<div class="Pfoot"></div></div-->
+<div id="Side_Support" class="sidepanel"><h4 class="Ptitle">支持┊Support</h4><div
+ class="Pcontent"><div style="padding: 4px; text-align: left;"><a 
+href="http://validator.w3.org/check/referer" target="_blank"><img 
+alt="XHTML 1.0 Transitional" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/xhtml.png"
+ border="0"></a> <a 
+href="http://jigsaw.w3.org/css-validator/validator-uri.html" 
+target="_blank"><img alt="Css Validator" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/css.png"
+ border="0"></a> <a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/feed.jspa?id=216810"
+ target="_blank"><img alt="RSS 2.0" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/rss2.png"
+ border="0"></a>&nbsp;<a 
+href="http://huangchaobiao111.blog.chinajavaworld.com/entry/3823/0/atom.asp"
+ target="_blank"><img alt="Atom 1.0" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/atom.png"
+ border="0"></a> <a href="http://www.mozilla.org/products/firefox/" 
+target="_blank"><img alt="Get firefox" 
+src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/firefox.gif"
+ border="0"></a>  </div></div><div class="Pfoot"></div></div>
+		     <div id="sidebar-bottomimg"></div>
+	   </div>
+   </div>
+   <div style="clear: both; height: 1px; overflow: hidden; margin-top: 
+-1px;"></div>
+ </div>
+  
+ <!--底部-->
+  <div id="foot">
+    <p>Powered By <a href="http://blog.chinajavaworld.com/" 
+target="_blank"><strong>CJWBlog 1.1.0</strong></a> CopyRight 2002-2006, <a
+ href="http://www.chinajavaworld.com/" target="_blank"><strong>JAVA开发者</strong></a>
+ <a href="http://validator.w3.org/check/referer" target="_blank">xhtml</a>
+ | <a href="http://jigsaw.w3.org/css-validator/validator-uri.html">css</a></p>
+
+    <p style="font-size: 11px;">Processed in <b>10320</b> ms
+
+    <br><a href="http://www.miibeian.gov.cn/" style="font-size: 12px;"><b></b></a>
+    </p>
+   </div>
+
+ </div>
+<script type="text/javascript">initAccessKey()  //转换AccessKey For IE</script>
+
+<script src="huangchaobiao%E7%9A%84%E5%8D%9A%E5%AE%A2%28Blog%29%20-%20Java%20NIO%20%E5%9C%A8%E5%B9%B6%E5%8F%91%E5%9E%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8_files/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-514772-2";
+urchinTracker();
+</script>
+
+<script>var renderMain;renderMain && renderMain();</script>
+</body></html>
