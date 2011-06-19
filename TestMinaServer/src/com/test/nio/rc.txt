@@ -1,0 +1,9 @@
+Java_NIO在并发型服务器设计中的应用 
+http://www.docin.com/p-219421940.html
+http://blog.csdn.net/yutian888/archive/2011/04/30/6375479.aspx
+
+MappedByteBuffer 
+http://wenwen.soso.com/z/q132821597.htm
+
+心跳：
+http://blog.163.com/chen_scor/blog/static/178805061201062174358900/
