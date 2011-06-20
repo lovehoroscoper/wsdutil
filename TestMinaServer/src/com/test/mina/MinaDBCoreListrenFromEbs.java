@@ -2,7 +2,6 @@ package com.test.mina;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.util.Hashtable;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.logging.Log;
@@ -14,13 +13,7 @@ import org.apache.mina.filter.executor.ExecutorFilter;
 import org.apache.mina.transport.socket.SocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
-/**
- * 话费充�?核心服务 1、接收来自收单平台的请求并处理（如：下单、结果查询�?充正�? 2、接收来自渠道接入网�?
- * 
- * @author：wangjiang
- * @since�?011-4-28 下午02:35:28
- * @version:1.0
- */
+
 public class MinaDBCoreListrenFromEbs {
 
 	private static MinaDBCoreListrenFromEbs minaDBCoreListrenFromEbs;

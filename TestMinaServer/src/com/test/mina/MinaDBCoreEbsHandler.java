@@ -10,7 +10,6 @@ import org.apache.mina.core.session.IoSession;
 import com.junbao.hf.utils.common.CheckUtil;
 
 /**
- * 监听EBS消息,并把报文放入队列
  * 
  * @author liujiangtao
  * 
@@ -78,15 +77,6 @@ public class MinaDBCoreEbsHandler extends IoHandlerAdapter {
 				String amount = CheckUtil.getSubString(req, "amount", "=", "&");
 
 	
-//				comm	接口编码	4	非空	值为8101，详见3.2
-//				version	接口版本号	4	非空	值为1.0
-//				hfserialid	话费流水号	20	非空	话费流水号
-//				channelserialid	渠道订单号	20	非空	对方流水号，对方订单号
-//				sendserialid	发送给渠道方的流水号	40	可为空	发送给渠道方的流水号
-//				dealtime	处理时间		可为空	如果为空，则按订单金额处理yyyy-MM-dd hh:mm:ss
-//				dealamount	实际充值金额	20	可为空	该订单号由销售平台生成。orderid唯一确定一条订单。
-//				resultno	返回结果编码	10	非空	“0000”表示成功，其它表示失败，详见3.1
-//				resultmsg	返回结果信息	500	可为空	如果在  详见3.1  找不到具体对应的 ，那么可以使用这个
 
 				
 				logger.info("【核心】发来的消息：" + req);
@@ -135,18 +125,6 @@ public class MinaDBCoreEbsHandler extends IoHandlerAdapter {
 						chargestatus = "";
 					}
 					
-//					comm	接口编码	4	非空	值为8102
-//					version	接口版本号	4	非空	值为1.0
-//					hfserialid	话费流水号	30	非空	话费充值流水号
-//					resultno	是否网关查询成功	4	非空	是否查询接口成功（而不是充值状态结果）
-//					chargestatus	充值结果状态，充值结果是充值成功还是充值失败
-//						1	非空	充值是否成功：
-//					0：成功
-//					3：失败
-//					充值结果状态
-//
-//					dealtime	充值处理时间		非空	对方处理时间YYYY-MM-DD HH24:MI:SS
-//					dealamount	实际充值金额	10		对应充值成功，无为空
 
 					
 					res.append("comm=");
@@ -188,162 +166,7 @@ public class MinaDBCoreEbsHandler extends IoHandlerAdapter {
 			 logger.info("已收从前置发来的消息："+req);
 		}
 	}
-//	// 当前置发送的消息到达时:
-//	@Override
-//	public void messageReceived(IoSession session, Object message) throws Exception {
-//		// 我们己设定了服务器解析消息的规则是一行一行读取,这里就可转为String:
-//		String req = (String) message;
-//		if (null == req) {
-//			
-//		} else {
-//			boolean isFlag = req.contains("resultno=");
-//			boolean isComm = req.contains("comm=");
-//			if (isFlag) {
-//				logger.info("客户端处理消息成功发送回执");
-//			} else if(isComm){
-//				Thread.sleep(100);
-//				// 结果编码
-//				
-//				// 话费流水号
-//				String hfserialid = CheckUtil.getSubString(req, "hfserialid", "=", "&");
-//				// 渠道订单号
-//				String channelserialid = hfserialid + "_1";
-//				// 发送给渠道方的流水号
-//				String sendserialid = hfserialid + "_2";
-//				
-//				// 处理时间
-//				String dealtime = getFormatDate();
-//				// 实际处理金额
-//				String dealamount = "100";
-//				
-//				// TaskBean tb = new TaskBean();
-//				// tb.setReq(req);
-//				// tb.setClinetSession(session);
-//				// MessageSyncQueue msgQueue = SysDefine.getMsgQueue();
-//				//
-//				//
-//				// msgQueue.push(tb);
-//				logger.info("【核心】发来的消息：" + req);
-//				String resultno = result(hfserialid);
-//				
-//				StringBuilder res = new StringBuilder();
-//				
-//				res.append("comm=");
-//				res.append("8101");
-//				res.append("&");
-//				res.append("resultno=");
-//				res.append(resultno);
-//				
-//				res.append("&");
-//				res.append("hfserialid=");
-//				res.append(hfserialid);
-//				
-//				res.append("&");
-//				res.append("channelserialid=");
-//				res.append(channelserialid);
-//				
-//				res.append("&");
-//				res.append("sendserialid=");
-//				res.append(sendserialid);
-//				
-//				res.append("&");
-//				res.append("dealtime=");
-//				res.append(dealtime);
-//				res.append("&");
-//				res.append("dealamount=");
-//				res.append(dealamount);
-//				
-//				String resss = res.toString();
-//				
-//				session.write(resss);
-//				logger.info("处理返回信息：" + resss);
-//			}else{
-//				logger.info("客户端发来无效的信息：");
-//			}
-//			
-//			// logger.info("已收从前置发来的消息,存入后队列数量：" + msgQueue.getCount());
-//			logger.info("已收从前置发来的消息："+req);
-//		}
-//	}
-	
-//	// 当前置发送的消息到达时:
-//	@Override
-//	public void messageReceived(IoSession session, Object message) throws Exception {
-//		// 我们己设定了服务器解析消息的规则是一行一行读取,这里就可转为String:
-//		String req = (String) message;
-////
-////		if (null == req) {
-////
-////		} else {
-////
-////			boolean isFlag = req.contains("resultno=");
-////			boolean isComm = req.contains("comm=");
-////			if (isFlag) {
-////				logger.info("客户端处理消息成功发送回执");
-////			} else if(isComm){
-////				Thread.sleep(100);
-////				// 结果编码
-////
-////				// 话费流水号
-////				String hfserialid = CheckUtil.getSubString(req, "hfserialid", "=", "&");
-////				// 渠道订单号
-////				String channelserialid = hfserialid + "_1";
-////				// 发送给渠道方的流水号
-////				String sendserialid = hfserialid + "_2";
-////
-////				// 处理时间
-////				String dealtime = getFormatDate();
-////				// 实际处理金额
-////				String dealamount = "100";
-////
-////				// TaskBean tb = new TaskBean();
-////				// tb.setReq(req);
-////				// tb.setClinetSession(session);
-////				// MessageSyncQueue msgQueue = SysDefine.getMsgQueue();
-////				//
-////				//
-////				// msgQueue.push(tb);
-////				logger.info("【核心】发来的消息：" + req);
-////				String resultno = result(hfserialid);
-////
-////				StringBuilder res = new StringBuilder();
-////
-////				res.append("comm=");
-////				res.append("8101");
-////				res.append("&");
-////				res.append("resultno=");
-////				res.append(resultno);
-////
-////				res.append("&");
-////				res.append("hfserialid=");
-////				res.append(hfserialid);
-////
-////				res.append("&");
-////				res.append("channelserialid=");
-////				res.append(channelserialid);
-////
-////				res.append("&");
-////				res.append("sendserialid=");
-////				res.append(sendserialid);
-////
-////				res.append("&");
-////				res.append("dealtime=");
-////				res.append(dealtime);
-////				res.append("&");
-////				res.append("dealamount=");
-////				res.append(dealamount);
-////
-////				session.write(res.toString());
-////			}else{
-////				 logger.info("客户端发来无效的信息：");
-////			}
-//		
-//		// logger.info("已收从前置发来的消息,存入后队列数量：" + msgQueue.getCount());
-//		logger.info("已收从前置发来的消息："+req);
-////			 if("woshi_2".equals(req)){
-////				 Thread.sleep(10000);
-////			 }
-//	}
+
 
 	public String getFormatDate() {
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

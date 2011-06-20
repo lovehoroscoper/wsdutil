@@ -17,7 +17,8 @@ public class ChannelClient {
 	private SocketChannel socketChannel;
 //	private final String HOST = "192.168.11.80";
 	private final String HOST = "127.0.0.1";
-	private final int PORT = 5678;
+//	private final int PORT = 5678;
+	private final int PORT = 9999;
 	private Selector selector = null;
 	private InputStream in;
 	private OutputStream out;
@@ -54,7 +55,7 @@ public class ChannelClient {
 		selector = Selector.open();
 		socketChannel.register(selector,SelectionKey.OP_READ|SelectionKey.OP_WRITE);//读取集
 		//启动读取的线程----
-		new ChannelReadClient(selector);
+		ChannelReadClient c = new ChannelReadClient(selector);
 	}
 	/**
 	 * 发送数据到服务器

@@ -13,14 +13,11 @@ public class MessageSyncQueue {
 	@SuppressWarnings("unused")
 	private static Log log = LogFactory.getLog(MessageSyncQueue.class);
 
-	// 队列中允许存放的最大数量，高于此数要告警
 	private static int MAX = 20000;
-	// 队列中允许存放的最小数量，低于此数要告警
 	private static int MIN = 50;
 
 	private ArrayBlockingQueue<TaskBean> msgQueue_m = null;
 
-	// 初始化队列
 	public MessageSyncQueue(int max,int min) {
 		this.MAX = max;
 		this.MIN = min;
