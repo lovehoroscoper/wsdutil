@@ -79,14 +79,6 @@ public class TestClient {
 		// for (int i = 0; i < 10; i++) {
 		// String orderid = "" + (i);
 		// String req = "hfserialid=" + hfserialid + i+
-		// "&comm=8001&version=1.0&onlineid=1&agentid=weisd&ordersource=1&orderid="
-		// + orderid +
-		// "&mobilenum=18905718888&chargeamount=1.00&payamount=1.00&ordertime=201105021212&mark=&type=haha";
-		// session.write(req);
-		// }
-		// String ss =
-		// "comm=8103&version=1.0&onlineid=1&agentid=weisd&ordersource=1&orderid=JB00002&mobilenum=13064524444&chargeamount=100.00&payamount=100.00&ordertime=201105311802&mark=";
-//		String ss = "comm=8103&version=1.0&onlineid=1&agentid=weisd&ordersource=1&zhorderid=HF011105241044530434&resultno=2029";
 		String ss = "HEARTBEAT_REQUEST";
 		System.out.println("start time:" + new Date().getTime());
 		WriteFuture writeResult = session.write(ss);

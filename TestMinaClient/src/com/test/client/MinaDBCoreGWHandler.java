@@ -1,22 +1,13 @@
 package com.test.client;
 
-import java.net.SocketAddress;
 import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-import com.test.client.vo.User;
 
-/**
- * 接收从渠道接入网关返回的消息
- * @author：wangjiang    
- * @since�?011-4-28 上午10:41:47 
- * @version:
- */
 public class MinaDBCoreGWHandler extends IoHandlerAdapter{
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
