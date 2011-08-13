@@ -159,18 +159,24 @@ public class Banner implements Serializable
 		return weight;
 	}
 
-	/**
-	 * Sets the id.
-	 * @param id The id to set
-	 */
-	public void setId(int id)
-	{
-		this.id = id;
-	}
+//	/**
+//	 * Sets the id.
+//	 * @param id The id to set
+//	 */
+//	public void setId(int id)
+//	{
+//		this.id = id;
+//	}
+	
+	
 
 	public void setComment(String comment)
 	{
 		this.comment = comment;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setActive(boolean active)

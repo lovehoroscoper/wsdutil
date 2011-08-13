@@ -43,11 +43,11 @@
 package net.jforum.dao.mysql;
 
 import net.jforum.dao.GroupSecurityDAO;
-import net.jforum.dao.mysql.security.MySQL323GroupSecurityDAO;
 
 public class MySQL323DataAccessDriver extends MysqlDataAccessDriver
 {
-	private static GroupSecurityDAO groupSecurityDAO = new MySQL323GroupSecurityDAO();
+//	private static GroupSecurityDAO groupSecurityDAO = new MySQL323GroupSecurityDAO();
+	private static GroupSecurityDAO groupSecurityDAO = null;
 	
 	/**
 	 * @see net.jforum.dao.DataAccessDriver#newGroupSecurityDAO()

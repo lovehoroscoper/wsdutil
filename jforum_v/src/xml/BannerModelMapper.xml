@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BannerModel">
+
+	<resultMap id="selectById_resultmap" type="banner">
+		<result column="banner_id" property="id" />
+		<result column="name" property="name" />
+		<result column="banner_placement" property="placement" />
+		<result column="banner_description" property="description" />
+		<result column="banner_clicks" property="clicks" />
+		<result column="banner_views" property="views" />
+		<result column="banner_url" property="url" />
+		<result column="banner_weight" property="weight" />
+		<result column="banner_comment" property="comment" />
+		<result column="banner_type" property="type" />
+		<result column="banner_width" property="width" />
+		<result column="banner_height" property="height" />
+		<result column="banner_active" property="active" typeHandler="booleanToIntHandler"/> 
+	</resultMap>
+
+	<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
+		<![CDATA[
+			SELECT banner_id, name, banner_placement, banner_description, banner_clicks, banner_views,
+					banner_url, banner_weight, banner_active, banner_comment, banner_type, banner_width, banner_height 
+			FROM jforum_banner 	WHERE banner_id = #{bannerId}
+        ]]>
+	</select>
+
+	<select id="selectAll" resultMap="selectById_resultmap">
+		<![CDATA[
+			SELECT banner_id, banner_name, banner_placement, banner_description, banner_clicks, banner_views, 
+					banner_url, banner_weight, banner_active, banner_comment, banner_type, banner_width, banner_height 
+			FROM jforum_banner ORDER BY banner_comment 
+        ]]>
+	</select>
+
+	<select id="canDelete" parameterType="int" resultType="int">
+		<![CDATA[
+			SELECT COUNT(1) AS total FROM jforum_banner WHERE banner_id = #{bannerId}
+        ]]>
+	</select>
+
+	<delete id="delete" parameterType="int">
+        <![CDATA[
+        	DELETE FROM jforum_banner WHERE banner_id = #{bannerId}
+        ]]>
+	</delete>
+
+	<update id="update" parameterType="banner">
+		UPDATE jforum_banner
+		<trim prefix="set" suffixOverrides=",">
+			banner_name = #{name},
+			banner_placement = #{placement},
+			banner_description = #{description},
+			banner_clicks = #{clicks},
+			banner_views = #{views},
+			banner_url = #{url},
+			banner_weight = #{width},
+			banner_comment = #{comment},
+			banner_type = #{type},
+			banner_width = #{weight},
+			banner_height = #{height},
+			banner_active = #{active,typeHandler=booleanToIntHandler}
+		</trim>
+		WHERE banner_id = #{bannerId}
+	</update>
+
+	<insert id="addNew" parameterType="banner" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO jforum_banner
+		(banner_name,banner_placement,banner_description,banner_clicks,banner_views,banner_url,banner_weight,banner_comment,banner_type,banner_width,banner_height,banner_active)
+		VALUES 
+		(#{name},#{placement},#{description},#{clicks},#{views},#{url},#{width},#{comment},#{type},#{weight},#{height},#{active,typeHandler=booleanToIntHandler})
+	</insert>
+
+	<select id="selectActiveBannerByPlacement" parameterType="int" resultMap="selectById_resultmap">
+		SELECT banner_id,
+			banner_name,
+			banner_placement,
+			banner_description,
+			banner_clicks,
+			banner_views,
+			banner_url,
+			banner_weight,
+			banner_active,
+			banner_comment,
+			banner_type,
+			banner_width,
+			banner_height
+		FROM jforum_banner
+		WHERE banner_placement = #{placement} AND banner_active = 1
+		ORDER BY banner_weight ASC
+	</select>
+</mapper>

@@ -9,10 +9,18 @@
 	</settings>
 	
 	<typeAliases>
+	<!-- 
+	com.godtips.mybatis.handler.BooleanToIntTypeHandler
+	 -->
+	 	<typeAlias alias="booleanToIntHandler" type="com.godtips.mybatis.handler.BooleanToIntTypeHandler"/> 
+		
 		<typeAlias alias="banlist" type="net.jforum.entities.Banlist" />
+		<typeAlias alias="banner" type="net.jforum.entities.Banner" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="xml/ApiModelMapper.xml"/>
+		<mapper resource="xml/BanlistModelMapper.xml"/>
+		<mapper resource="xml/BannerModelMapper.xml"/>
 	</mappers>
 </configuration>

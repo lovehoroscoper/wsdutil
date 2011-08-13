@@ -18,5 +18,6 @@
            
     <bean id="apiDao" class="com.godtips.dao.impl.mysql.ApiDaoImpl" autowire="byName"></bean>
     <bean id="banlistDao" class="com.godtips.dao.impl.mysql.BanlistDaoImpl" autowire="byName"></bean>
+    <bean id="bannerDao" class="com.godtips.dao.impl.mysql.BannerDaoImpl" autowire="byName"></bean>
 
 </beans>

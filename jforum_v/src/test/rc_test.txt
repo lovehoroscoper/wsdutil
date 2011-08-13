@@ -1,0 +1,26 @@
+1.
+
+public abstract class AbstractSystemTest extends AbstractTransactionalJUnit4SpringContextTests
+
+
+单元测试会自动回滚，保持数据的清洁
+
+如果不需要回滚则可以
+
+	@Test
+	@Rollback(false)
+	public void testInsert() {
+
+2.
+
+AbstractJUnit4SpringContextTests 不会回滚
+
+3.
+
+这个方式不保险
+
+<insert id="insert" parameterType="banlist" useGeneratedKeys="true" keyProperty="id">
+
+<insert id="addNew" parameterType="banner" useGeneratedKeys="true" keyProperty="id">
+
+需要数据库版本支持

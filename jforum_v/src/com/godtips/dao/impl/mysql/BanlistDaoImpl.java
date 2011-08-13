@@ -42,7 +42,6 @@
  */
 package com.godtips.dao.impl.mysql;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.jforum.dao.BanlistDAO;
@@ -74,9 +73,6 @@ public class BanlistDaoImpl extends BaseDaoImpl implements BanlistDAO {
 	 * @see net.jforum.dao.BanlistDAO#selectAll()
 	 */
 	public List selectAll() {
-		List list = new ArrayList();
-		// TODO 判断是否是null
-		list = this.queryList("BanlistModel.selectAll", null);
-		return list;
+		return this.queryList("BanlistModel.selectAll", null);
 	}
 }

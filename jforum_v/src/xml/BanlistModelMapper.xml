@@ -5,7 +5,7 @@
 <mapper namespace="BanlistModel">
 	
 	<resultMap id="selectAll_resultmap" type="banlist">
-		<result column="banlist_id" property="id"/>
+		<result column="banlist_id" property="id" />
 		<result column="user_id" property="userId"/>
 		<result column="banlist_email" property="email"/>
 		<result column="banlist_ip" property="ip"/>
