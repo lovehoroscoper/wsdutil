@@ -24,6 +24,7 @@ CREATE OR REPLACE PROCEDURE SP_ORDER_ADDORUPDATE_REFUND(v_opttype            in 
             0 ：申请退款
             2011.08.01 weisd 能退款的订单为：支付成功，充值成功
                        （但是用户反映失败的，故需要退款），只修改支付状态为退款
+            08.10  退款金额 修改
   ************************************************************/
   --l_loginfo          VARCHAR2(1000); -- 日志信息
   l_order_count          NUMBER(10); --是否存在符合退款的订单号
@@ -43,6 +44,7 @@ CREATE OR REPLACE PROCEDURE SP_ORDER_ADDORUPDATE_REFUND(v_opttype            in 
   l_tradeno              varchar2(40); --退款流水号
   l_balance              NUMBER(13, 3); --退款后的账户余额
   l_result               varchar2(10); -- 结果代码
+  l_refundreason         varchar2(200);
 
 BEGIN
 
@@ -94,7 +96,12 @@ BEGIN
     --查询订单信息
     select t.orderamount,
            nvl(t.realamount, 0),
-           (t.orderamount - nvl(t.realamount, 0)),
+           decode(sign(to_char(nvl(t.orderamount, 0) - nvl(t.realamount, 0),
+                    'FM999999999999990.0099')),
+              1,
+              to_char(nvl(t.orderamount, 0) - nvl(t.realamount, 0),
+                      'FM999999999999990.0099'),
+              to_char(t.orderamount, 'FM999999999999990.0099')),
            t.agentid --代理商账户与id一致
       into l_orderamount, l_realamount, l_needrefundamount, l_agentid
       from SALE_ORDERINFO t
@@ -110,8 +117,12 @@ BEGIN
     SP_ORDER_GENERATE_REFUNDSNO(l_sno_result, l_tradesno);
   
     -- weisd 这里是否还需要判断 已经退款了的金额
-    if (v_actualrefundamount + l_refundcost + l_realamount +
-       l_already_refundamount) > l_orderamount then
+    if (v_actualrefundamount + l_refundcost) > l_needrefundamount   then 
+      v_errorcode := '0009'; -- 申请退款金额+ 手续费 > 最大能退款金额
+      v_result    := '1111';
+      ROLLBACK;
+      return;    
+    elsif (v_actualrefundamount + l_refundcost + l_already_refundamount) > l_orderamount then
       v_errorcode := '0004'; --退款金额 + 手续费 + 已到帐金额 + 已退款 > 支付金额
       v_result    := '1111';
       ROLLBACK;
@@ -175,8 +186,8 @@ BEGIN
       return;
     end if;
   
-    select t.status, t.actualrefundamount, t.factorage
-      into l_status, l_actualrefundamount, l_refundcost
+    select t.status, t.actualrefundamount, t.factorage, t.refundreason
+      into l_status, l_actualrefundamount, l_refundcost,l_refundreason
       from sale_refund t
      where t.refundno = v_refundno
        and t.ordersno = v_ordersno
@@ -195,9 +206,14 @@ BEGIN
       return;
     end if;
   
+    if v_refundreason is not null then 
+       l_refundreason := v_refundreason;
+    end if;
+  
     update SALE_REFUND r
        set r.status     = v_status,
            r.approver   = v_opter,
+           r.refundreason = l_refundreason,
            r.refundtime = sysdate
      where r.refundno = v_refundno
        and r.ordersno = v_ordersno;
