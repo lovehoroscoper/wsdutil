@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BanlistModel">
+	
+	<resultMap id="selectAll_resultmap" type="banlist">
+		<result column="banlist_id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="banlist_email" property="email"/>
+		<result column="banlist_ip" property="ip"/>
+	</resultMap>	
+
+	<delete id="delete" parameterType="int">
+        <![CDATA[
+        	DELETE FROM jforum_banlist WHERE banlist_id = #{banlistId}
+        ]]>
+	</delete>
+	
+	<insert id="insert" parameterType="banlist" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+        	INSERT INTO jforum_banlist (user_id, banlist_ip, banlist_email) VALUES (#{userId}, #{ip}, #{email})
+        ]]>
+	</insert>
+	
+	<select id="selectAll" resultMap="selectAll_resultmap">
+		<![CDATA[
+        	SELECT * FROM jforum_banlist ORDER BY banlist_id 
+        ]]>
+	</select>
+
+</mapper>
