@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.godtips.base.dao.impl.BaseDaoImpl;
-
 import net.jforum.JForumExecutionContext;
 import net.jforum.dao.AttachmentDAO;
 import net.jforum.entities.Attachment;
@@ -23,6 +21,8 @@ import net.jforum.exceptions.DatabaseException;
 import net.jforum.util.DbUtils;
 import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
+
+import com.godtips.base.dao.impl.BaseDaoImpl;
 
 /**
  * @desc 描述：
@@ -70,43 +70,15 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeQuotaLimit(java.lang.String[])
 	 */
-	public void removeQuotaLimit(String[] ids) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.removeQuotaLimit"));
-
-			for (int i = 0; i < ids.length; i++) {
-				p.setInt(1, Integer.parseInt(ids[i]));
-				p.executeUpdate();
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void removeQuotaLimit(String[] ids) {		
+		this.deleteObject("AttachmentModel.removeQuotaLimit", ids);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectQuotaLimit()
 	 */
-	public List selectQuotaLimit() {
-		List l = new ArrayList();
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectQuotaLimit"));
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.getQuotaLimit(rs));
-			}
-
-			return l;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
-		}
+	public List selectQuotaLimit() {		
+		return this.queryList("AttachmentModel.selectQuotaLimit", null);
 	}
 
 	/**
@@ -114,23 +86,13 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 */
 	public QuotaLimit selectQuotaLimitByGroup(int groupId) {
 		QuotaLimit ql = null;
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectQuotaLimitByGroup"));
-			p.setInt(1, groupId);
-
-			rs = p.executeQuery();
-			if (rs.next()) {
-				ql = this.getQuotaLimit(rs);
-			}
-			return ql;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
+		//TODO 这里要测试看 如果返回多个的结果是怎么样的
+		//return this.findObject("AttachmentModel.selectQuotaLimitByGroup", groupId);
+		List list = this.queryList("AttachmentModel.selectQuotaLimitByGroup", groupId);
+		if(null != list && list.size() > 0 ){
+			ql = (QuotaLimit)list.get(0);
 		}
+		return ql;
 	}
 
 	/**
@@ -138,22 +100,14 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 */
 	public Map selectGroupsQuotaLimits() {
 		Map m = new HashMap();
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectGroupsQuotaLimits"));
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				m.put(new Integer(rs.getInt("group_id")), new Integer(rs.getInt("quota_limit_id")));
+		List list = this.queryList("AttachmentModel.selectGroupsQuotaLimits", null);
+		if(null != list && list.size() > 0){
+			for (int j = 0; j < list.size(); j++) {
+				QuotaLimit ql = (QuotaLimit)list.get(j);
+				m.put(ql.getId(), ql.getSize());
 			}
-
-			return m;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
 		}
+		return m;
 	}
 
 	protected QuotaLimit getQuotaLimit(ResultSet rs) throws SQLException {

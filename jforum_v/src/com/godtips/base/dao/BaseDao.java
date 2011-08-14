@@ -23,5 +23,7 @@ public interface BaseDao {
 	public int queryTotalRows(String countSqlid, Object obj);
 
 	public PageBean queryListPage(ParamPageVo paramPageVo);
+	
+	public int deleteBatchObj(Object...obj);
 
 }

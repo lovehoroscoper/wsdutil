@@ -89,4 +89,13 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 		return "只使用mysql数据库且使用mybatis自动生成主键,请修改数据库语句,请暂时不使用该方法!!!";
 	}
 
+	@Override
+	public int deleteBatchObj(Object... obj) {
+		
+//		getSqlSession().
+		//TODO 对于批量删除 是否有什么好的批量处理？？ 不是 使用  in
+		
+		return 0;
+	}
+
 }

@@ -4,6 +4,13 @@
 
 <mapper namespace="AttachmentModel">
 
+	<resultMap id="selectQuotaLimit_resultmap" type="quotaLimit">
+			<result column="quota_limit_id" property="id" />
+			<result column="quota_desc" property="description" />
+			<result column="quota_limit" property="size" />
+			<result column="quota_type" property="type" />
+	</resultMap>
+
 	<insert id="addQuotaLimit" parameterType="quotaLimit">
 		INSERT INTO
 		jforum_quota_limit (quota_desc, quota_limit, quota_type) VALUES
@@ -24,5 +31,32 @@
 	<insert id="setGroupQuota" >
 		INSERT INTO jforum_attach_quota (group_id, quota_limit_id) VALUES (#{groupId}, #{quotaId})	
 	</insert>
+	
+	<!-- 批量删除怎么实现好 -->
+	<!--
+		DELETE FROM jforum_quota_limit WHERE quota_limit_id = ? 
+	 -->
+	<delete id="removeQuotaLimit" parameterType="arraylist">
+		DELETE FROM jforum_quota_limit WHERE quota_limit_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+			#{item,javaType=int}
+		</foreach>
+	</delete>
+	
+	<select id="selectQuotaLimit" resultMap="selectQuotaLimit_resultmap">
+		SELECT quota_limit_id, quota_desc, quota_limit, quota_type 
+			FROM jforum_quota_limit ORDER BY quota_type, quota_limit 
+	</select>
+	
+	<select id="selectQuotaLimitByGroup" parameterType="int">
+		SELECT ql.quota_limit_id, ql.quota_desc, ql.quota_limit, ql.quota_type 
+			FROM jforum_quota_limit ql, jforum_attach_quota at 
+			WHERE ql.quota_limit_id = at.quota_limit_id 
+			AND at.group_id = #{groupId}
+	</select>
+	
+	<select id="selectGroupsQuotaLimits" resultType="quotaLimit">
+		SELECT group_id as "id", quota_limit_id as "size" FROM jforum_attach_quota 
+	</select>
 	
 </mapper>
