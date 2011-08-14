@@ -1,4 +1,4 @@
-package test;
+package test.service;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;

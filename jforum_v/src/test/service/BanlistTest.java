@@ -1,4 +1,4 @@
-package test;
+package test.service;
 
 import java.util.List;
 
@@ -7,6 +7,8 @@ import net.jforum.entities.Banlist;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import test.AbstractSystemTest;
 
 import com.godtips.service.BanlistService;
 

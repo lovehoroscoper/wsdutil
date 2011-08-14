@@ -1,4 +1,4 @@
-package test;
+package test.service;
 
 import static org.junit.Assert.fail;
 
@@ -9,6 +9,8 @@ import net.jforum.entities.Banner;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import test.AbstractSystemTest;
 
 import com.godtips.service.BannerService;
 
