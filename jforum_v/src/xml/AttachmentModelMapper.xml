@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AttachmentModel">
+
+	<insert id="addQuotaLimit" parameterType="quotaLimit">
+		INSERT INTO
+		jforum_quota_limit (quota_desc, quota_limit, quota_type) VALUES
+		(#{description}, #{size}, #{type})
+	</insert>
+
+	<update id="updateQuotaLimit" parameterType="quotaLimit">
+		UPDATE jforum_quota_limit 
+			SET quota_desc = #{description}, quota_limit = #{size}, quota_type = #{type}
+		WHERE quota_limit_id = #{id}
+	</update>
+
+	<delete id="deleteGroupQuota">
+		DELETE FROM jforum_attach_quota 		
+	</delete>
+	
+	<!-- 多个参数怎么 -->
+	<insert id="setGroupQuota" >
+		INSERT INTO jforum_attach_quota (group_id, quota_limit_id) VALUES (#{groupId}, #{quotaId})	
+	</insert>
+	
+</mapper>

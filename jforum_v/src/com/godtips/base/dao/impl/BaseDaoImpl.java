@@ -25,6 +25,10 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 	public Object addObject(String sqlid, Object obj) {
 		return this.getSqlSession().insert(sqlid, obj);
 	}
+	
+	public Object addObjectArray(String sqlid, Object... obj) {
+		return this.getSqlSession().insert(sqlid, obj);
+	}
 
 	public Object findObject(String sqlid, Object obj) {
 		return this.getSqlSession().selectOne(sqlid, obj);
@@ -84,4 +88,5 @@ public class BaseDaoImpl extends SqlSessionDaoSupport implements BaseDao {
 //				+ " Please check the database configurations and code logic.";
 		return "只使用mysql数据库且使用mybatis自动生成主键,请修改数据库语句,请暂时不使用该方法!!!";
 	}
+
 }

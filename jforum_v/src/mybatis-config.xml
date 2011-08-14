@@ -16,11 +16,13 @@
 		
 		<typeAlias alias="banlist" type="net.jforum.entities.Banlist" />
 		<typeAlias alias="banner" type="net.jforum.entities.Banner" />
+		<typeAlias alias="quotaLimit" type="net.jforum.entities.QuotaLimit" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="xml/ApiModelMapper.xml"/>
 		<mapper resource="xml/BanlistModelMapper.xml"/>
 		<mapper resource="xml/BannerModelMapper.xml"/>
+		<mapper resource="xml/AttachmentModelMapper.xml"/>
 	</mappers>
 </configuration>

@@ -8,6 +8,8 @@ import com.godtips.base.entity.ParamPageVo;
 public interface BaseDao {
 
 	public Object addObject(String sqlid, Object obj);
+	
+	public Object addObjectArray(String sqlid, Object...obj);
 
 	public int updateObject(String sqlid, Object obj);
 
