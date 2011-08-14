@@ -6,7 +6,7 @@
 
 	<resultMap id="selectById_resultmap" type="banner">
 		<result column="banner_id" property="id" />
-		<result column="name" property="name" />
+		<result column="banner_name" property="name" />
 		<result column="banner_placement" property="placement" />
 		<result column="banner_description" property="description" />
 		<result column="banner_clicks" property="clicks" />
@@ -22,7 +22,7 @@
 
 	<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
 		<![CDATA[
-			SELECT banner_id, name, banner_placement, banner_description, banner_clicks, banner_views,
+			SELECT banner_id, banner_name, banner_placement, banner_description, banner_clicks, banner_views,
 					banner_url, banner_weight, banner_active, banner_comment, banner_type, banner_width, banner_height 
 			FROM jforum_banner 	WHERE banner_id = #{bannerId}
         ]]>
@@ -62,9 +62,9 @@
 			banner_type = #{type},
 			banner_width = #{weight},
 			banner_height = #{height},
-			banner_active = #{active,typeHandler=booleanToIntHandler}
+			banner_active = #{active,typeHandler=booleanToIntHandler} 
 		</trim>
-		WHERE banner_id = #{bannerId}
+		WHERE banner_id = #{id}
 	</update>
 
 	<insert id="addNew" parameterType="banner" useGeneratedKeys="true" keyProperty="id">

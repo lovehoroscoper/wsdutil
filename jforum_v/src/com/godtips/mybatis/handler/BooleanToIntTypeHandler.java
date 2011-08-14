@@ -16,8 +16,8 @@ import org.apache.ibatis.type.TypeHandler;
  * java == > db   :java 中 boolean 值 转换为 db 中的 int 
  * db   == > java :db 中的 int 转换为 java中 boolean
  * 
- * boolean  true  ： 1 
- * boolean  false ： 0
+ * boolean  true  ： 1   
+ * boolean  false ： != 1 只要不是1 都是 false
  * 
  * 对于 null 值是否有影响
  * 
