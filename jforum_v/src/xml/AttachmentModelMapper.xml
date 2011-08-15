@@ -10,6 +10,18 @@
 			<result column="quota_limit" property="size" />
 			<result column="quota_type" property="type" />
 	</resultMap>
+	<resultMap id="selectExtensionGroups_resultmap" type="attachmentExtensionGroup">
+			<result column="extension_group_id" property="id" />
+			<result column="name" property="name" />
+			<result column="upload_icon" property="uploadIcon" />
+			<result column="allow" property="allow" typeHandler="booleanToIntHandler"/>
+			<result column="download_mode" property="downloadMode" />
+	</resultMap>
+	<resultMap id="extensionsForSecurity_resultmap" type="attachmentExtensionGroup">
+			<result column="extension" property="name" />
+			<result column="group_allow" property="id" />
+			<result column="allow" property="downloadMode" />
+	</resultMap>
 
 	<insert id="addQuotaLimit" parameterType="quotaLimit">
 		INSERT INTO
@@ -59,4 +71,115 @@
 		SELECT group_id as "id", quota_limit_id as "size" FROM jforum_attach_quota 
 	</select>
 	
+	<insert id="addExtensionGroup" parameterType="attachmentExtensionGroup">
+		INSERT INTO jforum_extension_groups (name, allow, upload_icon, download_mode) VALUES (#{name}, #{allow,typeHandler=booleanToIntHandler}, #{uploadIcon}, #{downloadMode})
+	</insert>
+	
+	<delete id="removeExtensionGroups" parameterType="arraylist">
+		DELETE FROM jforum_extension_groups WHERE extension_group_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+			#{item,javaType=int}
+		</foreach>
+	</delete>
+	
+	<select id="selectExtensionGroups" resultMap="selectExtensionGroups_resultmap">
+		SELECT extension_group_id, name, allow, upload_icon, download_mode FROM jforum_extension_groups ORDER BY name 
+	</select>
+	
+	<select id="extensionsForSecurity" resultMap="extensionsForSecurity_resultmap">
+		SELECT e.extension, e.allow, eg.allow AS group_allow 
+			FROM jforum_extensions e, jforum_extension_groups eg 
+			WHERE e.extension_group_id = eg.extension_group_id 
+	</select>
+	
+	<update id="updateExtensionGroups" parameterType="attachmentExtensionGroup">
+		UPDATE jforum_extension_groups SET name = #{name}, allow = #{allow,typeHandler=booleanToIntHandler}, upload_icon = #{uploadIcon}, download_mode = #{downloadMode} 
+			WHERE extension_group_id = #{id}
+	</update>
+	
+	<insert id="addExtension" parameterType="attachmentExtension">
+		INSERT INTO jforum_extensions (extension_group_id, description, upload_icon, extension, allow) VALUES (#{extensionGroupId}, #{comment}, #{uploadIcon}, #{extension}, #{allow,typeHandler=booleanToIntHandler})
+	</insert>
+	
+	<delete id="removeExtension" parameterType="arraylist">
+		DELETE FROM jforum_extensions WHERE extension_id in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+			#{item,javaType=int}
+		</foreach>
+	</delete>
+	
+	<select id="selectExtensions" resultType="hashmap">
+		SELECT extension_id, extension_group_id, extension, description, upload_icon, allow, '' AS group_icon FROM jforum_extensions ORDER BY extension 
+	</select>
+	
+	<update id="updateExtension" parameterType="attachmentExtension">
+		UPDATE jforum_extensions SET extension_group_id = #{extensionGroupId}, description = #{comment}, upload_icon = #{uploadIcon}, 
+			extension = #{extension}, allow = #{allow,typeHandler=booleanToIntHandler} 
+			WHERE extension_id = #{id}
+	</update>
+
+	<select id="" parameterType="hashmap" resultType="hashmap">
+		SELECT e.extension_id, e.extension_group_id, e.extension, e.description, e.upload_icon, e.allow, g.upload_icon AS group_icon 
+		FROM jforum_extensions e, jforum_extension_groups g 
+		<where>
+			<if test="paramName == 'extension'">
+				extension = #{paramValue}
+			</if>
+			<if test="paramName == 'extension_id'">
+				extension_id = #{paramValue}
+			</if>
+		</where>
+		AND e.extension_group_id = g.extension_group_id
+	</select>
+	
+	<insert id="addAttachment" parameterType="attachment" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO jforum_attach (post_id, privmsgs_id, user_id) VALUES (#{postId}, #{privmsgsId}, #{userId})
+	</insert>
+	
+	<insert id="addAttachmentInfo" parameterType="attachment">
+		INSERT INTO jforum_attach_desc (attach_id, physical_filename, real_filename, description, 
+			mimetype, filesize, upload_time, thumb, extension_id ) VALUES (#{id}, #{info.physicalFilename}, #{info.realFilename}, 
+			#{info.comment}, #{info.mimetype}, #{info.filesize}, #{info.uploadTimeInMillis,javaType=java.sql.Timestamp}, 0, #{info.extension.id})
+	</insert>
+
+	<update id="updatePost" parameterType="hashmap">
+		UPDATE jforum_posts SET attach = #{count} WHERE post_id = #{postId}
+	</update>
+
+	<delete id="removeAttachmentInfo">
+		DELETE FROM jforum_attach_desc WHERE attach_id = #{id}
+	</delete>
+	
+	<delete id="removeAttachment">
+		DELETE FROM jforum_attach WHERE attach_id = #{id}
+	</delete>
+	
+	<select id="countPostAttachments" resultType="int">
+		SELECT COUNT(1) FROM jforum_attach WHERE post_id = #{postId}
+	</select>
+	
+	<update id="updateAttachment" parameterType="attachment">
+		UPDATE jforum_attach_desc SET description = #{info.comment}, download_count = #{info.downloadCount} WHERE attach_id = #{id} 
+	</update>
+
+	<select id="selectAttachments" parameterType="int" resultType="hashmap">
+		SELECT a.attach_id, a.user_id, a.post_id, a.privmsgs_id, d.mimetype, d.physical_filename, d.real_filename, 
+			d.download_count, d.description, d.filesize, d.upload_time, d.extension_id 
+			FROM jforum_attach a, jforum_attach_desc d 
+			WHERE a.post_id = #{postId}
+			AND a.attach_id = d.attach_id
+	</select>
+	
+	<select id="selectAttachmentById" parameterType="int" resultType="hashmap">
+		SELECT a.attach_id, a.user_id, a.post_id, a.privmsgs_id, d.mimetype, d.physical_filename, d.real_filename, 
+			d.download_count, d.description, d.filesize, d.upload_time, d.extension_id 
+			FROM jforum_attach a, jforum_attach_desc d 
+			WHERE a.attach_id = #{attachId}
+			AND a.attach_id = d.attach_id 
+	</select>
+
+	<select id="isPhysicalDownloadMode" parameterType="int" resultType="int">
+		SELECT download_mode FROM jforum_extension_groups WHERE extension_group_id = #{extensionGroupId}
+	</select>
+
 </mapper>

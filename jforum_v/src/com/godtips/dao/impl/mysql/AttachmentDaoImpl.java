@@ -23,6 +23,7 @@ import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
 import com.godtips.base.dao.impl.BaseDaoImpl;
+import com.godtips.util.StringUtils;
 
 /**
  * @desc 描述：
@@ -123,112 +124,48 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addExtensionGroup(net.jforum.entities.AttachmentExtensionGroup)
 	 */
-	public void addExtensionGroup(AttachmentExtensionGroup g) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.addExtensionGroup"));
-			p.setString(1, g.getName());
-			p.setInt(2, g.isAllow() ? 1 : 0);
-			p.setString(3, g.getUploadIcon());
-			p.setInt(4, g.getDownloadMode());
-			p.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void addExtensionGroup(AttachmentExtensionGroup g) {		
+		this.addObject("AttachmentModel.addExtensionGroup", g);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeExtensionGroups(java.lang.String[])
 	 */
-	public void removeExtensionGroups(String[] ids) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.removeExtensionGroups"));
-
-			for (int i = 0; i < ids.length; i++) {
-				p.setInt(1, Integer.parseInt(ids[i]));
-				p.executeUpdate();
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void removeExtensionGroups(String[] ids) {		
+		this.deleteObject("AttachmentModel.removeExtensionGroups", ids);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtensionGroups()
 	 */
 	public List selectExtensionGroups() {
-		List l = new ArrayList();
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectExtensionGroups"));
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.getExtensionGroup(rs));
-			}
-
-			return l;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
-		}
+		return this.queryList("AttachmentModel.selectExtensionGroups", null);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#extensionsForSecurity()
 	 */
 	public Map extensionsForSecurity() {
-		Map m = new HashMap();
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.extensionsForSecurity"));
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				int allow = rs.getInt("group_allow");
+		Map m = new HashMap();		
+		List list = this.queryList("AttachmentModel.extensionsForSecurity", null);
+		if(null != list && list.size() > 0){
+			for (int j = 0; j < list.size(); j++) {
+				AttachmentExtensionGroup ae = (AttachmentExtensionGroup)list.get(j);
+				int allow = ae.getId();
 				if (allow == 1) {
-					allow = rs.getInt("allow");
+					allow = ae.getDownloadMode();
 				}
-
-				m.put(rs.getString("extension"), Boolean.valueOf(allow == 1));
+				m.put(ae.getName(), Boolean.valueOf(allow == 1));
 			}
-
-			return m;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
 		}
+		return m;
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateExtensionGroup(net.jforum.entities.AttachmentExtensionGroup)
 	 */
 	public void updateExtensionGroup(AttachmentExtensionGroup g) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.updateExtensionGroups"));
-			p.setString(1, g.getName());
-			p.setInt(2, g.isAllow() ? 1 : 0);
-			p.setString(3, g.getUploadIcon());
-			p.setInt(4, g.getDownloadMode());
-			p.setInt(5, g.getId());
-			p.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+		this.updateObject("AttachmentModel.updateExtensionGroups", g);
 	}
 
 	protected AttachmentExtensionGroup getExtensionGroup(ResultSet rs) throws SQLException {
@@ -246,38 +183,16 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 * @see net.jforum.dao.AttachmentDAO#addExtension(net.jforum.entities.AttachmentExtension)
 	 */
 	public void addExtension(AttachmentExtension extension) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.addExtension"));
-			p.setInt(1, extension.getExtensionGroupId());
-			p.setString(2, extension.getComment());
-			p.setString(3, extension.getUploadIcon());
-			p.setString(4, extension.getExtension().toLowerCase());
-			p.setInt(5, extension.isAllow() ? 1 : 0);
-			p.executeUpdate();
-		} catch (SQLException ex) {
-			throw new DatabaseException(ex);
-		} finally {
-			DbUtils.close(p);
-		}
+		//TODO 这个要检查
+		//p.setString(4, extension.getExtension().toLowerCase());
+		this.addObject("AttachmentModel.addExtension", extension);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeExtensions(java.lang.String[])
 	 */
-	public void removeExtensions(String[] ids) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.removeExtension"));
-			for (int i = 0; i < ids.length; i++) {
-				p.setInt(1, Integer.parseInt(ids[i]));
-				p.executeUpdate();
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void removeExtensions(String[] ids) {		
+		this.deleteObject("AttachmentModel.removeExtension", ids);
 	}
 
 	/**
@@ -285,51 +200,28 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 */
 	public List selectExtensions() {
 		List l = new ArrayList();
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectExtensions"));
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.getExtension(rs));
+		List list = this.queryList("AttachmentModel.selectExtensions", null);
+		if(null != list && list.size() > 0){
+			for (int i = 0; i < list.size(); i++) {
+				Map resMap = (Map)list.get(0);
+				l.add(this.getExtension(resMap));
 			}
-
-			return l;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
 		}
+		return l;
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateExtension(net.jforum.entities.AttachmentExtension)
 	 */
-	public void updateExtension(AttachmentExtension extension) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.updateExtension"));
-			p.setInt(1, extension.getExtensionGroupId());
-			p.setString(2, extension.getComment());
-			p.setString(3, extension.getUploadIcon());
-			p.setString(4, extension.getExtension().toLowerCase());
-			p.setInt(5, extension.isAllow() ? 1 : 0);
-			p.setInt(6, extension.getId());
-			p.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void updateExtension(AttachmentExtension extension) {		
+		this.updateObject("AttachmentModel.updateExtension", extension);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtension(java.lang.String)
 	 */
 	public AttachmentExtension selectExtension(String extension) {
-		return this.searchExtension(SystemGlobals.getValue(ConfigKeys.EXTENSION_FIELD), extension);
+		return this.searchExtension("extension", extension);
 	}
 
 	private AttachmentExtension selectExtension(int extensionId) {
@@ -337,194 +229,102 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	}
 
 	private AttachmentExtension searchExtension(String paramName, Object paramValue) {
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			String sql = SystemGlobals.getSql("AttachmentModel.selectExtension");
-			sql = sql.replaceAll("\\$field", paramName);
-
-			p = JForumExecutionContext.getConnection().prepareStatement(sql);
-			p.setObject(1, paramValue);
-
-			AttachmentExtension e = new AttachmentExtension();
-
-			rs = p.executeQuery();
-			if (rs.next()) {
-				e = this.getExtension(rs);
-			} else {
-				e.setUnknown(true);
-			}
-
-			return e;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
+		AttachmentExtension e = new AttachmentExtension();
+		Map map = new HashMap();
+		map.put("paramName", paramName);
+		map.put("paramValue", paramValue);
+		List list = this.queryList("AttachmentModel.selectExtension", map);
+		if(null != list && list.size() > 0){
+			Map resMap = (Map)list.get(0);
+			e = this.getExtension(resMap);
+		}else{
+			e.setUnknown(true);
 		}
+		return e;
 	}
 
-	protected AttachmentExtension getExtension(ResultSet rs) throws SQLException {
+	protected AttachmentExtension getExtension(Map resMap){
 		AttachmentExtension e = new AttachmentExtension();
-		e.setAllow(rs.getInt("allow") == 1);
-		e.setComment(rs.getString("description"));
-		e.setExtension(rs.getString("extension"));
-		e.setExtensionGroupId(rs.getInt("extension_group_id"));
-		e.setId(rs.getInt("extension_id"));
-
-		String icon = rs.getString("upload_icon");
-		if (icon == null || icon.equals("")) {
-			icon = rs.getString("group_icon");
+		e.setAllow(1 == (Integer)resMap.get("allow"));
+		e.setComment((String)resMap.get("description"));
+		e.setExtension((String)resMap.get("extension"));
+		e.setExtensionGroupId((Integer)resMap.get("extension_group_id"));
+		e.setId((Integer)resMap.get("extension_id"));
+		String icon = (String)resMap.get("upload_icon");
+		if (StringUtils.isEmptyOrNullByTrim(icon)) {
+			icon = (String)resMap.get("group_icon");
 		}
-
 		e.setUploadIcon(icon);
-
 		return e;
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#addAttachment(net.jforum.entities.Attachment)
 	 */
-	public void addAttachment(Attachment a) {
-		PreparedStatement p = null;
-		try {
-			p = this.getStatementForAutoKeys("AttachmentModel.addAttachment");
-			p.setInt(1, a.getPostId());
-			p.setInt(2, a.getPrivmsgsId());
-			p.setInt(3, a.getUserId());
-
-			this.setAutoGeneratedKeysQuery(SystemGlobals.getSql("AttachmentModel.lastGeneratedAttachmentId"));
-			int id = this.executeAutoKeysQuery(p);
-			p.close();
-			p = null;
-
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.addAttachmentInfo"));
-			p.setInt(1, id);
-			p.setString(2, a.getInfo().getPhysicalFilename());
-			p.setString(3, a.getInfo().getRealFilename());
-			p.setString(4, a.getInfo().getComment());
-			p.setString(5, a.getInfo().getMimetype());
-			p.setLong(6, a.getInfo().getFilesize());
-			p.setTimestamp(7, new Timestamp(a.getInfo().getUploadTimeInMillis()));
-			p.setInt(8, 0);
-			p.setInt(9, a.getInfo().getExtension().getId());
-			p.executeUpdate();
-
-			this.updatePost(a.getPostId(), 1);
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void addAttachment(Attachment a) {		
+		//TODO 这些都必须是一个事务里面的了
+		this.addObject("AttachmentModel.addAttachment", a);
+		System.out.println(a.getId());
+		this.addObject("AttachmentModel.addAttachmentInfo", a);
+		this.updatePost(a.getPostId(), 1);
 	}
 
 	protected void updatePost(int postId, int count) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.updatePost"));
-			p.setInt(1, count);
-			p.setInt(2, postId);
-			p.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+		Map map = new HashMap();
+		map.put("postId",postId);
+		map.put("count", count);
+		this.updateObject("AttachmentModel.updatePost", map);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeAttachment(int, int)
 	 */
 	public void removeAttachment(int id, int postId) {
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.removeAttachmentInfo"));
-			p.setInt(1, id);
-			p.executeUpdate();
-			p.close();
-			p = null;
-
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.removeAttachment"));
-			p.setInt(1, id);
-			p.executeUpdate();
-			p.close();
-			p = null;
-
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.countPostAttachments"));
-			p.setInt(1, postId);
-
-			rs = p.executeQuery();
-			if (rs.next()) {
-				this.updatePost(postId, rs.getInt(1));
-			}
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
+		this.deleteObject("AttachmentModel.removeAttachmentInfo", id);
+		this.deleteObject("AttachmentModel.removeAttachment", id);
+		int count = (Integer)this.findObject("AttachmentModel.countPostAttachments", postId);
+		if(count > 0){
+			this.updatePost(postId, count);
 		}
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#updateAttachment(net.jforum.entities.Attachment)
 	 */
-	public void updateAttachment(Attachment a) {
-		PreparedStatement p = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.updateAttachment"));
-			p.setString(1, a.getInfo().getComment());
-			p.setInt(2, a.getInfo().getDownloadCount());
-			p.setInt(3, a.getId());
-			p.executeUpdate();
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(p);
-		}
+	public void updateAttachment(Attachment a) {		
+		this.updateObject("AttachmentModel.updateAttachment", a);
 	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectAttachments(int)
 	 */
-	public List selectAttachments(int postId) {
+	public List selectAttachments(int postId) {		
 		List l = new ArrayList();
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectAttachments"));
-			p.setInt(1, postId);
-
-			rs = p.executeQuery();
-			while (rs.next()) {
-				l.add(this.getAttachment(rs));
+		List list = this.queryList("AttachmentModel.selectAttachments", postId);
+		if(null != list && list.size() > 0){
+			for (int i = 0; i < list.size() ; i++) {
+				Map resMap = (Map)list.get(i);
+				l.add(this.getAttachment(resMap));
 			}
-
-			return l;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
 		}
+		return l;
 	}
 
-	protected Attachment getAttachment(ResultSet rs) throws SQLException {
+	protected Attachment getAttachment(Map resMap){
 		Attachment a = new Attachment();
-		a.setId(rs.getInt("attach_id"));
-		a.setPostId(rs.getInt("post_id"));
-		a.setPrivmsgsId(rs.getInt("privmsgs_id"));
-
+		a.setId((Integer)resMap.get("attach_id"));
+		a.setPostId((Integer)resMap.get("post_id"));
+		a.setPrivmsgsId((Integer)resMap.get("privmsgs_id"));
 		AttachmentInfo ai = new AttachmentInfo();
-		ai.setComment(rs.getString("description"));
-		ai.setDownloadCount(rs.getInt("download_count"));
-		ai.setFilesize(rs.getLong("filesize"));
-		ai.setMimetype(rs.getString("mimetype"));
-		ai.setPhysicalFilename(rs.getString("physical_filename"));
-		ai.setRealFilename(rs.getString("real_filename"));
-		ai.setUploadTime(new Date(rs.getTimestamp("upload_time").getTime()));
-		ai.setExtension(this.selectExtension(rs.getInt("extension_id")));
-
+		ai.setComment((String)resMap.get("description"));
+		ai.setDownloadCount((Integer)resMap.get("download_count"));
+		ai.setFilesize((Long)resMap.get("filesize"));
+		ai.setMimetype((String)resMap.get("mimetype"));
+		ai.setPhysicalFilename((String)resMap.get("physical_filename"));
+		ai.setRealFilename((String)resMap.get("real_filename"));
+		ai.setUploadTime(new Date(((Timestamp)resMap.get("upload_time")).getTime()));
+		ai.setExtension(this.selectExtension((String)resMap.get("extension_id")));
 		a.setInfo(ai);
-
 		return a;
 	}
 
@@ -532,47 +332,23 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 * @see net.jforum.dao.AttachmentDAO#selectAttachmentById(int)
 	 */
 	public Attachment selectAttachmentById(int attachId) {
-		ResultSet rs = null;
-		PreparedStatement p = null;
-		try {
 			Attachment e = null;
-
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.selectAttachmentById"));
-			p.setInt(1, attachId);
-
-			rs = p.executeQuery();
-			if (rs.next()) {
-				e = this.getAttachment(rs);
+			List list = this.queryList("AttachmentModel.selectAttachmentById", attachId);
+			if(null != list && list.size() > 0){
+				Map resMap = (Map)list.get(0);
+				e = this.getAttachment(resMap);
 			}
-
 			return e;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
-		}
 	}
 
 	public boolean isPhysicalDownloadMode(int extensionGroupId) {
 		boolean result = true;
-
-		PreparedStatement p = null;
-		ResultSet rs = null;
-		try {
-			p = JForumExecutionContext.getConnection().prepareStatement(SystemGlobals.getSql("AttachmentModel.isPhysicalDownloadMode"));
-
-			p.setInt(1, extensionGroupId);
-
-			rs = p.executeQuery();
-			if (rs.next()) {
-				result = (rs.getInt("download_mode") == 2);
-			}
-
-			return result;
-		} catch (SQLException e) {
-			throw new DatabaseException(e);
-		} finally {
-			DbUtils.close(rs, p);
+		//TODO 这个要测试返回多个记录看看
+		List list = this.queryList("AttachmentModel.isPhysicalDownloadMode", extensionGroupId);
+		if(null != list && list.size() > 0){
+			int resInt = (Integer)list.get(0);
+			result = (resInt == 2);
 		}
+		return result;
 	}
 }

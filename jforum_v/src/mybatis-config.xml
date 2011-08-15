@@ -17,6 +17,10 @@
 		<typeAlias alias="banlist" type="net.jforum.entities.Banlist" />
 		<typeAlias alias="banner" type="net.jforum.entities.Banner" />
 		<typeAlias alias="quotaLimit" type="net.jforum.entities.QuotaLimit" />
+		<typeAlias alias="attachmentExtensionGroup" type="net.jforum.entities.AttachmentExtensionGroup" />
+		<typeAlias alias="attachmentExtension" type="net.jforum.entities.AttachmentExtension" />
+		<typeAlias alias="attachment" type="net.jforum.entities.Attachment" />
+		<typeAlias alias="attachmentInfo" type="net.jforum.entities.AttachmentInfo" />
 	</typeAliases>
 
 	<mappers>
