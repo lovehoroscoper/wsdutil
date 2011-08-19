@@ -1,29 +1,18 @@
 package test.service;
 
-import static org.junit.Assert.*;
-
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import static org.junit.Assert.fail;
 import net.jforum.JForumExecutionContext;
 import net.jforum.entities.Attachment;
-import net.jforum.entities.AttachmentExtension;
-import net.jforum.entities.AttachmentExtensionGroup;
-import net.jforum.entities.AttachmentInfo;
 import net.jforum.entities.QuotaLimit;
-import net.jforum.exceptions.DatabaseException;
-import net.jforum.util.DbUtils;
-import net.jforum.util.preferences.ConfigKeys;
 import net.jforum.util.preferences.SystemGlobals;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import test.AbstractSystemTest;
+
+import com.godtips.service.AttachmentService;
 
 /**
  * @desc 描述：
@@ -31,11 +20,16 @@ import org.junit.Test;
  * @author weisd E-mail:weisd@junbao.net
  * @version 创建时间：2011-8-14 下午4:21:36
  */
-public class AttachmentTest {
+public class AttachmentTest extends AbstractSystemTest{
+	
+	private static Logger logger = Logger.getLogger(AttachmentTest.class);
+
+	@Autowired
+	private AttachmentService attachmentService;
 
 	@Test
 	public void testAddAttachment() {
-		fail("Not yet implemented");
+
 	}
 
 	@Test
@@ -60,13 +54,29 @@ public class AttachmentTest {
 
 	@Test
 	public void testAddQuotaLimit() {
-		fail("Not yet implemented");
+		for (int i = 0; i < 10; i++) {
+			QuotaLimit limit = new QuotaLimit();
+			limit.setDescription("tsets" + i);
+			limit.setId(i);
+			limit.setSize(i);
+			limit.setType(i);
+			attachmentService.addQuotaLimit(limit);
+		}
 	}
 
 	@Test
 	public void testUpdateQuotaLimit() {
-		fail("Not yet implemented");
+		for (int i = 0; i < 10; i++) {
+			QuotaLimit limit = new QuotaLimit();
+			limit.setDescription("update" + i);
+			limit.setId(i);
+			limit.setSize(i+1);
+			limit.setType(i+1);
+			attachmentService.updateQuotaLimit(limit);
+		}
 	}
+		
+
 
 	@Test
 	public void testRemoveQuotaLimitInt() {
@@ -85,7 +95,7 @@ public class AttachmentTest {
 
 	@Test
 	public void testCleanGroupQuota() {
-		fail("Not yet implemented");
+		attachmentService.cleanGroupQuota();
 	}
 
 	@Test

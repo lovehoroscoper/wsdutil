@@ -3,6 +3,7 @@ package com.godtips.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import net.jforum.dao.AttachmentDAO;
 import net.jforum.entities.Attachment;
 import net.jforum.entities.AttachmentExtension;
 import net.jforum.entities.AttachmentExtensionGroup;
@@ -17,101 +18,87 @@ import com.godtips.service.AttachmentService;
  * @version 创建时间：2011-8-14 下午4:09:22
  */
 public class AttachmentServiceImpl implements AttachmentService {
+	
+	private AttachmentDAO attachmentDao;
 
 	@Override
 	public void addAttachment(Attachment a) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.addAttachment(a);
 	}
 
 	@Override
 	public void updateAttachment(Attachment a) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.updateAttachment(a);
 	}
 
 	@Override
 	public void removeAttachment(int id, int postId) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.removeAttachment(id, postId);
 	}
 
 	@Override
 	public List selectAttachments(int postId) {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectAttachments(postId);
 	}
 
 	@Override
 	public Attachment selectAttachmentById(int attachId) {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectAttachmentById(attachId);
 	}
 
 	@Override
 	public void addQuotaLimit(QuotaLimit limit) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.addQuotaLimit(limit);
 	}
 
 	@Override
 	public void updateQuotaLimit(QuotaLimit limit) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.updateQuotaLimit(limit);
 	}
 
 	@Override
 	public void removeQuotaLimit(int id) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.removeQuotaLimit(id);
 	}
 
 	@Override
 	public void removeQuotaLimit(String[] ids) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.removeQuotaLimit(ids);
 	}
 
 	@Override
 	public void setGroupQuota(int groupId, int quotaId) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.setGroupQuota(groupId, quotaId);
 	}
 
 	@Override
 	public void cleanGroupQuota() {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.cleanGroupQuota();
 	}
 
 	@Override
 	public List selectQuotaLimit() {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectQuotaLimit();
 	}
 
 	@Override
 	public QuotaLimit selectQuotaLimitByGroup(int groupId) {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectQuotaLimitByGroup(groupId);
 	}
 
 	@Override
 	public Map selectGroupsQuotaLimits() {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectGroupsQuotaLimits();
 	}
 
 	@Override
 	public void addExtensionGroup(AttachmentExtensionGroup g) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.addExtensionGroup(g);
 	}
 
 	@Override
 	public void updateExtensionGroup(AttachmentExtensionGroup g) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.updateExtensionGroup(g);
 	}
 
 	@Override
@@ -166,6 +153,14 @@ public class AttachmentServiceImpl implements AttachmentService {
 	public boolean isPhysicalDownloadMode(int extensionGroupId) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public AttachmentDAO getAttachmentDao() {
+		return attachmentDao;
+	}
+
+	public void setAttachmentDao(AttachmentDAO attachmentDao) {
+		this.attachmentDao = attachmentDao;
 	}
 
 }

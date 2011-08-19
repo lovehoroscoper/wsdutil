@@ -18,5 +18,6 @@
 	<bean id="apiService" class="com.godtips.service.impl.ApiServiceImpl" autowire="byName"></bean>
 	<bean id="banlistService" class="com.godtips.service.impl.BanlistServiceImpl" autowire="byName"></bean>
 	<bean id="bannerService" class="com.godtips.service.impl.BannerServiceImpl" autowire="byName"></bean>
+	<bean id="attachmentService" class="com.godtips.service.impl.AttachmentServiceImpl" autowire="byName"></bean>
 
 </beans>

@@ -1,6 +1,5 @@
 package com.godtips.dao.impl.mysql;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -10,17 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.jforum.JForumExecutionContext;
 import net.jforum.dao.AttachmentDAO;
 import net.jforum.entities.Attachment;
 import net.jforum.entities.AttachmentExtension;
 import net.jforum.entities.AttachmentExtensionGroup;
 import net.jforum.entities.AttachmentInfo;
 import net.jforum.entities.QuotaLimit;
-import net.jforum.exceptions.DatabaseException;
-import net.jforum.util.DbUtils;
-import net.jforum.util.preferences.ConfigKeys;
-import net.jforum.util.preferences.SystemGlobals;
 
 import com.godtips.base.dao.impl.BaseDaoImpl;
 import com.godtips.util.StringUtils;
