@@ -51,7 +51,7 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 * @see net.jforum.dao.AttachmentDAO#setGroupQuota(int, int)
 	 */
 	public void setGroupQuota(int groupId, int quotaId) {		
-		//TODO 这个要怎么传递多个参数
+		//TODO 这个要怎么传递多个参数 不建议使用这种方式
 		this.addObjectArray("AttachmentModel.setGroupQuota", groupId,quotaId);
 	}
 
@@ -65,10 +65,16 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#removeQuotaLimit(java.lang.String[])
 	 */
+	@Deprecated
 	public void removeQuotaLimit(String[] ids) {		
 		this.deleteObject("AttachmentModel.removeQuotaLimit", ids);
 	}
 
+	@Override
+	public void removeQuotaLimit(int[] ids) {
+		this.deleteObject("AttachmentModel.removeQuotaLimit", ids);
+	}
+	
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectQuotaLimit()
 	 */
@@ -98,8 +104,8 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 		List list = this.queryList("AttachmentModel.selectGroupsQuotaLimits", null);
 		if(null != list && list.size() > 0){
 			for (int j = 0; j < list.size(); j++) {
-				QuotaLimit ql = (QuotaLimit)list.get(j);
-				m.put(ql.getId(), ql.getSize());
+				Map resMap = (Map)list.get(j);
+				m.put((Integer)resMap.get("group_id"), (Integer)resMap.get("quota_limit_id"));
 			}
 		}
 		return m;
@@ -127,6 +133,11 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	 */
 	public void removeExtensionGroups(String[] ids) {		
 		this.deleteObject("AttachmentModel.removeExtensionGroups", ids);
+	}
+	
+	@Override
+	public void removeExtensionGroups(int[] ids) {
+		this.deleteObject("AttachmentModel.removeExtensionGroups", ids);		
 	}
 
 	/**
@@ -188,6 +199,11 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 	public void removeExtensions(String[] ids) {		
 		this.deleteObject("AttachmentModel.removeExtension", ids);
 	}
+	
+	@Override
+	public void removeExtensions(int[] ids) {
+		this.deleteObject("AttachmentModel.removeExtension", ids);		
+	}
 
 	/**
 	 * @see net.jforum.dao.AttachmentDAO#selectExtensions()
@@ -197,7 +213,7 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 		List list = this.queryList("AttachmentModel.selectExtensions", null);
 		if(null != list && list.size() > 0){
 			for (int i = 0; i < list.size(); i++) {
-				Map resMap = (Map)list.get(0);
+				Map resMap = (Map)list.get(i);
 				l.add(this.getExtension(resMap));
 			}
 		}
@@ -239,7 +255,7 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 
 	protected AttachmentExtension getExtension(Map resMap){
 		AttachmentExtension e = new AttachmentExtension();
-		e.setAllow(1 == (Integer)resMap.get("allow"));
+		e.setAllow(1 == (Long)resMap.get("allow"));
 		e.setComment((String)resMap.get("description"));
 		e.setExtension((String)resMap.get("extension"));
 		e.setExtensionGroupId((Integer)resMap.get("extension_group_id"));
@@ -260,6 +276,8 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 		this.addObject("AttachmentModel.addAttachment", a);
 		System.out.println(a.getId());
 		this.addObject("AttachmentModel.addAttachmentInfo", a);
+		//TODO
+		System.out.println("这个还没有测试完毕");
 		this.updatePost(a.getPostId(), 1);
 	}
 
@@ -311,13 +329,18 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 		a.setPrivmsgsId((Integer)resMap.get("privmsgs_id"));
 		AttachmentInfo ai = new AttachmentInfo();
 		ai.setComment((String)resMap.get("description"));
-		ai.setDownloadCount((Integer)resMap.get("download_count"));
-		ai.setFilesize((Long)resMap.get("filesize"));
+		ai.setDownloadCount(Integer.valueOf(resMap.get("download_count").toString()));
+		ai.setFilesize((Integer)resMap.get("filesize"));
 		ai.setMimetype((String)resMap.get("mimetype"));
 		ai.setPhysicalFilename((String)resMap.get("physical_filename"));
 		ai.setRealFilename((String)resMap.get("real_filename"));
-		ai.setUploadTime(new Date(((Timestamp)resMap.get("upload_time")).getTime()));
-		ai.setExtension(this.selectExtension((String)resMap.get("extension_id")));
+		Timestamp tt = (Timestamp)resMap.get("upload_time");
+		Date dd = null;
+		if(null != tt){
+			dd = new Date(tt.getTime());
+		}
+		ai.setUploadTime(dd);
+		ai.setExtension(this.selectExtension((Integer)resMap.get("extension_id")));
 		a.setInfo(ai);
 		return a;
 	}
@@ -345,4 +368,6 @@ public class AttachmentDaoImpl extends BaseDaoImpl implements AttachmentDAO {
 		}
 		return result;
 	}
+
+
 }

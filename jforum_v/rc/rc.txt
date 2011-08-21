@@ -3,3 +3,7 @@ mysql_db_struct.sql
 中 alter table tb_name engine=innodb;(版本5.0后都可以用engine参数)
 或
 alter table tb_name type=innodb;(低版本中用type参数)
+
+
+2.
+返回类型为map的时候  tinyint 会自动转为 boolean

@@ -42,6 +42,7 @@
  */
 package net.jforum.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -66,7 +67,18 @@ public class AttachmentInfo
 
 	private Date uploadTime;
 	private AttachmentExtension extension;
+	private Timestamp uploadTimestamp;
 	
+	
+	public Timestamp getUploadTimestamp() {
+		//return uploadTimestamp;
+		return  new Timestamp(getUploadTimeInMillis());
+	}
+
+	public void setUploadTimestamp(Timestamp uploadTimestamp) {
+		this.uploadTimestamp = uploadTimestamp;
+	}
+
 	/**
 	 * @return Returns the attachId.
 	 */

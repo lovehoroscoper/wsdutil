@@ -122,7 +122,10 @@ public interface AttachmentDAO
 	 * 
 	 * @param ids The ids to remove.
 	 */
+	@Deprecated
 	public void removeQuotaLimit(String[] ids);
+	
+	public void removeQuotaLimit(int[] ids);
 	
 	/**
 	 * Associates a quota limmit to some group.
@@ -182,7 +185,10 @@ public interface AttachmentDAO
 	 * 
 	 * @param ids The ids to remove.
 	 */
+	@Deprecated
 	public void removeExtensionGroups(String[] ids);
+	
+	public void removeExtensionGroups(int[] ids);
 	
 	/**
 	 * Gets all extension groups.
@@ -222,7 +228,10 @@ public interface AttachmentDAO
 	 * 
 	 * @param ids The ids to remove
 	 */
+	@Deprecated
 	public void removeExtensions(String[] ids);
+	
+	public void removeExtensions(int[] ids);
 	
 	/**
 	 * Gets all registered extensions

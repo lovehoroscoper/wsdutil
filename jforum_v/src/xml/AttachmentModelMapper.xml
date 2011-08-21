@@ -39,9 +39,12 @@
 		DELETE FROM jforum_attach_quota 		
 	</delete>
 	
-	<!-- 多个参数怎么 -->
-	<insert id="setGroupQuota" >
-		INSERT INTO jforum_attach_quota (group_id, quota_limit_id) VALUES (#{groupId}, #{quotaId})	
+	<!-- 多个参数怎么 (groupId, quotaId)	 -->
+	<insert id="setGroupQuota" parameterType="arraylist">
+		INSERT INTO jforum_attach_quota (group_id, quota_limit_id) VALUES 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+			#{item,javaType=int}
+		</foreach>
 	</insert>
 	
 	<!-- 批量删除怎么实现好 -->
@@ -51,7 +54,7 @@
 	<delete id="removeQuotaLimit" parameterType="arraylist">
 		DELETE FROM jforum_quota_limit WHERE quota_limit_id in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-			#{item,javaType=int}
+			#{item}
 		</foreach>
 	</delete>
 	
@@ -60,15 +63,15 @@
 			FROM jforum_quota_limit ORDER BY quota_type, quota_limit 
 	</select>
 	
-	<select id="selectQuotaLimitByGroup" parameterType="int">
+	<select id="selectQuotaLimitByGroup" parameterType="int" resultMap="selectQuotaLimit_resultmap">
 		SELECT ql.quota_limit_id, ql.quota_desc, ql.quota_limit, ql.quota_type 
 			FROM jforum_quota_limit ql, jforum_attach_quota at 
 			WHERE ql.quota_limit_id = at.quota_limit_id 
 			AND at.group_id = #{groupId}
 	</select>
 	
-	<select id="selectGroupsQuotaLimits" resultType="quotaLimit">
-		SELECT group_id as "id", quota_limit_id as "size" FROM jforum_attach_quota 
+	<select id="selectGroupsQuotaLimits" resultType="hashmap">
+		SELECT group_id, quota_limit_id FROM jforum_attach_quota 
 	</select>
 	
 	<insert id="addExtensionGroup" parameterType="attachmentExtensionGroup">
@@ -109,7 +112,7 @@
 	</delete>
 	
 	<select id="selectExtensions" resultType="hashmap">
-		SELECT extension_id, extension_group_id, extension, description, upload_icon, allow, '' AS group_icon FROM jforum_extensions ORDER BY extension 
+		SELECT extension_id, extension_group_id, extension, description, upload_icon, allow||'' allow, '' AS group_icon FROM jforum_extensions ORDER BY extension 
 	</select>
 	
 	<update id="updateExtension" parameterType="attachmentExtension">
@@ -118,8 +121,9 @@
 			WHERE extension_id = #{id}
 	</update>
 
-	<select id="" parameterType="hashmap" resultType="hashmap">
-		SELECT e.extension_id, e.extension_group_id, e.extension, e.description, e.upload_icon, e.allow, g.upload_icon AS group_icon 
+<!-- ||'' allow -->
+	<select id="selectExtension" parameterType="hashmap" resultType="hashmap">
+		SELECT e.extension_id , e.extension_group_id, e.extension, e.description, e.upload_icon, e.allow||'' allow, g.upload_icon AS group_icon 
 		FROM jforum_extensions e, jforum_extension_groups g 
 		<where>
 			<if test="paramName == 'extension'">
@@ -139,7 +143,7 @@
 	<insert id="addAttachmentInfo" parameterType="attachment">
 		INSERT INTO jforum_attach_desc (attach_id, physical_filename, real_filename, description, 
 			mimetype, filesize, upload_time, thumb, extension_id ) VALUES (#{id}, #{info.physicalFilename}, #{info.realFilename}, 
-			#{info.comment}, #{info.mimetype}, #{info.filesize}, #{info.uploadTimeInMillis,javaType=java.sql.Timestamp}, 0, #{info.extension.id})
+			#{info.comment}, #{info.mimetype}, #{info.filesize}, #{info.uploadTimestamp}, 0, #{info.extension.id})
 	</insert>
 
 	<update id="updatePost" parameterType="hashmap">
@@ -164,7 +168,7 @@
 
 	<select id="selectAttachments" parameterType="int" resultType="hashmap">
 		SELECT a.attach_id, a.user_id, a.post_id, a.privmsgs_id, d.mimetype, d.physical_filename, d.real_filename, 
-			d.download_count, d.description, d.filesize, d.upload_time, d.extension_id 
+			IFNULL(d.download_count,0) download_count, d.description, d.filesize, d.upload_time, d.extension_id 
 			FROM jforum_attach a, jforum_attach_desc d 
 			WHERE a.post_id = #{postId}
 			AND a.attach_id = d.attach_id
@@ -172,7 +176,7 @@
 	
 	<select id="selectAttachmentById" parameterType="int" resultType="hashmap">
 		SELECT a.attach_id, a.user_id, a.post_id, a.privmsgs_id, d.mimetype, d.physical_filename, d.real_filename, 
-			d.download_count, d.description, d.filesize, d.upload_time, d.extension_id 
+			IFNULL(d.download_count,0) download_count, d.description, d.filesize, d.upload_time, d.extension_id 
 			FROM jforum_attach a, jforum_attach_desc d 
 			WHERE a.attach_id = #{attachId}
 			AND a.attach_id = d.attach_id 

@@ -808,4 +808,22 @@ public class GenericAttachmentDAO extends AutoKeys implements net.jforum.dao.Att
 			DbUtils.close(rs, p);
 		}
 	}
+
+	@Override
+	public void removeQuotaLimit(int[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeExtensionGroups(int[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removeExtensions(int[] ids) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -31,8 +31,11 @@ public class AttachmentServiceImpl implements AttachmentService {
 		attachmentDao.updateAttachment(a);
 	}
 
+	/**
+	 * old name removeAttachment
+	 */
 	@Override
-	public void removeAttachment(int id, int postId) {
+	public void deleteAttachment(int id, int postId) {
 		attachmentDao.removeAttachment(id, postId);
 	}
 
@@ -57,22 +60,22 @@ public class AttachmentServiceImpl implements AttachmentService {
 	}
 
 	@Override
-	public void removeQuotaLimit(int id) {
+	public void deleteQuotaLimit(int id) {
 		attachmentDao.removeQuotaLimit(id);
 	}
 
 	@Override
-	public void removeQuotaLimit(String[] ids) {
+	public void deleteQuotaLimit(int[] ids) {
 		attachmentDao.removeQuotaLimit(ids);
 	}
 
 	@Override
-	public void setGroupQuota(int groupId, int quotaId) {
+	public void addGroupQuota(int groupId, int quotaId) {
 		attachmentDao.setGroupQuota(groupId, quotaId);
 	}
 
 	@Override
-	public void cleanGroupQuota() {
+	public void deleteGroupQuota() {
 		attachmentDao.cleanGroupQuota();
 	}
 
@@ -102,57 +105,48 @@ public class AttachmentServiceImpl implements AttachmentService {
 	}
 
 	@Override
-	public void removeExtensionGroups(String[] ids) {
-		// TODO Auto-generated method stub
-		
+	public void deleteExtensionGroups(int[] ids) {
+		attachmentDao.removeExtensionGroups(ids);
 	}
 
 	@Override
 	public List selectExtensionGroups() {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectExtensionGroups();
 	}
 
 	@Override
-	public Map extensionsForSecurity() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map queryExtensionsForSecurity() {
+		return attachmentDao.extensionsForSecurity();
 	}
 
 	@Override
 	public void addExtension(AttachmentExtension e) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.addExtension(e);		
 	}
 
 	@Override
 	public void updateExtension(AttachmentExtension e) {
-		// TODO Auto-generated method stub
-		
+		attachmentDao.updateExtension(e);
 	}
 
 	@Override
-	public void removeExtensions(String[] ids) {
-		// TODO Auto-generated method stub
-		
+	public void deleteExtensions(int[] ids) {
+		attachmentDao.removeExtensions(ids);
 	}
 
 	@Override
 	public List selectExtensions() {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectExtensions();
 	}
 
 	@Override
 	public AttachmentExtension selectExtension(String extension) {
-		// TODO Auto-generated method stub
-		return null;
+		return attachmentDao.selectExtension(extension);
 	}
 
 	@Override
-	public boolean isPhysicalDownloadMode(int extensionGroupId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean findPhysicalDownloadMode(int extensionGroupId) {
+		return attachmentDao.isPhysicalDownloadMode(extensionGroupId);
 	}
 
 	public AttachmentDAO getAttachmentDao() {

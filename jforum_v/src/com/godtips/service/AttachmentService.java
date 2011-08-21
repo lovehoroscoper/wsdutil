@@ -20,7 +20,12 @@ public interface AttachmentService {
 
 	public void updateAttachment(Attachment a);
 
-	public void removeAttachment(int id, int postId);
+	/**
+	 * old name : removeAttachment
+	 * @param id
+	 * @param postId
+	 */
+	public void deleteAttachment(int id, int postId);
 
 	public List selectAttachments(int postId);
 
@@ -30,13 +35,22 @@ public interface AttachmentService {
 
 	public void updateQuotaLimit(QuotaLimit limit);
 
-	public void removeQuotaLimit(int id);
+	/**
+	 * removeQuotaLimit
+	 * @param id
+	 */
+	public void deleteQuotaLimit(int id);
 
-	public void removeQuotaLimit(String[] ids);
+	public void deleteQuotaLimit(int[] ids);
 
-	public void setGroupQuota(int groupId, int quotaId);
+	/**
+	 * old name : setGroupQuota
+	 * @param groupId
+	 * @param quotaId
+	 */
+	public void addGroupQuota(int groupId, int quotaId);
 
-	public void cleanGroupQuota();
+	public void deleteGroupQuota();
 
 	public List selectQuotaLimit();
 
@@ -48,21 +62,43 @@ public interface AttachmentService {
 
 	public void updateExtensionGroup(AttachmentExtensionGroup g);
 
-	public void removeExtensionGroups(String[] ids);
+	/**
+	 * old name : removeExtensionGroups
+	 * @param ids
+	 */
+	public void deleteExtensionGroups(int[] ids);
 
 	public List selectExtensionGroups();
 
-	public Map extensionsForSecurity();
+	/**
+	 * old name : extensionsForSecurity
+	 * @return
+	 */
+	public Map queryExtensionsForSecurity();
 
 	public void addExtension(AttachmentExtension e);
 
 	public void updateExtension(AttachmentExtension e);
 
-	public void removeExtensions(String[] ids);
+	/**
+	 * OLD NAME : removeExtensions
+	 * @param ids
+	 */
+	public void deleteExtensions(int[] ids);
 
 	public List selectExtensions();
 
+	/**
+	 * tinyint 返回hashmap数据不匹配
+	 * @param extension
+	 * @return
+	 */
 	public AttachmentExtension selectExtension(String extension);
 
-	public boolean isPhysicalDownloadMode(int extensionGroupId);
+	/**
+	 * old name : isPhysicalDownloadMode
+	 * @param extensionGroupId
+	 * @return
+	 */
+	public boolean findPhysicalDownloadMode(int extensionGroupId);
 }
