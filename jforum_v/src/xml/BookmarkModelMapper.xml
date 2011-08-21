@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BookmarkModel">
+
+	<resultMap id="selectForumBookmarks_resultmap" type="bookmark">
+		<result column="bookmark_id" property="id" />
+		<result column="description" property="description" />
+		<result column="public_visible" property="publicVisible" typeHandler="booleanToIntHandler"/>
+		<result column="relation_id" property="relationId" />
+		<result column="title" property="title" />
+		<result column="user_id" property="userId" />
+		<result column="relation_type" property="relationType" />
+	</resultMap>
+
+	<insert id="add" parameterType="bookmark">
+		INSERT INTO jforum_bookmarks (user_id, relation_id, relation_type, public_visible, title, description) 
+			VALUES (#{userId}, #{relationId}, #{relationType}, #{publicVisible,typeHandler=booleanToIntHandler}, #{title}, #{description})
+	</insert>
+
+	<update id="update" parameterType="bookmark">
+		UPDATE jforum_bookmarks SET public_visible = #{publicVisible,,typeHandler=booleanToIntHandler}, 
+			title = #{title}, description = #{description} WHERE bookmark_id = #{id}
+	</update>
+
+	<delete id="remove" parameterType="int">
+		DELETE FROM jforum_bookmarks WHERE bookmark_id = #{bookmarkId}
+	</delete>
+	
+	<select id="selectForumBookmarks" parameterType="int" resultMap="selectForumBookmarks_resultmap">
+		SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, IFNULL(b.title,f.forum_name) title, 
+			IFNULL(b.description,f.forum_desc)  description, f.forum_name, f.forum_desc 
+		FROM jforum_bookmarks b, jforum_forums f 
+			WHERE b.relation_type = 1 
+			AND b.relation_id = f.forum_id 
+			AND b.user_id = #{userId}
+			ORDER BY f.forum_name 
+	</select>
+	
+	<select id="selectTopicBookmarks" parameterType="int" resultMap="selectForumBookmarks_resultmap">
+		SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, IFNULL(b.title,t.topic_title) title, b.description, t.topic_title 
+			FROM jforum_bookmarks b, jforum_topics t 
+			WHERE b.relation_type = 2 
+			AND b.relation_id = t.topic_id 
+			AND b.user_id = #{userId}
+			ORDER BY t.topic_title 
+	</select>
+	
+	
+	<select id="selectUserBookmarks" parameterType="int" resultMap="selectForumBookmarks_resultmap">
+		SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, IFNULL(b.title,u.username) title, b.description, u.username 
+			FROM jforum_bookmarks b, jforum_users u 
+			WHERE b.relation_type = 3 
+			AND b.relation_id = u.user_id 
+			AND b.user_id = #{userId} 
+			ORDER BY u.username
+	</select>
+	
+	<select id="selectAllFromUser" parameterType="int" resultMap="selectForumBookmarks_resultmap">
+		SELECT b.bookmark_id, b.user_id, b.relation_type, b.relation_id, b.public_visible, b.title, b.description 
+			FROM jforum_bookmarks b 
+			WHERE b.user_id = #{userId}
+			ORDER BY b.title
+	</select>
+	
+	<select id="selectById" parameterType="int" resultMap="selectForumBookmarks_resultmap">
+		SELECT bookmark_id, relation_id, public_visible, title, description, user_id, relation_type 
+			FROM jforum_bookmarks WHERE bookmark_id = #{bookmarkId}
+	</select>
+	
+	<select id="selectForUpdat" parameterType="hashmap" resultMap="selectForumBookmarks_resultmap">
+		SELECT bookmark_id, relation_id, public_visible, relation_type, title, description, user_id 
+			FROM jforum_bookmarks WHERE relation_id = #{relationId} AND relation_type = #{relationType} AND user_id = #{userId}
+	</select>
+	
+</mapper>

@@ -9,9 +9,7 @@
 	</settings>
 	
 	<typeAliases>
-	<!-- 
-	com.godtips.mybatis.handler.BooleanToIntTypeHandler
-	 -->
+	
 	 	<typeAlias alias="booleanToIntHandler" type="com.godtips.mybatis.handler.BooleanToIntTypeHandler"/> 
 		
 		<typeAlias alias="banlist" type="net.jforum.entities.Banlist" />
@@ -21,6 +19,7 @@
 		<typeAlias alias="attachmentExtension" type="net.jforum.entities.AttachmentExtension" />
 		<typeAlias alias="attachment" type="net.jforum.entities.Attachment" />
 		<typeAlias alias="attachmentInfo" type="net.jforum.entities.AttachmentInfo" />
+		<typeAlias alias="bookmark" type="net.jforum.entities.Bookmark" />
 	</typeAliases>
 
 	<mappers>
@@ -28,5 +27,6 @@
 		<mapper resource="xml/BanlistModelMapper.xml"/>
 		<mapper resource="xml/BannerModelMapper.xml"/>
 		<mapper resource="xml/AttachmentModelMapper.xml"/>
+		<mapper resource="xml/BookmarkModelMapper.xml"/>
 	</mappers>
 </configuration>
