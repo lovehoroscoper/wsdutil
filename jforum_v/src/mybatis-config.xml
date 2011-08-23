@@ -20,6 +20,9 @@
 		<typeAlias alias="attachment" type="net.jforum.entities.Attachment" />
 		<typeAlias alias="attachmentInfo" type="net.jforum.entities.AttachmentInfo" />
 		<typeAlias alias="bookmark" type="net.jforum.entities.Bookmark" />
+		<typeAlias alias="category" type="net.jforum.entities.Category" />
+		<typeAlias alias="config" type="net.jforum.entities.Config" />
+		<typeAlias alias="group" type="net.jforum.entities.Group" />
 	</typeAliases>
 
 	<mappers>
@@ -28,5 +31,8 @@
 		<mapper resource="xml/BannerModelMapper.xml"/>
 		<mapper resource="xml/AttachmentModelMapper.xml"/>
 		<mapper resource="xml/BookmarkModelMapper.xml"/>
+		<mapper resource="xml/CategoryModelMapper.xml"/>
+		<mapper resource="xml/ConfigModelMapper.xml"/>
+		<mapper resource="xml/GroupModelMapper.xml"/>
 	</mappers>
 </configuration>

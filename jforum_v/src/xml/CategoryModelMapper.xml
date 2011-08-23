@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CategoryModel">
+
+	<resultMap id="selectById_resultmap" type="category">
+		<result column="categories_id" property="id" />
+		<result column="title" property="name" />
+		<result column="display_order" property="order" />
+		<result column="moderated" property="moderated" typeHandler="booleanToIntHandler"/>
+	</resultMap>
+
+	<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
+		SELECT categories_id, title, display_order, moderated FROM jforum_categories WHERE categories_id = #{categoryId} ORDER BY title 
+	</select>
+	
+	<select id="selectAll" resultMap="selectById_resultmap">
+		SELECT categories_id, title, display_order, moderated FROM jforum_categories ORDER BY display_order 
+	</select>
+	
+	<select id="canDelete" parameterType="int" resultType="int">
+		SELECT COUNT(1) AS total FROM jforum_forums WHERE categories_id = #{categoryId}
+	</select>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM jforum_categories WHERE categories_id = #{categoryId}
+	</delete>
+	
+	<update id="update" parameterType="category">
+		UPDATE jforum_categories SET title = #{name}, moderated = #{moderated,typeHandler=booleanToIntHandler} WHERE categories_id = #{id}
+	</update>
+	
+	<select id="getMaxOrder" resultType="string">
+		SELECT MAX(display_order) FROM jforum_categories
+	</select>
+	
+	<insert id="addNew" parameterType="category" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO jforum_categories (title, display_order, moderated) VALUES (#{name}, #{order}, #{moderated,typeHandler=booleanToIntHandler})
+	</insert>
+	
+	<update id="setOrderById" parameterType="category">
+		UPDATE jforum_categories SET display_order = #{order} WHERE categories_id = #{id}
+	</update>
+	
+</mapper>

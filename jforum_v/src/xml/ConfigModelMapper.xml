@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ConfigModel">
+
+	<resultMap id="selectAll_resultmap" type="config">
+		<result column="config_id" property="id" />
+		<result column="config_name" property="name" />
+		<result column="config_value" property="value" />
+	</resultMap>
+
+	<insert id="insert" parameterType="config">
+		INSERT INTO jforum_config (config_name, config_value) VALUES (#{name}, #{value})
+	</insert>
+	
+	<update id="update" parameterType="config">
+		UPDATE jforum_config SET config_value = #{value} WHERE config_name = #{name}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM jforum_config WHERE config_id = #{id}
+	</delete>
+	
+	<select id="selectAll" resultMap="selectAll_resultmap">
+		SELECT config_name, config_value, config_id FROM jforum_config 
+	</select>
+	
+	<select id="selectByName" resultMap="selectAll_resultmap" parameterType="string">
+		SELECT config_name, config_value, config_id FROM jforum_config WHERE config_name = #{name}
+	</select>
+	
+</mapper>

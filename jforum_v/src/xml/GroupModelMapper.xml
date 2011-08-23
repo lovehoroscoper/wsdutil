@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="GroupModel">
+
+	<resultMap id="selectById_resultmap" type="group">
+		<result column="group_id" property="id" />
+		<result column="group_description" property="description" />
+		<result column="group_name" property="name" />
+		<result column="parent_id" property="parentId" />
+	</resultMap>
+
+	
+	<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
+		SELECT group_id, group_name, parent_id, group_description FROM jforum_groups WHERE group_id = #{groupId}
+	</select>
+	
+	<select id="canDelete" resultType="int" parameterType="int">
+		SELECT COUNT(1) AS total FROM jforum_user_groups WHERE group_id = #{groupId}
+	</select>
+		
+	<delete id="delete" parameterType="int">
+		DELETE FROM jforum_groups WHERE group_id = #{groupId}
+	</delete>
+	
+	<update id="update" parameterType="group">
+		UPDATE jforum_groups SET group_name = #{name}, parent_id = #{parentId}, group_description = #{description} WHERE group_id = #{id}
+	</update>
+	
+	<insert id="addNew" parameterType="group">
+		INSERT INTO jforum_groups (group_name, group_description, parent_id) VALUES (#{name}, #{description}, #{parentId})
+	</insert>
+	
+	<select id="selectUsersIds" parameterType="int" resultType="int">
+		SELECT user_id FROM jforum_user_groups WHERE group_id = #{groupId} 
+	</select>
+		
+	<select id="selectAll" resultMap="selectById_resultmap">
+		SELECT group_id, group_name, parent_id, group_description FROM jforum_groups ORDER BY group_name
+	</select>
+	
+</mapper>
