@@ -43,6 +43,10 @@ public class Receiver{
 //		MessageProducer 否
 //		MessageConsumer 否
 
+//		当然可以! 严格说来每个并发的producer都应该用一个单独session(虽然使所有的producer 共用同一个session，activemq也会工作的很好).为每一个consumer的并发消费创建一个session(因为所有的消息都通过一个单独的线程分发到一个session中),你可以在每个连接中有尽可能多的session。如果要进一步并发消费JMS消息，可以使用MDP（Message Dirven POJOs）。 
+		//http://blog.csdn.net/hangke/article/details/2559925
+		//http://webservices.ctocio.com.cn/tips/80/6047580_4.shtml
+//		http://www.360doc.com/content/07/0817/08/7856_677879.shtml
 		
 		//连接到JMS提供者
 		Connection conn = connFactory.createConnection();
