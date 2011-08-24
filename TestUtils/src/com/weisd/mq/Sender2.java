@@ -11,10 +11,10 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-public class Sender{
+public class Sender2{
 	public static void main(String[] args) {
 		try{
-			new Sender().execute();
+			new Sender2().execute();
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -37,7 +37,7 @@ public class Sender{
 		Session session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		
 		//消息的目的地
-		Destination destination = session.createQueue("queue.hello");
+		Destination destination = session.createQueue("queue.hello2");
 		
 		//消息生产者		
 		//1-NON_PERSISTENT  2-PERSISTENT
@@ -45,16 +45,10 @@ public class Sender{
 		producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT); //不持久化
 		
 		//创建文本消息
-//		TextMessage message = session.createTextMessage("Hello ActiveMQ1");
-//		
-//		//发送消息
-//		producer.send(message);
-		for (int i = 0; i < 5; i++) {
-			TextMessage message = session.createTextMessage("Hello ActiveMQ1_" + i);
-			//发送消息
-			producer.send(message);
-		}
-
+		TextMessage message = session.createTextMessage("Hello ActiveMQ2");
+		
+		//发送消息
+		producer.send(message);
 		
 		session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
 		producer.close();
