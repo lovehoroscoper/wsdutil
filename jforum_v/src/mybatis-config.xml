@@ -23,6 +23,8 @@
 		<typeAlias alias="category" type="net.jforum.entities.Category" />
 		<typeAlias alias="config" type="net.jforum.entities.Config" />
 		<typeAlias alias="group" type="net.jforum.entities.Group" />
+		<typeAlias alias="karma" type="net.jforum.entities.Karma" />
+		<typeAlias alias="user" type="net.jforum.entities.User" />
 	</typeAliases>
 
 	<mappers>
@@ -34,5 +36,7 @@
 		<mapper resource="xml/CategoryModelMapper.xml"/>
 		<mapper resource="xml/ConfigModelMapper.xml"/>
 		<mapper resource="xml/GroupModelMapper.xml"/>
+		<mapper resource="xml/KarmaModelMapper.xml"/>
+		<mapper resource="xml/SearchModelMapper.xml"/>
 	</mappers>
 </configuration>
