@@ -10,6 +10,7 @@ import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQBytesMessage;
 
 public class Sender{
 	public static void main(String[] args) {
@@ -25,7 +26,8 @@ public class Sender{
 		ConnectionFactory connFactory = new ActiveMQConnectionFactory(
 				ActiveMQConnection.DEFAULT_USER,
 				ActiveMQConnection.DEFAULT_PASSWORD,
-				"tcp://localhost:61616");
+//				"tcp://172.25.53.94:61616");
+				"tcp://172.25.25.123:61616");
 		
 		//连接到JMS提供者
 		Connection conn = connFactory.createConnection();
@@ -37,7 +39,7 @@ public class Sender{
 		Session session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		
 		//消息的目的地
-		Destination destination = session.createQueue("queue.hello");
+		Destination destination = session.createQueue("ebs_async");
 		
 		//消息生产者		
 		//1-NON_PERSISTENT  2-PERSISTENT
@@ -49,14 +51,25 @@ public class Sender{
 //		
 //		//发送消息
 //		producer.send(message);
-		for (int i = 0; i < 5; i++) {
-			TextMessage message = session.createTextMessage("Hello ActiveMQ1_" + i);
+		for (int i = 0; i < 1; i++) {
+//			TextMessage message = session.createTextMessage("Hello ActiveMQ1_" + i);
+			ActiveMQBytesMessage message = (ActiveMQBytesMessage)session.createBytesMessage();
+			message.writeBytes("weisd".getBytes());
+			
 			//发送消息
 			producer.send(message);
+			session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
 		}
+		System.out.println("33333333");
+//		for (int i = 0; i < 5000; i++) {
+//			TextMessage message = session.createTextMessage("Hello ActiveMQ1_" + i);
+//			//发送消息
+//			producer.send(message);
+//			session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
+//		}
 
 		
-		session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
+//		session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
 		producer.close();
 		session.close();
 		conn.close();
