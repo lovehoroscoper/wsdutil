@@ -15,12 +15,12 @@ import sun.security.x509.*;
  * @version 1.0
  */
 
-public class SignCert_M {
+public class SignCert_M2 {
 	public static void main(String[] args) throws Exception {
 		char[] storepass = "changeit".toCharArray();
 		// 存放CA证书和被签证书的证书库的访问密码
 		char[] cakeypass = "changeit".toCharArray();// CA数字证书条目的访问密码
-		String alias = "missionCA";
+		String alias = "missionCA";//我们自己的CA权威认证机构
 		// CA证书在证书库中的别名，这个CA的证书用来签名其它的证书
 		String name = "abnerCALib";// 存放CA证书和被签证书的证书库的名字
 //		String newLib = "SignedLib";
