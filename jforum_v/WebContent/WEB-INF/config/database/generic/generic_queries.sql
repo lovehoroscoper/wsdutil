@@ -215,7 +215,7 @@ PollModel.addNewPoll = INSERT INTO jforum_vote_desc (topic_id, vote_text, vote_l
 PollModel.addNewPollOption = INSERT INTO jforum_vote_results (vote_id, vote_option_id, vote_option_text, vote_result) VALUES (?, ?, ?, 0)
 PollModel.addNewVoter = INSERT INTO jforum_vote_voters (vote_id, vote_user_id, vote_user_ip) VALUES (?, ?, ?)
 PollModel.selectById = SELECT vote_id, topic_id, vote_start, vote_length, vote_text FROM jforum_vote_desc WHERE vote_id = ?
-PollModel.selectPollByTopicId SELECT vote_id, topic_id, vote_start, vote_length, vote_text FROM jforum_vote_desc WHERE topic_id = ?
+PollModel.selectPollByTopicId = SELECT vote_id, topic_id, vote_start, vote_length, vote_text FROM jforum_vote_desc WHERE topic_id = ?
 PollModel.incrementVoteCount = UPDATE jforum_vote_results SET vote_result = vote_result + 1 WHERE vote_id = ? AND vote_option_id = ?
 PollModel.selectMaxVoteId = SELECT MAX(vote_option_id) FROM jforum_vote_results WHERE vote_id = ?
 PollModel.selectVoter = SELECT vote_id, vote_user_id, vote_user_ip FROM jforum_vote_voters WHERE vote_id = ? AND vote_user_id = ?

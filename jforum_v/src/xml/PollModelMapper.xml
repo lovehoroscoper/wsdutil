@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PollModel">
+
+	<resultMap id="selectById_resultmap" type="poll">
+		<result column="vote_id" property="id" />
+		<result column="topic_id" property="topicId" />
+		<result column="vote_text" property="label" />
+		<result column="vote_start" property="startTime" />
+		<result column="vote_length" property="length" />
+	</resultMap>
+	<resultMap id="selectOptionsByPollId_resultmap" type="pollOption">
+		<result column="vote_id" property="pollId" />
+		<result column="vote_option_id" property="id" />
+		<result column="vote_option_text" property="text" />
+		<result column="vote_result" property="voteCount" />
+	</resultMap>
+
+<insert id="addNewPoll" parameterType="poll" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO jforum_vote_desc (topic_id, vote_text, vote_length, vote_start) 
+		VALUES (#{topicId}, #{label}, #{length}, NOW()) 
+</insert>
+
+<select id="selectMaxVoteId" parameterType="int" resultType="int">
+	SELECT MAX(vote_option_id) FROM jforum_vote_results WHERE vote_id = #{pollId}
+</select>
+
+<insert id="addNewPollOption" parameterType="pollOption">
+	INSERT INTO jforum_vote_results (vote_id, vote_option_id, vote_option_text, vote_result) 
+		VALUES (#{pollId}, #{id}, #{text}, 0)
+</insert>
+
+<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
+	SELECT vote_id, topic_id, vote_start, vote_length, vote_text FROM jforum_vote_desc WHERE vote_id = #{pollId}
+</select>
+
+<select id="selectOptionsByPollId" parameterType="int" resultMap="selectOptionsByPollId_resultmap">
+	SELECT vote_id, vote_option_id, vote_option_text, vote_result 
+		FROM jforum_vote_results WHERE vote_id = #{pollId} ORDER BY vote_option_id
+</select>
+
+<update id="incrementVoteCount" parameterType="hashmap">
+	UPDATE jforum_vote_results SET vote_result = vote_result + 1 WHERE vote_id = #{pollId} AND vote_option_id = #{optionId}
+</update>
+
+<insert id="addNewVoter" parameterType="hashmap">
+	INSERT INTO jforum_vote_voters (vote_id, vote_user_id, vote_user_ip) 
+		VALUES (#{pollId}, #{userId}, #{ipAddress})
+</insert>
+
+<select id="selectVoter" parameterType="hashmap">
+	SELECT vote_id, vote_user_id, vote_user_ip FROM jforum_vote_voters WHERE vote_id = #{pollId} AND vote_user_id = #{userId}
+</select>
+
+<select id="selectVoterByIP" parameterType="hashmap">
+	SELECT vote_id, vote_user_id, vote_user_ip 
+		FROM jforum_vote_voters WHERE vote_id = #{pollId} AND vote_user_ip = #{ipAddress}
+</select>
+
+<select id="selectPollByTopicId" parameterType="int" resultType="hashmap">
+	SELECT vote_id, topic_id, vote_start, vote_length, vote_text FROM jforum_vote_desc WHERE topic_id = #{topicId}
+</select>
+
+<delete id="deletePollVoters" parameterType="int">
+	DELETE FROM jforum_vote_voters WHERE vote_id = #{pollId}
+</delete>
+
+<delete id="deleteAllPollOptions" parameterType="int">
+	DELETE FROM jforum_vote_results WHERE vote_id = #{pollId}
+</delete>
+
+<delete id="deletePoll" parameterType="int">
+	DELETE FROM jforum_vote_desc WHERE vote_id = #{pollId}
+</delete>
+
+<update id="updatePoll" parameterType="poll">
+	UPDATE jforum_vote_desc SET vote_text = #{label}, vote_length = #{length} WHERE vote_id = #{id}
+</update>
+
+<delete id="deletePollOption" parameterType="pollOption">
+	DELETE FROM jforum_vote_results WHERE vote_id = #{pollId} AND vote_option_id = #{id}
+</delete>
+
+<update id="updatePollOption" parameterType="pollOption">
+	UPDATE jforum_vote_results SET vote_option_text = #{text} WHERE vote_option_id = #{id} AND vote_id = #{pollId}
+</update>
+
+</mapper>

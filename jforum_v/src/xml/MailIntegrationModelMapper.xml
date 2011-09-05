@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MailIntegrationModel">
+
+	<resultMap id="find_resultmap" type="mailIntegration">
+		<result column="forum_id" property="forumId" />
+		<result column="forum_email" property="forumEmail" />
+		<result column="pop_host" property="popHost" />
+		<result column="pop_password" property="popPassword" />
+		<result column="pop_port" property="popPort" />
+		<result column="pop_username" property="popUsername" />
+		<result column="pop_ssl" property="ssl" typeHandler="booleanToIntHandler" />
+	</resultMap>
+
+	<insert id="add" parameterType="mailIntegration">
+		INSERT INTO jforum_mail_integration (forum_id, forum_email, pop_host,
+		pop_username, pop_password, pop_port, pop_ssl)
+		VALUES (#{forumId}, #{forumEmail}, #{popHost}, #{popUsername},
+		#{popPassword}, #{popPort}, #{ssl,typeHandler=booleanToIntHandler})
+	</insert>
+
+	<delete id="delete" parameterType="int">
+		DELETE FROM jforum_mail_integration WHERE forum_id = #{forumId}
+	</delete>
+
+	<select id="find" parameterType="int" resultMap="find_resultmap">
+		SELECT * FROM jforum_mail_integration WHERE forum_id = #{forumId}
+	</select>
+
+	<select id="findAll" resultMap="find_resultmap">
+		SELECT * FROM jforum_mail_integration
+	</select>
+
+	<update id="update" parameterType="mailIntegration">
+		UPDATE jforum_mail_integration SET forum_id = #{forumId}, forum_email =
+		#{forumEmail}, pop_host = #{popHost}, pop_username = #{popUsername},
+		pop_password = #{popPassword}, pop_port = #{popPort}, pop_ssl =
+		#{ssl,typeHandler=booleanToIntHandler} WHERE forum_id = #{forumId}
+	</update>
+
+
+</mapper>

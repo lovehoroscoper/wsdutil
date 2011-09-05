@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ModerationLog">
+
+
+	<select id="addNew" parameterType="moderationLog"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO jforum_moderation_log (user_id, log_description,
+		log_original_message, log_date, log_type, post_id, topic_id,
+		post_user_id)
+		VALUES (#{user.id}, #{description}, #{originalMessage}, #{date}, #{type},
+		#{postId}, #{topicId}, #{posterUser.id})
+	</select>
+
+	<select id="selectAll" parameterType="hashmap" resultType="hashmap">
+		SELECT l.*, u.username, u2.username AS poster_username FROM
+		jforum_moderation_log l
+		LEFT JOIN jforum_users u2 ON u2.user_id = l.post_user_id
+		LEFT JOIN jforum_users u ON l.user_id = u.user_id
+		ORDER BY log_id DESC
+		LIMIT #{start}, #{count}
+	</select>
+
+	<select id="totalRecords" resultType="int">
+		SELECT COUNT(log_id) FROM jforum_moderation_log
+	</select>
+
+</mapper>

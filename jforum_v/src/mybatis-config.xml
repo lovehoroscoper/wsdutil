@@ -25,6 +25,11 @@
 		<typeAlias alias="group" type="net.jforum.entities.Group" />
 		<typeAlias alias="karma" type="net.jforum.entities.Karma" />
 		<typeAlias alias="user" type="net.jforum.entities.User" />
+		<typeAlias alias="mailIntegration" type="net.jforum.entities.MailIntegration" />
+		<typeAlias alias="poll" type="net.jforum.entities.Poll" />
+		<typeAlias alias="pollOption" type="net.jforum.entities.PollOption" />
+		<typeAlias alias="moderationLog" type="net.jforum.entities.ModerationLog" />
+		<typeAlias alias="userSession" type="net.jforum.entities.UserSession" />
 	</typeAliases>
 
 	<mappers>
@@ -38,5 +43,6 @@
 		<mapper resource="xml/GroupModelMapper.xml"/>
 		<mapper resource="xml/KarmaModelMapper.xml"/>
 		<mapper resource="xml/SearchModelMapper.xml"/>
+		<mapper resource="xml/MailIntegrationModelMapper.xml"/>
 	</mappers>
 </configuration>

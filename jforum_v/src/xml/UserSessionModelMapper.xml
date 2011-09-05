@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ModerationLog">
+
+
+	<insert id="add" parameterType="userSession">
+		INSERT INTO jforum_sessions (
+		session_id, session_user_id, session_start )
+		VALUES (#{sessionId},
+		#{userId}, #{startTime})
+	</insert>
+
+	<update id="update" parameterType="userSession">
+		UPDATE jforum_sessions SET
+		session_start = #{startTime}, session_time =
+		#{sessionTime}, session_id
+		= #{sessionId} WHERE session_user_id =
+		#{userId}
+	</update>
+
+	<select id="selectById" parameterType="int" resultType="hashmap">
+		SELECT session_time, session_start, session_id FROM jforum_sessions WHERE
+		session_user_id = #{userId}
+	</select>
+
+</mapper>

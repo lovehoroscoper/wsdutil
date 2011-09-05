@@ -20,7 +20,7 @@
 	</insert>
 
 	<update id="update" parameterType="bookmark">
-		UPDATE jforum_bookmarks SET public_visible = #{publicVisible,,typeHandler=booleanToIntHandler}, 
+		UPDATE jforum_bookmarks SET public_visible = #{publicVisible,typeHandler=booleanToIntHandler}, 
 			title = #{title}, description = #{description} WHERE bookmark_id = #{id}
 	</update>
 

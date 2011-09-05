@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ModerationModel">
+
+	<resultMap id="find_resultmap" type="mailIntegration">
+		<result column="forum_id" property="forumId" />
+		<result column="forum_email" property="forumEmail" />
+		<result column="pop_host" property="popHost" />
+		<result column="pop_password" property="popPassword" />
+		<result column="pop_port" property="popPort" />
+		<result column="pop_username" property="popUsername" />
+		<result column="pop_ssl" property="ssl" typeHandler="booleanToIntHandler" />
+	</resultMap>
+
+<update id="aprovePost" parameterType="int">
+	UPDATE jforum_posts SET need_moderate = 0, post_time = sysdate WHERE post_id = #{postId}
+</update>
+
+<select id="topicsByForum">
+	SELECT p.post_id, t.topic_id, t.topic_title, t.topic_replies, p.user_id, enable_bbcode, p.attach, 
+		enable_html, enable_smilies, pt.post_subject, pt.post_text, username 
+	FROM jforum_posts p, jforum_posts_text pt, jforum_users u, jforum_topics t 
+	WHERE p.post_id = pt.post_id 
+	AND p.topic_id = t.topic_id 
+	AND t.forum_id = #{forumId}
+	AND p.user_id = u.user_id 
+	AND p.need_moderate = 1 
+	ORDER BY t.topic_id, post_time ASC 
+</select>
+
+<select id="categoryPendingModeration">
+	SELECT c.categories_id, c.title, f.forum_id, f.forum_name, COUNT(p.post_id) AS total 
+		FROM jforum_categories c, jforum_forums f, jforum_posts p 
+		WHERE p.need_moderate = 1 
+		AND p.forum_id = f.forum_id 
+		AND f.categories_id = c.categories_id 
+		GROUP BY c.categories_id, c.title, f.forum_id, f.forum_name
+</select>
+
+</mapper>
