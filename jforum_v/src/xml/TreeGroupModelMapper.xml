@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TreeGroupModel">
+
+	<resultMap id="selectGroup_resultmap" type="groupNode">
+		<result column="group_name" property="name" />
+		<result column="group_id" property="id" />
+	</resultMap>
+
+	<select id="selectGroup" parameterType="int" resultMap="selectGroup_resultmap">
+		SELECT group_id, group_name FROM jforum_groups WHERE parent_id = #{parentId}
+		ORDER BY group_name
+	</select>
+
+</mapper>

@@ -4,14 +4,139 @@
 
 <mapper namespace="PostModel">
 
+	<resultMap type="post" id="deleteByTopic_resultmap">
+		<result column="post_id" property="id" />
+		<result column="user_id" property="userId" />
+	</resultMap>
 
-<select id="selectById" parameterType="int" resultType="hashmap">
-	SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip, enable_bbcode, enable_html, 
-	enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject, pt.post_text, username, p.attach, p.need_moderate 
-	FROM jforum_posts p, jforum_posts_text pt, jforum_users u 
-	WHERE p.post_id = pt.post_id 
-	AND p.post_id = #{postId}
-	AND p.user_id = u.user_id
-</select>
+	<select id="selectById" parameterType="int" resultType="hashmap">
+		SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip,
+		enable_bbcode, enable_html,
+		enable_smilies, enable_sig, post_edit_time, post_edit_count, status, pt.post_subject,
+		pt.post_text, username, p.attach, p.need_moderate
+		FROM jforum_posts p, jforum_posts_text pt, jforum_users u
+		WHERE p.post_id = pt.post_id
+		AND p.post_id = #{postId}
+		AND p.user_id = u.user_id
+	</select>
+
+	<delete id="deletePost" parameterType="post">
+		DELETE FROM jforum_posts WHERE post_id = #{id}
+	</delete>
+
+	<delete id="deletePostText" parameterType="post">
+		DELETE FROM jforum_posts_text WHERE post_id = #{id}
+	</delete>
+
+	<select id="deleteByTopic" parameterType="int"
+		resultMap="deleteByTopic_resultmap">
+		SELECT post_id, user_id FROM jforum_posts WHERE topic_id = #{topicId}
+	</select>
+
+	<update id="updatePost" parameterType="post">
+		UPDATE jforum_posts SET topic_id = #{topicId}, forum_id = #{forumId},
+		enable_bbcode = #{bbCodeEnabled,typeHandler=booleanToIntHandler},
+		enable_html = #{htmlEnabled,typeHandler=booleanToIntHandler},
+		enable_smilies = #{smiliesEnabled,typeHandler=booleanToIntHandler},
+		enable_sig = #{signatureEnabled,typeHandler=booleanToIntHandler},
+		post_edit_time = #{editTime}, post_edit_count = #{editCount} + 1,
+		poster_ip = #{userIp} WHERE post_id = #{id}
+	</update>
+
+	<update id="updatePostText" parameterType="post">
+		UPDATE jforum_posts_text SET post_text = #{text}, post_subject = #{subject}
+		WHERE post_id = #{id}
+	</update>
+
+	<insert id="addNewPost" parameterType="post" useGeneratedKeys="true"
+		keyProperty="id">
+		INSERT INTO jforum_posts (topic_id, forum_id, user_id, post_time, poster_ip,
+		enable_bbcode, enable_html, enable_smilies, enable_sig,
+		post_edit_time, need_moderate)
+		VALUES (#{topicId}, #{forumId}, #{userId}, #{time}, #{userIp},
+		#{bbCodeEnabled,typeHandler=booleanToIntHandler},
+		#{htmlEnabled,typeHandler=booleanToIntHandler},
+		#{smiliesEnabled,typeHandler=booleanToIntHandler},
+		#{signatureEnabled,typeHandler=booleanToIntHandler}, NOW(),
+		#{moderate,typeHandler=booleanToIntHandler})
+	</insert>
+
+	<insert id="addNewPostText" parameterType="post">
+		INSERT INTO jforum_posts_text ( post_id, post_text, post_subject ) VALUES
+		(#{id}, #{text}, #{subject})
+	</insert>
+
+	<select id="selectAllByTopicByLimit" resultType="hashmap"
+		parameterType="hashmap">
+		SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip,
+		enable_bbcode, p.attach,
+		enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status,
+		pt.post_subject, pt.post_text, username, p.need_moderate
+		FROM jforum_posts p, jforum_posts_text pt, jforum_users u
+		WHERE p.post_id = pt.post_id
+		AND topic_id = #{topicId}
+		AND p.user_id = u.user_id
+		AND p.need_moderate = 0
+		ORDER BY post_time ASC
+		LIMIT #{startFrom}, #{count}
+	</select>
+
+	<select id="selectByUserByLimit" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT p.post_id, topic_id, forum_id, p.user_id, post_time, poster_ip,
+		enable_bbcode, p.attach,
+		enable_html, enable_smilies, enable_sig, post_edit_time, post_edit_count, status,
+		pt.post_subject, pt.post_text, username, p.need_moderate
+		FROM jforum_posts p, jforum_posts_text pt, jforum_users u
+		WHERE p.post_id = pt.post_id
+		AND p.user_id = u.user_id
+		AND p.user_id = #{userId}
+		AND p.need_moderate = 0
+		AND forum_id IN($fids$)
+		ORDER BY p.post_id DESC
+		LIMIT #{startFrom}, #{count}
+	</select>
+
+	<select id="countUserPosts" parameterType="hashmap" resultType="int">
+		SELECT COUNT(1) AS total FROM jforum_posts where user_id = #{userId}
+		AND forum_id IN ($fids$) AND need_moderate = 0
+	</select>
+
+	<select id="countPreviousPosts" parameterType="int" resultType="int">
+    <![CDATA[
+    		SELECT COUNT(p2.post_id) AS prev_posts 
+			FROM jforum_posts p, jforum_posts p2 
+			WHERE p.post_id = #{postId}
+			AND p2.topic_id = p.topic_id 
+			AND p2.post_id <= #{postId}
+     ]]>
+	</select>
+
+	<select id="selectLatestByForumForRSS" resultType="hashmap">
+		SELECT p.topic_id, p.post_id, p.forum_id, pt.post_subject AS subject,
+		pt.post_text, p.post_time, p.user_id, u.username
+		FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u
+		WHERE p.post_id = t.topic_first_post_id
+		AND p.topic_id = t.topic_id
+		AND p.user_id = u.user_id
+		AND p.post_id = pt.post_id
+		AND p.need_moderate = 0
+		AND t.forum_id = #{forumId}
+		ORDER BY t.topic_id DESC
+		LIMIT #{limit}
+	</select>
+
+	<select id="selectHotForRSS" parameterType="int" resultType="hashmap">
+		SELECT t.topic_id, t.topic_title AS subject, p.post_id, t.forum_id,
+		pt.post_text, p.post_time, p.user_id, u.username
+		FROM jforum_topics t, jforum_posts p, jforum_posts_text pt, jforum_users u
+		WHERE p.post_id = t.topic_first_post_id
+		AND p.topic_id = t.topic_id
+		AND p.user_id = u.user_id
+		AND p.post_id = pt.post_id
+		AND p.need_moderate = 0
+		ORDER BY topic_first_post_id DESC
+		LIMIT #{limit}
+	</select>
 
 </mapper>

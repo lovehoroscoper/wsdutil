@@ -30,6 +30,13 @@
 		<typeAlias alias="pollOption" type="net.jforum.entities.PollOption" />
 		<typeAlias alias="moderationLog" type="net.jforum.entities.ModerationLog" />
 		<typeAlias alias="userSession" type="net.jforum.entities.UserSession" />
+		<typeAlias alias="post" type="net.jforum.entities.Post" />
+		<typeAlias alias="privateMessage" type="net.jforum.entities.PrivateMessage" />
+		<typeAlias alias="ranking" type="net.jforum.entities.Ranking" />
+		<typeAlias alias="smilie" type="net.jforum.entities.Smilie" />
+		<typeAlias alias="groupNode" type="net.jforum.entities.GroupNode" />
+		<typeAlias alias="searchArgs" type="net.jforum.entities.SearchArgs" />
+		<typeAlias alias="topic" type="net.jforum.entities.Topic" />
 	</typeAliases>
 
 	<mappers>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SmiliesModel">
+
+	<resultMap id="selectAll_resultmap" type="smilie">
+		<result column="smilie_id" property="id" />
+		<result column="code" property="code" />
+		<result column="url" property="url" />
+		<result column="disk_name" property="diskName" />
+	</resultMap>
+
+<select id="addNew" parameterType="smilie" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO jforum_smilies ( code, url, disk_name) VALUES (#{code}, #{url}, #{diskName})
+</select>
+
+<delete id="delete" parameterType="int">
+	DELETE FROM jforum_smilies WHERE smilie_id = #{id}
+</delete>
+
+<update id="update" parameterType="smilie">
+	UPDATE jforum_smilies SET code = #{code}, url = #{url}, disk_name = #{diskName} WHERE smilie_id = #{id}
+</update>
+
+<select id="selectAll" resultMap="selectAll_resultmap">
+	SELECT * FROM jforum_smilies ORDER BY smilie_id
+</select>
+
+<select id="selectById" resultMap="selectAll_resultmap" parameterType="int">
+	SELECT * FROM jforum_smilies WHERE smilie_id = #{id}
+</select>
+
+</mapper>

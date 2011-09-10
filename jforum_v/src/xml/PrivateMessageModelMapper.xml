@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PrivateMessageModel">
+
+	<resultMap id="selectById_resultmap" type="poll">
+		<result column="vote_id" property="id" />
+		<result column="topic_id" property="topicId" />
+		<result column="vote_text" property="label" />
+		<result column="vote_start" property="startTime" />
+		<result column="vote_length" property="length" />
+	</resultMap>
+
+<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="privateMessage">
+	INSERT INTO jforum_privmsgs ( privmsgs_type, privmsgs_subject, privmsgs_from_userid, 
+		privmsgs_to_userid, privmsgs_date, privmsgs_enable_bbcode, privmsgs_enable_html, privmsgs_enable_smilies, 
+		privmsgs_attach_sig ) 
+		VALUES ( #{type}, #{post.subject}, #{fromUser.id}, #{toUser.id}, #{post.time}, 
+		#{post.bbCodeEnabled,typeHandler=booleanToIntHandler}, #{post.htmlEnabled,typeHandler=booleanToIntHandler}, #{post.smiliesEnabled,typeHandler=booleanToIntHandler}, #{post.signatureEnabled,typeHandler=booleanToIntHandler} )
+</insert>
+
+<insert id="addText" parameterType="privateMessage">
+	INSERT INTO jforum_privmsgs_text ( privmsgs_id, privmsgs_text ) VALUES (#{id}, #{post.text})
+</insert>
+
+<delete id="delete" parameterType="privateMessage" parameterType="hashmap">
+	DELETE FROM jforum_privmsgs WHERE privmsgs_id = #{id}	
+</delete>
+
+<delete id="deleteText" parameterType="hashmap">
+	DELETE FROM jforum_privmsgs_text WHERE privmsgs_id = #{id}	
+</delete>
+
+<select id="isDeleteAllowed" parameterType="hashmap">
+	SELECT 1 FROM jforum_privmsgs WHERE privmsgs_id = #{id} 
+	AND ( 
+	    (privmsgs_from_userid = #{userId} AND privmsgs_type = 2) 
+	    OR (privmsgs_to_userid = #{userId} AND privmsgs_type IN(0, 1, 5)) 
+	)
+</select>
+
+<select id="baseListing" parameterType="user" resultType="hashmap">
+SELECT pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username 
+	FROM jforum_privmsgs pm, jforum_users u 
+	WHERE privmsgs_to_userid = #{id}
+	AND u.user_id = pm.privmsgs_from_userid 
+	AND ( pm.privmsgs_type = 1 
+	OR pm.privmsgs_type = 0 
+	OR privmsgs_type = 5)
+	ORDER BY pm.privmsgs_date DESC
+</select>
+
+<select id="selectById" parameterType="privateMessage">
+	SELECT p.*, pt.privmsgs_text 
+	FROM jforum_privmsgs p, jforum_privmsgs_text pt 
+	WHERE p.privmsgs_id = pt.privmsgs_id 
+	AND p.privmsgs_id = #{id}
+</select>
+
+<update id="updateType" parameterType="privateMessage">
+	UPDATE jforum_privmsgs SET privmsgs_type = #{type} WHERE privmsgs_id = #{id}
+</update>
+
+<select id="baseListing_sent" parameterType="user" resultType="hashmap">
+	SELECT pm.privmsgs_type, pm.privmsgs_id, pm.privmsgs_date, pm.privmsgs_subject, u.user_id, u.username 
+	FROM jforum_privmsgs pm, jforum_users u 
+    WHERE privmsgs_from_userid = #{id}
+	AND u.user_id = pm.privmsgs_to_userid 
+	AND pm.privmsgs_type = 2
+	ORDER BY pm.privmsgs_date DESC
+</select>
+
+</mapper>

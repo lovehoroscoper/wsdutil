@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="RankingModel">
+
+	<resultMap id="selectById_resultmap" type="ranking">
+		<result column="rank_id" property="id" />
+		<result column="rank_title" property="title" />
+		<result column="rank_image" property="image" />
+		<result column="rank_min" property="min" />
+		<result column="rank_special" property="special" typeHandler="booleanToIntHandler"/>
+	</resultMap>
+
+
+<select id="selectById" parameterType="int" resultMap="selectById_resultmap">
+	SELECT * FROM jforum_ranks WHERE rank_id = #{rankingId}
+</select>
+
+<select id="selectAll" resultMap="selectById_resultmap">
+	SELECT * FROM jforum_ranks ORDER BY rank_min
+</select>
+
+<delete id="delete" parameterType="int">
+	DELETE FROM jforum_ranks WHERE rank_id = #{rankingId}
+</delete>
+
+<update id="update" parameterType="ranking">
+	UPDATE jforum_ranks SET rank_title = #{title}, rank_image = #{image}, rank_special = #{special,typeHandler=booleanToIntHandler}, 
+		rank_min = #{min} WHERE rank_id = #{id}
+</update>
+
+<insert id="addNew" parameterType="ranking">
+	INSERT INTO jforum_ranks ( rank_title, rank_min, rank_special) VALUES ( #{title}, #{min}, #{special,typeHandler=booleanToIntHandler} )	
+</insert>
+
+<select id="selectSpecials" resultMap="selectById_resultmap">
+	SELECT * FROM jforum_ranks WHERE rank_special = 1
+</select>
+
+</mapper>

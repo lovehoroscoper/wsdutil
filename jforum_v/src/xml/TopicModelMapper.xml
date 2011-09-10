@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="TopicModel">
+
+	<resultMap id="selectTopicTitlesByIds_resultmap" type="hashmap">
+		<result column="topic_id" property="id" javaType="int"/>
+		<result column="topic_title" property="title" javaType="string"/>
+	</resultMap>
+
+<select id="findTopicsByDateRange" parameterType="searchArgs" resultType="string">
+		<![CDATA[
+			SELECT DISTINCT topic_id FROM jforum_posts WHERE post_time >= #{fromDate} AND post_time <= #{toDate}
+        ]]>
+</select>
+
+<select id="getFirstLastPostId" parameterType="int" resultType="hashmap">
+	SELECT MIN(post_id) AS first_post_id, MAX(post_id) AS last_post_id FROM jforum_posts WHERE topic_id = #{topicId}
+</select>
+
+<update id="fixFirstLastPostId" parameterType="hashmap">
+	UPDATE jforum_topics SET topic_first_post_id = #{first}, topic_last_post_id = #{last} WHERE topic_id = #{topicId}
+</update>
+
+<select id="selectById" parameterType="int" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+		FROM jforum_topics t, jforum_posts p 
+		WHERE t.topic_id = #{topicId}
+		AND p.post_id = t.topic_last_post_id
+</select>
+
+<select id="getUserInformation_ID" parameterType="string" resultType="hashmap">
+	SELECT user_id, username FROM jforum_users WHERE user_id IN ($ID$)
+</select>
+
+<select id="selectRaw" parameterType="int" resultType="hashmap">
+	SELECT topic_id, forum_id, topic_title, user_id, topic_views, topic_replies, topic_status, topic_vote_id, topic_type, 
+	topic_first_post_id, topic_last_post_id, moderated, topic_time, topic_moved_id 
+	FROM jforum_topics WHERE topic_id = #{topicId}
+</select>
+
+<delete id="delete" parameterType="topic">
+	DELETE FROM jforum_topics WHERE topic_id = #{id}
+</delete>
+
+<select id="deleteByForum" parameterType="int">
+	SELECT topic_id FROM jforum_topics where forum_id = #{forumId}
+</select>
+
+<update id="update" parameterType="topic">
+	UPDATE jforum_topics SET topic_title = #{title}, topic_last_post_id = #{lastPostId}, topic_first_post_id = #{firstPostId}, topic_type = #{type}, 
+		moderated = #{moderated,typeHandler=booleanToIntHandler}, topic_vote_id = #{voteId} WHERE topic_id = #{id}
+</update>
+
+<insert id="addNew" parameterType="topic" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO jforum_topics (forum_id, topic_title, user_id, topic_time, topic_first_post_id, topic_last_post_id, topic_type, moderated) 
+		VALUES (#{forumId}, #{title}, #{postedBy.id}, #{time}, #{firstPostId}, #{lastPostId}, #{type}, #{moderated,typeHandler=booleanToIntHandler})
+</insert>
+
+<update id="incrementTotalViews" parameterType="int">
+	UPDATE jforum_topics SET topic_views = topic_views + 1 WHERE topic_id = #{topicId}
+</update>
+
+<update id="incrementTotalReplies" parameterType="int">
+	UPDATE jforum_topics SET topic_replies = topic_replies + 1 WHERE topic_id = #{topicId}
+</update>
+
+<update id="decrementTotalReplies" parameterType="int">
+	UPDATE jforum_topics SET topic_replies = topic_replies - 1 WHERE topic_id = #{topicId}
+</update>
+
+<update id="setLastPostId" parameterType="hashmap">
+	UPDATE jforum_topics SET topic_last_post_id = #{postId} WHERE topic_id = #{topicId}
+</update>
+
+<select id="selectAllByForumByLimit" parameterType="hashmap" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+		FROM jforum_topics t, jforum_posts p 
+		WHERE (t.forum_id = #{forumId} OR t.topic_moved_id = #{forumId}) 
+		AND p.post_id = t.topic_last_post_id 
+		AND p.need_moderate = 0 
+		ORDER BY t.topic_type DESC, t.topic_last_post_id DESC 
+		LIMIT #{startFrom}, #{count}
+</select>
+
+<select id="selectByUserByLimit" parameterType="hashmap" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+		FROM jforum_topics t, jforum_posts p 
+		WHERE p.post_id = t.topic_last_post_id 
+		AND t.user_id = #{userId}
+		AND p.need_moderate = 0 
+		AND t.forum_id IN($fids$) 
+		ORDER BY t.topic_last_post_id DESC 
+		LIMIT #{startFrom},#{count}
+</select>
+
+<select id="countUserTopics" parameterType="hashmap" resultType="int">
+	SELECT COUNT(1) AS total FROM jforum_topics t, jforum_posts p 
+		WHERE t.user_id = #{userId} AND t.forum_id IN ($fids$) AND p.post_id = t.topic_first_post_id 
+		AND p.need_moderate = 0
+</select>
+
+<select id="getMaxPostId" parameterType="int" resultType="int">
+	SELECT MAX(post_id) AS post_id FROM jforum_posts WHERE topic_id = #{topicId}
+</select>
+
+<select id="getTotalPosts" parameterType="int" resultType="int">
+	SELECT COUNT(1) AS total FROM jforum_posts WHERE topic_id = #{topicId} AND need_moderate = 0
+</select>
+
+<select id="notifyUsers" parameterType="hashmap" resultType="hashmap">
+	SELECT u.user_id, u.username, u.user_lang, u.user_email, u.user_notify_text 
+		FROM jforum_topics_watch tw, jforum_users u 
+		WHERE tw.user_id = u.user_id 
+		AND tw.topic_id = #{id}
+		AND (tw.is_read = 1 OR u.user_notify_always = 1) 
+		AND u.user_id NOT IN ( #{posterId}, #{anonUser} )
+</select>
+
+<update id="markAllAsUnread" parameterType="hashmap">
+	UPDATE jforum_topics_watch SET is_read = '0' WHERE topic_id = #{id} AND user_id NOT IN (#{posterId}, #{anonUser})
+</update>
+
+<insert id="subscribeUser" parameterType="hashmap">
+	INSERT INTO jforum_topics_watch(topic_id, user_id, is_read) VALUES (#{topicId}, #{userId}, 1)
+</insert>
+
+<select id="isUserSubscribed" resultType="int" parameterType="hashmap">
+	SELECT user_id FROM jforum_topics_watch WHERE topic_id = #{topicId} AND user_id = #{userId}
+</select>
+
+<delete id="removeSubscription" parameterType="hashmap">
+	DELETE FROM jforum_topics_watch WHERE topic_id = #{topicId} AND user_id = #{userId}
+</delete>
+
+<delete id="removeSubscriptionByTopic" parameterType="int">
+	DELETE FROM jforum_topics_watch WHERE topic_id = #{topicId}
+</delete>
+
+<update id="updateReadStatus" parameterType="hashmap">
+	UPDATE jforum_topics_watch SET is_read = #{read} WHERE topic_id = #{topicId} AND user_id = #{userId}
+</update>
+
+<update id="lockUnlock" parameterType="hashmap">
+	UPDATE jforum_topics SET topic_status = #{status} WHERE topic_id = #{topicId}
+</update>
+
+<select id="selectForNewMessages" parameterType="string" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+		FROM jforum_topics t, jforum_posts p 
+		WHERE t.topic_id IN ($topicIds$) 
+		AND p.need_moderate = 0 
+		AND p.post_id = t.topic_last_post_id 
+		ORDER BY topic_last_post_id DESC
+</select>
+
+<select id="selectRecentTopicsByLimit" parameterType="int" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+		FROM jforum_topics t, jforum_posts p 
+		WHERE p.post_id = t.topic_last_post_id 
+		AND p.need_moderate = 0 
+		ORDER BY topic_last_post_id DESC 
+		LIMIT #{limit}
+</select>
+
+<select id="selectHottestTopicsByLimit" parameterType="int" resultType="hashmap">
+	SELECT t.*, p.user_id AS last_user_id, p.post_time, p.attach AS attach 
+	    FROM jforum_topics t, jforum_posts p 
+	    WHERE p.post_id = t.topic_last_post_id 
+	    AND p.need_moderate = 0 
+	    ORDER BY topic_views DESC 
+	    LIMIT #{limit}
+</select>
+
+<update id="setFirstPostId" parameterType="hashmap">
+	UPDATE jforum_topics SET topic_first_post_id = #{postId} WHERE topic_id = #{topicId}
+</update>
+
+
+<select id="getMinPostId" parameterType="int" resultType="int">
+	SELECT MIN(post_id) AS post_id FROM jforum_posts WHERE topic_id = #{topicId}
+</select>
+
+<update id="setModerationStatus" parameterType="hashmap">
+	UPDATE jforum_topics SET moderated = #{status} WHERE forum_id = #{forumId}
+</update>
+
+<update id="setModerationStatusByTopic" parameterType="hashmap">
+	UPDATE jforum_topics SET moderated = #{status} WHERE topic_id = #{topicId}
+</update>
+
+<select id="selectTopicTitlesByIds" parameterType="string" resultMap="selectTopicTitlesByIds_resultmap">
+	SELECT topic_id, topic_title FROM jforum_topics WHERE topic_id IN ($ids$)
+</select>
+
+<select id="topicPosters" parameterType="string" resultType="hashmap">
+	SELECT user_id, username, user_karma, user_avatar, user_allowavatar, user_regdate, user_posts, user_icq, 
+		user_from, user_email, rank_id, user_sig, user_attachsig, user_viewemail, user_msnm, user_yim, user_website, user_sig, user_aim 
+		FROM jforum_users 
+		WHERE user_id IN ($ids$)
+</select>
+
+<select id="distinctPosters" parameterType="int" resultType="int">
+	SELECT DISTINCT user_id FROM jforum_posts WHERE topic_id = #{topicId}
+</select>
+
+
+
+</mapper>

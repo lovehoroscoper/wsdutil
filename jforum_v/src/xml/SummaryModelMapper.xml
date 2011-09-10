@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SummaryModel">
+
+	<resultMap id="selectAll_resultmap" type="smilie">
+		<result column="smilie_id" property="id" />
+		<result column="code" property="code" />
+		<result column="url" property="url" />
+		<result column="disk_name" property="diskName" />
+	</resultMap>
+
+<select id="selectPosts" parameterType="hashmap" resultType="hashmap">
+	SELECT p.post_id, p.topic_id, p.forum_id, p.user_id, post_time, 
+		pt.post_subject, pt.post_text, username 
+		FROM jforum_topics t,jforum_posts p, jforum_posts_text pt, jforum_users u 
+		WHERE p.post_id = pt.post_id 
+		AND p.post_id = t.topic_first_post_id 
+		AND p.user_id = u.user_id 
+		AND p.need_moderate = 0 
+		AND status = 1 
+		AND t.topic_time BETWEEN #{firstDate} AND #{lastDate}
+		ORDER BY post_time DESC 
+</select>
+
+<select id="selectAllRecipients" resultType="hashmap">
+	SELECT username, user_email FROM jforum_users 
+</select>
+
+</mapper>
