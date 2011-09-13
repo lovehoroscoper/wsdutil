@@ -26,8 +26,9 @@ public class Sender{
 		ConnectionFactory connFactory = new ActiveMQConnectionFactory(
 				ActiveMQConnection.DEFAULT_USER,
 				ActiveMQConnection.DEFAULT_PASSWORD,
-//				"tcp://172.25.53.94:61616");
-				"tcp://172.25.25.123:61616");
+				"tcp://172.25.25.94:6161");
+//				"tcp://172.25.25.123:61616");
+//				"tcp://172.25.25.161:61616");
 		
 		//连接到JMS提供者
 		Connection conn = connFactory.createConnection();
@@ -39,7 +40,8 @@ public class Sender{
 		Session session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		
 		//消息的目的地
-		Destination destination = session.createQueue("ebs_async");
+//		Destination destination = session.createQueue("ebs_async");
+		Destination destination = session.createQueue("ebs.req");
 		
 		//消息生产者		
 		//1-NON_PERSISTENT  2-PERSISTENT
@@ -56,7 +58,9 @@ public class Sender{
 			ActiveMQBytesMessage message = (ActiveMQBytesMessage)session.createBytesMessage();
 			message.writeBytes("weisd".getBytes());
 			
-			//发送消息
+			//发送消息 setJMSExpiration
+//			message.setJMSExpiration(10000);
+			
 			producer.send(message);
 			session.commit(); //在事务性会话中，只有commit之后，消息才会真正到达目的地
 		}

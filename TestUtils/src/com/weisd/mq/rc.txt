@@ -1,0 +1,4 @@
+2011-09-06 14:00:07 INFO FailoverTransport:714 - Successfully connected to tcp://172.25.25.94:6161
+2011-09-06 14:00:08 INFO CreateNoticeToSellQueueThread:126 - 查询一次通知数据后队列任务数为:0
+2011-09-06 14:00:13 INFO CreateNoticeToSellQueueThread:126 - 查询一次通知数据后队列任务数为:0
+2011-09-06 14:00:15 INFO FailoverTransport:714 - Successfully connected to tcp://172.25.25.94:6161

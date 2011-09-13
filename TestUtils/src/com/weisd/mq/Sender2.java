@@ -25,7 +25,8 @@ public class Sender2{
 		ConnectionFactory connFactory = new ActiveMQConnectionFactory(
 				ActiveMQConnection.DEFAULT_USER,
 				ActiveMQConnection.DEFAULT_PASSWORD,
-				"tcp://localhost:61616");
+//				"tcp://localhost:6161");
+				"tcp://172.25.25.161:61616");
 		
 		//连接到JMS提供者
 		Connection conn = connFactory.createConnection();
@@ -37,7 +38,8 @@ public class Sender2{
 		Session session = conn.createSession(true, Session.AUTO_ACKNOWLEDGE);
 		
 		//消息的目的地
-		Destination destination = session.createQueue("queue.hello2");
+//		Destination destination = session.createQueue("queue.hello");
+		Destination destination = session.createQueue("ebs.req");
 		
 		//消息生产者		
 		//1-NON_PERSISTENT  2-PERSISTENT

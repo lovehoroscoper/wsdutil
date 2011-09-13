@@ -1,3 +1,4 @@
+<#escape x as x!"">
 <?xml version="1.0" encoding="GB2312" ?>
 <xrpc>
 	<xrpchead>
@@ -44,3 +45,4 @@
 		</body>
 	</transsvr_req>
 </xrpc>
+</#escape>

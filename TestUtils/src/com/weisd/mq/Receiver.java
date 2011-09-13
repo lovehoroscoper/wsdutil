@@ -3,12 +3,15 @@ package com.weisd.mq;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
+import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQObjectMessage;
+import org.apache.activemq.command.ActiveMQTextMessage;
 
 public class Receiver{
 	public static void main(String[] args) {
@@ -24,7 +27,7 @@ public class Receiver{
 		ConnectionFactory connFactory = new ActiveMQConnectionFactory(
 				ActiveMQConnection.DEFAULT_USER,
 				ActiveMQConnection.DEFAULT_PASSWORD,
-				"tcp://localhost:61616");
+				"tcp://localhost:6161");
 		//加载消息以及并发数量
 		//http://kangzye.blog.163.com/blog/static/368192232010101552139117/
 		//http://log-cd.iteye.com/blog/373112
@@ -66,10 +69,23 @@ public class Receiver{
 		
 //		while(flag){
 		if(flag){
-			TextMessage message = (TextMessage)consumer.receive(1000); //毫秒数
-			System.out.println("1        没commit ");
+			ActiveMQTextMessage message = (ActiveMQTextMessage)consumer.receive(1000); //毫秒数
+//			Message message = (Message)consumer.receive(1000); //毫秒数
+//			ActiveMQObjectMessage message = (ActiveMQObjectMessage)consumer.receive(1000); //毫秒数
+//			message.get
+			
+			
+			//JMSRedelivered
+			boolean recFlag = false;
+			int count = 0;
+			if(null != message){
+				recFlag = message.getJMSRedelivered();
+				count = message.getRedeliveryCounter();
+			}
+			
+			System.out.println("1        没commit:" + recFlag);
 			if(message!=null){
-				System.out.println("1   " + message.getText());
+			//	System.out.println("1   " + message.getText());
 			}else{
 				System.out.println("1      无消息");
 				Thread.sleep(5000);
