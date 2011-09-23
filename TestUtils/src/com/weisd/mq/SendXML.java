@@ -65,7 +65,7 @@ public class SendXML {
 //			 //发送消息
 //			 producer.send(message);
 			
-			for (int i = 400; i < 410; i++) {
+			for (int i = 400; i < 401; i++) {
 				String xml = FreemarkerGetXml.sendXML(i);
 				// TextMessage message =
 				// session.createTextMessage("Hello ActiveMQ1_" + i);

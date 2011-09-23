@@ -42,6 +42,8 @@
 			<OID_TRADER>${agentid}</OID_TRADER><!-- 易百米在合作方的商户号 -->
 			<UID_CLI>${mobilenum}</UID_CLI><!-- 被充值号码 -->
 			<COUNT_WARE>1</COUNT_WARE><!-- 数量 -->
+			<PROD_ONLINEID>${onlineid}</PROD_ONLINEID><!-- 商品货架ID -->
+			<PROD_PAYAMOUNT>${payamount}</PROD_PAYAMOUNT><!-- 支付金额 -->
 		</body>
 	</transsvr_req>
 </xrpc>
