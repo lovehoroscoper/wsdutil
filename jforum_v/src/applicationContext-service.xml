@@ -20,4 +20,18 @@
 	<bean id="bannerService" class="com.godtips.service.impl.BannerServiceImpl" autowire="byName"></bean>
 	<bean id="attachmentService" class="com.godtips.service.impl.AttachmentServiceImpl" autowire="byName"></bean>
 
+     	<!-- 配置freeMarkerConfigurer进行属性值的注入 -->
+	<bean id="freeMarkerConfigurer"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPaths" value="/" />
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="defaultEncoding">UTF-8</prop>  
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="number_format">0.################</prop>
+			</props>
+		</property>
+	</bean>
 </beans>

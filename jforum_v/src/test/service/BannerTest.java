@@ -1,16 +1,24 @@
 package test.service;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import net.jforum.entities.Banner;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import test.AbstractSystemTest;
 
 import com.godtips.service.BannerService;
+
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 /**
  * 
@@ -26,7 +34,27 @@ public class BannerTest extends AbstractSystemTest {
 
 	@Autowired
 	private BannerService bannerService;
+	
+	@Autowired
+	private FreeMarkerConfigurer freeMarkerConfigurer;
 
+	@Test
+	public void testftl() {
+		String htmlText = "";
+		Map paramMap = new HashMap();
+		Template template = null;
+		try {
+			template = freeMarkerConfigurer.getConfiguration().getTemplate("t123.ftl");// 加载资源文件
+			htmlText = FreeMarkerTemplateUtils.processTemplateIntoString(template, paramMap);// 加入map到模板中
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TemplateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println(htmlText);
+	}
 	@Test
 	public void testSelectById() {
 		// Banner b = bannerService.selectById(1);

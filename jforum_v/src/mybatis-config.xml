@@ -34,8 +34,8 @@
 		<typeAlias alias="privateMessage" type="net.jforum.entities.PrivateMessage" />
 		<typeAlias alias="ranking" type="net.jforum.entities.Ranking" />
 		<typeAlias alias="smilie" type="net.jforum.entities.Smilie" />
-		<typeAlias alias="groupNode" type="net.jforum.entities.GroupNode" />
-		<typeAlias alias="searchArgs" type="net.jforum.entities.SearchArgs" />
+		<typeAlias alias="groupNode" type="net.jforum.util.GroupNode" />
+		<typeAlias alias="searchArgs" type="net.jforum.search.SearchArgs" />
 		<typeAlias alias="topic" type="net.jforum.entities.Topic" />
 	</typeAliases>
 
