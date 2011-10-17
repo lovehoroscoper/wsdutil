@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="GB2312"?>
+<xrpc>
+	<xrpchead>
+		<version>1.0</version>
+	</xrpchead>
+	<transsvr_req>
+		<head>
+			<transcode>OT0201</transcode>
+			<oper />
+			<orgcode />
+			<channel>03</channel>
+			<chndate>20110831</chndate>
+			<chntime>160449</chntime>
+			<transdesp />
+		</head>
+		<querymode>
+			<maxrecords>10</maxrecords>
+			<resultmode />
+			<filemode />
+			<offset>1</offset>
+			<countall>1</countall>
+		</querymode>
+		<body>
+			<OID_WARE>3900</OID_WARE>
+			<CINFO1 />
+			<CINFO2 />
+			<AMT_OCCUR>30</AMT_OCCUR>
+			<JNO_CLI>MQ201109281535544100</JNO_CLI>
+			<OID_REGUSER>13588168243</OID_REGUSER>
+			<OID_TRADER>V0000999</OID_TRADER>
+			<UID_CLI>13402124100</UID_CLI>
+			<COUNT_WARE>1</COUNT_WARE>
+			<PROD_ONLINEID>107624</PROD_ONLINEID>
+			<PROD_PAYAMOUNT>30.30</PROD_PAYAMOUNT>
+		</body>
+	</transsvr_req>
+	<public_resp>
+		<rpc_retcode>0</rpc_retcode>
+	</public_resp>
+	<transsvr_resp>
+		<head>
+			<retcode>000000</retcode>
+			<retmsg>交易成功</retmsg>
+		</head>
+		<body />
+	</transsvr_resp>
+</xrpc>

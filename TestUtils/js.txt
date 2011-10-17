@@ -1,0 +1,1 @@
+	var ra_v = $("input:radio[name='iplimit'][checked]").val();

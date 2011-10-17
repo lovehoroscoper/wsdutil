@@ -1,0 +1,14 @@
+.开发例子
+
+http://developer.android.com/guide/tutorials/hello-world.html
+
+ 
+
+ 
+
+工具
+
+http://developer.android.com/guide/developing/tools/index.html
+
+
+https://help.ubuntu.com/community/Java

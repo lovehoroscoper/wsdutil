@@ -22,10 +22,17 @@ public class TestGetProd {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		String mobilenum = "15201386003";// 电话号码
+//		String mobilenum = "15201386003";// 电话号码
+//		String mobilenum = "15982271111";// 电话号码
+//		String mobilenum = "13982271111";// 电话号码
+//		String mobilenum = "15982371111";// 电话号码
+		String mobilenum = "15201386001";// 电话号码
 		String amount = "0";
-		String agentid = "DE201109221047570860";
+		String agentid = "DE201109221047570861";
+//		String agentid = "DE201109221047570862";
 		String source = "2";
+
+//		String key = "0630888623174983b1af1d1f4f0d0e4089d2c0d3a6e64feaab4d489a80f2d6fe96aecd8b0dd24132b0dae9e73b932988a1ac4a5c0a4943afb7247b3aace0516e";
 		String key = "0630888623174983b1af1d1f4f0d0e4089d2c0d3a6e64feaab4d489a80f2d6fe96aecd8b0dd24132b0dae9e73b932988a1ac4a5c0a4943afb7247b3aace0516e";
 
   		StringBuffer verifystring2 = new StringBuffer();
@@ -38,7 +45,10 @@ public class TestGetProd {
 		String verifystring = MD5Util.getKeyedDigest(verifystring2.toString(),"");
 		
 //		String host = "http://172.25.25.94:8086/hforder/acquiring/acquire_acquire.do";
-		String host = "http://172.25.25.123:8086/esales/product/directProductEbm.do";
+//		String host = "http://172.25.25.94:8080/esales/product/directProductEbm.do";
+//		String host = "http://172.25.25.123:8080/esales/product/directProductEbm.do";
+//		String host = "http://172.25.25.161:8088/esales/product/directProductEbm.do";
+		String host = "http://172.25.25.123:8080/esales/product/directProductEbm.do";
 		String req = "agentid=" + agentid + "&amount=" + amount + "&mobilenum="+ mobilenum +"&source=" + source + "&verifystring=" + verifystring;
 
 
@@ -58,8 +68,8 @@ public class TestGetProd {
 		connection.setConnectTimeout(100000);
 		connection.setDoOutput(true);
 		connection.setDoInput(true);
-//		connection.setRequestMethod("POST");
-		connection.setRequestMethod("GET");
+		connection.setRequestMethod("POST");
+//		connection.setRequestMethod("GET");
 		reqOut = new OutputStreamWriter(connection.getOutputStream());
 		reqOut.write(req);
 		reqOut.flush();

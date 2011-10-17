@@ -42,7 +42,8 @@ public class FreemarkerGetXml {
 		 * 
 		 */
 //		String dir = "D:\\weiwork\\ContractSystem\\src\\templates";
-		String dir = "E:\\gaeProject\\TestUtils\\src\\com\\weisd\\mq\\ftl";
+//		String dir = "E:\\gaeProject\\TestUtils\\src\\com\\weisd\\mq\\ftl";
+		String dir = "D:\\junbao_newpro\\TestUtils\\src\\com\\weisd\\mq\\ftl";
 		try {
 			cfg.setDirectoryForTemplateLoading(new File(dir));
 		} catch (IOException e) {
@@ -126,7 +127,7 @@ public class FreemarkerGetXml {
 	 */
 	public static String sendXML(int i) {
 		try {
-			Template template = cfg.getTemplate("order8001.ftl");
+			Template template = cfg.getTemplate("order8001_2.ftl");
 			// 定义数据
 			Map<String,String> paramMap = new HashMap<String,String>();
 			
@@ -138,21 +139,67 @@ public class FreemarkerGetXml {
 			
 			String comm = "8001";
 			String version = "1.0";
-			String onlineid = "106998";
+			
 			String agentid = "weisd_mq";
-			String ordersource = "1";
+			agentid = "V0000999";
+			String ordersource = "2";
 			String orderid = "8001";
 			String mobilenum = "8001";
-			String chargeamount = "50.00";
-			String payamount = "50.00";
+			String chargeamount = "30.00";
+			
+			String onlineid = "106998";
+			String payamount = "30.00";
 			String ordertime = "";
 			String mark = "weisd测试";
 			
 			
 			
-			
 			ordertime = DateUtils.getFormatDate(new Date(), "yyyyMMddHHmmss");
-			mobilenum = "1520136" + "0" + i;
+//			chargeamount = "30.00";
+//			onlineid = "107620";
+//			payamount = "39";
+//			mobilenum = "1520138" + "0" + i;
+			
+//			chargeamount = "50.00";
+//			onlineid = "107621";
+//			payamount = "49.50";
+//			mobilenum = "1520138" + "0" + i;
+			
+//			chargeamount = "30";
+//			onlineid = "107624";
+////			onlineid = "";
+//			payamount = "30.30";
+////			mobilenum = "1340212" + "0" + i;
+//			mobilenum = "1340212" + i;
+//			
+			chargeamount = "30";
+			onlineid = "107620";
+//			onlineid = "";
+			payamount = "29.70";
+//			mobilenum = "1340212" + "0" + i;
+			mobilenum = "1520138" + i;
+			
+			
+//			chargeamount = "20";
+//			onlineid = "107619";
+////			onlineid = "";
+//			payamount = "19.8";
+////			mobilenum = "1340212" + "0" + i;
+//			mobilenum = "1520138" + i;
+			
+//			chargeamount = "30.00";//联通
+//			onlineid = "107643";
+//			payamount = "30.30";
+//			mobilenum = "1551008" + "0" + i;
+			
+			
+			
+//			chargeamount = "30.00";
+//			payamount = "30.00";
+//			mobilenum = "1583960" + "0" + i;//河南 移动
+//			chargeamount = "20.00";
+//			payamount = "20.00";
+//			mobilenum = "1551004" + "0" + i;//联通
 			
 			orderid = "MQ" + ordertime+i;
 			

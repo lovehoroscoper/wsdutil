@@ -22,34 +22,33 @@ public class TestOrder {
 	 */
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub 
-		String mobilenum = "13282000005";// 电话号码
-		String onlineid = "107092";
+		String mobilenum = "15999561234";// 电话号码
+		String onlineid = "106994";
 		String agentid = "weisd";
-		String orderid = "aaaaaaaaaaaa7";
-		String chargeamount = "20";
-		String payamount = "20";
+		String orderid = "aas1aaaaa3aaa7";
+		String chargeamount = "30";
+		String payamount = "30";
 		String hforderid = "JB011108141100466888";
 
 		SimpleDateFormat f = new SimpleDateFormat("yyyyMMddHHmmss");// yyyyMMddHHmmss
 		String ordertime = f.format(new Date());// 下单时间
-		// String host =
-		// "http://172.25.28.94:8181/hforder/acquiring/acquire_acquire.do";
-		String host = "http://172.25.53.86:8180/hforder/acquiring/acquire_acquire.do";
-//		String req = "comm=8001&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
+		 String host = "http://172.25.25.161:8181/hforder/acquiring/acquire_acquire.do";
+//		String host = "http://172.25.53.86:8180/hforder/acquiring/acquire_acquire.do";
+		String req = "comm=8001&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
+				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test";
+//		String reqX = "comm=8010&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
 //				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test";
-		String reqX = "comm=8010&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
-				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test";
-		String reqS = "comm=8011&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
-				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test&hforderid=" + hforderid;
-		String reqC = "comm=8002&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
-				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test";
+//		String reqS = "comm=8011&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
+//				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test&hforderid=" + hforderid;
+//		String reqC = "comm=8002&version=1.0&onlineid=" + onlineid + "&agentid=" + agentid + "&ordersource=1&orderid=" + orderid + "&mobilenum=" + mobilenum + "&chargeamount=" + chargeamount
+//				+ "&payamount=" + payamount + "&ordertime=" + ordertime + "&mark=test";
 
 //		System.out.println(reqX);
 		
-		String req = "";
+//		String req = "";
 //		req = reqX;
 //		req = reqS;
-		req = reqC;
+//		req = reqC;
 
 		StringBuffer responseMessage = null;
 		java.net.HttpURLConnection connection = null;

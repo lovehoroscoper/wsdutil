@@ -36,9 +36,11 @@ public class SendXML {
 		try {
 			// 连接工厂
 			ConnectionFactory connFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER, ActiveMQConnection.DEFAULT_PASSWORD,
+//			ConnectionFactory connFactory = new ActiveMQConnectionFactory("admin", "admin",
 			// "tcp://172.25.53.94:61616");
 //					"tcp://172.25.25.161:61616");
 					"tcp://115.238.110.119:61616");
+//					"tcp://172.25.25.123:61616");
 //					"tcp://192.168.1.100:6161");
 //					"tcp://115.238.110.119:61616");
 
@@ -65,7 +67,7 @@ public class SendXML {
 //			 //发送消息
 //			 producer.send(message);
 			
-			for (int i = 400; i < 401; i++) {
+			for (int i = 1000; i < 1001; i++) {
 				String xml = FreemarkerGetXml.sendXML(i);
 				// TextMessage message =
 				// session.createTextMessage("Hello ActiveMQ1_" + i);
