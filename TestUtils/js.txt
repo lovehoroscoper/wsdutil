@@ -1,1 +1,23 @@
 	var ra_v = $("input:radio[name='iplimit'][checked]").val();
+	
+	
+		if (/[^\d]/.test(againMoney_v)){
+		alert("补冲金额只能数字,整数");
+		return false;
+	}
+	if("" == againMoney_v || 0 >= Number(againMoney_v) ){
+		alert("补冲金额不能为空且必须大于0");
+		return false;
+	}
+	
+	
+	
+select LPAD(TO_CHAR(level),4,'0')
+  from dual
+CONNECT BY LEVEL >= 1 -- 步长
+       AND LEVEL <= 9999 -- 最大
+       
+select '1502447'||LPAD(TO_CHAR(level),4,'0')||',100'
+  from dual
+CONNECT BY LEVEL >= 1 -- 步长
+       AND LEVEL <= 5000 -- 最大 
