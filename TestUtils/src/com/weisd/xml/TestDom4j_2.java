@@ -33,7 +33,7 @@ public class TestDom4j_2 {
 		try {
 
 			//document = reader.read(new File("D:/junbao_newpro/hf-acquiringmq/WebContent/WEB-INF/orderftl/order8001.xml"));
-			document = reader.read(new File("D:/junbao_newpro/hf-acquiringmq/WebContent/WEB-INF/orderftl/odrderReq.xml"));
+			document = reader.read(new File("E:/junbao_Pro/ordermq/WebContent/WEB-INF/orderftl/odrderReq.xml"));
 
 		} catch (DocumentException e) {
 
@@ -42,20 +42,75 @@ public class TestDom4j_2 {
 		}
 
 		Element root = (Element) document.selectSingleNode("xrpc");
+		Map<String, String> paramMap = new HashMap<String,String>();
 		if (null != root) {
 			// 方法1
 			// 遍历book结点的所有孩子节点（即title....），并进行处理
-			for (Iterator iterInner = root.elementIterator(); iterInner.hasNext();) {
-				Element elementInner = (Element) iterInner.next();
-				String name = elementInner.getName();// 节点的名称，如title
-				String text = elementInner.getText();// 节点的内容，如title标签里的内容
-				System.out.println("name:" + name + ",text:" + text);
+//			for (Iterator iterInner = root.elementIterator(); iterInner.hasNext();) {
+//				Element elementInner = (Element) iterInner.next();
+//				String name = elementInner.getName();// 节点的名称，如title
+//				String text = elementInner.getText();// 节点的内容，如title标签里的内容
+//				System.out.println("name:" + name + ",text:" + text);
+//			}
+			try {
+				getElementList(root,paramMap);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			
 		}
 		System.out.println(root);
 
 	}
 
+	/**
+	 * 递归遍历方法 <功能详细描述>
+	 * 
+	 * @param element
+	 * @see [类、类#方法、类#成员]
+	 */
+	public static void getElementList(Element element, Map<String, String> paramMap) {
+		if (null != element) {
+			List elements = element.elements();
+			if (null != elements) {
+				// 没有子元素
+				if (elements.isEmpty()) {
+//					String xpath = element.getPath();
+//					String name = element.getName();
+//					String value = element.getTextTrim();
+//					// elemList.add(new Leaf(getNoteAttribute(element), xpath,
+//					// value));
+//					System.out.println("name:" + name + ",text:" + value);
+//					boolean existKey = paramMap.containsKey(name);
+//					if(existKey){
+//						System.out.println("paramMap已经存在KEY：" + name);
+//					}
+//					paramMap.put(name, value);
+					String xpath = element.getPath();
+					String name = element.getName();
+					String value = element.getTextTrim();
+					// elemList.add(new Leaf(getNoteAttribute(element), xpath,
+					// value));
+					System.out.println("name:" + xpath + ",text:" + value);
+					boolean existKey = paramMap.containsKey(xpath);
+					if(existKey){
+						System.out.println("paramMap已经存在KEY：" + xpath);
+						throw new RuntimeException("paramMap已经存在KEY：" + xpath);
+					}
+					paramMap.put(xpath, value);
+				} else {
+					// 有子元素
+					Iterator it = elements.iterator();
+					while (it.hasNext()) {
+						Element elem = (Element) it.next();
+						// 递归遍历
+						getElementList(elem, paramMap);
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * 解包返回报文为map型
 	 * 
