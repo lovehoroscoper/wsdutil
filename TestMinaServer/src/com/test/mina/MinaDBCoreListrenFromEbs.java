@@ -2,6 +2,7 @@ package com.test.mina;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.logging.Log;
@@ -44,7 +45,7 @@ public class MinaDBCoreListrenFromEbs {
 			// 创建接收数据的过滤器
 			DefaultIoFilterChainBuilder chain = acceptor.getFilterChain();
 
-			TextLineCodecFactory textLineCodecFactory = new TextLineCodecFactory();
+			TextLineCodecFactory textLineCodecFactory = new TextLineCodecFactory(Charset.forName("UTF-8"));
 			textLineCodecFactory.setDecoderMaxLineLength(4000);
 			chain.addLast("myChin", new ProtocolCodecFilter(textLineCodecFactory));
 
