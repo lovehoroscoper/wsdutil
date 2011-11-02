@@ -54,8 +54,8 @@ public class TestClient {
 		// InetSocketAddress("192.168.2.201", 9001));
 		// ConnectFuture cf = connector.connect(new
 		// InetSocketAddress("192.168.2.201", 9001));
-//		ConnectFuture cf = connector.connect(new InetSocketAddress("127.0.0.1", 9999));
-		 ConnectFuture cf = connector.connect(new InetSocketAddress("127.0.0.1", 8080));
+		ConnectFuture cf = connector.connect(new InetSocketAddress("127.0.0.1", 9999));
+//		 ConnectFuture cf = connector.connect(new InetSocketAddress("127.0.0.1", 8080));
 
 		cf.awaitUninterruptibly();
 		try {
