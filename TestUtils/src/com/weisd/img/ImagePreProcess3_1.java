@@ -14,11 +14,12 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.io.IOUtils;
-import org.apache.http.HttpStatus;
 
-public class ImagePreProcess3 {
+
+public class ImagePreProcess3_1 {
 
 	private static Map<BufferedImage, String> trainMap = null;
 	private static int index = 0;
@@ -186,8 +187,10 @@ public class ImagePreProcess3 {
 	public static void downloadImage() {
 		HttpClient httpClient = new HttpClient();
 //		GetMethod getMethod = new GetMethod("http://game.tom.com/checkcode.php");
+//		GetMethod getMethod = new GetMethod("http://hi.csdn.net/attachment/201008/9/0_12813668667PUx.gif");
 		GetMethod getMethod = new GetMethod("http://upay.10010.com/web/EsfWeb/VerifyCode.action?timestamp=20111029120445" + Math.random());
 		for (int i = 0; i < 30; i++) {
+//		for (int i = 1; i < 2; i++) {
 			try {
 				// 执行getMethod
 				int statusCode = httpClient.executeMethod(getMethod);
@@ -196,19 +199,13 @@ public class ImagePreProcess3 {
 				}
 				// 读取内容
 				String picName = "img3//" + i + ".jpg";
+				String trainName = "temp3//train" + i + ".jpg";
 				InputStream inputStream = getMethod.getResponseBodyAsStream();
 				OutputStream outStream = new FileOutputStream(picName);
 				IOUtils.copy(inputStream, outStream);
-				
-//				String picName2 = "temp3//temp3" + i + ".jpg";
-//				OutputStream outStream2 = new FileOutputStream(picName2);
-//				IOUtils.copy(inputStream2, outStream2);
-				
-//				String trainName = "temp3//train" + i + ".jpg";
-//				OutputStream outStreamTran = new FileOutputStream(trainName);
-//				IOUtils.copy(inputStream, outStreamTran);
-//				outStream.close();
-//				outStreamTran.close();
+				OutputStream outStreamTran = new FileOutputStream(trainName);
+				IOUtils.copy(inputStream, outStreamTran);
+				outStream.close();
 				System.out.println(i + "OK!");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -238,11 +235,29 @@ public class ImagePreProcess3 {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-//		 downloadImage();
+		 downloadImage();
 		 trainData();
-		for (int i = 0; i < 30; ++i) {
-			String text = getAllOcr("img3//" + i + ".jpg");
-			System.out.println(i + ".jpg = " + text);
-		}
+		String text = getAllOcr("img3//" + 1 + ".jpg");
+		System.out.println(1 + ".jpg = " + text);
+
 	}
+	
+//	/**
+//	 * @param args
+//	 * @throws Exception
+//	 */
+//	public static void main(String[] args) throws Exception {
+////		 trainData();
+////		 downloadImage();
+//		for (int i = 0; i < 1; ++i) {
+//			String text = getAllOcr("img3//" + i + ".jpg");
+//			System.out.println(i + ".jpg = " + text);
+//		}
+////		for (int i = 0; i < 1; ++i) {
+////			String text = getAllOcr("img3//" + i + ".jpg");
+////			System.out.println(i + ".jpg = " + text);
+////		}
+////			String text = getAllOcr("img3//" + 3 + ".jpg");
+////			System.out.println(3 + ".jpg = " + text);
+//	}
 }
