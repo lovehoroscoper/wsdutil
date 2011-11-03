@@ -6,28 +6,28 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
 
-public class MinaDBCoreGWHandler2 extends IoHandlerAdapter{
-	private static Log logger = LogFactory.getLog(MinaDBCoreGWHandler2.class);
+public class MinaDBCoreGWHandler8001 extends IoHandlerAdapter{
+	private static Log logger = LogFactory.getLog(MinaDBCoreGWHandler8001.class);
 	
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
 		
-		logger.error("客户端有异常 : ",cause);
+	//	logger.error("客户端有异常 : ",cause);
 	}
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
-		System.out.println("客户端发送消息成功: ");
+		//System.out.println("客户端发送消息成功: ");
 	}
 
 	
 	
 	public void sessionOpened(IoSession session) throws Exception {
-		System.out.println("客户端 打开incomming client(DB) : " + session.getRemoteAddress());
+	//	System.out.println("客户端 打开incomming client(DB) : " + session.getRemoteAddress());
 	}
 	// 当一个客户端关闭�?
 	@Override
 	public void sessionClosed(IoSession session) {
-		System.out.println("客户端关闭 one Clinet Disconnect(DB) !");
+	//	System.out.println("客户端关闭 one Clinet Disconnect(DB) !");
 	}
 
 	// 当前置发送的消息到达�?
