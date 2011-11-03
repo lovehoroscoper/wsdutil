@@ -51,9 +51,10 @@ public class MinaDBCoreListrenFromEbs {
 
 			chain.addLast("threadPool", new ExecutorFilter(Executors.newCachedThreadPool()));
 
-			acceptor.setHandler(new MinaDBCoreEbsHandler());
+//			acceptor.setHandler(new MinaDBCoreEbsHandler());
+			acceptor.setHandler(new MinaTestQDHandler());
 			acceptor.bind(new InetSocketAddress(receiveServicePort));
-			log.info("*********Mina HfCoreDB server is Listing on:= " + receiveServicePort + "*********");
+			log.info("*********启动核心测试渠道服务:= " + receiveServicePort + "*********");
 
 		} catch (IOException e1) {
 			isSuc = false;

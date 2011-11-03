@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+                     http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd 
+                     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean id="managerDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@172.25.28.93:1521:orcl</value>
+		</property>
+		<property name="username">
+			<value>esales</value>
+		</property>
+		<property name="password">
+			<value>jbhfesales</value>
+		</property>
+	</bean>
+
+	<bean id="dealDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>oracle.jdbc.driver.OracleDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:oracle:thin:@172.25.28.93:1521:orcl</value>
+		</property>
+		<property name="username">
+			<value>esales</value>
+		</property>
+		<property name="password">
+			<value>jbhfesales</value>
+		</property>
+	</bean>
+	<!-- <bean id="managerDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>java:comp/env/manager_ds</value> </property> 
+		</bean> <bean id="dealDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> <value>java:comp/env/deal_ds</value> </property> 
+		</bean> -->
+	<!-- clob字段处理 -->
+	<bean id="nativeJdbcExtractor"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
+
+	<bean id="oracleLobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler">
+		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
+	</bean>
+
+	<bean id="manager" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+		autowire="byName">
+		<property name="configLocation">
+			<value>classpath:manager-SqlMap-Config.xml</value>
+		</property>
+		<property name="dataSource" ref="managerDataSource" />
+	</bean>
+	<bean id="deal" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+		autowire="byName">
+		<property name="configLocation">
+			<value>classpath:deal-SqlMap-Config.xml</value>
+		</property>
+		<property name="dataSource" ref="dealDataSource" />
+		<property name="lobHandler" ref="oracleLobHandler" />
+	</bean>
+
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource">
+			<ref bean="dealDataSource" />
+		</property>
+	</bean>
+
+
+	<aop:config>
+		<aop:pointcut id="serviceOperation"
+			expression="execution(* com.junbao.base.impl.*(..))" />
+		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
+	</aop:config>
+	<!-- 通知配置 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" rollback-for="Exception" />
+			<tx:method name="save*" rollback-for="Exception" />
+			<tx:method name="update*" rollback-for="Exception" />
+			<tx:method name="add*" rollback-for="Exception" />
+			<tx:method name="select*" read-only="true" />
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="find*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+
+
+</beans>
