@@ -1,0 +1,11 @@
+		// 将要发送的数据封包   
+//		  List<NameValuePair> params = new ArrayList<NameValuePair>();   
+//		  params.add(new BasicNameValuePair("email", this.email));   
+//		  params.add(new BasicNameValuePair("password", this.password));   
+//		  params.add(new BasicNameValuePair("origURL", origURL));   
+//		  params.add(new BasicNameValuePair("domain", domain));  
+
+
+
+
+尊敬的用户您好，您输入的充值卡已充值，无法再次使用，请更换充值卡重新操作。 
