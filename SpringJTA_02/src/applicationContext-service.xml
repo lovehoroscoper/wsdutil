@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+
+	<bean id="testService" class="com.wsd.service.impl.TestServiceImpl" autowire="byName"></bean>
+	
+	<bean id="testTypeService" class="com.wsd.service.impl.TestTypeServiceImpl" autowire="byName"></bean>
+
+</beans>
