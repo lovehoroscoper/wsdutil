@@ -78,7 +78,7 @@ http://www.cnblogs.com/huangjingzhou/articles/2012011.html
 	</bean>
 
 	<!-- mysql 下面ibatis 好像不起作用 -->
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<aop:pointcut id="serviceOperation" expression="execution(* com.*.service.*.*(..))" />
 		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
 	</aop:config>
