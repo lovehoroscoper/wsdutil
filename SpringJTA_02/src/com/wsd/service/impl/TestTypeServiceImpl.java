@@ -24,7 +24,7 @@ public class TestTypeServiceImpl implements TestService {
 	public void addUser(User u) throws Exception {
 		testType1Dao.addUser(u);
 		testType2Dao.addUser(u);
-//		throw new RuntimeException("222");
+		throw new RuntimeException("222");
 	}
 	
 

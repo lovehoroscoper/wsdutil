@@ -31,6 +31,13 @@ public class SpringJTATest extends TestCase {
 	public void testAddCustomer3() throws Exception {
 		TestService cm = (TestService)factory.getBean("testTypeServiceTarget");
 		User u = new User();
+		
+		cm.addUser(u);
+	}
+	
+	public void testAddCustomer4() throws Exception {
+		TestService cm = (TestService)factory.getBean("testTypeService");
+		User u = new User();
 
 		cm.addUser(u);
 	}
