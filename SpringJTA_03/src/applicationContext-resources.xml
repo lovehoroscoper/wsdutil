@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/mvc 
+     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+     ">
+	<!-- 自动搜索@Controller标注的类 -->
+	<context:annotation-config />
+
+	<!-- <mvc:annotation-driven /> -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<!-- 启用AspectJ对annotation的支持 -->
+	<aop:aspectj-autoproxy />
+
+	<bean id="dataSource2" destroy-method="close"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1/crm2" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+		<property name="maxPoolSize" value="20" />
+		<property name="minPoolSize" value="1" />
+		<property name="initialPoolSize" value="1" />
+		<property name="maxIdleTime" value="20" />
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+
+
+	<aop:config>
+		<aop:pointcut id="serviceOperation" expression="execution(* com.*.service.*.*(..))" />
+		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
+	</aop:config>
+
+	<!-- mysql 下面ibatis 好像不起作用  -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="sssssadd*" propagation="REQUIRED" rollback-for="Exception" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="sqlMapClient2" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean" autowire="byName">
+		<property name="configLocation">
+			<value>classpath:ds2-SqlMap-Config.xml</value>
+		</property>
+		<property name="dataSource" ref="dataSource2" />
+	</bean>
+
+	<!-- 将目标对象配置到IOC容器中 -->
+	<bean id="baseDao" class="com.wsd.dao.base.impl.BaseDaoImpl"></bean>
+
+</beans>

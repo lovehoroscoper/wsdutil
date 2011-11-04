@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 
+	<bean id="commonBean" class="com.wsd.dao.base.impl.CommonBeanImpl" autowire="byName">		
+	    <property name="dataSourceList">
+            <map>
+                <entry key="sqlMapClient1">
+                    <ref bean="sqlMapClient1"/>
+                </entry> 
+                <entry key="sqlMapClient2">
+                    <ref bean="sqlMapClient2"/>
+                </entry> 
+            </map>
+        </property>
+	</bean>	
+	 -->
+</beans>

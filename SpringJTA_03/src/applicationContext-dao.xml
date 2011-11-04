@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- 
+	<bean id="test1Dao" class="com.wsd.dao.impl.Test1DaoImpl" autowire="byName"></bean>
+
+	<bean id="test2Dao" class="com.wsd.dao.impl.Test2DaoImpl" autowire="byName"></bean>
+
+	<bean id="testType1Dao" class="com.wsd.dao.impl.TestType1DaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient1"></property>
+	</bean>
+
+	<bean id="testType2Dao" class="com.wsd.dao.impl.TestType2DaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient2"></property>
+	</bean>
+ -->
+
+	<bean id="testOneDao" class="com.wsd.dao.impl.TestOneDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient2"></property>
+	</bean>
+
+</beans>
