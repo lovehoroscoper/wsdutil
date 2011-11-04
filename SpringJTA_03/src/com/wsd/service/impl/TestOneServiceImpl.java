@@ -17,12 +17,13 @@ import com.wsd.vo.User;
 public class TestOneServiceImpl implements TestService {
 
 	private TestDao testOneDao;
+	private TestDao testOne2Dao;
 
 	@Override
 	@Transactional(readOnly=true)
 	public void addUser(User u) throws Exception {
 		testOneDao.addUser(u);
-//		testType2Dao.addUser(u);
+		testOne2Dao.addUser(u);
 //		throw new RuntimeException("222");
 	}
 	
@@ -68,6 +69,14 @@ public class TestOneServiceImpl implements TestService {
 	}
 
 
+	public TestDao getTestOne2Dao() {
+		return testOne2Dao;
+	}
+
+
+	public void setTestOne2Dao(TestDao testOne2Dao) {
+		this.testOne2Dao = testOne2Dao;
+	}
 
 
 }

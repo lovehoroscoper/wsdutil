@@ -17,6 +17,9 @@
  -->
 
 	<bean id="testOneDao" class="com.wsd.dao.impl.TestOneDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient1"></property>
+	</bean>
+	<bean id="testOne2Dao" class="com.wsd.dao.impl.TestOne2DaoImpl">
 		<property name="sqlMapClient" ref="sqlMapClient2"></property>
 	</bean>
 

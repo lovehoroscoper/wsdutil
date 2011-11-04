@@ -17,11 +17,11 @@ import com.wsd.vo.User;
  * @version:v1.0
  *
  */
-public class TestOneDaoImpl extends SqlMapClientDaoSupport implements TestDao {
+public class TestOne2DaoImpl extends SqlMapClientDaoSupport implements TestDao {
 
 	@Override
 	public void addUser(User u) {
-		this.getSqlMapClientTemplate().insert("addUser1", u);
+		this.getSqlMapClientTemplate().insert("addUser2", u);
 	}
 
 	@Override
