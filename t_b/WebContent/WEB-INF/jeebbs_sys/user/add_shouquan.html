@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title></title>
+<#include "/jeebbs_sys/head.html"/>
+<script type="text/javascript">
+$(function() {
+	$("#jvForm").validate();
+});
+function chk(){
+	if(document.getElementById("buy").value==""){
+		alert("购买日期不能为空!");
+		return false;
+	}
+	if(document.getElementById("stop").value==""){
+		alert("到期日期不能为空!");
+		return false;
+	}
+	document.getElementById("jvForm").submit();
+}
+</script>
+</head>
+<body>
+<div class="body-box">
+<div class="rhead">
+	<div class="rpos"><@s.m "global.position"/>: <@s.m "cmsMember.function"/> - <@s.m "global.add"/></div>
+	<form class="ropt">
+		<input type="submit" value="<@s.m "global.backToList"/>" onclick="this.form.action='v_list.do';"/>
+	</form>
+	<div class="clear"></div>
+</div>
+<form id="jvForm"  action="v_save.do">
+<table>
+<tr><td>请输入购买人BBS用户名</td><td><input type="text" name="user.username" vld="{required:true,remote:'username_unique.do',messages:{remote:'用户名不存在！'}}"></td></tr>
+<tr><td>公司名称</td><td><input type="text" name="corporationName"></td></tr>
+<tr><td>联系电话</td><td><input type="text" name="telphone"></td></tr>
+<tr><td>网站名称</td><td><input type="text" name="websiteName"></td></tr>
+<tr><td>域名</td><td><input type="text" name="realmName"></td></tr>
+<tr><td>开启时间</td>
+<td>
+<input vld="{required:true}" id="buy" readonly="readonly" type="text" name="buyTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate">
+</td>
+</tr>
+<tr><td>到期时间</td><td><input vld="{required:true}" id="stop" readonly="readonly" type="text" name="stopTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd'})" class="Wdate"></td></tr>
+
+<tr><td colspan="2"><input type="submit" value="增加"></td></tr>
+</table>
+</form>
+</div>
+<#include "/common/alert_message.html"/>
+</body>
+</html>
