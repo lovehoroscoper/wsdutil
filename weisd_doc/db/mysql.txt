@@ -1,0 +1,2 @@
+导出表结构命令：
+mysqldump -uroot -proot -d jeebbs_j >jeebbs_j.sql
