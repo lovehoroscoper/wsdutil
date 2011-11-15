@@ -15,6 +15,13 @@ import javax.crypto.spec.IvParameterSpec;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
+/**
+ * 
+ * @author Administrator
+ *
+ * v1 有个问题：在加密后返回的字符串后 补充一位  依旧成功
+ *
+ */
 public class SpringPropertiesDbDesUtil {
 	/**
 	 * 
