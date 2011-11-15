@@ -21,10 +21,10 @@
 		class="com.weisd.spring.utils.PropertyEncodeConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:ordermq.properties</value>
+				<value>classpath:db.properties</value>
 			</list>
 		</property>
-		<property name="encodeName" value=",username,password,"/>
+		<property name="encodeName" value="username"/>
 	</bean>
 <!-- 
 	<bean id="propertiesConfigurer"
