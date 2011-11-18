@@ -1,0 +1,105 @@
+最底层，
+
+但是可以在构造数据源时候
+
+					Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+					
+					
+					Properties properties = new Properties();
+					properties.setProperty("username", "sss");//解密数据库密码
+					
+
+					// creates a new sqlMap with our custom property (password)
+					
+					if (StringUtils.isNotBlank(datasource)) {
+						sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, datasource.trim(),properties);
+					} else {
+						sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader,properties);
+					}
+
+
+XMLConfigBuilder
+
+  private void propertiesElement(XNode context) throws Exception {
+    if (context != null) {
+      Properties defaults = context.getChildrenAsProperties();
+      String resource = context.getStringAttribute("resource");
+      String url = context.getStringAttribute("url");
+      if (resource != null && url != null) {
+        throw new BuilderException("The properties element cannot specify both a URL and a resource based property file reference.  Please specify one or the other.");
+      }
+      if (resource != null) {
+        defaults.putAll(Resources.getResourceAsProperties(resource));
+      } else if (url != null) {
+        defaults.putAll(Resources.getUrlAsProperties(url));
+      }
+      Properties vars = configuration.getVariables();
+      if (vars != null) {
+        defaults.putAll(vars);
+      }
+      parser.setVariables(defaults);
+      configuration.setVariables(defaults);
+    }
+  }
+  
+  Resources
+  
+    public static Properties getResourceAsProperties(String resource) throws IOException {
+    Properties props = new Properties();
+    InputStream in = getResourceAsStream(resource);
+    props.load(in);
+    in.close();
+    return props;
+  }
+
+  
+Reader reader = Resources.getResourceAsReader("SqlMapConfig.xml");
+Properties props = getProp();
+if (StringUtils.isNotBlank(datasource)) {
+	sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader, datasource.trim(),props);
+} else {
+	sqlSessionFactory = new SqlSessionFactoryBuilder().build(reader,props);
+}
+
+	
+	/**
+	 * 获取配置文件信息
+	 */
+	private static Properties getProp(){
+		String encodeName = "encodeName";
+		Properties props = new Properties();
+		try {
+			PropertiesConfiguration configuration = new PropertiesConfiguration("jdbc_encode.properties");
+			String[] encodeNameArray = configuration.getStringArray("encodeName");//需要编译的自动
+			for (Iterator iter = configuration.getKeys(); iter.hasNext();) {
+				   String l_key = (String)iter.next();
+				   if(!encodeName.equals(l_key)){
+					   props.put(l_key, configuration.getProperty(l_key));
+				   }
+			}
+			if (null != props && null != encodeNameArray && encodeNameArray.length > 0) {
+				for (int i = 0; i < encodeNameArray.length; i++) {
+					String proKey = encodeNameArray[i];
+					if(null == proKey || "".equals(proKey.trim())){
+						continue;
+					}
+					if (props.containsKey(proKey)) {
+						String encode_value = props.getProperty(proKey);
+						try {
+							String new_value;
+							new_value = SpringPropertiesDbDesUtil.getDecodeByEncode(encode_value, SpringPropertiesDbDesUtil.keyStr);
+							//System.out.println("解密信息[ "  + proKey + "|" + new_value + "]" );
+							props.setProperty(proKey, new_value);
+						} catch (IOException e) {
+							logger.error("属性文件中解密相关信息异常", e);
+						}
+					} else {
+						logger.warn("属性文件中没有包含相应的键[" + proKey + "]");
+					}
+				}
+			}
+		} catch (Exception e) {
+			logger.error("读取properties文件异常", e);
+		}
+		return props;
+	}
