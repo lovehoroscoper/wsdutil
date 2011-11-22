@@ -37,7 +37,7 @@ public class TestOrder {
 //			String mobilenum = "13407845521";
 //			String productid = "106928";//天津移动  成功
 //			String mobilenum = "13512400010";
-			String productid = "106998";//北京移动
+			String productid = "107504";//北京移动
 			String mobilenum = "15201386006";
 //			String productid = "101826";//广东湛江联通
 //			String mobilenum = "13512050000";

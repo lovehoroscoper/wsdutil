@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -21,12 +22,77 @@ public class TestGetProd {
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
+		TestGetProd t = new TestGetProd();
+		t.testEbm();
+//		t.testEsales();
+
+	}
+	
+	public void testEsales() throws IOException{
+		
+		String mobilenum = "15201386005";// 电话号码
+		String amount = "0";
+		String agentid = "DE201108041336000424";
+//		String agentid = "DE201108091428260543";
+		String source = "esales";
+		String key = "82fb721da3b047ac819479574672425f46a834a8f0b948928d8a48b365c060e7b8c5fd103b764e809c486fb94a8b47e73debe03734424c03992140ec54476277";
+		
+		StringBuffer verifystring2 = new StringBuffer();
+		verifystring2.append("agentid=").append(agentid)
+		.append("&amount=").append(amount)
+		.append("&mobilenum=").append(mobilenum)
+		.append("&source=").append(source)
+		.append("&merchantKey=").append(key);
+		
+		String verifystring = MD5Util.getKeyedDigest(verifystring2.toString(),"");
+		
+//		String host = "http://172.25.25.123:8080/esales/product/directProductEbm.do";
+		String host = "http://172.25.25.161:8088/esales/product/directProductEbm.do";
+//		String host = "http://172.25.25.123:8080/esales/product/directProductEbm.do";
+		String req = "agentid=" + agentid + "&amount=" + amount + "&mobilenum="+ mobilenum +"&source=" + source + "&verifystring=" + verifystring;
+		
+		
+		StringBuffer responseMessage = null;
+		java.net.HttpURLConnection connection = null;
+		java.net.URL reqUrl = null;
+		OutputStreamWriter reqOut = null;
+		InputStream in = null;
+		BufferedReader br = null;
+		int charCount = -1;
+		
+		responseMessage = new StringBuffer(64);
+		reqUrl = new java.net.URL(host);
+		
+		connection = (java.net.HttpURLConnection) reqUrl.openConnection();
+		connection.setReadTimeout(50000);
+		connection.setConnectTimeout(100000);
+		connection.setDoOutput(true);
+		connection.setDoInput(true);
+		connection.setRequestMethod("POST");
+//		connection.setRequestMethod("GET");
+		reqOut = new OutputStreamWriter(connection.getOutputStream());
+		reqOut.write(req);
+		reqOut.flush();
+		
+		in = connection.getInputStream();
+		br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+		while ((charCount = br.read()) != -1) {
+			responseMessage.append((char) charCount);
+		}
+		String ss = responseMessage.toString();
+		System.out.println(ss);
+		
+		// System.out.println(index);
+	}
+	
+	public void testEbm() throws IOException{
 
 //		String mobilenum = "15201386003";// 电话号码
 //		String mobilenum = "15982271111";// 电话号码
 //		String mobilenum = "13982271111";// 电话号码
 //		String mobilenum = "15982371111";// 电话号码
-		String mobilenum = "15201386001";// 电话号码
+//		String mobilenum = "15201386001";// 电话号码
+		String mobilenum = "15201386005";// 电话号码
 		String amount = "0";
 		String agentid = "DE201109221047570860";
 //		String agentid = "DE201109221047570862";
@@ -82,7 +148,6 @@ public class TestGetProd {
 		System.out.println(ss);
 
 		// System.out.println(index);
-
 	}
 
 }

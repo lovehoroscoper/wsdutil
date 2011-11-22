@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.configuration.CompositeConfiguration;
 import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationConverter;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
@@ -15,8 +16,9 @@ public class ConfigurationTest {
 	public static void main(String[] args) throws ConfigurationException {
 		// 操作 properties文件,直接读取src下的文件
 //		Configuration configuration = new PropertiesConfiguration("global.properties");
-//		PropertiesConfiguration configuration = new PropertiesConfiguration("global.properties");
+		PropertiesConfiguration configuration = new PropertiesConfiguration("global.properties");
 //		
+		
 //		
 //		
 //		System.out.println(configuration.getString("CORE_PLATFORM_IPS"));
@@ -61,10 +63,20 @@ public class ConfigurationTest {
 //		Configuration configuration = new PropertiesConfiguration("global.properties");
 		
 		CompositeConfiguration config = new CompositeConfiguration(); 
-		config.addConfiguration(new PropertiesConfiguration("oschina.properties")); 
+		
+		CompositeConfiguration config2 = new CompositeConfiguration(); 
+		
+		config.addConfiguration(new PropertiesConfiguration("sizes.properties")); 
+		
+		config2.copy(config);
 
+		config2.setProperty("username", "ddddd");
+		
+		String password = config2.getString("username"); 
 		String usernaem = config.getString("username"); 
-		String password = config.getString("password"); 
+		
+		System.out.println(password);
+		System.out.println(usernaem);
 
 
 	}
