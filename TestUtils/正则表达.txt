@@ -1,0 +1,33 @@
+
+
+		// 最终渠道这个
+		String regex = "<input(.*?)type=\"hidden\"(.*?)name=\"secstate.state\"(.*?)value=\"([\\s\\S]*?)\"(.*?)id=\"secstate.state\"/>";//没有换行 
+
+		
+		<input type="hidden" name="testId" value2="hh8x7izHjZYyqH/oJy5ZYoKMYsrIEzhhkaYffYylNQzaXPwbP" id="testId"/>
+
+<input type="hidden" name="secstate.state" value="2vXbnVJkwtMd72sUjq+Ufhg
+VMKW8hMMOYCzS/gjEQ4XiyQHLnf/PW28E0yeiFR91niMrDJrN7AbmdglhbdoFVDWArLXoYsfJhfa
+vdUmiEB4zIYU3hPuioTmjxo6/UM72wcSDmPHrn2/0W9wnqRt5M/6xAd/IRoDudNh8fPfd2RqKNhT
+5jtQVZUw3JWVPbWwKz+tzgJBOHjCV1y+OSQ5o5wVuuQCurAo0n+tCMNapDAdNPZlVOJ+IhqDktHU
+dFB0E+CLIi8iOYt9fiNphh8x7izHjZYyqH/oJy5ZYoKMYsrIEzhhkaYffYylNQzaXPwbPLDEmIx6
+qEakCX+MqaAyoeyxAUOjP08OEMsAjCczy9eMCGqFkL5l5XNjj9bg297rTmATztb80p8pQPXmutCf
+yilGSNYspIesX5pvhoSr9g4AcQSFgrozpSEPCGhlfH42xtKqUOb9Tlp9zKgiGnVIC0YDuOh5XNG+
+akgF6kl5vW40E+UAHLAYOvdhPj022j6CafpUV+y5p3//hg==$0.0.1" id="secstate.state"/>
+
+
+<input type="hidden" name="secstate.state" value="2vXbnVx1TsBsZPSa5ZrqDd3ssnSYsmNY0z/yr/TLXamfw0W6mvhSBDFSovHJkwtMd72sUjq+Ufhg
+VMKW8hMMOYCzS/gjEQ4XiyQHLnf/PW28E0yeiFR91niMrDJrN7AbmdglhbdoFVDWArLXoYsfJhfa
+vdUmiEB4zIYU3hPuioTmjxo6/UM72wcSDmPHrn2/0W9wnqRt5M/6xAd/IRoDudNh8fPfd2RqKNhT
+5jtQVZUw3JWVPbWwKz+tzgJBOHjCV1y+OSQ5o5wVuuQCurAo0n+tCMNapDAdNPZlVOJ+IhqDktHU
+dFB0E+CLIi8iOYt9fiNphh8x7izHjZYyqH/oJy5ZYoKMYsrIEzhhkaYffYylNQzaXPwbPLDEmIx6
+qEakCX+MqaAyoeyxAUOjP08OEMsAjCczy9eMCGqFkL5l5XNjj9bg297rTmATztb80p8pQPXmutCf
+yilGSNYspIesX5pvhoSr9g4AcQSFgrozpSEPCGhlfH42xtKqUOb9Tlp9zKgiGnVIC0YDuOh5XNG+
+akgF6kl5vW40E+UAHLAYOvdhPj022j6CafpUV+y5p3//hg==$0.0.1" id="secstate.state"/>     </div>
+</form>
+
+<input   type="hidden" name="testId" id="testId"/>
+
+
+<input type="hidden" name="testId2" val2ue="2vXbnVJkwtMd72sUjq+Ufhg
+akgF6kl5vW40E+UAHLAYOvdhPj022j6CafpUV+y5p3//hg==$0.0.1" id="testId"/>
