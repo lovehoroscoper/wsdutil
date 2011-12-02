@@ -89,10 +89,12 @@
                             data: ((typeof config.postData == "function") ? config.postData() : config.postData) || $(source).serialize(),
                             success: function (data) {
                                 methods.reset();
+                                //alert(data);
                                 $.each(data, function () {
+                                	//alert(this.value + "-----------" + this.text);
                                     $this.append($(optionTag)
-                                        .attr("value", this.Value)
-                                        .text(this.Text));
+                                        .attr("value", this.value)
+                                        .text(this.text));// old :  this.Value  this.Text
                                 });
                                 methods.loaded();
                                 $.isFunction(config.onLoaded) && config.onLoaded.call($this);
