@@ -1,0 +1,27 @@
+http://www.docin.com/p-82533221.html
+
+http://blog.csdn.net/remote_roamer/article/details/5713777
+
+http://chen-rojer-gmail-com.iteye.com/blog/1037973
+
+http://chen-rojer-gmail-com.iteye.com/blog/1037973
+
+http://gaojiewyh.iteye.com/blog/1152442
+
+http://logback.qos.ch/translator/
+
+http://www.blogjava.net/SpartaYew/archive/2011/06/15/350630.html
+
+
+常用内建表达式 
+表达式 说明 
+hasRole([role]) 返回 true 如果当前主体拥有特定角色。 
+hasAnyRole([role1,role2]) 返回 true 如果当前主体拥有任何一个提供的角色 （使用逗号分隔的字符串队列） 
+principal 允许直接访问主体对象，表示当前用户 
+authentication 允许直接访问当前 Authentication对象 从SecurityContext中获得 
+permitAll 一直返回true 
+denyAll 一直返回false 
+isAnonymous() 如果用户是一个匿名登录的用户 就会返回 true 
+isRememberMe() 如果用户是通过remember-me 登录的用户 就会返回 true 
+isAuthenticated() 如果用户不是匿名用户就会返回true 
+isFullyAuthenticated() 如果用户不是通过匿名也不是通过remember-me登录的用户时， 就会返回true。

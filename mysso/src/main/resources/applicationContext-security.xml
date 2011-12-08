@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-  - Sample namespace-based configuration
-  -
-  -->
-
 <beans:beans xmlns="http://www.springframework.org/schema/security"
     xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -12,31 +6,19 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
     <global-method-security pre-post-annotations="enabled">
-        <!-- AspectJ pointcut expression that locates our "post" method and applies security that way
-        <protect-pointcut expression="execution(* bigbank.*Service.post*(..))" access="ROLE_TELLER"/>
-        -->
+
     </global-method-security>
 
-    <http use-expressions="true">
+    <http use-expressions="true" auto-config="true" access-denied-page="/accessDenied.jsp"><!-- access-denied-page 无权限跳转 -->
+		<intercept-url pattern="/images/**" filters="none" />
+		<intercept-url pattern="/css/**" filters="none" />
+		<intercept-url pattern="/js/**" filters="none" />
         <intercept-url pattern="/secure/extreme/**" access="hasRole('ROLE_SUPERVISOR')"/>
         <intercept-url pattern="/secure/**" access="isAuthenticated()" />
-        <!-- Disable web URI authorization, as we're using <global-method-security> and have @Secured the services layer instead
-        <intercept-url pattern="/listAccounts.html" access="isRememberMe()" />
-        <intercept-url pattern="/post.html" access="hasRole('ROLE_TELLER')" />
-        -->
         <intercept-url pattern="/**" access="permitAll" />
         <form-login />
         <logout />
         <remember-me />
-<!--
-    Uncomment to enable X509 client authentication support
-        <x509 />
--->
-        <!-- Uncomment to limit the number of sessions a user can have -->
-        <session-management>
-            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true" />
-        </session-management>
-
     </http>
 
     <!--
@@ -46,6 +28,21 @@
         scott/wombat
         peter/opal
     -->
+    <authentication-manager>
+    	<authentication-provider>
+    		<user-service>
+    		</user-service>
+    		<password-encoder>
+    			<salt-source/>
+    		</password-encoder>
+    		<!-- 
+    		<property name="userDetailsService" ref="inMemoryDaoImpl"/>
+			<property name="saltSource" ref bean="saltSource"/>
+			<property name="passwordEncoder" ref="passwordEncoder"/>
+    		 -->
+    	</authentication-provider>
+    </authentication-manager>
+    
     <authentication-manager>
         <authentication-provider>
             <password-encoder hash="md5"/>

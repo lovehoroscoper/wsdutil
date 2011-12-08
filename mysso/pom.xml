@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>mysso</groupId>
-  <artifactId>mysso</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>mysso</name>
-  <url>http://maven.apache.org</url>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>mysso</groupId>
+	<artifactId>mysso</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>mysso</name>
+	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
 		<maven.version>2.2.0</maven.version>
 		<dependency.spring.version>3.0.5.RELEASE</dependency.spring.version>
 		<dependency.spring.security.version>3.0.7.RELEASE</dependency.spring.security.version>
-		<slf4j.version>1.6.1</slf4j.version>
+		<slf4j.version>1.6.4</slf4j.version>
 	</properties>
 	<prerequisites>
 		<maven>${maven.version}</maven>
@@ -47,7 +47,52 @@
 		</dependency>
 		<dependency>
 			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.16</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>atomikos-util</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-api</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-jdbc</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-jta</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
@@ -108,13 +153,8 @@
 			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-			<version>2.1.0</version>
-		</dependency>
-				 -->
+		<!-- <dependency> <groupId>net.sf.ehcache</groupId> <artifactId>ehcache-core</artifactId> 
+			<version>2.1.0</version> </dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -128,14 +168,8 @@
 
 		<!-- short-circuit commons-logging with 'provided' scope to avoid -->
 		<!--tedious dependency exclusions and redirect all logging calls to SLF4J -->
-		<!-- 
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.0.4</version>
-			<scope>provided</scope>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>commons-logging</groupId> <artifactId>commons-logging</artifactId> 
+			<version>1.0.4</version> <scope>provided</scope> </dependency> -->
 
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -178,19 +212,15 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${dependency.spring.version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>rome</groupId>
-			<artifactId>rome</artifactId>
-			<version>0.9</version>
-		</dependency>
-		 -->
+		<!-- <dependency> <groupId>rome</groupId> <artifactId>rome</artifactId> 
+			<version>0.9</version> </dependency> -->
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
 			<version>1.1.2</version>
 		</dependency>
 
+<!-- 
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -210,13 +240,8 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<!-- 
-		<dependency>
-			<groupId>info.bliki.wiki</groupId>
-			<artifactId>bliki-core</artifactId>
-			<version>3.0.16</version>
-		</dependency>
  -->
+
 	</dependencies>
 	<build>
 		<finalName>mysso</finalName>
@@ -277,80 +302,23 @@
 			</plugin>
 		</plugins>
 	</build>
-	<!-- 
-	<build>
-		<finalName>mysso</finalName>
-		<defaultGoal>package</defaultGoal>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-						<showDeprecation>true</showDeprecation>
-						<compilerArgument>-Xlint:unchecked</compilerArgument>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>2.4.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.3.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.3</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-site-plugin</artifactId>
-					<version>2.2</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.7.2</version>
-					<configuration>
-			          	<skip>true</skip>
-			        </configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-jar-plugin</artifactId>
-					<version>2.3.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.1.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>2.7</version>
-					<configuration>
-						<quiet>true</quiet>
-					</configuration>
-				</plugin>
-				<plugin>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.2-beta-5</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-help-plugin</artifactId>
-					<version>2.1.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.1</version>
-				</plugin>
-				<plugin>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>2.1.2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-	</build>
-	 -->
+	<!-- <build> <finalName>mysso</finalName> <defaultGoal>package</defaultGoal> 
+		<pluginManagement> <plugins> <plugin> <artifactId>maven-compiler-plugin</artifactId> 
+		<version>2.3.2</version> <configuration> <showDeprecation>true</showDeprecation> 
+		<compilerArgument>-Xlint:unchecked</compilerArgument> </configuration> </plugin> 
+		<plugin> <artifactId>maven-clean-plugin</artifactId> <version>2.4.1</version> 
+		</plugin> <plugin> <artifactId>maven-install-plugin</artifactId> <version>2.3.1</version> 
+		</plugin> <plugin> <artifactId>maven-resources-plugin</artifactId> <version>2.4.3</version> 
+		</plugin> <plugin> <artifactId>maven-site-plugin</artifactId> <version>2.2</version> 
+		</plugin> <plugin> <artifactId>maven-surefire-plugin</artifactId> <version>2.7.2</version> 
+		<configuration> <skip>true</skip> </configuration> </plugin> <plugin> <artifactId>maven-jar-plugin</artifactId> 
+		<version>2.3.1</version> </plugin> <plugin> <artifactId>maven-war-plugin</artifactId> 
+		<version>2.1.1</version> </plugin> <plugin> <artifactId>maven-javadoc-plugin</artifactId> 
+		<version>2.7</version> <configuration> <quiet>true</quiet> </configuration> 
+		</plugin> <plugin> <artifactId>maven-assembly-plugin</artifactId> <version>2.2-beta-5</version> 
+		</plugin> <plugin> <artifactId>maven-dependency-plugin</artifactId> <version>2.1</version> 
+		</plugin> <plugin> <artifactId>maven-help-plugin</artifactId> <version>2.1.1</version> 
+		</plugin> <plugin> <artifactId>maven-release-plugin</artifactId> <version>2.1</version> 
+		</plugin> <plugin> <artifactId>maven-source-plugin</artifactId> <version>2.1.2</version> 
+		</plugin> </plugins> </pluginManagement> </build> -->
 </project>
