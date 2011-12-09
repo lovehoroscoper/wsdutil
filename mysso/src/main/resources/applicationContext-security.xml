@@ -29,7 +29,7 @@
         peter/opal
     -->
     <authentication-manager>
-    	<authentication-provider>
+    	<authentication-provider ref=""><!-- 自己的实现 -->
     		<user-service>
     		</user-service>
     		<password-encoder>

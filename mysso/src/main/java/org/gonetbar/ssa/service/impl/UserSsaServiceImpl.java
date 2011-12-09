@@ -66,6 +66,7 @@ public class UserSsaServiceImpl implements UserSsaService {
 			throw new UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.noAuthority", new Object[] { username }, "User {0} has no GrantedAuthority"), username);
 		}
 
+		// 这步必须返回一个UserDetails
 		return createUserDetails(username, user, dbAuths);
 	}
 
