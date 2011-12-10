@@ -26,6 +26,7 @@
 		| AuthenticationManager here in the userConfigContext.xml so that you can see the things you will
 		| need to change in context.
 		+-->
+	<!-- 这个也可以自定义 -->
 	<bean id="authenticationManager"
 		class="org.jasig.cas.authentication.AuthenticationManagerImpl">
 		<!--
@@ -88,6 +89,10 @@
 					| where the username equals the password.  You will need to replace this with an AuthenticationHandler that implements your
 					| local authentication strategy.  You might accomplish this by coding a new such handler and declaring
 					| edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules.
+					+-->
+				<!-- 这里是修改为jdbc或者自己的
+					org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler 等待
+					这里是否可以存在多种验证方式???一个list
 					+-->
 				<bean
 					class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
