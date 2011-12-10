@@ -1,4 +1,4 @@
-package org.gonetbar.base.entity;
+package org.gonetbar.ssa.base.entity;
 
 import java.util.List;
 

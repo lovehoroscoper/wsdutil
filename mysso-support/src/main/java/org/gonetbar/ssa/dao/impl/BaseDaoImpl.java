@@ -2,8 +2,8 @@ package org.gonetbar.ssa.dao.impl;
 
 import java.util.List;
 
-import org.gonetbar.base.entity.PageBean;
-import org.gonetbar.base.entity.ParamPageVo;
+import org.gonetbar.ssa.base.entity.PageBean;
+import org.gonetbar.ssa.base.entity.ParamPageVo;
 import org.gonetbar.ssa.dao.BaseDao;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
 
