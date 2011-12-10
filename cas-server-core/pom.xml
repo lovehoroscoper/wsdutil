@@ -12,7 +12,7 @@
   <artifactId>cas-server-core</artifactId>
   <name>JA-SIG CAS Core</name>
   <description>CAS core</description>
-<version>3.4.12-SNAPSHOT</version>
+  <version>3.4.12-SNAPSHOT</version>
 
   <properties>
     <issues.projectKey>CAS</issues.projectKey>
