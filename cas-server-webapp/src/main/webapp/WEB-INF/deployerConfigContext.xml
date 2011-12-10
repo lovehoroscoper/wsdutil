@@ -54,6 +54,7 @@
 					| need to change this bean declaration (or add additional declarations) to declare a CredentialsToPrincipalResolver that supports the
 					| Credentials you are using.
 					+-->
+			    <!--  这个也替换 -->
 				<bean
 					class="org.jasig.cas.authentication.principal.UsernamePasswordCredentialsToPrincipalResolver" />
 				<!--
