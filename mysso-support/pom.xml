@@ -235,6 +235,7 @@
 			<artifactId>jmxri</artifactId> </exclusion> </exclusions> </dependency> -->
 
 	</dependencies>
+	<!-- 
 	<build>
 		<finalName>mysso</finalName>
 		<plugins>
@@ -248,7 +249,7 @@
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.7.2</version>
-				<configuration><!-- 跳过测试 -->
+				<configuration>
 					<skip>true</skip>
 				</configuration>
 			</plugin>
@@ -294,6 +295,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	 -->
 	<!-- <build> <finalName>mysso</finalName> <defaultGoal>package</defaultGoal> <pluginManagement> <plugins> <plugin> <artifactId>maven-compiler-plugin</artifactId> 
 		<version>2.3.2</version> <configuration> <showDeprecation>true</showDeprecation> <compilerArgument>-Xlint:unchecked</compilerArgument> </configuration> 
 		</plugin> <plugin> <artifactId>maven-clean-plugin</artifactId> <version>2.4.1</version> </plugin> <plugin> <artifactId>maven-install-plugin</artifactId> 
