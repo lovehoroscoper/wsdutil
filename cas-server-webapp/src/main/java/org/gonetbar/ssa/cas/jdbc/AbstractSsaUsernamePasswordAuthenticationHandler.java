@@ -1,5 +1,6 @@
 package org.gonetbar.ssa.cas.jdbc;
 
+import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
 import org.gonetbar.ssa.service.UserSsaService;
@@ -20,6 +21,7 @@ public abstract class AbstractSsaUsernamePasswordAuthenticationHandler extends A
 		return this.userSsaService;
 	}
 
+	@Resource(name = "userSsaService")
 	public final void setUserSsaService(UserSsaService userSsaService) {
 		this.userSsaService = userSsaService;
 	}

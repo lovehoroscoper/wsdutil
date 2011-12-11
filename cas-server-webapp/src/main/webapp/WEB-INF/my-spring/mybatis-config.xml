@@ -7,15 +7,13 @@
 	<settings>
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
-	<!-- 
-	<typeAliases>
-		<typeAlias alias="topic" type="com.godtips.sys.entity.Topic" />
-	</typeAliases>
-	 -->
 
-<!-- 
+	<typeAliases>
+		<typeAlias alias="userInfoVo" type="org.gonetbar.ssa.entity.UserInfoVo" />
+	</typeAliases>
+
 	<mappers>
-		<mapper resource="mapper/KarmaModelMapper.xml" />
+		<mapper resource="mapper/orm/mybatis/UserInfoVoMapper.xml" />
 	</mappers>
- -->
+
 </configuration>

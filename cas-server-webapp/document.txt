@@ -4,3 +4,10 @@ http://waitingmyself.blog.163.com/blog/static/1572133200911751652870/
 http://renren.it/a/JAVAbiancheng/Spring/20111113/142381.html
 
 http://binghejinjun.iteye.com/blog/1255293
+
+
+--------------问题
+接下来，还要在Server注册Client。这个虽然不是必须，但是出于安全考虑，如果CAS服务器在外网，就非常有必要对支持的Client进行注册了，因为当你访问Client在CAS登陆成功后，CAS会给你的Client提供登录者的用户信息。如果你模拟一个Client应用，使用暴力方式，不断给CAS提供用户口令和密码，会对安全性造成破坏。 
+另外，也可以给CAS登录页加一个验证码。 
+
+----

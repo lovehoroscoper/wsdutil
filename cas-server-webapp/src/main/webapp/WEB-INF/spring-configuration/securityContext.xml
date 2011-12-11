@@ -24,7 +24,11 @@
 	<bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties"
 		p:service="${cas.securityContext.serviceProperties.service}"
 		p:sendRenew="false" />
-      
+     
+    <!--
+		 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，   
+			我们的所有控制将在这三个类中实现，解释详见具体配置      
+     -->
 	<bean id="casProcessingFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter"
 		p:authenticationManager-ref="casAuthenticationManager"
 		p:filterProcessesUrl="/services/j_acegi_cas_security_check">

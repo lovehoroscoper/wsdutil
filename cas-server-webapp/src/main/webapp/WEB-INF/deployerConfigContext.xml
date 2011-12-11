@@ -91,12 +91,11 @@
 					| local authentication strategy.  You might accomplish this by coding a new such handler and declaring
 					| edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules.
 					+-->
-				<!-- 这里是修改为jdbc或者自己的
-					org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler 等待
-					这里是否可以存在多种验证方式???一个list
+				<!-- 这里是修改为jdbc或者自己的这里是否可以存在多种验证方式???一个list
+					org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler
+					org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler
 					+-->
-				<bean
-					class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
+				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler" />
 			</list>
 		</property>
 	</bean>
@@ -111,7 +110,7 @@
     <!-- <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />-->
 
     <sec:user-service id="userDetailsService">
-        <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />
+        <sec:user name="admin" password="admin123" authorities="ROLE_ADMIN" />
     </sec:user-service>
 	
 	<!-- 

@@ -119,6 +119,7 @@
 		-
 		- If you'd like these errors to result in all requests for CAS getting a "CAS is Unavailable" response, 
 		- use org.jasig.cas.web.init.SafeDispatcherServlet
+		
 	-->
 	<servlet>
 		<servlet-name>cas</servlet-name>
