@@ -12,6 +12,7 @@
 
 	<sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
 		<sec:intercept-url pattern="/services/loggedout.html" filters="none" /> 
+    	<sec:intercept-url pattern="/weisd/*" access="ROLE_WEISD" />
     	<sec:intercept-url pattern="/**" access="${cas.securityContext.serviceProperties.adminRoles}" />
         <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html" />
         <sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER" />
@@ -28,6 +29,9 @@
     <!--
 		 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性，   
 			我们的所有控制将在这三个类中实现，解释详见具体配置      
+			<beans:property name="securityMetadataSource"  
+30.             ref="securityMetadataSource" />
+p:securityMetadataSource-ref="securityMetadataSource"
      -->
 	<bean id="casProcessingFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter"
 		p:authenticationManager-ref="casAuthenticationManager"

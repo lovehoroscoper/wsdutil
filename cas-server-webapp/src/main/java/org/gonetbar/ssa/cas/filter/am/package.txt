@@ -1,1 +1,6 @@
 authenticationManager
+使用默认的
+
+public class ProviderManager extends AbstractAuthenticationManager
+
+CasAuthenticationProvider

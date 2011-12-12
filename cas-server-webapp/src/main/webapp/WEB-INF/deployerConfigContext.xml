@@ -174,4 +174,9 @@
         </bean>
 
     <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
+    
+    <!-- weisd myself -->
+    <!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->  
+    <bean id="securityMetadataSource"  class="org.gonetbar.ssa.cas.filter.sms.SsaFilterInvocationSecurityMetadataSource" />  
+    
 </beans>

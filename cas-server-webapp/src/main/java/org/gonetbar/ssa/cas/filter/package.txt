@@ -1,0 +1,24 @@
+AbstractSecurityInterceptor
+AbstractSecurityInterceptor
+
+
+        // Attempt authorization
+        try {
+            this.accessDecisionManager.decide(authenticated, object, attributes);
+        }
+        catch (AccessDeniedException accessDeniedException) {
+            publishEvent(new AuthorizationFailureEvent(object, attributes, authenticated,
+                    accessDeniedException));
+
+            throw accessDeniedException;
+        }
+        
+public class ProviderManager extends AbstractAuthenticationManager
+
+CasAuthenticationProvider
+
+
+public abstract class AbstractSecurityInterceptor 
+
+protected InterceptorStatusToken beforeInvocation(Object object) {
+ Collection<ConfigAttribute> attributes = this.obtainSecurityMetadataSource().getAttributes(object);
