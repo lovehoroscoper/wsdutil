@@ -10,15 +10,21 @@
 		have to modify anything in this file directly.  The configuration options should all be in the cas.properties file.
 	</description>
 
-	<sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
+	<sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true" >
 		<sec:intercept-url pattern="/services/loggedout.html" filters="none" /> 
     	<sec:intercept-url pattern="/weisd/*" access="ROLE_WEISD" />
     	<sec:intercept-url pattern="/**" access="${cas.securityContext.serviceProperties.adminRoles}" />
         <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html" />
         <sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER" />
+        <!-- 增加一个自定义的filter，放在FILTER_SECURITY_INTERCEPTOR之前，
+  					实现用户、角色、权限、资源的数据库管理。  
+        <sec:custom-filter ref="myFilter" before="FILTER_SECURITY_INTERCEPTOR" />
+  					-->
+        
+
     </sec:http>
 
-	<sec:authentication-manager alias="casAuthenticationManager">
+	<sec:authentication-manager alias="casAuthenticationManager" >
         <sec:authentication-provider ref="casAuthenticationProvider"  />
     </sec:authentication-manager>
 	
