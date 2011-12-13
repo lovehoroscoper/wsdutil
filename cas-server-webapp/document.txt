@@ -11,6 +11,7 @@ http://binghejinjun.iteye.com/blog/1255293
 另外，也可以给CAS登录页加一个验证码。 
 
 ----
+http://blog.csdn.net/kuaileren003/article/details/6106493
 
 http://www.blogjava.net/fastzch/archive/2011/05/05/315028.html
 
