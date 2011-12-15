@@ -22,7 +22,7 @@
 	<!-- 认证管理器 -->
 	<sec:authentication-manager alias="ssaAuthenticationManager">
 		<!-- 认证管理器提供者 【user-service-ref】引用的服务组件，通过securityManager进行对用户信息的认证 -->
-		<sec:authentication-provider user-service-ref="userDetailsService">
+		<sec:authentication-provider user-service-ref="ssaUserDetailsService">
 			<!-- 密码采用md5加密方式加密 -->
 			<sec:password-encoder base64="false" ref="passwordEncoder">
 				<!-- 用username做盐值加密，防止md5字典攻击 -->
@@ -57,7 +57,7 @@
 	</bean>
 
 	<!-- 用户信息服务 -->
-	<bean id="userDetailsService" class="com.sshframework.generic.security.service.UserDetailsServiceImpl">
+	<bean id="ssaUserDetailsService" class="com.sshframework.generic.security.service.UserDetailsServiceImpl">
 		<property name="userDAO" ref="userDAOImpl" />
 	</bean>
 	<!-- 密码加密 -->

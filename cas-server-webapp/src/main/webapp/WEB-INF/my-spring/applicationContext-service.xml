@@ -14,7 +14,7 @@
      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
      ">
 
-	<bean id="userSsaService" class="org.gonetbar.ssa.service.impl.UserSsaServiceImpl" autowire="byName"/>
+	<bean id="ssaUserService" class="org.gonetbar.ssa.service.impl.SsaUserServiceImpl" autowire="byName"/>
 		<!-- <bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl"> <property name="dataSource" ref="dataSource" 
 			/> </bean> -->
 
