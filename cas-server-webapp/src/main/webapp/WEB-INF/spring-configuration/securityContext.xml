@@ -49,6 +49,9 @@
 		<property name="serviceProperties" ref="serviceProperties" />
 	</bean>
 
+	<!-- 未明白 userDetailsService 这个 如果我自己的filter又一个userDetailsService 这样是否重复了
+		如果是调用数据库那么是否2个filter调用了2次
+	 -->
 	<bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
 		<property name="key" value="my_password_for_this_auth_provider_only" />
 		<property name="serviceProperties" ref="serviceProperties" />

@@ -19,7 +19,15 @@
 		<property name="observeOncePerRequest" value="false" />
 	</bean>
 
-	<!-- 认证管理器 -->
+	<!-- 认证管理器 这个与 cas的 userDetailsService重复了是否可以不再配置 
+	ProviderManager	
+	AbstractUserDetailsAuthenticationProvider 中会先从
+	UserDetails user = this.userCache.getUserFromCache(username);
+	        if (!cacheWasUsed) {
+            this.userCache.putUserInCache(user);
+        }
+        所以不必担心重复查询
+	-->
 	<sec:authentication-manager alias="ssaAuthenticationManager">
 		<!-- 认证管理器提供者 【user-service-ref】引用的服务组件，通过securityManager进行对用户信息的认证 -->
 		<sec:authentication-provider user-service-ref="ssaUserDetailsService">
