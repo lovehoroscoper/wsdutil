@@ -12,9 +12,9 @@ public final class MybatisAuthenticationHandler extends AbstractSsaUsernamePassw
 		final String password = credentials.getPassword();
 		final String encryptedPassword = this.getPasswordEncoder().encode(password);
 		try {
-			final UserInfoVo resultVo = this.getUserSsaService().findUserByName(username);
+			final UserInfoVo resultVo = this.getSsaUserService().findUserByName(username);
 			if (null != resultVo && null != resultVo.getPassword()) {
-				final String dbPassword = this.getUserSsaService().findUserByName(username).getPassword();
+				final String dbPassword = this.getSsaUserService().findUserByName(username).getPassword();
 				return dbPassword.equals(encryptedPassword);
 			} else {
 				return false;

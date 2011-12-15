@@ -3,7 +3,7 @@ package org.gonetbar.ssa.cas.jdbc;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotNull;
 
-import org.gonetbar.ssa.service.UserSsaService;
+import org.gonetbar.ssa.service.SsaUserService;
 import org.jasig.cas.authentication.handler.support.AbstractUsernamePasswordAuthenticationHandler;
 
 /**
@@ -15,15 +15,15 @@ import org.jasig.cas.authentication.handler.support.AbstractUsernamePasswordAuth
 public abstract class AbstractSsaUsernamePasswordAuthenticationHandler extends AbstractUsernamePasswordAuthenticationHandler {
 
 	@NotNull
-	private UserSsaService userSsaService;
+	private SsaUserService ssaUserService;
 
-	protected UserSsaService getUserSsaService() {
-		return this.userSsaService;
+	public SsaUserService getSsaUserService() {
+		return ssaUserService;
 	}
 
-	@Resource(name = "userSsaService")
-	public final void setUserSsaService(UserSsaService userSsaService) {
-		this.userSsaService = userSsaService;
+	@Resource(name = "ssaUserService")
+	public void setSsaUserService(SsaUserService ssaUserService) {
+		this.ssaUserService = ssaUserService;
 	}
 
 }

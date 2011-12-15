@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.gonetbar.ssa.dao.UserSsaDao;
 import org.gonetbar.ssa.entity.UserInfoVo;
-import org.gonetbar.ssa.service.UserSsaService;
+import org.gonetbar.ssa.service.SsaUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -21,9 +21,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @date 2011-12-8 下午9:34:14
  * @version v1.0
  */
-public class UserSsaServiceImpl implements UserSsaService {
+public class SsaUserServiceImpl implements SsaUserService {
 
-	private static Logger logger = LoggerFactory.getLogger(UserSsaServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(SsaUserServiceImpl.class);
 
 	private UserSsaDao userSsaDao;
 
