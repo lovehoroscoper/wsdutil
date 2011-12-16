@@ -14,6 +14,6 @@
      http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
      ">
      
-	<bean id="userSsaDao" class="org.gonetbar.ssa.dao.impl.UserSsaDaoImpl" autowire="byName"/>
+	<bean id="ssaUserDao" class="org.gonetbar.ssa.dao.impl.SsaUserDaoImpl" autowire="byName"/>
 
 </beans>

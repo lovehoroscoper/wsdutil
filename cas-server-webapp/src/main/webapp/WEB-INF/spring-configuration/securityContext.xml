@@ -16,7 +16,7 @@
 		<sec:intercept-url pattern="/**" access="${cas.securityContext.serviceProperties.adminRoles}" />
 		<sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html" />
 		<sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER" />
-		<sec:custom-filter ref="ssaFilter" after="FILTER_SECURITY_INTERCEPTOR" />
+		<sec:custom-filter ref="ssaFilter" before="FILTER_SECURITY_INTERCEPTOR" />
 	</sec:http>
 
 	<sec:authentication-manager alias="casAuthenticationManager">
@@ -55,7 +55,7 @@
 	<bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
 		<property name="key" value="my_password_for_this_auth_provider_only" />
 		<property name="serviceProperties" ref="serviceProperties" />
-		<property name="userDetailsService" ref="casUserDetailsService" />
+		<property name="userDetailsService" ref="userDetailsService" />
 		<property name="ticketValidator">
 			<bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
 				<constructor-arg index="0" value="${cas.securityContext.ticketValidator.casServerUrlPrefix}" />

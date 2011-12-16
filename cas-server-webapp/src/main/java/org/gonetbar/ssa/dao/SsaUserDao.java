@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @date 2011-12-8 下午9:35:37
  * @version v1.0
  */
-public interface UserSsaDao {
+public interface SsaUserDao {
 
 	public List<UserDetails> loadUsersByUsername(String username);
 

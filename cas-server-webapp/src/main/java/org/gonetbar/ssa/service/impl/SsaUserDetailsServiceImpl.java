@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.gonetbar.ssa.dao.UserSsaDao;
+import org.gonetbar.ssa.dao.SsaUserDao;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
 import org.slf4j.Logger;
@@ -21,11 +21,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  * @date 2011-12-8 下午9:34:14
  * @version v1.0
  */
-public class SsaUserServiceImpl implements SsaUserService {
+public class SsaUserDetailsServiceImpl implements SsaUserService {
 
-	private static Logger logger = LoggerFactory.getLogger(SsaUserServiceImpl.class);
+	private static Logger logger = LoggerFactory.getLogger(SsaUserDetailsServiceImpl.class);
 
-	private UserSsaDao userSsaDao;
+	private SsaUserDao ssaUserDao;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		// List<UserDetails> users = loadUsersByUsername(username);
@@ -74,7 +74,7 @@ public class SsaUserServiceImpl implements SsaUserService {
 
 	protected List<UserDetails> loadUsersByUsername(String username) {
 
-		return userSsaDao.loadUsersByUsername(username);
+		return ssaUserDao.loadUsersByUsername(username);
 
 		// return getJdbcTemplate().query(usersByUsernameQuery, new String[] {
 		// username }, new RowMapper<UserDetails>() {
@@ -90,9 +90,9 @@ public class SsaUserServiceImpl implements SsaUserService {
 		// });
 	}
 
-	@Resource(name = "userSsaDao")
-	public void setUserSsaDao(UserSsaDao userSsaDao) {
-		this.userSsaDao = userSsaDao;
+	@Resource(name = "ssaUserDao")
+	public void setSsaUserDao(SsaUserDao ssaUserDao) {
+		this.ssaUserDao = ssaUserDao;
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class SsaUserServiceImpl implements SsaUserService {
 		if (null == findVo) {
 			return null;
 		}
-		return userSsaDao.findUserByVo(findVo);
+		return ssaUserDao.findUserByVo(findVo);
 	}
 
 	@Override
