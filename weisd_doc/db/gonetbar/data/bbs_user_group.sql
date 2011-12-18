@@ -1,0 +1,14 @@
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (1, 1, '白丁', 1, '1', 0, 1, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (2, 1, '童生', 1, '2', 10, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (3, 1, '秀才', 1, '3', 50, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (4, 1, '举人', 1, '4', 100, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (5, 1, '解元', 1, '5', 200, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (6, 1, '贡士', 1, '6', 400, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (7, 1, '会元', 1, '7', 800, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (8, 1, '进士', 1, '8', 1600, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (9, 1, '探花', 1, '9', 3200, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (10, 1, '榜眼', 1, '10', 6400, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (11, 1, '状元', 1, '11', 12800, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (12, 1, '版主', 2, '21', 0, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (13, 1, 'VIP会员', 3, '10', 0, 0, 0);
+INSERT INTO `bbs_user_group` (`GROUP_ID`, `site_id`, `NAME`, `GROUP_TYPE`, `GROUP_IMG`, `GROUP_POINT`, `IS_DEFAULT`, `GRADE_NUM`) VALUES (14, 1, '游客', 0, '1', 0, 0, 0);

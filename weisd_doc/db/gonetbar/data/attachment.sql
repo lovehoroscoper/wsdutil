@@ -1,0 +1,1 @@
+INSERT INTO `attachment` (`attachment_id`, `post_id`, `name`, `description`, `file_path`, `file_name`, `file_size`, `is_pictrue`, `create_time`) VALUES (1, 30, 'Winter.jpg', NULL, '/u/cms/www/201103/27154723aswp.jpg', 'Winter.jpg', 105542, 1, '2011-3-27 15:47:23');

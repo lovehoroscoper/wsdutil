@@ -1,0 +1,9 @@
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (6, NULL, 1, NULL, NULL, '这家伙很懒，什么都没留下~', '江西南昌', NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (9, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (11, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (12, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `jb_user_ext` (`user_id`, `realname`, `gender`, `avatar`, `birthday`, `intro`, `comefrom`, `qq`, `msn`, `phone`, `moble`) VALUES (13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
