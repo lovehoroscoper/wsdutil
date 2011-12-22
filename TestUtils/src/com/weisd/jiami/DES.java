@@ -167,15 +167,15 @@ public class DES {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String strOriginal = "1111";
-		String strOp = "-de";
+		String strOriginal = "1111111111111111231313";
+		String strOp = "-de231313123232133";
 		// 检查入参个数
 		if (args.length == 2) {
 			strOp = args[0];
 			strOriginal = args[1];
 		} else {
-			System.out.println("Wrong Parameter count , try use \"java DES -de|-en 'the string you want to be Encrypted'\"");
-			System.out.println("Now do Encrypt with \"1111\"");
+			//System.out.println("Wrong Parameter count , try use \"java DES -de|-en 'the string you want to be Encrypted'\"");
+			//System.out.println("Now do Encrypt with \"1111\"");
 			try {
 				DES des = new DES();
 				// 加密测试
@@ -189,20 +189,20 @@ public class DES {
 			}
 			return;
 		}
-		try {
-			if (strOp.equals("-de")) {
-				DES des = new DES();
-				des.deTest(strOriginal);
-			} else if (strOp.equals("-en")) {
-				DES des = new DES();
-				des.enTest(strOriginal);
-			} else {
-				System.out.println("Wrong operater , try use \"java DES -de|-en 'the string you want to be Encrypted'\"");
-				System.out.println("Now do Encrypt with \"1111\"");
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+//		try {
+//			if (strOp.equals("-de")) {
+//				DES des = new DES();
+//				des.deTest(strOriginal);
+//			} else if (strOp.equals("-en")) {
+//				DES des = new DES();
+//				des.enTest(strOriginal);
+//			} else {
+//				System.out.println("Wrong operater , try use \"java DES -de|-en 'the string you want to be Encrypted'\"");
+//				System.out.println("Now do Encrypt with \"1111\"");
+//			}
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
 	}
 
 	/**
