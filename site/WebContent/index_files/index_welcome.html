@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="../static/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../static/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="../static/js/common.js"></script>
+</head>
+<body id="main_page">
+	<div id="nav" style="display: none;">
+		<dl>
+
+			<dt>当前位置：</dt>
+			<dd class="link">管理首页</dd>
+			<!--导航-->
+		</dl>
+	</div>
+
+	<script type="text/javascript">
+		if ($.browser.msie) {
+			document.execCommand("BackgroundImageCache", false, true);
+		}
+		var nav = document.getElementById("nav");
+		var pnav = window.parent.document.getElementById("nav")
+		pnav.innerHTML = nav.innerHTML;
+	</script>
+
+	<body id="main_page">
+
+		<div id="nav" style="display: none">
+
+			<dl>
+				<dt>当前位置：</dt>
+				<dd class="link">
+					<a href="#">首页管理</a>
+				</dd>
+				<dd>控制台</dd>
+			</dl>
+		</div>
+		<script type="text/javascript">
+			var nav = document.getElementById("nav");
+			var pnav = window.parent.document.getElementById("nav")
+			pnav.innerHTML = nav.innerHTML;
+		</script>
+		<div class="wrap">
+			<div class="container">
+
+				<div id="main">
+					<div class="con">
+
+						<div class="table">
+							<h2 class="th">114啦网址导航建站系统 更新消息</h2>
+							<table>
+								<tr>
+									<td>
+										<p>
+											欢迎使用雨林木风114啦网址导航建站系统，当前版本号：V1.15，最后更新时间：20110115 。 <br />
+											<!-- <a href='http://www.ylmf.net/thread.php?fid=346' target='_blank'>114啦网址导航建站系统开源讨论专区&gt;&gt;</a>-->
+
+										</p>
+										<div class="table" id="version_notice" style="display: none; background-color: #fff">
+											<p class="tips"></p>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<div class="table">
+							<h2 class="th">安全提示</h2>
+							<div class="tips">
+
+								<p>
+									为了使用更安全，建议您将后台管理目录名称由默认的 <strong>admin</strong> 修改为其他目录名， <strong>修改步骤如下：</strong>
+								</p>
+								<p>
+									1、修改ftp根目录下的 <strong>init.php</strong> 文件，将第 <strong>10</strong> 行，将该行最后一个引号里的 <strong>admin</strong>（小写字母） 修改为新的目录名。
+								</p>
+
+								<p>
+									2、修改ftp根目录下的 <strong>admin</strong> 目录名为新的目录名。
+								</p>
+							</div>
+						</div>
+
+
+
+						<div class="table">
+							<h2 class="th">
+								服务器基本信息 <span class="head">172.25.25.123 (172.25.25.123) &nbsp;2012年1月5日 14:19:40</span>
+							</h2>
+							<table>
+
+								<tr>
+									<td colspan="2">System:Windows NT 5.1build2600</td>
+									<td colspan="2">Web server:<span class="b">Apache/2.2.11 (Win32) PHP/5.2.8</span></td>
+									<td colspan="2">PHP Version:5.2.8</td>
+								</tr>
+								<tr>
+
+									<td colspan="2">Mysql Version:5.5.15</td>
+									<td colspan="2">display_errors:<span class='resYes'>YES</span></td>
+									<td colspan="2">Server API:APACHE2HANDLER</td>
+								</tr>
+								<tr>
+									<td colspan="2">PHP Safe: <span class='resNo'>NO</span>
+									</td>
+
+									<td colspan="2">Session Support:<span class='resYes'>YES</span></td>
+									<td colspan="2">Cookie Support:<span class='resYes'>YES</span></td>
+								</tr>
+								<tr>
+									<td colspan="2">Zend Optimizer Support:<span class='resYes'>YES</span></td>
+									<td colspan="2">eAccelerator Support:<span class='resYes'>YES</span></td>
+
+									<td colspan="2">Xcache Support:<span class='resNo'>NO</span></td>
+								</tr>
+								<tr>
+									<td colspan="2">register_globals:<span class='resYes'>YES</span></td>
+									<td colspan="2">magic_quotes_gpc:<span class='resYes'>YES</span></td>
+									<td colspan="2">magic_quotes_runtime:<span class='resNo'>NO</span></td>
+
+								</tr>
+								<tr>
+									<td colspan="2">upload_max_filesize:2M</td>
+									<td colspan="2">post_max_size:8M</td>
+									<td colspan="2">max_execution_time:30s</td>
+								</tr>
+								<tr>
+
+									<td width="12%">allow_url_fopen:<span class='resYes'>YES</span></td>
+									<td width="13%">Curl Support:<span class='resYes'>YES</span></td>
+									<td width="12%">Iconv Support:<span class='resYes'>YES</span></td>
+									<td width="13%">Zlib Support:<span class='resYes'>YES</span></td>
+									<td width="12%">GD Support:<span class='resYes'>YES</span></td>
+
+									<td width="13%">DBA Support:<span class='resNo'>NO</span></td>
+								</tr>
+							</table>
+						</div>
+						<div class="table">
+							<h2 class="th">统计信息</h2>
+							<table>
+								<tr>
+
+									<td>当前站点数:14419</td>
+									<td>数据库大小:3.44 MB</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<!--/ con-->
+				</div>
+			</div>
+			<!--/ container-->
+
+		</div>
+		<!--/ wrap-->
+
+		<div style="display: none"></div>
+	</body>
+</html>

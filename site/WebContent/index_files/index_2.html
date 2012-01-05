@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link href="../static/css/style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../static/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="../static/js/sidebar.js"></script>
+</head>
+<body id="sidebar_page">
+	<div class="wrap">
+		<div class="cotainer">
+			<div id="sidebar">
+
+				<div class="home">
+					<a href="http://172.25.25.123:8080/upload" target="_blank">网站首页</a> - <a href="http://www.ylmf.net/thread.php?fid=346" target="_blank">论坛专区</a>
+				</div>
+				<div class="con">
+					<!--公用-->
+					<h2>管理首页</h2>
+
+					<p class="userpanel">
+						用户名：admin<br /> 级 别：超级管理员<br /> <a href="?c=member&a=member_password&name=admin" target='main'>密 码</a> | <a href="?c=login&a=welcome"
+							target='main'>主 页</a>| <a href="?c=login&a=logout" target="_parent">退 出</a>
+					</p>
+
+					<div class='item'>
+						<h2>
+							首页管理<span class='close'>收起</span>
+						</h2>
+						<ul>
+							<li><a href='?c=famous_nav' target='main'>名站管理</a></li>
+							<li><a href='?c=mztop' target='main'>名站首行</a></li>
+							<li><a href='?c=famous_tab' target='main'>名站切换栏</a></li>
+							<li><a href='?c=cool_class' target='main'>酷站分类</a></li>
+							<li><a href='?c=cool_site' target='main'>酷站网址</a></li>
+							<li><a href='?c=index_tool' target='main'>首页实用工具</a></li>
+							<li><a href='?c=links' target='main'>友情链接管理</a></li>
+						</ul>
+					</div>
+					<div class='item'>
+						<h2>
+							网址管理<span class='close'>收起</span>
+						</h2>
+						<ul>
+							<li><a href='?c=class&a=index&type=2' target='main'>分类管理</a></li>
+							<li><a href='2/list.html' target='main'>网址管理</a></li>
+							<li><a href='?c=site_manage&a=multi_add' target='main'>批量添加网址</a></li>
+							<li><a href='?c=site_manage&a=import' target='main'>批量导入网址</a></li>
+							<li><a href='?c=recycler' target='main'>网址回收站</a></li>
+						</ul>
+					</div>
+
+				</div>
+				<!--/ .con-->
+			</div>
+			<!--/ sidebar-->
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+					var aArr = $(".con").find("li:first a");
+					if (aArr && aArr.html() == "一键生成选择")
+					//if (aArr)
+					{
+						//alert(aArr.html())
+						aArr.addClass("active");
+						$('#main', window.parent.document).attr('src',
+								aArr.attr('href'));
+					}
+					if (aArr && aArr.html() == "114啦联盟") {
+						aArr.addClass("active");
+						$('#main', window.parent.document).attr('src',
+								aArr.attr('href'));
+					}
+
+				})
+	</script>
+</body>
+</html>

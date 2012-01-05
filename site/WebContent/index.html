@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>管理中心-114啦网址导航建站系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta content="www.114la.com" name="Copyright">
+<style type="text/css">
+html {
+	overflow: hidden;
+}
+
+table,td,th,body,dt,dd,dl {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+#nav {
+	background: repeat-x url(static/images/repeat.gif) 0 -209px;
+	font-size: 12px;
+	position: static;
+	top: 0;
+	left: 0;
+	height: 32px;
+	line-height: 26px;
+	padding: 0 10px;
+}
+
+#nav a {
+	color: #666;
+	text-decoration: none;
+}
+
+#nav a:hover {
+	color: #f60;
+	text-decoration: underline;
+}
+
+#nav dt,#nav dd {
+	float: left;
+}
+
+#nav dd {
+	color: #999;
+}
+
+#nav dt,#nav dd.link {
+	padding-right: 16px;
+	background: url(static/images/images.gif) no-repeat right -204px;
+}
+</style>
+
+</head>
+<body scroll="no" onload="init()">
+	<!-- onLoad="init();"-->
+	<table cellpadding="0" cellspacing="0" height="100%" width="100%">
+		<tbody>
+			<tr>
+				<td colspan="2" height="59"><iframe src="index_files/index_top.html" name="header" target="menu" frameborder="0" height="59" scrolling="no"
+						width="100%"></iframe></td>
+			</tr>
+			<tr>
+				<td rowspan="2" valign="top" width="136"><iframe src="index_files/index_0.html" name="menu" target="main" frameborder="0" height="100%"
+						scrolling="no" width="136"></iframe></td>
+				<td valign="top" width="100%">
+
+					<table cellpadding="0" cellspacing="0" height="100%" width="100%">
+						<tbody>
+							<tr>
+								<td height="32" valign="top">
+									<div id="nav">
+										<dl>
+											<dt>当前位置：</dt>
+											<dd class="link">管理首页</dd>
+											<!--导航-->
+										</dl>
+									</div>
+								</td>
+							</tr>
+							<tr>
+								<td valign="top" width="100%"><iframe src="index_files/index_welcome.html" id="main" name="main" style="overflow: visible;" frameborder="0" height="100%"
+										scrolling="yes" width="100%"></iframe></td>
+								<!--  ?c=login&a=welcome  -->
+							</tr>
+						</tbody>
+					</table>
+
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<script type="text/javascript">
+		var init = function() {
+			var nav = document.getElementById("nav");
+			var main = document.getElementById("main");
+
+			var mainDom;
+			if (document.all) {
+				mainDom = main.contentWindow.document;
+			} else {
+				mainDom = main.contentDocument;
+			}
+
+			nav.innerHTML = mainDom.getElementById("nav").innerHTML;
+		}
+	</script>
+
+</body>
+</html>
