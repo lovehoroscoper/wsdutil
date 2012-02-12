@@ -26,10 +26,12 @@ $(document).ready(function(){
 		buttonLeft: $('#but1'),
 		buttonRight: $('#but2'),
 		yRadius:40,
-		xPos: 285,
-		yPos: 120,
+		xPos: 295,
+		yPos: 60,
 		speed:0.15,
-		mouseWheel:true
+		mouseWheel:true,
+		autoRotate: 'left',
+		autoRotateDelay: 1200,
 	});
 });
 </script>
@@ -52,11 +54,17 @@ body { /* Reduce default font size to 10pt */
 		<div id="header" class="span-24 last center">
 	
 		</div>
-		<div class="span-14 colborder"><!-- colborder 有间隔 -->
-					<div id="da-vinci-carousel" style="height:384px;background: url(images/bg.jpg);overflow:scroll;">
+		<div class="span-15"><!-- colborder 有间隔 -->
+					<div id="da-vinci-carousel" style="height:280px;background: url(images/bg.jpg);overflow:scroll;">
 				              
 				        <a href="" rel='lightbox' title="Leonardo Da Vinci">
+				        	<div class="cloudcarousel" style="width:128px;height:164px;">
+				        		<img class="" src="images/test1.png" width="128" height="164" alt="Self-portrait in red chalk, circa 1512-1515." title="Leonardo Da Vinci" />
+				        	</div>
+				        	<!-- 
+				        	<div class="cloudcarousel">dwdawdad</div>
 				        	<img class="cloudcarousel" src="images/test1.png" width="128" height="164" alt="Self-portrait in red chalk, circa 1512-1515." title="Leonardo Da Vinci" />
+				        	 -->
 				        </a>  
 				        <a href="" rel='lightbox' title="Leonardo Da Vinci">
 				        	<img class="cloudcarousel" src="images/test2.png" width="128" height="164" alt="Self-portrait in red chalk, circa 1512-1515." title="Leonardo Da Vinci" />
@@ -94,11 +102,11 @@ body { /* Reduce default font size to 10pt */
 						<div id="but2" class="carouselRight" style="position:absolute;top:20px;right:20px;"></div>      
 				 	</div>
 		</div>
-		<div class="span-8 last">
-			<div class="span-8 last">
-				<div class="span-8 last inner" style="height:384px;">
+		<div class="span-9 last">
+			<div class="span-9 last">
+				<div class="span-9 last" style="height:384px;">
 					<h2><span>LAtest</span> News</h2>
-					<ul class="news">
+					<ul>
 						<li><strong>24.08.2010</strong><a href="http://my.oschina.net/sss">Sed ut perspiciatis unomnis</a> iste natus eirsot volup tatem accusantiuveniam, quis nostrud exercitation ullamco laboris .</li>
 						<li><strong>19.08.2010</strong><a href="http://my.oschina.net/sss">Loremque laudantium,</a> totam aperiam eaque ipsa quae veniam, quis nostrud exercitation ullamco laboris ab illo inventore. </li>
 						<li><strong>24.08.2010</strong><a href="http://my.oschina.net/sss">Sed ut perspiciatis unomnis</a> iste natus eirsot volup tatem veniam, quis nostrud exercitation ullamco laboris accusantiu.</li>
@@ -106,16 +114,16 @@ body { /* Reduce default font size to 10pt */
 				</div>
 				<hr />
 			</div>
-			<div class="span-8 last">
-				<div class="span-8 last">
+			<div class="span-9 last">
+				<div class="span-9 last">
 						我是标题
 				</div>
-				<div class="span-8 last">
+				<div class="span-9 last">
 					<section id="content">
 						<article>
 							<div class="box">
 									<div id="my_span">
-										<ul class="news">
+										<ul>
 											<li>
 											<span class='portrait'>
 												<a href="http://my.oschina.net/sss" target="_blank">
@@ -129,7 +137,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 
@@ -155,7 +163,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 
@@ -180,7 +188,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 
@@ -205,7 +213,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 
@@ -230,7 +238,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 
@@ -255,7 +263,7 @@ body { /* Reduce default font size to 10pt */
 											</span>
 											<span class="log">我给大家推荐一首歌，best of me 来奖励一下自己吧。很温柔，很好听的一首歌。不是在灌水哦。
 											<a href="http://my.oschina.net/u/211822/tweet/505199">
-											<img src="images/icons/external.png" />
+											<img src="images/chat_16.png" />
 											</a>
 											</span>
 											<!-- 

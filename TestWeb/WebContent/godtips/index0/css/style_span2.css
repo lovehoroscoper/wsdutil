@@ -19,33 +19,12 @@ section#content {
 	float: left
 }
 
-/* lists */
-.news {
-	margin-top: -20px
-}
-
-.news li {
-	line-height: 1.538em;
-	padding-top: 20px
-}
-
-
 .box {
+	/*
 	background: url(../images/border-top.gif) repeat-x left top #f7f7f7;
+	*/
+	background: url() repeat-x left top #f7f7f7;
 	width: 100%
-}
-
-.box .left-top-corner {
-	background: url(../images/left-top-corner.gif) no-repeat left top
-}
-
-.box .right-top-corner {
-	background: url(../images/right-top-corner.gif) no-repeat right top;
-	width: 100%
-}
-
-.box .inner {
-	padding: 25px 49px 45px 49px
 }
 
 #my_span {
@@ -60,11 +39,6 @@ section#content {
     list-style-type:none;
 	line-height: 1.538em;
 	padding: 5px 0 5px;
-    /*
-	padding-top: 20px
-    margin: 0 0 5px;
-    
-    */
 }
 
 #my_span ul li .portrait {
