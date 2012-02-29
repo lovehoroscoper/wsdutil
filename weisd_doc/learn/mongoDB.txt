@@ -1,5 +1,57 @@
+http://chenmj.cnblogs.com/
+
+mongod --dbpath "F:\mongodb-2.0.3\data" --logpath "F:\mongodb-2.0.3\log\mongodb.log"  --serviceName "MongoDB" --install
+
+生成日志能否是每天一个文件？
+
 1、文档的键不能包含有\0  空字符、 这个是指结尾还是键的中间？
 2、启动mongod   ./mongod
 3\ 启动shell    ./mongo
 
 2.5.4
+javascript 中date函数个构造方法以及使用
+
+每一个文档都有一个id
+2个集合里面的文档可以有一样的id
+但是一个集合的文档只能有一个唯一的id
+
+集合的概念还有点模糊？
+文档类似于行，集合类似于表,
+
+
+一个集合是一个库？还是一个库可以包含多个集合
+多个文档组成集合，多个集合组成数据库
+
+一秒钟最多允许每个进程创建256的3次方
+
+将事务交由客户端处理
+
+三、
+怎么创建集合
+
+批量插入 只有多个文档到一个集合，不能使多个文档中不同的集合
+
+或导入数据
+
+一次消息大小事16m 那么存入文件呢？
+
+检查  _id和bson 不超过4m吗  1。8version  16m
+
+utf-8的字符串，或者启动服务器时候开启检测功能
+
+使用修改器时候 id不能变
+但是替换整个文档时候id是可以改变
+
+添加，修改，删除 时候使用set
+避免
+update（xxxxx,{"dd":"dd"}）这样替换整个文档  50页  是什么意思具体？
+
+> db.foo.find()
+{ "_id" : ObjectId("4f4e31f2cc07731519bd0bec"), "up" : "update" }
+> db.foo.update({"up":"update"},{"upq":"updateq","sd":"ss"})
+> db.foo.find()
+{ "_id" : ObjectId("4f4e31f2cc07731519bd0bec"), "upq" : "updateq", "sd" : "ss" }
+>
+所以可以看出来时整个文档替换
+
+51 页 数组修改器
