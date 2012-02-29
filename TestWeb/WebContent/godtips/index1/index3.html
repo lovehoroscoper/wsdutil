@@ -1,0 +1,72 @@
+<html>
+<head>
+
+<!-- You can load the jQuery library from the Google Content Network.
+Probably better than from your own server. -->
+<script type="text/javascript" src="js/jquery-1.4.2.min.js" ></script>
+
+<!-- Load the CloudCarousel JavaScript file 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js" ></script>
+-->
+<script type="text/javascript" src="js/cloud-carousel.1.0.5.js"></script>
+
+<script>
+$(document).ready(function(){
+						   
+	$("#da-vinci-carousel").CloudCarousel( { 
+		reflHeight: 56,
+		reflGap:2,
+		titleBox: $('#da-vinci-title'),
+		altBox: $('#da-vinci-alt'),
+		buttonLeft: $('#but1'),
+		buttonRight: $('#but2'),
+		yRadius:40,
+		xPos: 285,
+		yPos: 120,
+		speed:0.15,
+		mouseWheel:true
+	});
+});
+
+</script>
+
+</head>
+    <body>
+
+<div id="da-vinci-carousel" style="width:570px; height:384px;background: url(/images/carousel/bg.jpg);overflow:scroll;">
+	          
+              
+        <a href="/images/carousel/big-da-vinci/382px-Leonardo_self.jpg" rel='lightbox' title="Leonardo Da Vinci">
+        	<img class="cloudcarousel" src="images/1.jpg" width="128" height="164" alt="Self-portrait in red chalk, circa 1512-1515." title="Leonardo Da Vinci" />
+        </a>  
+
+        <a href="/images/carousel/big-da-vinci/396px-Mona_Lisa.jpg" rel='lightbox' title="Mona Lisa">
+        	<img class="cloudcarousel" src="images/2.jpg" width="128" height="164" alt="Oil on cotton wood, circa 1503–1505." title="Mona Lisa" />
+        </a>
+
+        <a href='/images/carousel/big-da-vinci/439px-The_Lady_with_an_Ermine.jpg' rel='lightbox' title="Lady with an Ermine">
+        	<img class="cloudcarousel" src="images/3.jpg" width="128" height="164" alt="Oil on wood panel, 1485." title="Lady with an Ermine" />
+        </a>
+
+  		<a href="/images/carousel/big-da-vinci/Madonna_of_the_Yarnwinder.jpg" rel="lightbox" title="Madonna of the Yarnwinder">
+  			<img class="cloudcarousel" src="images/4.jpg" width="128" height="164" alt="Oil on canvas, circa 1501." title="Madonna of the Yarnwinder" />
+  		</a>
+          
+        <a href="/images/carousel/big-da-vinci/470px-Madonna_Litta.jpg" rel="lightbox" title="Madonna and the Child">
+        	<img class="cloudcarousel" src="images/5.jpg" width="128" height="164" alt="Oil on canvas (transferred from panel), circa 1490." title="Madonna and the Child" />
+        </a>       
+        
+          
+
+		<div id="da-vinci-title"  ></div>
+		<div id="da-vinci-alt" ></div>
+        
+		<div id="but1" class="carouselLeft" style="position:absolute;top:20px;right:64px;"></div>
+
+		<div id="but2" class="carouselRight" style="position:absolute;top:20px;right:20px;"></div>      
+ 	</div>
+    </body>
+</html>
+
+

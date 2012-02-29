@@ -1,0 +1,327 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+<title>Professor Cloud</title>
+<link href="/jqueryui/css/custom-theme/jquery-ui-1.7.2.custom.css" rel="stylesheet" type="text/css" />
+<link href="/styles/main.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/js/jquery.aall.1.0.0.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/showhide.js"></script>
+<!-- InstanceBeginEditable name="documentready2" -->
+<link rel="stylesheet" href="/js/slimbox-2.03/css/slimbox2.css" type="text/css" media="screen" />
+<script type="text/JavaScript" src="/js/jquery.mousewheel.js"></script>
+<script type="text/JavaScript" src="/js/slimbox-2.03/js/slimbox2.js"></script>
+<script type="text/JavaScript" src="/js/cloud-carousel.1.0.5.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+		
+	$("#da-vinci-carousel").CloudCarousel( { 
+		reflHeight: 56,
+		reflGap:2,
+		titleBox: $('#da-vinci-title'),
+		altBox: $('#da-vinci-alt'),
+		buttonLeft: $('#but1'),
+		buttonRight: $('#but2'),
+		yRadius:40,
+		xPos: 285,
+		yPos: 120,
+		speed:0.15,
+		mouseWheel:true
+	});
+	
+	$("#carousel2").CloudCarousel({			
+		xPos:280,
+		yPos:80,
+		buttonLeft: $('#but3'),
+		buttonRight: $('#but4'),				
+		FPS:30,
+		autoRotate: 'left',
+		autoRotateDelay: 1200,
+		speed:0.2,
+		mouseWheel:true,
+		bringToFront:true
+	});	
+		
+});
+</script>
+
+</head>
+
+<body>
+<div id="midground">
+<div id="foreground">
+<div id='container'>
+  <div id='banner'>
+   	<div id='bannertext'>Enhance your websites with powerful and easy-to-use plugins.</div>
+   		<a id="logo" href="/mainsite/index.htm"><span>Professor Cloud</span></a>
+        <ul id="cssdropdown">
+        
+        <li class="headlink"><a href="/mainsite/index.htm">Home</a></li>    
+        
+        <li class="headlink">
+
+         <a href="#">Plugins</a>
+         
+         <ul>
+          
+          <li><a href="/mainsite/carousel.htm">Cloud Carousel</a></li>
+          <li><a href="/mainsite/lens-flare.htm">Lens Flare</a></li>
+          <li><a href="/mainsite/cloud-zoom.htm">Cloud Zoom</a></li>
+         
+            
+         </ul>
+         </li>
+
+           
+           <li class="headlink"><a href="#">Experiments</a>
+           <ul>
+          
+          
+          	<li><a href="/mainsite/cache-canvas.htm">HTML5 Canvas Caching</a></li>
+            <li><a href="/mainsite/canvas-nebula.htm">HTML5 Canvas Nebula</a></li>
+             <li><a href="/svg-to-canvas">SVG to Canvas</a></li>
+         
+            
+         		</ul>
+           </li>  
+        	<li class="headlink"><a href="/mainsite/about.htm">About</a></li>  
+          <li class="headlink"><a href="/mainsite/contact.htm">Contact</a></li>    
+    </ul>
+
+  </div>
+  
+  <div id="content-container" >
+    <div id='maincontent' >
+       <h1>Cloud Carousel - A 3d Carousel in Javascript</h1>
+  
+  
+	
+<p>There are some attractive <a href="http://www.flashcarousel.com/">Adobe Flash based solutions</a> for this type of UI component, and while JavaScript versions exist (see <a href="http://interface.eyecon.ro/demos/carousel.html" target="new">this</a> and <a href="http://douggreenall.co.uk/Default.aspx?p=232" target="new">this</a><a href="http://fredhq.com/projects/roundabout/" target="new">)</a>, the commercial Flash products tend to have better aesthetics and polish. To redress the balance in JavaScript's favour, I have created this jQuery carousel plugin.</p>
+
+<p><strong>New version 1.0.5 works with IE9 (reflections now use Canvas and is much faster).</strong></p>
+
+<div id="da-vinci-carousel" style="width:570px; height:384px;background: url(/images/carousel/bg.jpg);overflow:scroll;">
+	          
+              
+        <a href="/images/carousel/big-da-vinci/382px-Leonardo_self.jpg" rel='lightbox' title="Leonardo Da Vinci"><img class="cloudcarousel" src="/images/carousel/test9.png" width="128" height="164" alt="Self-portrait in red chalk, circa 1512-1515." title="Leonardo Da Vinci" /></a>  
+
+        <a href="/images/carousel/big-da-vinci/396px-Mona_Lisa.jpg" rel='lightbox' title="Mona Lisa"><img class="cloudcarousel" src="/images/carousel/test1.png" width="128" height="164" alt="Oil on cotton wood, circa 1503–1505." title="Mona Lisa" /></a>
+
+        <a href='/images/carousel/big-da-vinci/439px-The_Lady_with_an_Ermine.jpg' rel='lightbox' title="Lady with an Ermine"><img class="cloudcarousel" src="/images/carousel/test2.png" width="128" height="164" alt="Oil on wood panel, 1485." title="Lady with an Ermine" /></a>
+
+  <a href="/images/carousel/big-da-vinci/Madonna_of_the_Yarnwinder.jpg" rel="lightbox" title="Madonna of the Yarnwinder"><img class="cloudcarousel" src="/images/carousel/test3.png" width="128" height="164" alt="Oil on canvas, circa 1501." title="Madonna of the Yarnwinder" /></a>
+          
+        <a href="/images/carousel/big-da-vinci/470px-Madonna_Litta.jpg" rel="lightbox" title="Madonna and the Child"><img class="cloudcarousel" src="/images/carousel/test4.png" width="128" height="164" alt="Oil on canvas (transferred from panel), circa 1490." title="Madonna and the Child" /></a>
+          
+        <a href="/images/carousel/big-da-vinci/390px-Bacchus_painting.jpg" rel="lightbox" title="Bacchus"><img class="cloudcarousel" src="/images/carousel/test5.png" width="128" height="164" alt="Oil on walnut panel transferred to canvas, circa 1510–1515." title="Bacchus" /></a>
+
+        
+        <a href = "/images/carousel/big-da-vinci/452px-Madonna_of_the_carnation_EUR.jpg" rel="lightbox" title="Madonna of the Carnation" ><img class="cloudcarousel" src="/images/carousel/test6.png" width="128" height="164" alt="Oil on panel, circa 1478–1480." title="Madonna of the Carnation" /></a>
+
+          <a href="/images/carousel/big-da-vinci/454px-Leonardo_-_St._Anne_cartoon-alternative-downsampled.jpg" rel="lightbox" title="The Virgin and Child with St. Anne and St. John the Baptist"><img class="cloudcarousel" src="/images/carousel/test7.png" width="128" height="164" alt="
+Charcoal, black and white chalk on tinted paper, circa 1499–1500." title="The Virgin and Child with St. Anne and St. John the Baptist" /></a>
+          
+          <a href="/images/carousel/big-da-vinci/FileLeonardo-da-Vinci-020.jpg" rel="lightbox" title="The Virgin and Child with St. Anne"><img class="cloudcarousel" src="/images/carousel/test8.png" width="128" height="164" alt="Oil on panel, circa 1510." title="The Virgin and Child with St. Anne" /></a>
+      
+          
+          <!-- ************************* -->
+           
+<!-- ************************ -->
+          
+
+            <div id="da-vinci-title"  ></div>
+      		<div id="da-vinci-alt" ></div>
+          
+<div id="but1" class="carouselLeft" style="position:absolute;top:20px;right:64px;"></div>
+
+ 			<div id="but2" class="carouselRight" style="position:absolute;top:20px;right:20px;"></div>      
+ 	</div>
+         
+<!--
+    <div id="carousel2" style="width:400px; height:300px; background-color:#000;position:relative;background: url(/images/carousel/bg.jpg);overflow:scroll;">
+          <a href='#'><img class="cloudcarousel" src="/images/carousel/test1.png" alt="" /></a>
+          <img class="cloudcarousel" src="/images/carousel/test2.png" alt="" />
+          <img class="cloudcarousel" src="/images/carousel/test3.png" alt="" />
+          <img class="cloudcarousel" src="/images/carousel/test4.png" alt="" />
+           <img class="cloudcarousel" src="/images/carousel/test2.png" alt="" />
+          <img class="cloudcarousel" src="/images/carousel/test3.png" alt="" />
+          <img class="cloudcarousel" src="/images/carousel/test4.png" alt="" />    
+            <div id="but3" class="carouselLeft" style="position:absolute;bottom:32px;left:30%;z-index:10000;"></div>
+    		<div id="but4" class="carouselRight" style="position:absolute;bottom:32px;right:30%;z-index:10000;"></div>                                                   
+ 	</div>
+  -->
+  <p>The above carousel features optional auto-reflections, and the information contained in the <strong>Alt</strong> and <strong>Title</strong> tags of the images can optionally be displayed as you hover over each image.<br />
+  </p>
+<p>There are some benefits to doing this kind of thing in JavaScript rather than Flash, not least of which is the ease of integration, small file size, SEO, and inherent degradability/accessibility. Not having another dev-tool in the workflow is another plus.  </p>
+
+  <p>The carousel features realistic perspective. Many 3d carousels only apply perspective scaling to the size of the images, not their positions. This results in disproportionate gaps appearing between items as they shrink in the distance which looks odd.</p>
+  <h3>Features</h3>
+  
+  <ul class="tickul">
+    <li>Works with most browsers (tested on IE6-IE9, Firefox (incl V4), Chrome, Opera, Safari).</li>
+    <li>Accurate 3d perspective.</li>
+    <li>Optional auto reflections - no need to modify your images or add server code.</li>
+
+    <li>Easy  integration with basic valid HTML and a tiny bit of JavaScript.</li>
+    <li>Small 5Kb (minified) script..</li>
+    <li>Degrades gracefully with Javascript turned off.</li>
+    <li>Fully accessible with no CSS or text only browsers.</li>
+    <li>Works with other plugins, e.g. <a href="http://www.digitalia.be/software/slimbox2">Slimbox</a>, and preserves your links and mouse events.</li>
+
+    <li>Optional mouse wheel support as of version 1.0.2.</li>
+    <li>It's completely free.</li>
+    </ul>
+    
+ <div id="carousel2" style="width:570px; height:200px;background: url(/images/carousel/flags/bg.jpg);overflow:scroll;">
+    <img class="cloudcarousel" src="/images/carousel/flags/flag1.png" alt="Flag 1" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag2.png" alt="Flag 2" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag3.png" alt="Flag 3" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag4.png" alt="Flag 4" width="88" height ="86"/>
+
+    <img class="cloudcarousel" src="/images/carousel/flags/flag5.png" alt="Flag 5" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag6.png" alt="Flag 6"  width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag7.png" alt="Flag 7" width="88" height ="86" />
+    <img class="cloudcarousel" src="/images/carousel/flags/flag8.png" alt="Flag 8" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag9.png" alt="Flag 9" width="88" height ="86"/>
+    <img class="cloudcarousel" src="/images/carousel/flags/flag10.png" alt="Flag 10" width="88" height ="86" />
+    <img class="cloudcarousel" src="/images/carousel/flags/flag11.png" alt="Flag 11" width="88" height ="86" />
+    <img class="cloudcarousel" src="/images/carousel/flags/flag12.png" alt="Flag 12" width="88" height ="86" />
+    <img class="cloudcarousel" src="/images/carousel/flags/flag13.png" alt="Flag 13" width="88" height ="86" />
+
+    <img class="cloudcarousel" src="/images/carousel/flags/flag14.png" alt="Flag 14" width="88" height ="86" />
+    <img class="cloudcarousel" src="/images/carousel/flags/flag15.png" alt="Flag 15" width="88" height ="86" />
+ <div id="but3" class="carouselLeft" style="position:absolute;top:20px;left:20px;"></div>
+		<div id="but4" class="carouselRight" style="position:absolute;top:20px;left:64px;"></div> 
+ </div>
+
+ <p>The above carousel uses the auto-rotation option and the bring-to-front option. It uses 'cheat' reflections that are just part of the image. This can improve performance if you have a lot of items.</p>
+ <h3>Sites Using Cloud Carousel</h3>
+ <p>(If you've previously sent me a link to your site and it's not here, please send me an email).</p>
+
+ <p><a href="http://www.studiomauriks.com/" target="_blank">Studio Mauriks</a></p>
+ <p><a href="http://mindylinkous.com/she.html" target="_blank">Mindy Linkous</a></p>
+ <p><a href="http://www.solutionsforagilebusiness.co.uk/" target="_blank">solutionsforagilebusiness.co.uk</a></p>
+ <p><a href="http://www.dr-solutions.com/" target="_blank">dr-solutions.com</a></p>
+ <p><a href="http://demo.pure-joomla.com/" target="_blank">demo.pure-joomla.com</a></p>
+ <p><a href="http://www.custom-anything.com/gallery/" target="_blank">custom-anything.com/gallery</a></p>
+
+ <p><a href="http://optikaicsalodas.hu/" target="_blank">optikaicsalodas.hu (bottom of page)</a></p>
+  <p><a href="http://lunarclips.com./" target="_blank">Lunar Clips (for Drupal)</a></p>
+     <p><a href="http://www.keytoyouroffice.com/" target="_blank">keytoyouroffice.com</a></p>
+     <p><a href="http://www.infeniontech.com/" target="_blank">infeniontech.com</a></p>
+    <p><a href="https://www.cotswoldseeds.com/seed-info" target="_blank">cotswoldseeds.com</a></p>
+<p><a href="http://www.inspyre.co.nz/">inspyre.co.nz</a></p>
+
+<p><a href="http://www.emmi-aktifit.ch/">emmi-aktifit.ch</a></p>
+<p><a href="http://whatshot.metro.pk">whatshot.metro.pk</a></p>
+
+
+<p>It's certainly not compulsory, but if this software has been useful to you, then  a link back to this page would be very welcome. Also, if you have  used the plugin on your website, then <a href="/mainsite/contact.htm">send me a link</a> and I'll be happy to post it here.</p>
+  <!-- p><strong>Please <a href="/mainsite/contact.htm">contact me</a> with any questions or comments.</strong> 
+    </p-->
+    <div style="clear:both">
+    <div id="disqus_thread"></div>
+
+<script type="text/javascript" src="/js/disqus.js"></script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript=professorcloud">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+    <!-- InstanceEndEditable -->   
+    </div>
+    </div>
+    
+    
+    
+       <div id='rightcontent'>
+       <!-- addthis start -->
+	   <div class="addthis_toolbox addthis_default_style">
+
+<a href="http://www.addthis.com/bookmark.php?v=250&amp;username=raffaelec" class="addthis_button_compact">Share</a>
+<span class="addthis_separator">|</span>   
+<a class="addthis_button_facebook"></a>
+<a class="addthis_button_myspace"></a>
+<a class="addthis_button_google"></a>
+<a class="addthis_button_twitter"></a>
+</div>
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#username=raffaelec"></script>
+ <!-- addthis end -->
+ <p>Useful website? You can donate to support it. Thanks.</p>
+ <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+
+<input type="hidden" name="cmd" value="_s-xclick"/>
+<input type="hidden" name="hosted_button_id" value="GPKGMRCPAGEP2"/>
+<input type="image" src="/images/donate-button.png" name="submit" alt="PayPal - The safer, easier way to pay online."/>
+<img alt="" border="0" src="https://www.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1"/>
+</form>
+
+        
+      
+		<ul id="right-nav">
+        <li>
+         <a href="/mainsite/carousel-integration.htm">Integration Instructions</a>
+         </li>
+         <li>
+
+         <a href="/mainsite/mit-license.htm?name=Cloud+Carousel">License Information</a>
+         </li>
+          <li>
+         <a href="/downloads/cloud-carousel.1.0.5.zip">FREE Download v1.0.5</a></li>		
+         <li>
+         <a href="/mainsite/carousel-history.htm">Version History</a></li>
+		</ul>
+        
+    
+
+<h3>Ajax Zoom</h3>    
+        
+        <a href="http://www.ajax-zoom.com/"><img src="/images/a-tiles/ajax-zoom7.gif" alt="Ajax Zoom"/></a>
+        <p style="margin:2px;"><a href="http://www.ajax-zoom.com/examples/example20.php">Mouse over image zoom</a></p>
+        <p style="margin:2px;"><a href="http://www.ajax-zoom.com/examples/example15.php">360 degree spin tool</a></p>
+        
+
+       <h3>Need Good Hosting?</h3>
+       <a href="http://secure.hostgator.com/~affiliat/cgi-bin/affiliates/clickthru.cgi?id=raffc1-"><img src="http://tracking.hostgator.com/img/Shared/120x90.gif" alt='Hostgator Reliable Hosting' /></a>
+       <p>I use Host Gator for this site, and have found them to be good value and very reliable. Sign up now and use coupon code <strong>professorcloud</strong> to receive a $9.95 rebate.</p>
+
+       
+       
+           <div id = "amz-wrap">
+    <h3>Books to improve your JavaScript skills</h3>
+    <a class = "amz" href="http://www.amazon.com/gp/product/0596517742/ref=as_li_tf_il?ie=UTF8&amp;tag=profecloud-20&amp;linkCode=as2&amp;camp=217145&amp;creative=399369&amp;creativeASIN=0596517742"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&amp;Format=_SL110_&amp;ASIN=0596517742&amp;MarketPlace=US&amp;ID=AsinImage&amp;WS=1&amp;tag=profecloud-20&amp;ServiceVersion=20070822" alt=""/></a>
+    
+   
+    <a class = "amz" href="http://www.amazon.com/gp/product/1449393632/ref=as_li_tf_il?ie=UTF8&amp;tag=profecloud-20&amp;linkCode=as2&amp;camp=217145&amp;creative=399373&amp;creativeASIN=1449393632"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&amp;Format=_SL110_&amp;ASIN=1449393632&amp;MarketPlace=US&amp;ID=AsinImage&amp;WS=1&amp;tag=profecloud-20&amp;ServiceVersion=20070822" alt=""/></a>
+    
+    
+    <a class = "amz" href="http://www.amazon.com/gp/product/0596805527/ref=as_li_qf_sp_asin_il?ie=UTF8&amp;tag=profecloud-20&amp;linkCode=as2&amp;camp=217145&amp;creative=399369&amp;creativeASIN=0596805527"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&amp;Format=_SL110_&amp;ASIN=0596805527&amp;MarketPlace=US&amp;ID=AsinImage&amp;WS=1&amp;tag=profecloud-20&amp;ServiceVersion=20070822" alt=""/></a>
+    
+    <a class = "amz" href="http://www.amazon.com/gp/product/059680279X/ref=as_li_tf_il?ie=UTF8&amp;tag=profecloud-20&amp;linkCode=as2&amp;camp=217145&amp;creative=399369&amp;creativeASIN=059680279X&quot;"><img border="0" src="http://ws.assoc-amazon.com/widgets/q?_encoding=UTF8&amp;Format=_SL110_&amp;ASIN=059680279X&amp;MarketPlace=US&amp;ID=AsinImage&amp;WS=1&amp;tag=profecloud-20&amp;ServiceVersion=20070822" alt=""/></a>
+    </div>
+       
+       
+       </div>
+
+  </div>
+ 
+  <div id='footer-top'><!-- --></div> 
+  <div id="footer" >  
+    &copy;2010-2011 Professor Cloud
+    
+    <div id="footer-validation"> 
+      <a href="http://validator.w3.org/check?uri=referer"><img src="/images/valid-xml.png" alt="Valid XHTML"/></a><a href="http://bit.ly/csSEDa"><img src="/images/valid-css.png" alt="Valid CSS"/></a> 
+    </div> 
+  </div> 
+   
+  
+</div>
+</div>
+</div>
+
+</body>
+</html>

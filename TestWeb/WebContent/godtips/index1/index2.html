@@ -1,0 +1,57 @@
+<html>
+<head>
+
+<!-- You can load the jQuery library from the Google Content Network.
+Probably better than from your own server. -->
+<script type="text/javascript" src="js/jquery-1.4.2.min.js" ></script>
+
+<!-- Load the CloudCarousel JavaScript file 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.4.2.min.js" ></script>
+-->
+<script type="text/javascript" src="js/cloud-carousel.1.0.5.js"></script>
+
+<script>
+$(document).ready(function(){
+						   
+	// This initialises carousels on the container elements specified, in this case, carousel1.
+	$("#carousel1").CloudCarousel(		
+		{			
+			xPos: 128,
+			yPos: 32,
+			buttonLeft: $("#left-but"),
+			buttonRight: $("#right-but"),
+			altBox: $("#alt-text"),
+			titleBox: $("#title-text")
+		}
+	);
+});
+
+</script>
+
+</head>
+    <body>
+
+    	<!-- This is the container for the carousel. -->
+        <div id = "carousel1" style="width:956px; height:928px;background:#000;overflow:scroll;">            
+            <!-- All images with class of "cloudcarousel" will be turned into carousel items -->
+            <!-- You can place links around these images -->
+			            <img class = "cloudcarousel" src="images/1.jpg" alt="Flag 1 Description" title="Flag 1 Title" />
+			            <img class = "cloudcarousel" src="images/2.jpg" alt="Flag 2 Description" title="Flag 2 Title" />
+			            <img class = "cloudcarousel" src="images/3.jpg" alt="Flag 3 Description" title="Flag 3 Title" />
+			            <img class = "cloudcarousel" src="images/4.jpg" alt="Flag 4 Description" title="Flag 4 Title" />
+			            <img class = "cloudcarousel" src="images/5.jpg" alt="Flag 5 Description" title="Flag 5 Title" />
+        </div>
+
+        
+        <!-- Here we define left and right buttons. -->
+        <input id="left-but"  type="button" value="Left" />
+        <input id="right-but" type="button" value="Right" />
+        
+        <!-- Here we define elements to accept the alt and title text from the images. -->
+        <p id="title-text"></p>
+        <p id="alt-text"></p>
+    </body>
+</html>
+
+

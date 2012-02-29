@@ -1,0 +1,135 @@
+/* Global properties */
+body {
+	background: #fff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 100%;
+	line-height: 1em;
+	color: #5c5c5c
+}
+
+section#content {
+	width: 739px;
+	float: left
+}
+
+/* lists */
+.news {
+	margin-top: -20px
+}
+
+.news li {
+	line-height: 1.538em;
+	padding-top: 20px
+}
+
+.news li strong {
+	display: block;
+	padding-bottom: 6px
+}
+
+.box {
+	background: url(../images/border-top.gif) repeat-x left top #f7f7f7;
+	width: 100%
+}
+
+.box .left-top-corner {
+	background: url(../images/left-top-corner.gif) no-repeat left top
+}
+
+.box .right-top-corner {
+	background: url(../images/right-top-corner.gif) no-repeat right top;
+	width: 100%
+}
+
+.box .inner {
+	padding: 25px 49px 45px 49px
+}
+
+.box h2 {
+	font-size: 1.923em;
+	margin-bottom: 50px
+}
+
+
+#DynaInfo {
+    margin: 0 0 10px;
+}
+
+#DynaInfo ul li {
+    border-bottom: 1px dashed #DDDDDD;
+    margin: 0 0 5px;
+    padding: 0 0 8px;
+}
+#DynaInfo ul li .portrait {
+    float: left;
+    padding-top: 3px;
+    width: 45px;
+}
+#DynaInfo ul li .portrait img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    height: 32px;
+    padding: 1px;
+    width: 32px;
+}
+#DynaInfo ul li .body {
+    float: left;
+    font-size: 9pt;
+    overflow: hidden;
+    width: 230px;
+}
+#DynaInfo ul li .user a {
+    color: #6CABE1;
+}
+#DynaInfo ul li .log {
+    color: #666666;
+}
+#DynaInfo ul li .log a {
+    color: #6CABE1;
+}
+#DynaInfo ul li .log img {
+    vertical-align: middle;
+}
+#DynaInfo ul li .time {
+    color: #9A9A9A;
+    display: block;
+    margin: 5px 0 0;
+}
+#DynaInfo ul li .time a {
+    color: #9A9A9A;
+    text-decoration: none;
+}
+#DynaInfo ul li .time a:hover {
+    color: #6CABE1;
+}
+#DynaInfo a.more {
+    color: #AA0000;
+    float: right;
+    margin: 5px 8px 8px 0;
+}
+
+#my_span {
+	 margin: 0 0 10px;
+}
+
+#my_span ul li {
+	list-style-type:none;
+    /*
+    border-bottom: 1px dashed #DDDDDD;
+    margin: 0 0 5px;
+    padding: 0 0 8px;
+    */
+}
+
+#my_span ul li .portrait {
+    float: left;
+    padding-top: 3px;
+    width: 45px;
+}
+#my_span ul li .portrait img {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    height: 32px;
+    padding: 1px;
+    width: 32px;
+}

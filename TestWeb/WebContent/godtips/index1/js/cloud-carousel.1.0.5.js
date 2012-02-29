@@ -21,13 +21,11 @@
 		parent = $(img.parentNode);
 		this.element = reflection = parent.append("<canvas class='reflection' style='position:absolute'/>").find(':last')[0];
         if ( !reflection.getContext &&  $.browser.msie) {
-        	alert("2");
 			this.element = reflection = parent.append("<img class='reflection' style='position:absolute'/>").find(':last')[0];					
 			reflection.src = img.src;			
 			reflection.style.filter = "flipv progid:DXImageTransform.Microsoft.Alpha(opacity=" + (opacity * 100) + ", style=1, finishOpacity=0, startx=0, starty=0, finishx=0, finishy=" + (reflHeight / imageHeight * 100) + ")";	
 			
-        } else {		
-        	alert("3");
+        } else {							
 			cntx = reflection.getContext("2d");
 			try {
 				
