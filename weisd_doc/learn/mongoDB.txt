@@ -83,3 +83,70 @@ find name first last 会与顺序有关，可以用点表示法name.first
 find({xxx,xxx}) 是否只有文档包含有键值的，还有其他的键值也可以？
 
 说是少有能够skip 那么如果计算好页码如mysql后的limit（xx,xx）或者 oracle的  《xxxx  》xxxx 是否也一样可以？还是mongodb的limit只有一个参数？忘记了~~
+
+
+
+
+
+复习一次
+
+第一章：
+MapReduce这个是什么东西
+
+没有join以及多行事务，
+如：分布式系统使用上
+
+用空间换取性能。默认的存储引擎采用内存映射
+
+尽量把服务器端处理逻辑交给客户端（第三驱动程序等等）
+
+第二章：
+大多数编程语言都有一种相同的数据结构
+如：映射。散列。字典
+
+文档中的键值对是有序的。不同的顺序是不同的文档。
+
+有些语言对文档的顺序不是那么重要
+
+出了少数情况外，键可以使任意的utf-的字符串
+
+键不能含有空字符：？？
+{ "_id" : ObjectId("4f5df2743603fad03c4dbdc1"), "title 2" : " sss" }
+> pp={"":"dd"}
+{ "" : "dd" }
+> db.blog.insert(pp)
+> db.blog.find()
+{ "_id" : ObjectId("4f5df2203603fad03c4dbdbf"), "title" : "test1" }
+{ "_id" : ObjectId("4f5df2413603fad03c4dbdc0"), "title" : "test2" }
+{ "_id" : ObjectId("4f5df2743603fad03c4dbdc1"), "title 2" : " sss" }
+{ "_id" : ObjectId("4f5df29b3603fad03c4dbdc2"), "" : "dd" }
+
+> pp={"\0":"dd"}
+{ "_id" : ObjectId("4f5df2c13603fad03c4dbdc3"), "" : null, "" : null }
+
+
+文档不能有重复的键
+
+集合可以使无模式的，可以包含各种各样的文档。
+
+创建索引的时候文档会有附加的结构。
+
+system.users
+system.namespaces
+
+gridfs
+
+多个文档组成集合，多个集合组成数据库，一个mongodb可以承载多个数据库
+
+不同的数据库放在不同的文件
+
+安装后需创建默认的数据目录
+
+怎么创建一个db库？如：test库
+
+shell中只有64位浮点数：
+而mongdb则有32、64位整数，64位浮点数
+
+使用64位浮点数在shell下面显示接近的整数，是否新本已经修改了，测试时候没看到效果。
+
+到 38页
