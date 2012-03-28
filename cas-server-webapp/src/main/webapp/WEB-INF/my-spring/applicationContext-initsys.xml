@@ -28,17 +28,6 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
-	<!-- 加密登录 -->
-<!-- 
-	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="locations">
-			<list>
-				<value>/WEB-INF/my-spring/jdbc.properties</value>
-			</list>
-		</property>
-	</bean>
- -->
-
 	<bean id="mybatisDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean">
 		<property name="uniqueResourceName" value="mybaits_jndi1" />
 		<property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />

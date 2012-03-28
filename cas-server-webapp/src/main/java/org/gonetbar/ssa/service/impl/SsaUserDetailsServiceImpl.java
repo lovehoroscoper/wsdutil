@@ -9,7 +9,9 @@ import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -25,22 +27,21 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 
 	private static Logger logger = LoggerFactory.getLogger(SsaUserDetailsServiceImpl.class);
 
+	protected MessageSourceAccessor messages = SpringSecurityMessageSource.getAccessor();
+
 	private SsaUserDao ssaUserDao;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
 		// List<UserDetails> users = loadUsersByUsername(username);
-		//
-		// if (users.size() == 0) {
-		// logger.debug("Query returned no results for user '" + username +
-		// "'");
-		//
-		// throw new
-		// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound",
-		// new Object[] { username }, "Username {0} not found"), username);
-		// }
-		//
+		List<UserDetails> users = null;
+		if (null == users || users.size() == 0) {
+			logger.debug("Query returned no results for user '" + username + "'");
+			// throw new
+			// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound",
+			// new Object[] { username }, "Username {0} not found"), username);
+			throw new UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound", new Object[] { username }, "Username {0} not found"), new RuntimeException("Username not found"));
+		}
 		// UserDetails user = users.get(0); // contains no GrantedAuthority[]
-		//
 		// Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
 		//
 		// if (enableAuthorities) {
@@ -68,26 +69,11 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		//
 		// // 这步必须返回一个UserDetails
 		// return createUserDetails(username, user, dbAuths);
-
 		return null;
 	}
 
 	protected List<UserDetails> loadUsersByUsername(String username) {
-
 		return ssaUserDao.loadUsersByUsername(username);
-
-		// return getJdbcTemplate().query(usersByUsernameQuery, new String[] {
-		// username }, new RowMapper<UserDetails>() {
-		// public UserDetails mapRow(ResultSet rs, int rowNum) throws
-		// SQLException {
-		// String username = rs.getString(1);
-		// String password = rs.getString(2);
-		// boolean enabled = rs.getBoolean(3);
-		// return new User(username, password, enabled, true, true, true,
-		// AuthorityUtils.NO_AUTHORITIES);
-		// }
-		//
-		// });
 	}
 
 	@Resource(name = "ssaUserDao")
