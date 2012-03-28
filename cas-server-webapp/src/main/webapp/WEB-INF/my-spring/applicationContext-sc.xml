@@ -64,8 +64,9 @@
 		</property>
 	</bean>
 
-	<!-- 用户信息服务 -->
+	<!-- 用户信息服务 在service中已经设置
 	<bean id="userDetailsService" class="org.gonetbar.ssa.service.impl.SsaUserDetailsServiceImpl"/>
+	-->
 	
 	<!-- 密码加密 -->
 	<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" />
