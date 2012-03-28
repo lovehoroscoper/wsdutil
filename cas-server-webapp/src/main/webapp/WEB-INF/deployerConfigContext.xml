@@ -26,7 +26,6 @@
 		| AuthenticationManager here in the userConfigContext.xml so that you can see the things you will
 		| need to change in context.
 		+-->
-	<!-- 这个也可以自定义 -->
 	<bean id="authenticationManager"
 		class="org.jasig.cas.authentication.AuthenticationManagerImpl">
 		<!--
@@ -54,7 +53,6 @@
 					| need to change this bean declaration (or add additional declarations) to declare a CredentialsToPrincipalResolver that supports the
 					| Credentials you are using.
 					+-->
-			    <!--  这个也替换 -->
 				<bean
 					class="org.jasig.cas.authentication.principal.UsernamePasswordCredentialsToPrincipalResolver" />
 				<!--
@@ -91,10 +89,9 @@
 					| local authentication strategy.  You might accomplish this by coding a new such handler and declaring
 					| edu.someschool.its.cas.MySpecialHandler here, or you might use one of the handlers provided in the adaptors modules.
 					+-->
-				<!-- 这里是修改为jdbc或者自己的这里是否可以存在多种验证方式???一个list
-					org.jasig.cas.adaptors.jdbc.QueryDatabaseAuthenticationHandler
-					org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler
-					+-->
+				<!-- 
+					<bean class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
+				 -->
 				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler" />
 			</list>
 		</property>
@@ -108,13 +105,13 @@
 	The name of this should remain "userDetailsService" in order for Spring Security to find it.
 	 -->
     <!-- <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />-->
-	
-	<!-- 使用我自己的userDetailService
+
+    <!-- 使用我自己的userDetailService
     <sec:user-service id="userDetailsService">
-        <sec:user name="admin" password="admin123" authorities="ROLE_ADMIN" />
+        <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />
     </sec:user-service>
 	 -->
-	
+	 
 	<!-- 
 	Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
 	may go against a database or LDAP server.  The id should remain "attributeRepository" though.
@@ -176,9 +173,4 @@
         </bean>
 
     <bean id="auditTrailManager" class="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager" />
-    
-    <!-- weisd myself -->
-    <!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->  
-    <bean id="securityMetadataSource"  class="org.gonetbar.ssa.cas.filter.sms.SsaFilterInvocationSecurityMetadataSource" />  
-    
 </beans>

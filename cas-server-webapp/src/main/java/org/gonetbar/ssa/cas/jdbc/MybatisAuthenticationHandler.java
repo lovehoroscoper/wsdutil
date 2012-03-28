@@ -14,8 +14,14 @@ public final class MybatisAuthenticationHandler extends AbstractSsaUsernamePassw
 		try {
 			final UserInfoVo resultVo = this.getSsaUserService().findUserByName(username);
 			if (null != resultVo && null != resultVo.getPassword()) {
-				final String dbPassword = this.getSsaUserService().findUserByName(username).getPassword();
-				return dbPassword.equals(encryptedPassword);
+				// TODO 当初为什么这么写？忘记了
+				//final String dbPassword = this.getSsaUserService().findUserByName(username).getPassword();
+				final String dbPassword = resultVo.getPassword();
+				if(null != dbPassword && !"".equals(dbPassword.trim())){
+					return dbPassword.equals(encryptedPassword);
+				}else{
+					return false;
+				}
 			} else {
 				return false;
 			}

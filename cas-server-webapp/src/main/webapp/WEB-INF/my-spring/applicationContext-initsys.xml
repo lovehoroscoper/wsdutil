@@ -28,6 +28,7 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
 
+	<!-- 加密登录 -->
 <!-- 
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">

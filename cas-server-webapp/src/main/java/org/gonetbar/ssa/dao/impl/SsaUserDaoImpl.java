@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class SsaUserDaoImpl extends BaseDaoImpl implements SsaUserDao {
 
 	public List<UserDetails> loadUsersByUsername(String username) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

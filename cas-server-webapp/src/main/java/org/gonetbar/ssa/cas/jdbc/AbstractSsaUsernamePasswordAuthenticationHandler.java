@@ -21,7 +21,7 @@ public abstract class AbstractSsaUsernamePasswordAuthenticationHandler extends A
 		return ssaUserService;
 	}
 
-	@Resource(name = "ssaUserService")
+	@Resource(name = "userDetailsService")
 	public void setSsaUserService(SsaUserService ssaUserService) {
 		this.ssaUserService = ssaUserService;
 	}
