@@ -9,6 +9,7 @@
 		anything in this file directly. The configuration options should all be in the cas.properties file.
 	</description>
 
+	<!-- 应为考虑到其他因素如，cas只负责验证是否登录而不负责验证是否具有权限，权限应该分布到各子系统  -->
 	<!-- 增加一个自定义的filter,放在FILTER_SECURITY_INTERCEPTOR之前,实现用户、角色、权限、资源的数据库管理。 -->
 	<sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
 		<sec:intercept-url pattern="/services/loggedout.html" filters="none" />
