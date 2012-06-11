@@ -1,0 +1,7 @@
+数据库描述
+
+http://codex.wordpress.org/Database_Description/2.9
+
+http://www.cnzhanzhang.com/thread-87566-1-1.html
+
+wp_comments	在WordPress 评论的存储在wp_comments表。	创造职位的读者评论。评论由管理员通过管理当局 > 评论 > 评论

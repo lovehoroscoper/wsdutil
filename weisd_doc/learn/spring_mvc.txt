@@ -1,0 +1,36 @@
+SessionAttributes
+
+	http://www.cnblogs.com/edwardlauxh/archive/2011/03/11/1981639.html
+	
+	
+	@SessionAttributes(ModelRecordStrUtil.SESS_LOGIN_USER)
+	
+	
+	public String queryToIndex(@ModelAttribute(ModelRecordStrUtil.SESS_LOGIN_USER) UserInfo user ,ModelAndView view) {
+	
+	这样必须要求session已经包含(ModelRecordStrUtil.SESS_LOGIN_USER)值
+	
+	
+如果：
+ModelAndView view
+
+	public String queryToLeft(@ModelAttribute(ModelRecordStrUtil.SESS_LOGIN_USER) UserInfo user, HttpServletRequest request,ModelAndView view) {
+		String menuid = request.getParameter("menuid");
+
+		logger.info("netbar.manage_left");
+		logger.info("menuid:" + menuid);
+
+//		model.addAttribute("menuid", menuid);
+//		model.addAttribute("netbar.manage_left");
+//		 System.out.println(model);
+		 
+//		 ModelAndView view = new ModelAndView();
+		 view.addObject("menuid", menuid);
+		 view.addObject("netbar.manage_left");
+		 System.out.println(view);
+		 
+//		return view;
+		 return "netbar.manage_left";
+	}
+	
+	参数中包含了view  那么return则不能直接返回字符串

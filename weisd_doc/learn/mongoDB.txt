@@ -84,7 +84,7 @@ find({xxx,xxx}) 是否只有文档包含有键值的，还有其他的键值也�
 
 说是少有能够skip 那么如果计算好页码如mysql后的limit（xx,xx）或者 oracle的  《xxxx  》xxxx 是否也一样可以？还是mongodb的limit只有一个参数？忘记了~~
 
-
+85 索引
 
 
 
