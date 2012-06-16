@@ -1,3 +1,9 @@
+1、
+<h4>操作规则：排序：1000 以下的都不管星期几都可以显示;星期1～星期7分别为1000-7999. 8000 -- 8500方便后面的排序.10万以上设置为过期[星期1 显示 1000 <= 星期1 < 2000][星期2 显示 2000 <= 星期2 < 3000] </h4>
+<h4>如：星期1：1000<= 星期1 < 2000 ,那么 1000<= 星期1 < 1500 的可以显示,1500 <= ? < 2000的为放置区域 </h4>
+<h4> 8000 -- 8500方便后面的排序 </h4>
+
+2、
 ALTER TABLE net_coolsite MODIFY COLUMN starttime BIGINT(15)DEFAULT 946684800;
 
 ALTER TABLE net_coolsite MODIFY COLUMN endtime BIGINT(15)DEFAULT 2145916800;
@@ -9,3 +15,7 @@ SET t.starttime = 946684800,
 WHERE
 	t.starttime = 0
 OR t.endtime = 0
+
+3、酷站设置COOL_CLASS_DISPLAYORDER_SHOW 默认显示 《=50序号的
+
+4、defined('MINGZHAN_NUM_SHOW') || define('MINGZHAN_NUM_SHOW', 48);//名站导航显示多少个网站
