@@ -6,3 +6,12 @@ http://shanchao7932297.blog.163.com/blog/static/1363624201010212656363/
 
 
 http://www.liusuping.com/ubuntu-linux/redhat-linux-rpm-lamp.html
+
+http://www.docin.com/app/teamMessage/showTeamTalk?teamId=1948&cardId=4367424
+
+
+cp -R /usr/local/mysql/var/* /data/dbdata/dbmysql/
+
+chown mysql:mysql -R /data/dbdata/dbmysql/
+
+datadir = /data/dbdata/dbmysql/
