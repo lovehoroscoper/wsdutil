@@ -3,13 +3,13 @@ http://42.121.12.62/p.php
 
 已经安装lnmp
 
-升级了  nginx 1.3.0
+升级了  nginx 1.3.1
 
 升级了 php 5.4.3
 
 
 phpinfo : http://127.0.0.1/phpinfo.php
-phpMyAdmin : http://127.0.0.1/phpmyadmin/
+phpMyAdmin : http://42.121.12.62/phpmyadmin/
 探针 : http://127.0.0.1/p.php
 PureFTP管理界面：http://127.0.0.1/ftp/
 Memcached测试页面：http://127.0.0.1/memcached.php
@@ -24,3 +24,123 @@ http://www.yardvps.com/p.php
 
 
 http://www.vpsyou.com/p.php
+
+
+
+chmod -R 777 install
+chmod -R 777 static/js 
+chmod -R 777 admin/data 
+chmod -R 777 admin/data/backup 
+chmod -R 777 admin/data/cache 
+chmod -R 777 admin/data/conf 
+chmod -R 777 admin/data/db 
+chmod -R 777 admin/data/session 
+chmod -R 777 admin/data/lang 
+chmod -R 777 admin/data/log 
+chmod -R 77 admin/data/plan 
+chmod -R 777 admin/data/update 
+chmod -R 777 admin/tpls/cache 
+chmod -R 777 admin/tpls/compile 
+chmod -R 77 admin/tpls/tpls/admin 
+chmod -R 777 admin/tpls/tpls/main 
+chmod -R 777 admin/config/cfg_database.php
+
+
+
+
+chmod -R 777 install 
+chmod -R 777 static/js 
+chmod -R 777 manage121hotadmin/data 
+chmod -R 777 manage121hotadmin/data/backup 
+chmod -R 777 manage121hotadmin/data/cache 
+chmod -R 777 manage121hotadmin/data/conf 
+chmod -R 777 manage121hotadmin/data/db 
+chmod -R 777 manage121hotadmin/data/session 
+chmod -R 777 manage121hotadmin/data/lang 
+chmod -R 777 manage121hotadmin/data/log 
+chmod -R 777 manage121hotadmin/data/plan 
+chmod -R 777 manage121hotadmin/data/update 
+chmod -R 777 manage121hotadmin/tpls/cache 
+chmod -R 777 manage121hotadmin/tpls/compile 
+chmod -R 777 manage121hotadmin/tpls/tpls/admin 
+chmod -R 777 manage121hotadmin/tpls/tpls/main 
+chmod -R 777 manage121hotadmin/config/cfg_database.php
+
+
+
+chmod -R 777 
+
+
+
+
+chmod -R 777 /mydata/app/php_app/121h/admin/config/cfg_database.php 777属性检测不通过
+
+
+静态化根目录: /mydata/app/php_app/121h/html  	X 不存在
+JS脚本缓存目录: /mydata/app/php_app/121h/static/js  	X 不可写
+安装脚本目录: /mydata/app/php_app/121h/install  	X 不可写
+动态数据目录: /mydata/app/php_app/121h/admin/data  	X 不可写
+数据库备份目录: /mydata/app/php_app/121h/admin/data/backup  	X 不可写
+缓存文件目录: /mydata/app/php_app/121h/admin/data/cache  	X 不可写
+配置文件目录: /mydata/app/php_app/121h/admin/data/conf  	X 不可写
+缓存数据目录: /mydata/app/php_app/121h/admin/data/db  	X 不可写
+SESSION目录: /mydata/app/php_app/121h/admin/data/session  	X 不可写
+语言包目录: /mydata/app/php_app/121h/admin/data/lang  	X 不可写
+日志目录: /mydata/app/php_app/121h/admin/data/log  	X 不可写
+计划任务目录: /mydata/app/php_app/121h/admin/data/plan  	X 不可写
+在线升级缓存目录: /mydata/app/php_app/121h/admin/data/update  	X 不可写
+模板缓存目录: /mydata/app/php_app/121h/admin/tpls/cache  	X 不可写
+模板编译目录: /mydata/app/php_app/121h/admin/tpls/compile  	X 不可写
+后台模板目录: /mydata/app/php_app/121h/admin/tpls/tpls/admin  	X 不可写
+前台模板目录: /mydata/app/php_app/121h/admin/tpls/tpls/main  	X 不可写
+数据库配置文件: /mydata/app/php_app/121h/admin/config/cfg_database.php  	√ 可写
+首页文件index.html: /mydata/app/php_app/121h/index.html  	X 不可写
+首页文件index.htm: /mydata/app/php_app/121h/index.htm  	X 不存在
+
+
+
+chmod -R 777 /mydata/app/php_app/121hot/html
+chmod -R 777 /mydata/app/php_app/121hot/static/js
+chmod -R 777 /mydata/app/php_app/121hot/install
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/backup
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/cache
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/conf
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/db
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/session
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/lang
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/log
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/plan
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/data/update
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/tpls/cache
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/tpls/compile
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/tpls/tpls/admin
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/tpls/tpls/main
+chmod -R 777 /mydata/app/php_app/121hot/manage121hotadmin/config/cfg_database.php
+chmod -R 777 /mydata/app/php_app/121hot/index.html
+chmod -R 777 /mydata/app/php_app/121hot/index.htm
+chmod -R 777 /mydata/app/php_app/121hot/kp.html
+chmod -R 777 /mydata/app/php_app/121hot/kp.htm
+
+
+
+chmod -R 777 /mydata/app/php_app/121h/html
+chmod -R 777 /mydata/app/php_app/121h/static/js
+chmod -R 777 /mydata/app/php_app/121h/install
+chmod -R 777 /mydata/app/php_app/121h/admin/data
+chmod -R 777 /mydata/app/php_app/121h/admin/data/backup
+chmod -R 777 /mydata/app/php_app/121h/admin/data/cache
+chmod -R 777 /mydata/app/php_app/121h/admin/data/conf
+chmod -R 777 /mydata/app/php_app/121h/admin/data/db
+chmod -R 777 /mydata/app/php_app/121h/admin/data/session
+chmod -R 777 /mydata/app/php_app/121h/admin/data/lang
+chmod -R 777 /mydata/app/php_app/121h/admin/data/log
+chmod -R 777 /mydata/app/php_app/121h/admin/data/plan
+chmod -R 777 /mydata/app/php_app/121h/admin/data/update
+chmod -R 777 /mydata/app/php_app/121h/admin/tpls/cache
+chmod -R 777 /mydata/app/php_app/121h/admin/tpls/compile
+chmod -R 777 /mydata/app/php_app/121h/admin/tpls/tpls/admin
+chmod -R 777 /mydata/app/php_app/121h/admin/tpls/tpls/main
+chmod -R 777 /mydata/app/php_app/121h/admin/config/cfg_database.php
+chmod -R 777 /mydata/app/php_app/121h/index.html
+chmod -R 777 /mydata/app/php_app/121h/index.htm

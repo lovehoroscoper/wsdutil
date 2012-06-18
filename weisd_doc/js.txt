@@ -1,0 +1,21 @@
+	var reg = /^[0-9]*(\.[0-9]{1,2})?$/;
+	if("" == appamount_v || !reg.test(appamount_v) || 0 >= Number(appamount_v) ){
+		alert("申请金额不能为空或者小于等于0,整数或两位小数");
+		return false;
+	}
+	
+	$("#hiddenCchannelCitycode").val("");
+	var chkObj = $("input:checkbox[name=channelCitycode][checked]");
+	var citycodeStr = "";
+	chkObj.each(function (index, domEle) {
+		var code = $(this).val();
+		if(null != code && "" != code){
+			citycodeStr += code + ",";
+		}
+    });
+	if(null == citycodeStr || "" == citycodeStr){
+		alert('城市代码不能为空,请选择城市');
+		return false;
+	}else{
+		citycodeStr = citycodeStr.substring(0,citycodeStr.length-1);	
+	}
