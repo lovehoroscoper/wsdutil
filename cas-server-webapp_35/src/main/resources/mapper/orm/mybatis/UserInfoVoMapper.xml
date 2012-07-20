@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.gonetbar.ssa.entity.UserInfoVoMapper">
+	
+	<resultMap id="findUserByVoId_resultmap" type="userInfoVo">
+		<result column="id_user" property="id_user" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nikename" property="nikename" />
+		<result column="id_site" property="id_site" />
+		<result column="logintype" property="logintype" />
+		<result column="validtype" property="validtype" />
+		<result column="encrypttype" property="encrypttype" />
+		<result column="thirdloginid" property="thirdloginid" />
+		<result column="email" property="email" />
+	</resultMap>
+
+	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
+		select
+			t.id_user,
+			t.username,
+			t.password,
+			t.nikename,
+			t.id_site,
+			t.logintype,
+			t.validtype,
+			t.createdate,
+			t.encrypttype,
+			t.thirdloginid,
+			t.email
+		from
+			sso_user t
+		where
+			t.username = #{username}
+	</select>
+
+
+</mapper>

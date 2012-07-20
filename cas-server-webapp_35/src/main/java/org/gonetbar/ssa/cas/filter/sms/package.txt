@@ -1,0 +1,18 @@
+securityMetadataSource
+
+DefaultFilterInvocationSecurityMetadataSource
+
+
+用户系统启动时候验证是否包含了不支持的角色格式
+<sec:intercept-url pattern="/**" access="${cas.securityContext.serviceProperties.adminRoles},WEISD_TEST" />
+ 	Unsupported configuration attributes: [WEISD_TEST]
+	@Override
+	public Collection<ConfigAttribute> getAllConfigAttributes() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+AbstractSecurityInterceptor
+
+Caused by: java.lang.IllegalArgumentException: Unsupported configuration attributes: [WEISD_TEST]
+	at org.springframework.security.access.intercept.AbstractSecurityInterceptor.afterPropertiesSet(AbstractSecurityInterceptor.java:154)

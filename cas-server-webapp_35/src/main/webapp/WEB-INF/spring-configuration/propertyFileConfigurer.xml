@@ -28,7 +28,22 @@
 		of the Servlet context if you have options that are specific to a tier (i.e. test vs. production) so that the WAR file 
 		can be moved between tiers without modification.
 	</description>
-       
+    
+    <!-- 使用我的
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/cas.properties" />
+     -->
+<!--  -->
+	<bean id="propertyPlaceholderConfigurer" class="org.gonetbar.ssa.des.PropertyEncodeConfigurer">
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/my-spring/jdbc.properties</value>
+				<value>/WEB-INF/cas.properties</value>
+			</list>
+		</property>
+		<property name="encodeName" value="jdbc.url,jdbc.username,jdbc.password" />
+		<property name="splitTag" value="," />
+	</bean>
+
+		
 </beans>
