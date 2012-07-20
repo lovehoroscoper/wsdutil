@@ -1,0 +1,6 @@
+我所做的改动
+WEB-INF\my-spring
+WEB-INF\spring-configuration\propertyFileConfigurer.xml
+WEB-INF\spring-configuration\securityContext.xml
+WEB-INF\cas.properties
+WEB-INF\deployerConfigContext.xml
