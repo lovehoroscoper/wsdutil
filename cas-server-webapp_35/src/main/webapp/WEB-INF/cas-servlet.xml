@@ -27,6 +27,17 @@
 
   <import resource="spring-configuration/propertyFileConfigurer.xml"/>
 
+	<!--  oauth step3 cas-servlet.xml -->
+    <bean id="oauthAction" class="org.jasig.cas.support.oauth.web.flow.OAuthAction">
+        <property name="centralAuthenticationService" ref="centralAuthenticationService" />
+        <property name="providers">
+            <list>
+                <ref bean="sinaWeibo" />
+            </list>
+        </property>
+    </bean>
+
+
   <!-- Theme Resolver -->
   <bean id="themeResolver" class="org.jasig.cas.services.web.ServiceThemeResolver"
         p:defaultThemeName="${cas.themeResolver.defaultThemeName}"

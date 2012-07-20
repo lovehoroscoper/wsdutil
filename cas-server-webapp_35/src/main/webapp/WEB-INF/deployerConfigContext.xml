@@ -59,6 +59,11 @@
 		   </list>
 		</property>
 		 -->
+		<property name="authenticationMetaDataPopulators">
+			<list>
+				<bean class="org.jasig.cas.support.oauth.authentication.OAuthAuthenticationMetaDataPopulator" />
+			</list>
+		</property>
 		
 		<!--
 			| This is the List of CredentialToPrincipalResolvers that identify what Principal is trying to authenticate.
@@ -97,6 +102,11 @@
 					+-->
 				<bean
 					class="org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver" />
+				
+				<!-- oauth step5  deployerConfigContext.xml OAuthCredentialsToPrincipalResolver  -->
+				<bean
+					class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver" />
+					
 			</list>
 		</property>
 
@@ -124,7 +134,18 @@
 				<!-- 
 					<bean class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
 				 -->
-				 <bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler" />
+				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler" />
+				
+				<!-- oauth step4  deployerConfigContext.xml -->
+				<bean
+					class="org.jasig.cas.support.oauth.authentication.handler.support.OAuthAuthenticationHandler">
+					<property name="providers">
+						<list>
+							<ref bean="sinaWeibo" />
+						</list>
+					</property>
+				</bean>
+				 
 			</list>
 		</property>
 	</bean>

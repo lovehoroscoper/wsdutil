@@ -32,18 +32,26 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 	private SsaUserDao ssaUserDao;
 
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+		String str = "用户[" + username + "]不是管理员无权访问!!!";
+		logger.error(str);
+		throw new UsernameNotFoundException(str);
+		// throw new
+		// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound",
+		// new Object[] { username }, "Username {0} 不是管理员无权访问!!!"), new
+		// RuntimeException("不是管理员无权访问!!!"));
 		// List<UserDetails> users = loadUsersByUsername(username);
-		List<UserDetails> users = null;
-		if (null == users || users.size() == 0) {
-			logger.debug("Query returned no results for user '" + username + "'");
-			// throw new
-			// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound",
-			// new Object[] { username }, "Username {0} not found"), username);
-			throw new UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound", new Object[] { username }, "Username {0} not found"), new RuntimeException("Username not found"));
-		}
+		// if (null == users || users.size() == 0) {
+		// logger.debug("Query returned no results for user '" + username +
+		// "'");
+		// throw new
+		// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.notFound",
+		// new Object[] { username }, "Username {0} not found"), new
+		// RuntimeException("Username not found"));
+		// }
 		// UserDetails user = users.get(0); // contains no GrantedAuthority[]
+
 		// Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
-		//
+
 		// if (enableAuthorities) {
 		// dbAuthsSet.addAll(loadUserAuthorities(user.getUsername()));
 		// }
@@ -61,15 +69,14 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		// logger.debug("User '" + username +
 		// "' has no authorities and will be treated as 'not found'");
 		//
-		// throw new
-		// UsernameNotFoundException(messages.getMessage("JdbcDaoImpl.noAuthority",
-		// new Object[] { username }, "User {0} has no GrantedAuthority"),
+		// throw new UsernameNotFoundException(
+		// messages.getMessage("JdbcDaoImpl.noAuthority",
+		// new Object[] {username}, "User {0} has no GrantedAuthority"),
 		// username);
 		// }
 		//
-		// // 这步必须返回一个UserDetails
 		// return createUserDetails(username, user, dbAuths);
-		return null;
+		// return null;
 	}
 
 	protected List<UserDetails> loadUsersByUsername(String username) {

@@ -26,7 +26,6 @@ public final class MybatisAuthenticationHandler extends AbstractSsaUsernamePassw
 				return false;
 			}
 		} catch (final IncorrectResultSizeDataAccessException e) {
-			// this means the username was not found.
 			return false;
 		}
 	}
