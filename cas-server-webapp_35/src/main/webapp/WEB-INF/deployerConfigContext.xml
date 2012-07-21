@@ -134,7 +134,9 @@
 				<!-- 
 					<bean class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
 				 -->
-				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler" />
+				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler">
+					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
+				</bean>
 				
 				<!-- oauth step4  deployerConfigContext.xml -->
 				<bean

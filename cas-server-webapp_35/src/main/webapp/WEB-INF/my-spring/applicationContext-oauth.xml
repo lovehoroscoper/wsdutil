@@ -7,7 +7,12 @@
     <description>
 		my add oauth
     </description>
-
+    
+    	<!-- 密码加密 -->
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+		<constructor-arg index="0" value="weisd"/>
+	</bean>
+    
 	<!--  oauth step1 -->
 	<bean id="sinaWeibo" class="org.gonetbar.ssa.oauth.sina.SinaWeiboProvider">
 		<property name="key" value="sinaweibo_key" />

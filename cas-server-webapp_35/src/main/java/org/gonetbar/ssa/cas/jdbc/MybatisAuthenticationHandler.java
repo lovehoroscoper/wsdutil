@@ -9,16 +9,13 @@ public final class MybatisAuthenticationHandler extends AbstractSsaUsernamePassw
 
 	protected final boolean authenticateUsernamePasswordInternal(final UsernamePasswordCredentials credentials) throws AuthenticationException {
 		final String username = getPrincipalNameTransformer().transform(credentials.getUsername());
-		final String password = credentials.getPassword();
-		final String encryptedPassword = this.getPasswordEncoder().encode(password);
+		final String rawPassword = credentials.getPassword();
 		try {
 			final UserInfoVo resultVo = this.getSsaUserService().findUserByName(username);
-			if (null != resultVo && null != resultVo.getPassword()) {
-				// TODO 当初为什么这么写？忘记了
-				//final String dbPassword = this.getSsaUserService().findUserByName(username).getPassword();
-				final String dbPassword = resultVo.getPassword();
-				if(null != dbPassword && !"".equals(dbPassword.trim())){
-					return dbPassword.equals(encryptedPassword);
+			if (null != resultVo) {
+				final String encodedPassword = resultVo.getPassword();
+				if(null != encodedPassword && !"".equals(encodedPassword.trim())){
+					return this.getSscPasswordEncoder().matches(rawPassword, encodedPassword);
 				}else{
 					return false;
 				}
