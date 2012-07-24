@@ -19,15 +19,15 @@
 
 package org.jasig.cas.util;
 
+import java.util.Map;
+
+import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
-import org.quartz.Trigger;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-
-import java.util.Map;
 
 /**
  * Extension of {@link SchedulerFactoryBean} that collects trigger bean

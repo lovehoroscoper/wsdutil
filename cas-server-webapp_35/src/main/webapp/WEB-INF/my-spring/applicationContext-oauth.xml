@@ -12,13 +12,7 @@
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
 		<constructor-arg index="0" value="weisd"/>
 	</bean>
-    
-	<!--  oauth step1 -->
-	<bean id="sinaWeibo" class="org.gonetbar.ssa.oauth.sina.SinaWeiboProvider">
-		<property name="key" value="sinaweibo_key" />
-		<property name="secret" value="sinaweibo_secret" />
-		<property name="callbackUrl" value="http://localhost:8080/cas/login" />
-	</bean>
+ 
 
 	<!--  oauth step2 login-webflow.xml -->
 	<!--  oauth step3 cas-servlet.xml -->

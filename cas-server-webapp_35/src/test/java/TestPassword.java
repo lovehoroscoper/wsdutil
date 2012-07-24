@@ -1,4 +1,3 @@
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
 
 /**
  * @desc 描述：
@@ -8,21 +7,21 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
  */
 public class TestPassword {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		StandardPasswordEncoder t = new StandardPasswordEncoder("weisd");
-		String pass = "admin";
-		System.out.println(t.encode(pass));
-		System.out.println(t.encode(pass));
-		System.out.println(t.encode(pass));
-		
-		String encodedPassword = "b476e9a815a2846ea5ccf0f22ea2635b1dd602f5f6de8983dfeb6a94f3bc7cff53e912b669efe4a11";
-		System.out.println(t.matches(pass, encodedPassword));
-
-	}
+//	/**
+//	 * @param args
+//	 */
+//	public static void main(String[] args) {
+//		// TODO Auto-generated method stub
+//		
+//		StandardPasswordEncoder t = new StandardPasswordEncoder("weisd");
+//		String pass = "admin";
+//		System.out.println(t.encode(pass));
+//		System.out.println(t.encode(pass));
+//		System.out.println(t.encode(pass));
+//		
+//		String encodedPassword = "b476e9a815a2846ea5ccf0f22ea2635b1dd602f5f6de8983dfeb6a94f3bc7cff53e912b669efe4a11";
+//		System.out.println(t.matches(pass, encodedPassword));
+//
+//	}
 
 }
