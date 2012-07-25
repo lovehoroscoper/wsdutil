@@ -272,7 +272,7 @@
         
 	
 	<!-- weisd add -->
-	<bean id="loginSuccRegSetCheckAction" class="org.gonetbar.ssa.oauth.action.LoginSuccRegSetCheckAction">
+	<bean id="loginSuccRegSetCheckAction" class="org.gonetbar.ssa.action.login.LoginSuccRegSetCheckAction">
 		<property name="ssaUserService" ref="userDetailsService"/>
 	</bean>
         

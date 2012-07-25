@@ -1,4 +1,4 @@
-package org.gonetbar.ssa.oauth.action;
+package org.gonetbar.ssa.action.login;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
