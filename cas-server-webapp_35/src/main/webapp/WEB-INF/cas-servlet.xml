@@ -35,7 +35,7 @@
                 <ref bean="yahoo1" />
             </list>
         </property>
-    </bean> 
+	</bean> 
 
   <!-- Theme Resolver -->
   <bean id="themeResolver" class="org.jasig.cas.services.web.ServiceThemeResolver"

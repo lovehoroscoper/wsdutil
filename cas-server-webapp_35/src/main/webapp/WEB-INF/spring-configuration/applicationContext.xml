@@ -35,13 +35,6 @@
       of any aspects defined in this file.
     -->
     <aop:aspectj-autoproxy/>
-    
-    
-    <bean id="yahoo1" class="org.scribe.up.provider.impl.YahooProvider">
-        <property name="key" value="dj0yJmk9MzhNZWFkeXQxN09GJmQ9WVdrOVRrbzNVVVJMTkdrbWNHbzlNVGc0TURNek5EVTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNw--" />
-        <property name="secret" value="2f3146ac90d60b9f79125b1167437b6c64657a0b" />
-        <property name="callbackUrl" value="http://localhost:8080/cas/login" />
-    </bean>
 
     <!--
       Declare the TimingAspect that we want to weave into the other beans

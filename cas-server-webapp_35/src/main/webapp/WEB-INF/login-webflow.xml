@@ -28,6 +28,12 @@
         <evaluate expression="initialFlowSetupAction" />
     </on-start>
 
+	<!--  oauth step2 -->
+    <action-state id="oauthAction">
+        <evaluate expression="oauthAction" />
+        <transition on="success" to="sendTicketGrantingTicket" />
+        <transition on="error" to="ticketGrantingTicketExistsCheck" />
+    </action-state>
 
 	<decision-state id="ticketGrantingTicketExistsCheck">
 		<if test="flowScope.ticketGrantingTicketId != null" then="hasServiceCheck" else="gatewayRequestCheck" />
@@ -205,7 +211,9 @@
 	<!-- 
 		The "redirect" end state allows CAS to properly end the workflow while still redirecting
 		the user back to the service required.
+	<end-state id="redirectView" view="externalRedirect:http://www.hao123.com/" />
 	-->
+	<!-- 这个地方就是跳转的 -->
 	<end-state id="redirectView" view="externalRedirect:${requestScope.response.url}" />
 	
 	<end-state id="viewServiceErrorView" view="viewServiceErrorView" />
