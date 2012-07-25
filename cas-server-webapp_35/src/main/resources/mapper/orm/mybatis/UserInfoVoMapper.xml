@@ -17,6 +17,13 @@
 		<result column="email" property="email" />
 	</resultMap>
 
+	<resultMap id="findUserByProviderTypeId_resultmap" type="userProviderInfoVo">
+		<result column="providertype" property="providertype" />
+		<result column="providerid" property="providerid" />
+		<result column="username" property="username" />
+		<result column="createdate" property="createdate" />
+	</resultMap>
+
 	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
 		select
 			t.id_user,
@@ -34,6 +41,19 @@
 			sso_user t
 		where
 			t.username = #{username}
+	</select>
+
+	<select id="findUserByProviderTypeId" parameterType="userProviderInfoVo" resultMap="findUserByProviderTypeId_resultmap">
+		select
+			t.providertype,
+			t.providerid,
+			t.username,
+			t.createdate
+		from
+			sso_user_third t
+		where
+			t.providertype = #{providertype}
+		and t.providerid = #{providerid}
 	</select>
 
 

@@ -188,20 +188,58 @@
     <decision-state id="postRedirectDecision">
         <if test="requestScope.response.responseType.name() == 'POST'" then="postView" else="redirectView" />
     </decision-state>
+    
+    <!--验证用户是否在我方平台注 start册 flowScope.checkcode -->
+    
+	<action-state id="viewGenericLoginSuccess">
+		<evaluate expression="requestScope.put('returncode','success')"/>
+		<transition to="loginSuccRegSetCheck" />
+	</action-state>
+	
+	<action-state id="showWarningView">
+		<evaluate expression="requestScope.put('returncode','showwarning')"/>
+		<transition to="loginSuccRegSetCheck" />
+	</action-state>
+	
+	<action-state id="redirectView">
+		<evaluate expression="requestScope.put('returncode','redirect')"/>
+		<transition to="loginSuccRegSetCheck" />
+	</action-state>
+	
+	<action-state id="postView">
+		<evaluate expression="requestScope.put('returncode','postview')"/>
+		<transition to="loginSuccRegSetCheck" />
+	</action-state>
+     
+    <action-state id="loginSuccRegSetCheck">
+        <evaluate expression="loginSuccRegSetCheckAction" />
+        <transition on="regSetCheckError" to="viewregSetCheckError" />
+        <transition on="regset" to="viewRegset" />
+        <transition on="success" to="viewGenericLoginSuccess_end" />
+        <transition on="showwarning" to="showWarningView_end" />
+        <transition on="redirect" to="redirectView_end" />
+        <transition on="postview" to="postView_end" />
+    </action-state>
+    
+    <!-- 验证用户是否在我方平台注册 end -->
+    
+    <!-- 跳转到用户注册信息设置 -->
+    <end-state id="viewregSetCheckError" view="regSetCheckErrorView" />
+    <end-state id="viewRegset" view="regsetView" />
 
 	<!-- 
 		the "viewGenericLogin" is the end state for when a user attempts to login without coming directly from a service.
 		They have only initialized their single-sign on session.
 	-->
-	<end-state id="viewGenericLoginSuccess" view="casLoginGenericSuccessView" />
+	<end-state id="viewGenericLoginSuccess_end" view="casLoginGenericSuccessView" />
 
 	<!-- 
 		The "showWarningView" end state is the end state for when the user has requested privacy settings (to be "warned") to be turned on.  It delegates to a 
 		view defines in default_views.properties that display the "Please click here to go to the service." message.
 	-->
-	<end-state id="showWarningView" view="casLoginConfirmView" />
+	<end-state id="showWarningView_end" view="casLoginConfirmView" />
 
-    <end-state id="postView" view="postResponseView">
+    <end-state id="postView_end" view="postResponseView">
         <on-entry>
             <set name="requestScope.parameters" value="requestScope.response.attributes" />
             <set name="requestScope.originalUrl" value="flowScope.service.id" />
@@ -211,10 +249,9 @@
 	<!-- 
 		The "redirect" end state allows CAS to properly end the workflow while still redirecting
 		the user back to the service required.
-	<end-state id="redirectView" view="externalRedirect:http://www.hao123.com/" />
 	-->
-	<!-- 这个地方就是跳转的 -->
-	<end-state id="redirectView" view="externalRedirect:${requestScope.response.url}" />
+	<!-- 这个地方就是跳转的  -->
+	<end-state id="redirectView_end" view="externalRedirect:${requestScope.response.url}" />
 	
 	<end-state id="viewServiceErrorView" view="viewServiceErrorView" />
     

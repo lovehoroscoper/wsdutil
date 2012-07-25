@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.gonetbar.ssa.dao.SsaUserDao;
 import org.gonetbar.ssa.entity.UserInfoVo;
+import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -23,6 +24,11 @@ public class SsaUserDaoImpl extends BaseDaoImpl implements SsaUserDao {
 	@Override
 	public UserInfoVo findUserByVo(UserInfoVo findVo) {
 		return (UserInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByVoId", findVo);
+	}
+
+	@Override
+	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
+		return (UserProviderInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByProviderTypeId", findVo);
 	}
 
 }

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.gonetbar.ssa.dao.SsaUserDao;
 import org.gonetbar.ssa.entity.UserInfoVo;
+import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +102,23 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		UserInfoVo findVo = new UserInfoVo();
 		findVo.setUsername(username);
 		return findUserByVo(findVo);
+	}
+
+	@Override
+	public UserProviderInfoVo findUserByProviderType(String providertype, String providerid) {
+		UserProviderInfoVo findVo = new UserProviderInfoVo();
+		findVo.setProvidertype(providertype);
+		findVo.setProviderid(providerid);
+		return findUserByProviderType(findVo);
+	}
+
+	//缓存
+	@Override
+	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
+		if (null == findVo) {
+			return null;
+		}
+		return ssaUserDao.findUserByProviderType(findVo);
 	}
 
 }

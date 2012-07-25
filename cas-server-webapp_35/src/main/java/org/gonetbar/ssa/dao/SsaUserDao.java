@@ -3,6 +3,7 @@ package org.gonetbar.ssa.dao;
 import java.util.List;
 
 import org.gonetbar.ssa.entity.UserInfoVo;
+import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
@@ -18,5 +19,7 @@ public interface SsaUserDao {
 	public List<UserDetails> loadUsersByUsername(String username);
 
 	public UserInfoVo findUserByVo(UserInfoVo findVo);
+	
+	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
 
 }

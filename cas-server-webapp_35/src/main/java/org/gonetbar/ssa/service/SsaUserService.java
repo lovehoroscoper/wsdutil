@@ -1,6 +1,7 @@
 package org.gonetbar.ssa.service;
 
 import org.gonetbar.ssa.entity.UserInfoVo;
+import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -22,5 +23,15 @@ public interface SsaUserService extends UserDetailsService {
 	 * @return
 	 */
 	public UserInfoVo findUserByName(String username);
+	
+	/**
+	 * 根据登录类型查找用户信息
+	 * 
+	 * @param providerType
+	 * @return
+	 */
+	public UserProviderInfoVo findUserByProviderType(String providertype, String providerid);
+	
+	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
 	
 }

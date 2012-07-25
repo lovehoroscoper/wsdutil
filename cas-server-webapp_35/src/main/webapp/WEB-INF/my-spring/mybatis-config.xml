@@ -10,6 +10,7 @@
 
 	<typeAliases>
 		<typeAlias alias="userInfoVo" type="org.gonetbar.ssa.entity.UserInfoVo" />
+		<typeAlias alias="userProviderInfoVo" type="org.gonetbar.ssa.entity.UserProviderInfoVo" />
 	</typeAliases>
 
 	<mappers>

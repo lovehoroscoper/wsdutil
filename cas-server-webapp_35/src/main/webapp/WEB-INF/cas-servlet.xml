@@ -269,4 +269,11 @@
 
   <bean id="credentialsValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:messageInterpolator-ref="messageInterpolator"/>
+        
+	
+	<!-- weisd add -->
+	<bean id="loginSuccRegSetCheckAction" class="org.gonetbar.ssa.oauth.action.LoginSuccRegSetCheckAction">
+		<property name="ssaUserService" ref="userDetailsService"/>
+	</bean>
+        
 </beans>
