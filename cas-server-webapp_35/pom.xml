@@ -218,7 +218,18 @@
 		</dependency>
 
 		<!-- // cas -->
-
+<dependency>
+	<groupId>org.jasig.service</groupId>
+	<artifactId>person-directory-api</artifactId>
+	<version>1.5.0-M4</version>
+</dependency>
+            
+<dependency>
+	<groupId>org.jasig.service</groupId>
+	<artifactId>person-directory-impl</artifactId>
+	<version>1.5.0-M4</version>
+</dependency>
+            
 
 		<dependency>
 			<groupId>org.mockito</groupId>

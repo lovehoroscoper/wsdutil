@@ -181,6 +181,27 @@
 			</map>
 		</property>
 	</bean>
+	 
+	 <!-- 还需要开启 registeredServices的一个属性
+	<bean id="attributeRepository" class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
+        <constructor-arg index="0" ref="mybatisDataSource"/>
+        <constructor-arg index="1" value="select * from sso_user where {0}"/>
+        <property name="queryAttributeMapping">
+            <map>
+                <entry key="username" value="username"/>
+            </map>
+        </property>
+        <property name="resultAttributeMapping">
+            <map>
+                <entry key="id_user" value="id_user"/>
+                <entry key="username" value="username"/>
+                <entry key="nikename" value="nikename"/>
+                <entry key="email" value="email"/>
+                <entry key="logintype" value="logintype"/>
+            </map>
+        </property>
+    </bean>
+	 -->
 	
 	<!-- 
 	Sample, in-memory data store for the ServiceRegistry. A real implementation
