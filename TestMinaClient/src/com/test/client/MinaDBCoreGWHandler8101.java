@@ -5,11 +5,9 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 
-import com.junbao.hf.utils.common.HttpSignServiceV2;
 
-
-public class MinaDBCoreGWHandler8001 extends IoHandlerAdapter{
-	private static Log logger = LogFactory.getLog(MinaDBCoreGWHandler8001.class);
+public class MinaDBCoreGWHandler8101 extends IoHandlerAdapter{
+	private static Log logger = LogFactory.getLog(MinaDBCoreGWHandler8101.class);
 	
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause) throws Exception {
@@ -38,8 +36,6 @@ public class MinaDBCoreGWHandler8001 extends IoHandlerAdapter{
 			throws Exception {
 		String s = (String) message;
 		logger.info("已收到服务器返回信息:" +  s);	
-		boolean validFlag = HttpSignServiceV2.validResponseString(s.trim(), "&", "verifystring", "123456");
-		//logger.info("验证是否通过:" +  validFlag);	
 
 	}
 
