@@ -8,8 +8,8 @@ import org.apache.mina.core.session.IoSession;
  * 
  * 
  */
-public class MinaServerHandler extends IoHandlerAdapter {
-	private static Logger logger = Logger.getLogger(MinaServerHandler.class);
+public class MinaServerHandler_NIOClient_T2 extends IoHandlerAdapter {
+	private static Logger logger = Logger.getLogger(MinaServerHandler_NIOClient_T2.class);
 	public static final String HEARTBEATREQUEST = "HEARTBEAT_REQUEST";
 	private static final String HEARTBEATRESPONSE = "HEARTBEAT_RESPONSE";
 

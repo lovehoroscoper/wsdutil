@@ -26,8 +26,8 @@ public class TestMinaServer {
 	
 	
 	public boolean startListener() {
-//		int port = 9999;
-		int port = 6003;
+		int port = 9999;
+//		int port = 6003;
 		boolean isSuc = false;
 		try {
 			SocketAcceptor acceptor = new NioSocketAcceptor();
