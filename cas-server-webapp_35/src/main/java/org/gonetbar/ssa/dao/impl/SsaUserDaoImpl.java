@@ -17,10 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class SsaUserDaoImpl extends BaseDaoImpl implements SsaUserDao {
 
-	public List<UserDetails> loadUsersByUsername(String username) {
-		return null;
-	}
-
 	@Override
 	public UserInfoVo findUserByVo(UserInfoVo findVo) {
 		return (UserInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByVoId", findVo);

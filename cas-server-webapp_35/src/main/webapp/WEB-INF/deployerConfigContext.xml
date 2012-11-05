@@ -59,12 +59,13 @@
 		   </list>
 		</property>
 		 -->
+		 <!-- 
 		<property name="authenticationMetaDataPopulators">
 			<list>
 				<bean class="org.jasig.cas.support.oauth.authentication.OAuthAuthenticationMetaDataPopulator" />
 			</list>
 		</property>
-		
+		 -->
 		<!--
 			| This is the List of CredentialToPrincipalResolvers that identify what Principal is trying to authenticate.
 			| The AuthenticationManagerImpl considers them in order, finding a CredentialToPrincipalResolver which 
@@ -103,10 +104,10 @@
 				<bean
 					class="org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver" />
 				
-				<!-- oauth step5  deployerConfigContext.xml OAuthCredentialsToPrincipalResolver  -->
+				<!-- oauth step5  deployerConfigContext.xml OAuthCredentialsToPrincipalResolver  
 				<bean
 					class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver" />
-					
+				-->					
 			</list>
 		</property>
 
@@ -133,17 +134,16 @@
 					+-->
 				<!-- 
 					<bean class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
-				 -->
-				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler">
-					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
-				</bean>
-
 				<bean class="org.jasig.cas.support.oauth.authentication.handler.support.OAuthAuthenticationHandler"> 
 					<property name="providers">       
 						<list>         
 						    <ref bean="yahoo1" />         			      
 						</list>     
 					</property>   
+				</bean>
+				 -->
+				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler">
+					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
 				</bean>
 
 			</list>

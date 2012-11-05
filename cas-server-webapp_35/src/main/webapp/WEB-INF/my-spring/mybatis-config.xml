@@ -11,10 +11,13 @@
 	<typeAliases>
 		<typeAlias alias="userInfoVo" type="org.gonetbar.ssa.entity.UserInfoVo" />
 		<typeAlias alias="userProviderInfoVo" type="org.gonetbar.ssa.entity.UserProviderInfoVo" />
+		<typeAlias alias="matcherInfo" type="org.gonetbar.ssa.entity.MatcherInfo" />
+		<typeAlias alias="dbRoleAttribute" type="org.gonetbar.ssa.entity.DbRoleAttribute" />
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="mapper/orm/mybatis/UserInfoVoMapper.xml" />
+		<mapper resource="mapper/orm/mybatis/MatcherInfoMapper.xml" />
 	</mappers>
 
 </configuration>

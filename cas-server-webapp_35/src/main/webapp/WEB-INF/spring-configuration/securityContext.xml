@@ -44,19 +44,19 @@
   <sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
     <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html"/>
     <sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER"/>
-    <sec:intercept-url pattern="/services/**" access="${cas.securityContext.serviceProperties.adminRoles}"/>
+    <sec:custom-filter ref="myAclFilter" before="FILTER_SECURITY_INTERCEPTOR" />
   </sec:http>
 
-  <sec:authentication-manager alias="casAuthenticationManager">
+  <sec:authentication-manager alias="defAuthenticationManager">
     <sec:authentication-provider ref="casAuthenticationProvider"/>
   </sec:authentication-manager>
-
+  
   <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties"
         p:service="${cas.securityContext.serviceProperties.service}"
         p:sendRenew="false"/>
 
   <bean id="casProcessingFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter"
-        p:authenticationManager-ref="casAuthenticationManager"
+        p:authenticationManager-ref="defAuthenticationManager"
         p:filterProcessesUrl="/services/j_acegi_cas_security_check">
     <property name="authenticationSuccessHandler">
       <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"
@@ -86,5 +86,36 @@
       </bean>
     </property>
   </bean>
+  
+  <!--  -->
+  
+	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， -->
+	<!-- 认证管理器，实现用户认证的入口 -->
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 -->
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<!-- 默认也是false -->
+	<!-- <bean id="ssaFilter" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor"> -->
+	<bean id="myAclFilter" class="org.gonetbar.ssa.cas.filter.AclFilterSecurityInterceptor">
+		<property name="authenticationManager" ref="defAuthenticationManager" />
+		<property name="accessDecisionManager" ref="myAclAccessDecisionManager" />
+		<property name="securityMetadataSource" ref="myAclFilterInvocationSecurityMetadataSource" />
+	</bean>
+
+	<!-- 认证管理器提供者 【user-service-ref】引用的服务组件，通过securityManager进行对用户信息的认证 -->
+	<!-- <authentication-manager alias="myAclAuthenticationManager"> <authentication-provider user-service-ref="userDetailsService"/> </authentication-manager> -->
+	<!-- 访问决策器，决定某个用户具有的角色，是否有足够的权限去访问某个资源 以后可以自己定义 -->
+	<!-- <bean id="ssaAccessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased"> -->
+	<bean id="myAclAccessDecisionManager" class="org.gonetbar.ssa.cas.filter.adm.AclAccessDecisionManager">
+		<property name="allowIfAllAbstainDecisions" value="false" />
+		<property name="decisionVoters">
+			<list>
+				<bean class="org.gonetbar.ssa.entity.DbRoleVoter" />
+				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
+	<bean id="myAclFilterInvocationSecurityMetadataSource" class="org.gonetbar.ssa.cas.filter.sms.AclFilterInvocationSecurityMetadataSource" />
 
 </beans>
