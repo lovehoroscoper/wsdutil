@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.gonetbar.ssa.dao.SsaUserDao;
+import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
@@ -17,7 +18,6 @@ import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,7 +46,7 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			throw new UsernameNotFoundException(str);
 		}
 		Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
-		dbAuthsSet.addAll(loadUserAuthorities(user.getUsername()));
+		dbAuthsSet.addAll(queryUserAuthorities(user.getUsername()));
 		List<GrantedAuthority> dbAuths = new ArrayList<GrantedAuthority>(dbAuthsSet);
 		if (dbAuths.size() == 0) {
 			String str = "用户[" + username + "] has no authorities and will be treated as 'not found'";
@@ -54,31 +54,6 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			throw new UsernameNotFoundException(str);
 		}
 		return createUserDetails(username, user, dbAuths);
-	}
-
-	/**
-	 * Loads authorities by executing the SQL from
-	 * <tt>authoritiesByUsernameQuery</tt>.
-	 * 
-	 * @return a list of GrantedAuthority objects for the user
-	 */
-	protected List<GrantedAuthority> loadUserAuthorities(String username) {
-
-		// new SimpleGrantedAuthority(roleName);
-
-		List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-		list.add(new SimpleGrantedAuthority("ROLE_DDD"));
-
-		// return getJdbcTemplate().query(authoritiesByUsernameQuery, new
-		// String[] { username }, new RowMapper<GrantedAuthority>() {
-		// public GrantedAuthority mapRow(ResultSet rs, int rowNum) throws
-		// SQLException {
-		// String roleName = rolePrefix + rs.getString(2);
-		//
-		// return new SimpleGrantedAuthority(roleName);
-		// }
-		// });
-		return list;
 	}
 
 	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
@@ -120,6 +95,13 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			return null;
 		}
 		return ssaUserDao.findUserByProviderType(findVo);
+	}
+
+	@Override
+	public List<AclGrantedAuthority> queryUserAuthorities(String username) {
+		UserInfoVo findVo = new UserInfoVo();
+		findVo.setUsername(username);
+		return ssaUserDao.queryUserAuthorities(findVo);
 	}
 
 }

@@ -1,5 +1,8 @@
 package org.gonetbar.ssa.dao;
 
+import java.util.List;
+
+import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 
@@ -16,5 +19,7 @@ public interface SsaUserDao {
 	public UserInfoVo findUserByVo(UserInfoVo findVo);
 
 	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
+
+	public List<AclGrantedAuthority> queryUserAuthorities(UserInfoVo findVo);
 
 }

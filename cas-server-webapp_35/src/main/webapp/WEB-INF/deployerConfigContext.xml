@@ -142,7 +142,7 @@
 					</property>   
 				</bean>
 				 -->
-				<bean class="org.gonetbar.ssa.cas.jdbc.MybatisAuthenticationHandler">
+				<bean class="org.gonetbar.ssa.cas.jdbc.AclAuthenticationHandler">
 					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
 				</bean>
 

@@ -5,7 +5,7 @@ import org.jasig.cas.authentication.handler.AuthenticationException;
 import org.jasig.cas.authentication.principal.UsernamePasswordCredentials;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 
-public final class MybatisAuthenticationHandler extends AbstractSsaUsernamePasswordAuthenticationHandler {
+public final class AclAuthenticationHandler extends AbstractSsaUsernamePasswordAuthenticationHandler {
 
 	protected final boolean authenticateUsernamePasswordInternal(final UsernamePasswordCredentials credentials) throws AuthenticationException {
 		final String username = getPrincipalNameTransformer().transform(credentials.getUsername());

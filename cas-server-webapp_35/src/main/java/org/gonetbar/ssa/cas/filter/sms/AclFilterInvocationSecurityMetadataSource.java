@@ -18,7 +18,7 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 /**
  * @desc 描述：资源源数据定义，即定义某一资源可以被哪些角色访问
  * 
- * @author weisd E-mail:weisd@junbao.net
+ * @author weisd E-mail:xiyangdewuse@gmail.com
  * @version 创建时间：2011-12-12 上午11:38:15
  */
 public class AclFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {

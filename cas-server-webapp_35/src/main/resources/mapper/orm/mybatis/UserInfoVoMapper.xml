@@ -24,6 +24,13 @@
 		<result column="createdate" property="createdate" />
 	</resultMap>
 
+	<resultMap id="queryUserAuthoritiesId_resultmap" type="userProviderInfoVo">
+		<result column="role_key" property="role" />
+		<result column="id_user" property="userid" />
+		<result column="id_role" property="roleid" />
+		<result column="role_status" property="rolestatus" />
+	</resultMap>	
+	
 	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
 		select
 			t.id_user,
@@ -54,6 +61,24 @@
 		where
 			t.providertype = #{providertype}
 		and t.providerid = #{providerid}
+	</select>
+
+	<select id="queryUserAuthoritiesId" parameterType="userInfoVo" resultMap="queryUserAuthoritiesId_resultmap">
+		SELECT
+			ur.id_user,
+			ur.id_role,
+			r.role_key,
+			r.role_status
+		FROM
+			sso_sys_user_role AS ur,
+			sso_sys_role AS r
+		WHERE
+			ur.id_role = r.id_role
+		AND r.role_status
+		AND ur.id_user = #{username}
+		ORDER BY
+			ur.orderno ASC,
+			r.role_sort ASC
 	</select>
 
 
