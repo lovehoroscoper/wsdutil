@@ -34,6 +34,7 @@
   <!-- As of Spring SEC 3.1 -->
   
   <sec:http pattern="/regSet.jsp" security="none"/>
+  <sec:http pattern="/accFail.jsp" security="none"/>
   
   <sec:http pattern="/services/loggedout.html" security="none"/>
 
@@ -42,6 +43,7 @@
   </sec:http>
 
   <sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
+  	<sec:access-denied-handler ref="accessDeniedHandler"/>
     <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html"/>
     <sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER"/>
     <sec:custom-filter ref="myAclFilter" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -117,5 +119,11 @@
 
 	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
 	<bean id="myAclFilterInvocationSecurityMetadataSource" class="org.gonetbar.ssa.cas.filter.sms.AclFilterInvocationSecurityMetadataSource" />
+	
+	<bean id="accessDeniedHandler" class="org.gonetbar.ssa.access.AclAccessDeniedHandlerImpl">
+		<property name="errorPage" value="/accFail.jsp" />
+	</bean>
+
+
 
 </beans>

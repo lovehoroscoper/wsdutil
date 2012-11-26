@@ -7,34 +7,29 @@ public final class AclGrantedAuthority implements GrantedAuthority {
 
 	private static final long serialVersionUID = SysVersion.SERIAL_VERSION_UID;
 
-	private final String role;
-
+	private String role;
 	private String userid;
 	private String roleid;
 	private String rolestatus;
 
-	public String getUserid() {
-		return userid;
+	public AclGrantedAuthority() {
+
 	}
 
-	public void setUserid(String userid) {
-		this.userid = userid;
+	public String getRole() {
+		return role;
+	}
+
+	public String getUserid() {
+		return userid;
 	}
 
 	public String getRoleid() {
 		return roleid;
 	}
 
-	public void setRoleid(String roleid) {
-		this.roleid = roleid;
-	}
-
 	public String getRolestatus() {
 		return rolestatus;
-	}
-
-	public void setRolestatus(String rolestatus) {
-		this.rolestatus = rolestatus;
 	}
 
 	public AclGrantedAuthority(String role) {

@@ -3,6 +3,7 @@ package org.gonetbar.ssa.cas.filter.adm;
 import java.util.Collection;
 import java.util.List;
 
+import org.gonetbar.ssa.cas.exception.AccessFailException;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -52,7 +53,8 @@ public class AclAccessDecisionManager extends AbstractAccessDecisionManager {
 		}
 
 		if (deny > 0) {
-			throw new AccessDeniedException(messages.getMessage("AbstractAccessDecisionManager.accessDenied", "Access is denied"));
+//			throw new AccessDeniedException(messages.getMessage("AbstractAccessDecisionManager.accessDenied", "Access is denied"));
+			throw new AccessFailException("您无权访问!!!");
 		}
 		checkAllowIfAllAbstainDecisions();
 	}

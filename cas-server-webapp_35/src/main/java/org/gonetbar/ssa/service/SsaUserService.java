@@ -37,6 +37,6 @@ public interface SsaUserService extends UserDetailsService {
 	
 	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
 	
-	public List<AclGrantedAuthority> queryUserAuthorities(String username);
+	public List<AclGrantedAuthority> queryUserAuthorities(long id_user);
 	
 }

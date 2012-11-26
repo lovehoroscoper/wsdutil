@@ -46,7 +46,7 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			throw new UsernameNotFoundException(str);
 		}
 		Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
-		dbAuthsSet.addAll(queryUserAuthorities(user.getUsername()));
+		dbAuthsSet.addAll(queryUserAuthorities(user.getId_user()));
 		List<GrantedAuthority> dbAuths = new ArrayList<GrantedAuthority>(dbAuthsSet);
 		if (dbAuths.size() == 0) {
 			String str = "用户[" + username + "] has no authorities and will be treated as 'not found'";
@@ -98,9 +98,9 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 	}
 
 	@Override
-	public List<AclGrantedAuthority> queryUserAuthorities(String username) {
+	public List<AclGrantedAuthority> queryUserAuthorities(long id_user) {
 		UserInfoVo findVo = new UserInfoVo();
-		findVo.setUsername(username);
+		findVo.setId_user(id_user);
 		return ssaUserDao.queryUserAuthorities(findVo);
 	}
 

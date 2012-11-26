@@ -206,6 +206,16 @@
     <servlet-name>cas</servlet-name>
     <url-pattern>/403.html</url-pattern>
   </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>cas</servlet-name>
+    <url-pattern>/showplat/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>cas</servlet-name>
+    <url-pattern>/showerror/*</url-pattern>
+  </servlet-mapping>
 
   <session-config>
     <!-- Default to 5 minute session timeouts -->

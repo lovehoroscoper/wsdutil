@@ -5,8 +5,11 @@
 <jsp:directive.include file="includes/top.jsp" />
 <c:if test="${not pageContext.request.secure}">
 	<div id="msg" class="success">
+	<%--
 	    <h2>亲,暂时无法使用注册功能,请您通过第三方帐号进行登录。</h2>
-	    <p>如有不便,请见谅。</p>
+	 --%>
+	    <h2>亲,暂时无法使用注册功能,系统正在测试!</h2>
+	    <p>如有不便,敬请见谅。</p>
 	</div>
 </c:if>
 
@@ -56,6 +59,8 @@
                 <p class="fl-panel fl-note fl-bevel-white fl-font-size-80">
                 	<spring:message code="screen.welcome.security" />
                 </p>
+                <%--
+                
                 <div id="list-languages" class="fl-panel">
                 	<h3>第三方登录</h3>
 					<ul style="padding-top: 5px;">
@@ -66,5 +71,6 @@
 						</li>
 					</ul>
                 </div>
+                 --%>
             </div>
 <jsp:directive.include file="includes/bottom.jsp" />

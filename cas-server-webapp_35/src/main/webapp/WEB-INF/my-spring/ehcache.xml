@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>       
+<ehcache 
+  updateCheck="true" 
+  monitoring="autodetect"
+  defaultTransactionTimeoutInSeconds="30" 
+  dynamicConfig="true">
+
+ <diskStore path="java.io.tmpdir/ssocache1"/>
+
+  <cacheManagerPeerProviderFactory
+    class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
+    properties="jgroups.xml"
+  />
+
+    <defaultCache
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="true"
+        />
+	     
+    <cache name="sso_cache"
+        maxElementsInMemory="10"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="true">
+        <cacheEventListenerFactory
+		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+		   properties="replicateAsynchronously=true, replicatePuts=true,
+		   replicateUpdates=true, replicateUpdatesViaCopy=false, replicateRemovals=true" />	
+    </cache>
+
+</ehcache>

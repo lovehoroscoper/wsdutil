@@ -14,7 +14,7 @@ public class UserInfoVo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int id_user;
+	private long id_user;
 	private String username;
 	private String password;
 	private String nikename;
@@ -26,11 +26,11 @@ public class UserInfoVo implements Serializable {
 	private String thirdloginid;
 	private String email;
 
-	public int getId_user() {
+	public long getId_user() {
 		return id_user;
 	}
 
-	public void setId_user(int id_user) {
+	public void setId_user(long id_user) {
 		this.id_user = id_user;
 	}
 

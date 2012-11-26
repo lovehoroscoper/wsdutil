@@ -123,6 +123,14 @@
         <level value="INFO" />
         <appender-ref ref="cas" />
     </logger>
+    <logger name="java.sql.PreparedStatement" additivity="true">
+        <level value="DEBUG" />
+        <appender-ref ref="cas" />
+    </logger>
+    <logger name="java.sql.Connection" additivity="true">
+        <level value="DEBUG" />
+        <appender-ref ref="cas" />
+    </logger>
 
     <!--
       The root logger sends all log statements EXCEPT those sent to the perf4j
