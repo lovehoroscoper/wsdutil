@@ -1,8 +1,5 @@
 package org.gonetbar.ssa.service;
 
-import java.util.List;
-
-import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,6 +34,6 @@ public interface SsaUserService extends UserDetailsService {
 	
 	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
 	
-	public List<AclGrantedAuthority> queryUserAuthorities(long id_user);
+	//public List<AclGrantedAuthority> queryUserAuthorities(long id_user);
 	
 }

@@ -20,7 +20,19 @@
         overflowToDisk="true"
         />
 	     
-    <cache name="sso_cache"
+    <cache name="cache_users"
+        maxElementsInMemory="10"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="true">
+        <cacheEventListenerFactory
+		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
+		   properties="replicateAsynchronously=true, replicatePuts=true,
+		   replicateUpdates=true, replicateUpdatesViaCopy=false, replicateRemovals=true" />	
+    </cache>
+    
+    <cache name="cache_userdetails"
         maxElementsInMemory="10"
         eternal="false"
         timeToIdleSeconds="120"

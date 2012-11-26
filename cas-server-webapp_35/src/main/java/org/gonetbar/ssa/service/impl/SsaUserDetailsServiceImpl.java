@@ -1,22 +1,23 @@
 package org.gonetbar.ssa.service.impl;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.gonetbar.ssa.cache.SsoCacheManager;
+import org.gonetbar.ssa.constant.CacheName;
+import org.gonetbar.ssa.constant.CachePreKey;
 import org.gonetbar.ssa.dao.SsaUserDao;
 import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
+import org.gonetbar.ssa.util.CommUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -45,18 +46,23 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			logger.error(str);
 			throw new UsernameNotFoundException(str);
 		}
-		Set<GrantedAuthority> dbAuthsSet = new HashSet<GrantedAuthority>();
-		dbAuthsSet.addAll(queryUserAuthorities(user.getId_user()));
-		List<GrantedAuthority> dbAuths = new ArrayList<GrantedAuthority>(dbAuthsSet);
-		if (dbAuths.size() == 0) {
-			String str = "用户[" + username + "] has no authorities and will be treated as 'not found'";
-			logger.error(str);
-			throw new UsernameNotFoundException(str);
+		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_USERDETAIL + username;
+		UserDetails resVo = (UserDetails) SsoCacheManager.get(UserDetails.class, CacheName.CACHE_USERDETAILS, cache_key);
+		if (null == resVo) {
+			List<AclGrantedAuthority> dbAuths = queryUserAuthorities(user.getId_user());
+			if (null == dbAuths || dbAuths.size() == 0) {
+				String str = "用户[" + username + "] has no authorities and will be treated as 'not found'";
+				logger.error(str);
+				throw new UsernameNotFoundException(str);
+			}
+			resVo = createUserDetails(username, user, dbAuths);
+			SsoCacheManager.set(CacheName.CACHE_USERDETAILS, cache_key, resVo);
 		}
-		return createUserDetails(username, user, dbAuths);
+		return resVo;
+
 	}
 
-	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
+	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
 		return new User(username, userFromUserQuery.getPassword(), userFromUserQuery.getValidtype() == 0, true, true, true, combinedAuthorities);
 	}
 
@@ -70,7 +76,13 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		if (null == findVo) {
 			return null;
 		}
-		return ssaUserDao.findUserByVo(findVo);
+		String cache_key = CachePreKey.CACHE_USER_KEY_LOACL + findVo.getUsername();
+		UserInfoVo resVo = SsoCacheManager.get(UserInfoVo.class, CacheName.CACHE_USER, cache_key);
+		if (null == resVo) {
+			resVo = ssaUserDao.findUserByVo(findVo);
+			SsoCacheManager.set(CacheName.CACHE_USER, cache_key, resVo);
+		}
+		return resVo;
 	}
 
 	@Override
@@ -88,20 +100,36 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		return findUserByProviderType(findVo);
 	}
 
-	// 缓存
 	@Override
 	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
 		if (null == findVo) {
 			return null;
 		}
-		return ssaUserDao.findUserByProviderType(findVo);
+		String providertype = findVo.getProvidertype();
+		String providerid = findVo.getProviderid();
+		if (CommUtils.isEmptyOrNullByTrim(providertype) || CommUtils.isEmptyOrNullByTrim(providerid)) {
+			return null;
+		}
+		String cache_key = CachePreKey.CACHE_USER_KEY_THIRD + providertype + "#" + providerid;
+		UserProviderInfoVo resVo = SsoCacheManager.get(UserProviderInfoVo.class, CacheName.CACHE_USER, cache_key);
+		if (null == resVo) {
+			resVo = ssaUserDao.findUserByProviderType(findVo);
+			SsoCacheManager.set(CacheName.CACHE_USER, cache_key, resVo);
+		}
+		return resVo;
 	}
 
-	@Override
-	public List<AclGrantedAuthority> queryUserAuthorities(long id_user) {
-		UserInfoVo findVo = new UserInfoVo();
-		findVo.setId_user(id_user);
-		return ssaUserDao.queryUserAuthorities(findVo);
+	@SuppressWarnings("unchecked")
+	private List<AclGrantedAuthority> queryUserAuthorities(long id_user) {
+		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_AUTHORITY + id_user;
+		List<AclGrantedAuthority> list = (List<AclGrantedAuthority>) SsoCacheManager.get(CacheName.CACHE_USERDETAILS, cache_key);
+		if (null == list) {
+			UserInfoVo findVo = new UserInfoVo();
+			findVo.setId_user(id_user);
+			list = ssaUserDao.queryUserAuthorities(findVo);
+			SsoCacheManager.set(CacheName.CACHE_USERDETAILS, cache_key, (Serializable) list);
+		}
+		return list;
 	}
 
 }
