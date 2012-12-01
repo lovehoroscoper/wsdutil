@@ -39,27 +39,26 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 
 	private SsaUserDao ssaUserDao;
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
-		UserInfoVo user = findUserByName(username);
+	public UserDetails loadUserByUsername(String username_unique) throws UsernameNotFoundException, DataAccessException {
+		UserInfoVo user = findUserByName(username_unique);
 		if (null == user) {
-			String str = "用户[" + username + "]异常!!!";
+			String str = "用户[" + username_unique + "]状态异常";
 			logger.error(str);
 			throw new UsernameNotFoundException(str);
 		}
-		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_USERDETAIL + username;
+		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_USERDETAIL + username_unique;
 		UserDetails resVo = (UserDetails) SsoCacheManager.get(UserDetails.class, CacheName.CACHE_USERDETAILS, cache_key);
 		if (null == resVo) {
-			List<AclGrantedAuthority> dbAuths = queryUserAuthorities(user.getId_user());
+			List<AclGrantedAuthority> dbAuths = queryUserAuthorities(user.getId_user(), username_unique);
 			if (null == dbAuths || dbAuths.size() == 0) {
-				String str = "用户[" + username + "] has no authorities and will be treated as 'not found'";
+				String str = "用户[" + username_unique + "]无任何访问权限!!!";
 				logger.error(str);
 				throw new UsernameNotFoundException(str);
 			}
-			resVo = createUserDetails(username, user, dbAuths);
+			resVo = createUserDetails(username_unique, user, dbAuths);
 			SsoCacheManager.set(CacheName.CACHE_USERDETAILS, cache_key, resVo);
 		}
 		return resVo;
-
 	}
 
 	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
@@ -120,8 +119,8 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<AclGrantedAuthority> queryUserAuthorities(long id_user) {
-		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_AUTHORITY + id_user;
+	private List<AclGrantedAuthority> queryUserAuthorities(long id_user, String username_unique) {
+		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_AUTHORITY + username_unique;
 		List<AclGrantedAuthority> list = (List<AclGrantedAuthority>) SsoCacheManager.get(CacheName.CACHE_USERDETAILS, cache_key);
 		if (null == list) {
 			UserInfoVo findVo = new UserInfoVo();

@@ -11,6 +11,7 @@ import org.gonetbar.ssa.entity.MatcherInfo;
 import org.gonetbar.ssa.service.SecurityMetadataSourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
@@ -27,6 +28,9 @@ public class AclFilterInvocationSecurityMetadataSource implements FilterInvocati
 
 	private SecurityMetadataSourceService securityMetadataSourceService;
 
+	/**
+	 * 返回这个URL需要访问权限
+	 */
 	public Collection<ConfigAttribute> getAttributes(Object object) {
 		final HttpServletRequest request = ((FilterInvocation) object).getRequest();
 		return queryConfigAttributeCollection(request);
@@ -35,19 +39,21 @@ public class AclFilterInvocationSecurityMetadataSource implements FilterInvocati
 	private Collection<ConfigAttribute> queryConfigAttributeCollection(final HttpServletRequest request) {
 		String url = getRequestPath(request);
 		if (StringUtils.isBlank(url)) {
-			return null;
+			throw new AccessDeniedException("无法获取访问地址权限列表,拒绝访问!!!");
 		}
 		MatcherInfo queryVo = securityMetadataSourceService.queryConfigAttributeCollectionKey(url, request);
-		// TODO MatcherInfo 有可能为空
-		List<ConfigAttribute> list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionValue(queryVo.getLinkurl(), queryVo);
-		if (list.isEmpty()) {
-			list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionNull(null);
+		if (null != queryVo) {
+			List<ConfigAttribute> list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionValue(queryVo.getLinkurl(), queryVo);
+			if (list.isEmpty()) {
+				list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionNull(null);
+			}
+			if (null == list || list.isEmpty()) {
+				throw new AccessDeniedException("无法获取访问地址权限列表,拒绝访问!!!");
+			}
+			return list;
+		} else {
+			throw new AccessDeniedException("无法获取访问地址权限列表,拒绝访问!!!");
 		}
-		if (null == list || list.isEmpty()) {
-			// TODO 专门的捕获异常信息
-			throw new RuntimeException("无法获取访问地址权限列表,拒绝访问!!!");
-		}
-		return list;
 	}
 
 	public Collection<ConfigAttribute> getAllConfigAttributes() {

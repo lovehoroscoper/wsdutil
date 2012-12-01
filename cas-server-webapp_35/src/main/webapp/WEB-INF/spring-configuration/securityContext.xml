@@ -34,7 +34,6 @@
   <!-- As of Spring SEC 3.1 -->
   
   <sec:http pattern="/regSet.jsp" security="none"/>
-  <sec:http pattern="/accFail.jsp" security="none"/>
   
   <sec:http pattern="/services/loggedout.html" security="none"/>
 
@@ -101,6 +100,7 @@
 		<property name="authenticationManager" ref="defAuthenticationManager" />
 		<property name="accessDecisionManager" ref="myAclAccessDecisionManager" />
 		<property name="securityMetadataSource" ref="myAclFilterInvocationSecurityMetadataSource" />
+		<property name="rejectPublicInvocations" value="true"/>
 	</bean>
 
 	<!-- 认证管理器提供者 【user-service-ref】引用的服务组件，通过securityManager进行对用户信息的认证 -->
@@ -121,7 +121,7 @@
 	<bean id="myAclFilterInvocationSecurityMetadataSource" class="org.gonetbar.ssa.cas.filter.sms.AclFilterInvocationSecurityMetadataSource" />
 	
 	<bean id="accessDeniedHandler" class="org.gonetbar.ssa.access.AclAccessDeniedHandlerImpl">
-		<property name="errorPage" value="/accFail.jsp" />
+		<property name="errorPage" value="/authorizationFailure.html" />
 	</bean>
 
 

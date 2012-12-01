@@ -53,7 +53,8 @@ public class SecurityMetadataSourceServiceImpl implements SecurityMetadataSource
 				}
 			}
 		}
-		return new MatcherInfo();
+		//return new MatcherInfo();
+		return null;
 	}
 
 	@Override
@@ -63,9 +64,9 @@ public class SecurityMetadataSourceServiceImpl implements SecurityMetadataSource
 		if (null != queryVo) {
 			list = securityMetadataSourceDao.queryConfigAttributeCollectionValue(queryVo);
 		}
-		if (null == list) {
-			list = new ArrayList<ConfigAttribute>();
-		}
+//		if (null == list) {
+//			list = new ArrayList<ConfigAttribute>();
+//		}
 		return list;
 	}
 
@@ -77,17 +78,17 @@ public class SecurityMetadataSourceServiceImpl implements SecurityMetadataSource
 		return securityMetadataSourceDao.queryConfigAttributeCollectionNull(queryVo);
 	}
 
+	@Override
+	public MatcherInfo querySubSysId(MatcherInfo queryVo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private SecurityMetadataSourceDao securityMetadataSourceDao;
 
 	@Resource(name = "securityMetadataSourceDao")
 	public void setSecurityMetadataSourceDao(SecurityMetadataSourceDao securityMetadataSourceDao) {
 		this.securityMetadataSourceDao = securityMetadataSourceDao;
-	}
-
-	@Override
-	public MatcherInfo querySubSysId(MatcherInfo queryVo) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

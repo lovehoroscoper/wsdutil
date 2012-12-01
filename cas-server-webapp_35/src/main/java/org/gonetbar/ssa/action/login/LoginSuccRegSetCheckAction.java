@@ -9,10 +9,13 @@ import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
+import org.gonetbar.ssa.service.impl.SsaUserDetailsServiceImpl;
+import org.jasig.cas.authentication.principal.Response;
 import org.jasig.cas.web.support.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.webflow.action.AbstractAction;
+import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
@@ -23,6 +26,7 @@ import org.springframework.webflow.execution.RequestContext;
  * 
  */
 public final class LoginSuccRegSetCheckAction extends AbstractAction {
+	
 
 	@Override
 	protected Event doExecute(RequestContext context) throws Exception {
@@ -36,7 +40,7 @@ public final class LoginSuccRegSetCheckAction extends AbstractAction {
 		String providertype = "";
 		String providerid = "";
 		
-		
+		logger.info("-------------LoginSuccRegSetCheckAction--------------start------------------");
 		
 		String[] username_arr = request.getParameterValues("username");
 
@@ -68,9 +72,22 @@ public final class LoginSuccRegSetCheckAction extends AbstractAction {
 				}
 			}
 		}
+		
+		logger.info("-------------LoginSuccRegSetCheckAction--------------end---------[" + returncode + "]---------");
+		
 		if(StringUtils.isBlank(returncode)){
 			return result("regSetCheckError");
 		}else{
+			
+			logger.info("-------------需要在这里检测所访问的URL是否具有权限------");
+			Response cas_resp = (Response)context.getRequestScope().get("response");
+			if(null != cas_resp){
+				String url = cas_resp.getUrl();
+				logger.info(url);
+				logger.info("-------------需要在这里检测所访问的URL是否具有权限------[" + url + "]");
+			}
+
+			
 			return result(returncode);
 		}
 	}
