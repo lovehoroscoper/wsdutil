@@ -205,14 +205,12 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.jgroups</groupId>
-		    <artifactId>jgroups</artifactId>
-		    <version>3.2.2.Final</version>
+			<groupId>org.jgroups</groupId>
+			<artifactId>jgroups</artifactId>
+			<version>3.2.2.Final</version>
 		</dependency>
-
+		
 		<!-- // ehcache -->
-		
-		
 
 		<!-- cas -->
 
