@@ -7,11 +7,11 @@ public class ListJar {
 
 	private static StringBuffer sb = new StringBuffer("CLASSPATH=.");
 	//private static String p = ":/app/jbcz/lib/";
-	private static String p = ":/mydata/app/testso/lib/";
+	private static String p = ":/app/testso/lib/";
 
 	public static void main(String[] args) {
 
-		File file = new File("E:\\gaeProject\\TestSo\\src\\lib");
+		File file = new File("D:\\junbao_newpro\\TestSo\\src\\lib");
 		ListJar.listFile(file);
 
 		System.out.println(sb.toString());
