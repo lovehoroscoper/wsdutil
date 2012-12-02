@@ -15,7 +15,7 @@ public class NIOClient_T2 {
 	/* 标识数字 */
 	private static int flag = 0;
 	/* 缓冲区大小 */
-	private static int BLOCK = 100;
+	private static int BLOCK = 1000;
 	/* 接受数据缓冲区 */
 	private static ByteBuffer sendbuffer = ByteBuffer.allocate(BLOCK);
 	/* 发送数据缓冲区 */
@@ -118,7 +118,7 @@ public class NIOClient_T2 {
 				} else if (selectionKey.isWritable()) {
 					sendbuffer.clear();
 					client = (SocketChannel) selectionKey.channel();
-					if(flag < 5){
+					if(flag < 0 ){
 						sendText = "message from client--" + (flag++) + "\r\n";
 						sendbuffer.put(sendText.getBytes());
 						// 将缓冲区各标志复位,因为向里面put了数据标志被改变要想从中读取数据发向服务器,就要复位
