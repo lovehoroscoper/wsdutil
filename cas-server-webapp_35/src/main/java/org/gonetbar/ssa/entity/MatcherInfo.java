@@ -1,12 +1,14 @@
 package org.gonetbar.ssa.entity;
 
+import java.io.Serializable;
+
 /**
  * @desc 描述：
  * 
  * @author weisd E-mail:weisd@junbao.net
  * @version 创建时间：2012-7-29 下午3:33:02
  */
-public class MatcherInfo {
+public class MatcherInfo implements Serializable{
 
 	private String menuid;// idSource
 	private String subsysid;

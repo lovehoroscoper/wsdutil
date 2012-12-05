@@ -46,8 +46,10 @@
 			s.isadmin
 		FROM
 			sys_menu s
-        WHERE s.subsysid = #{subsysid} 	
-        	AND s.levelflag = 3
+        WHERE s.levelflag = 3 
+        <if test="null != subsysid and subsysid != ''">
+        	AND s.subsysid = #{subsysid} 	
+        </if>
 		ORDER BY
 			s.parentid,
 			s.sort,

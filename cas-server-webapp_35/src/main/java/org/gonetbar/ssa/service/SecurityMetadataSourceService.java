@@ -20,6 +20,12 @@ public interface SecurityMetadataSourceService {
 
 	public MatcherInfo queryConfigAttributeCollectionKey(String url, final HttpServletRequest request);
 
+	/**
+	 *  根据菜单ID获取菜单拥有的所有权限
+	 * @param key
+	 * @param queryVo
+	 * @return
+	 */
 	public List<ConfigAttribute> queryConfigAttributeCollectionValue(String key, MatcherInfo queryVo);
 
 	/**

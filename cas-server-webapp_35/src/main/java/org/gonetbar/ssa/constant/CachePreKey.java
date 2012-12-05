@@ -10,10 +10,19 @@ package org.gonetbar.ssa.constant;
  */
 public class CachePreKey {
 
+	//用户登录来源
 	public final static String CACHE_USER_KEY_LOACL = "local@";
 	public final static String CACHE_USER_KEY_THIRD = "third@";
 
+	//用户权限
 	public final static String CACHE_USERDETAILS_KEY_USERDETAIL = "userdetail@";
 	public final static String CACHE_USERDETAILS_KEY_AUTHORITY = "authority@";
+	
+	//菜单
+	public final static String CACHE_MENU_KEY_ALL = "menu_all@";
+	public final static String CACHE_MENU_KEY_ONE = "menu_one@";
+	
+	public final static String CACHE_ROLE_KEY_MENU = "role_menu@";
+	public final static String CACHE_ROLE_KEY_DEFAULT = "role_default@";
 
 }

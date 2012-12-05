@@ -21,7 +21,9 @@ public class TestUrl {
 //		String t = "http://localhost:8080/cas/login?service=http%3A%2F%2Flocalhost%3A8080%2Fcas%2Fservices%2Fj_acegi_cas_security_check";
 		String t = "http://127.0.0.1:8080/cas/login?service=http%3A%2F%2F127.0.0.1%3A9999%2F";
 		
-		System.out.println(URLDecoder.decode(t,"utf-8"));
+//		System.out.println(URLDecoder.decode(t,"utf-8"));
+		
+		
 	}
 
 }

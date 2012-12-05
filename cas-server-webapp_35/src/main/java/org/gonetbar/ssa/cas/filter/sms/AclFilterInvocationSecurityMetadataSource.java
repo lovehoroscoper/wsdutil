@@ -43,7 +43,7 @@ public class AclFilterInvocationSecurityMetadataSource implements FilterInvocati
 		}
 		MatcherInfo queryVo = securityMetadataSourceService.queryConfigAttributeCollectionKey(url, request);
 		if (null != queryVo) {
-			List<ConfigAttribute> list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionValue(queryVo.getLinkurl(), queryVo);
+			List<ConfigAttribute> list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionValue(queryVo.getMenuid(), queryVo);
 			if (list.isEmpty()) {
 				list = (List<ConfigAttribute>) securityMetadataSourceService.queryConfigAttributeCollectionNull(null);
 			}

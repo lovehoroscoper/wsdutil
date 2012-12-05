@@ -13,5 +13,9 @@ public class CacheName {
 	public final static String CACHE_USER = "cache_users";// 用户
 
 	public final static String CACHE_USERDETAILS = "cache_userdetails";// 用户权限
+	
+	public final static String CACHE_MENU = "cache_menu";// 菜单
+	
+	public final static String CACHE_ROLE = "cache_role";// ROLL
 
 }
