@@ -2,8 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.godtips.sso</groupId>
 	<artifactId>sso-acl</artifactId>
-	<packaging>war</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<name>sso-acl Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	
