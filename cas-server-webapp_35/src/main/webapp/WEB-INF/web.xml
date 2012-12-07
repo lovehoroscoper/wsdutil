@@ -30,6 +30,7 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
+			classpath*:/spring/applicationContext-acl.xml  
 			/WEB-INF/my-spring/applicationContext-*.xml
 			/WEB-INF/spring-configuration/*.xml
 			/WEB-INF/deployerConfigContext.xml

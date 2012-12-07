@@ -7,8 +7,9 @@
      http://www.springframework.org/schema/context  
      http://www.springframework.org/schema/context/spring-context-3.1.xsd
      ">
-
+<!--  -->
 	<bean id="startServer" class="org.gonetbar.ssa.init.StartServer" init-method="startListener" destroy-method="stopListener">
 		<property name="configName" value="casGlobals.properties" />
 	</bean>
+
 </beans>

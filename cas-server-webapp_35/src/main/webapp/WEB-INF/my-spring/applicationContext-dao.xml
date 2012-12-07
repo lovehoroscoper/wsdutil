@@ -15,7 +15,5 @@
      ">
      
 	<bean id="ssaUserDao" class="org.gonetbar.ssa.dao.impl.SsaUserDaoImpl" autowire="byName"/>
-	
-	<bean id="securityMetadataSourceDao" class="org.gonetbar.ssa.dao.impl.SecurityMetadataSourceDaoImpl" autowire="byName"/>
 
 </beans>

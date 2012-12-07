@@ -8,14 +8,8 @@ package org.gonetbar.ssa.constant;
  * @author weisd E-mail:xiyangdewuse@gmail.com
  * @version 创建时间：2012-11-26 下午3:58:42
  */
-public class CacheName {
+public class SsoCacheName {
 
 	public final static String CACHE_USER = "cache_users";// 用户
-
-	public final static String CACHE_USERDETAILS = "cache_userdetails";// 用户权限
-	
-	public final static String CACHE_MENU = "cache_menu";// 菜单
-	
-	public final static String CACHE_ROLE = "cache_role";// ROLL
 
 }

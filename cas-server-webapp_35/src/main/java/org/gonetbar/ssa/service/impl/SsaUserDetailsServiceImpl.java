@@ -1,19 +1,16 @@
 package org.gonetbar.ssa.service.impl;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.gonetbar.ssa.cache.SsoCacheManager;
-import org.gonetbar.ssa.constant.CacheName;
-import org.gonetbar.ssa.constant.CachePreKey;
+import org.gonetbar.ssa.constant.SsoCacheName;
+import org.gonetbar.ssa.constant.SsoCachePreKey;
 import org.gonetbar.ssa.dao.SsaUserDao;
-import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
-import org.gonetbar.ssa.util.CommUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -22,6 +19,11 @@ import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.godtips.common.UtilString;
+import com.godtips.sso.acl.entity.AclGrantedAuthority;
+import com.godtips.sso.acl.entity.AclUserVo;
+import com.godtips.sso.acl.service.SecurityMetadataSourceService;
 
 /**
  * 
@@ -39,6 +41,8 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 
 	private SsaUserDao ssaUserDao;
 
+	private SecurityMetadataSourceService securityMetadataSourceService;
+
 	public UserDetails loadUserByUsername(String username_unique) throws UsernameNotFoundException, DataAccessException {
 		UserInfoVo user = findUserByName(username_unique);
 		if (null == user) {
@@ -46,28 +50,8 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 			logger.error(str);
 			throw new UsernameNotFoundException(str);
 		}
-		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_USERDETAIL + username_unique;
-		UserDetails resVo = (UserDetails) SsoCacheManager.get(UserDetails.class, CacheName.CACHE_USERDETAILS, cache_key);
-		if (null == resVo) {
-			List<AclGrantedAuthority> dbAuths = queryUserAuthorities(user.getId_user(), username_unique);
-			if (null == dbAuths || dbAuths.size() == 0) {
-				String str = "用户[" + username_unique + "]无任何访问权限!!!";
-				logger.error(str);
-				throw new UsernameNotFoundException(str);
-			}
-			resVo = createUserDetails(username_unique, user, dbAuths);
-			SsoCacheManager.set(CacheName.CACHE_USERDETAILS, cache_key, resVo);
-		}
-		return resVo;
-	}
-
-	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
-		return new User(username, userFromUserQuery.getPassword(), userFromUserQuery.getValidtype() == 0, true, true, true, combinedAuthorities);
-	}
-
-	@Resource(name = "ssaUserDao")
-	public void setSsaUserDao(SsaUserDao ssaUserDao) {
-		this.ssaUserDao = ssaUserDao;
+		AclUserVo aclUser = new AclUserVo(user.getId_user(), user.getUsername(), user.getPassword(), user.getValidtype());
+		return securityMetadataSourceService.queryUserDetailsByAclUser(username_unique, aclUser);
 	}
 
 	@Override
@@ -75,11 +59,11 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		if (null == findVo) {
 			return null;
 		}
-		String cache_key = CachePreKey.CACHE_USER_KEY_LOACL + findVo.getUsername();
-		UserInfoVo resVo = SsoCacheManager.get(UserInfoVo.class, CacheName.CACHE_USER, cache_key);
+		String cache_key = SsoCachePreKey.CACHE_USER_KEY_LOACL + findVo.getUsername();
+		UserInfoVo resVo = SsoCacheManager.get(UserInfoVo.class, SsoCacheName.CACHE_USER, cache_key);
 		if (null == resVo) {
 			resVo = ssaUserDao.findUserByVo(findVo);
-			SsoCacheManager.set(CacheName.CACHE_USER, cache_key, resVo);
+			SsoCacheManager.set(SsoCacheName.CACHE_USER, cache_key, resVo);
 		}
 		return resVo;
 	}
@@ -106,29 +90,33 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		}
 		String providertype = findVo.getProvidertype();
 		String providerid = findVo.getProviderid();
-		if (CommUtils.isEmptyOrNullByTrim(providertype) || CommUtils.isEmptyOrNullByTrim(providerid)) {
+		if (UtilString.isEmptyOrNullByTrim(providertype) || UtilString.isEmptyOrNullByTrim(providerid)) {
 			return null;
 		}
-		String cache_key = CachePreKey.CACHE_USER_KEY_THIRD + providertype + "#" + providerid;
-		UserProviderInfoVo resVo = SsoCacheManager.get(UserProviderInfoVo.class, CacheName.CACHE_USER, cache_key);
+		String cache_key = SsoCachePreKey.CACHE_USER_KEY_THIRD + providertype + "#" + providerid;
+		UserProviderInfoVo resVo = SsoCacheManager.get(UserProviderInfoVo.class, SsoCacheName.CACHE_USER, cache_key);
 		if (null == resVo) {
 			resVo = ssaUserDao.findUserByProviderType(findVo);
-			SsoCacheManager.set(CacheName.CACHE_USER, cache_key, resVo);
+			SsoCacheManager.set(SsoCacheName.CACHE_USER, cache_key, resVo);
 		}
 		return resVo;
 	}
 
-	@SuppressWarnings("unchecked")
-	private List<AclGrantedAuthority> queryUserAuthorities(long id_user, String username_unique) {
-		String cache_key = CachePreKey.CACHE_USERDETAILS_KEY_AUTHORITY + username_unique;
-		List<AclGrantedAuthority> list = (List<AclGrantedAuthority>) SsoCacheManager.get(CacheName.CACHE_USERDETAILS, cache_key);
-		if (null == list) {
-			UserInfoVo findVo = new UserInfoVo();
-			findVo.setId_user(id_user);
-			list = ssaUserDao.queryUserAuthorities(findVo);
-			SsoCacheManager.set(CacheName.CACHE_USERDETAILS, cache_key, (Serializable) list);
-		}
-		return list;
+
+	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
+		return new User(username, userFromUserQuery.getPassword(), userFromUserQuery.getValidtype() == 0, true, true, true, combinedAuthorities);
 	}
+
+	@Resource(name = "ssaUserDao")
+	public void setSsaUserDao(SsaUserDao ssaUserDao) {
+		this.ssaUserDao = ssaUserDao;
+	}
+
+	@Resource(name = "securityMetadataSourceService")
+	public void setSecurityMetadataSourceService(SecurityMetadataSourceService securityMetadataSourceService) {
+		this.securityMetadataSourceService = securityMetadataSourceService;
+	}
+	
+	
 
 }

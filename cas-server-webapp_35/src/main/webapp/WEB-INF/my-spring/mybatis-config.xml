@@ -11,14 +11,19 @@
 	<typeAliases>
 		<typeAlias alias="userInfoVo" type="org.gonetbar.ssa.entity.UserInfoVo" />
 		<typeAlias alias="userProviderInfoVo" type="org.gonetbar.ssa.entity.UserProviderInfoVo" />
-		<typeAlias alias="matcherInfo" type="org.gonetbar.ssa.entity.MatcherInfo" />
-		<typeAlias alias="dbRoleAttribute" type="org.gonetbar.ssa.entity.DbRoleAttribute" />
-		<typeAlias alias="aclGrantedAuthority" type="org.gonetbar.ssa.entity.AclGrantedAuthority" />
+		
+		<!-- import sso-acl -->
+		<typeAlias alias="aclUserVo" type="com.godtips.sso.acl.entity.AclUserVo" />
+		<typeAlias alias="matcherInfo" type="com.godtips.sso.acl.entity.MatcherInfo" />
+		<typeAlias alias="dbRoleAttribute" type="com.godtips.sso.acl.entity.DbRoleAttribute" />
+		<typeAlias alias="aclGrantedAuthority" type="com.godtips.sso.acl.entity.AclGrantedAuthority" />
+		
 	</typeAliases>
 
 	<mappers>
 		<mapper resource="mapper/orm/mybatis/UserInfoVoMapper.xml" />
-		<mapper resource="mapper/orm/mybatis/MatcherInfoMapper.xml" />
+		
+		<mapper resource="db/mybatis/acl/MatcherInfoMapper.xml" />
 	</mappers>
 
 </configuration>

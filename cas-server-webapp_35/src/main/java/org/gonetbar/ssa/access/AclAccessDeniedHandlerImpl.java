@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.gonetbar.ssa.cas.exception.AccessFailException;
-import org.gonetbar.ssa.util.CommUtils;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.access.AccessDeniedHandler;
+
+import com.godtips.common.UtilString;
 
 /**
  * 用于处理自定义异常
@@ -33,7 +34,7 @@ public class AclAccessDeniedHandlerImpl implements AccessDeniedHandler {
 				//String url = afe.getRedirectUrl();
 				//TODO 
 				String url = request.getContextPath() + "/showerror/index.html";
-				if (!CommUtils.isEmptyOrNullByTrim(url)) {
+				if (!UtilString.isEmptyOrNullByTrim(url)) {
 					response.sendRedirect(url);
 					return;
 				}

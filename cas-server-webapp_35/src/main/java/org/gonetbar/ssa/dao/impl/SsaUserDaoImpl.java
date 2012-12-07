@@ -1,9 +1,6 @@
 package org.gonetbar.ssa.dao.impl;
 
-import java.util.List;
-
 import org.gonetbar.ssa.dao.SsaUserDao;
-import org.gonetbar.ssa.entity.AclGrantedAuthority;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 
@@ -25,12 +22,6 @@ public class SsaUserDaoImpl extends BaseDaoImpl implements SsaUserDao {
 	@Override
 	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
 		return (UserProviderInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByProviderTypeId", findVo);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<AclGrantedAuthority> queryUserAuthorities(UserInfoVo findVo) {
-		return this.queryList("org.gonetbar.ssa.entity.UserInfoVoMapper.queryUserAuthoritiesId", findVo);
 	}
 
 }

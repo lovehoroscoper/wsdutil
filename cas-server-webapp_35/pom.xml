@@ -31,9 +31,25 @@
 		<mockito.version>1.9.0</mockito.version>
 		<cas.version>3.5.0</cas.version>
 		<commons.configuration.version>1.9</commons.configuration.version>
+		<my.common.version>1.0.0</my.common.version>
+		<sso.acl.version>1.0.0</sso.acl.version>
 	</properties>
 
 	<dependencies>
+		
+		<dependency>
+			<groupId>com.godtips.common</groupId>
+			<artifactId>my-common</artifactId>
+			<version>${my.common.version}-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.godtips.sso</groupId>
+			<artifactId>sso-acl</artifactId>
+			<version>${sso.acl.version}-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<!-- spring core -->
 

@@ -3,8 +3,6 @@ package test;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.gonetbar.ssa.util.CommUtils;
-
 public class Test {
 
 	public static void main(String args[]) {
@@ -52,26 +50,26 @@ public class Test {
 
 	private String[] splitURL(String url) {
 		String[] url_arr = new String[2];
-		if (!CommUtils.isEmptyOrNullByTrim(url)) {
-			if (url.startsWith("http")) {
-				// 第3个/ 或者第一个? 谁在前面取谁
-				int idx_3 = url.indexOf("/", 1);
-				int idx_1 = url.indexOf("?", 1);
-
-				Matcher m = Pattern.compile("^(http|https)://[^/|?]+").matcher(url);
-				String sub_str = "";
-				if(m.find()){
-					 sub_str = m.group();
-					
-				}else{
-					sub_str = url;
-				}
-				System.out.println(sub_str);
-
-			} else {
-
-			}
-		}
+//		if (!CommUtils.isEmptyOrNullByTrim(url)) {
+//			if (url.startsWith("http")) {
+//				// 第3个/ 或者第一个? 谁在前面取谁
+//				int idx_3 = url.indexOf("/", 1);
+//				int idx_1 = url.indexOf("?", 1);
+//
+//				Matcher m = Pattern.compile("^(http|https)://[^/|?]+").matcher(url);
+//				String sub_str = "";
+//				if(m.find()){
+//					 sub_str = m.group();
+//					
+//				}else{
+//					sub_str = url;
+//				}
+//				System.out.println(sub_str);
+//
+//			} else {
+//
+//			}
+//		}
 		return url_arr;
 	}
 }

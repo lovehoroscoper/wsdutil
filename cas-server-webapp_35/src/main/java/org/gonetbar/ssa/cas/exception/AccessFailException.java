@@ -4,6 +4,8 @@ import org.springframework.security.access.AccessDeniedException;
 
 public class AccessFailException extends AccessDeniedException {
 	
+	private static final long serialVersionUID = 1L;
+
 	private String redirectUrl;
 
 	public AccessFailException(String msg) {

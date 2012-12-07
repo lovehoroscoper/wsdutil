@@ -13,11 +13,5 @@
      http://www.springframework.org/schema/mvc 
      http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
      ">
-
-	
-		<!-- <bean id="userDetailsService" class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl"> <property name="dataSource" ref="dataSource" 
-			/> </bean> -->
 			
-	<bean id="securityMetadataSourceService" class="org.gonetbar.ssa.service.impl.SecurityMetadataSourceServiceImpl" autowire="byName"/>
-
 </beans>

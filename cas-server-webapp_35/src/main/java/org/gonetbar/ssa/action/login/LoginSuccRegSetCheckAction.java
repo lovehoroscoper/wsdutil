@@ -9,13 +9,11 @@ import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
-import org.gonetbar.ssa.service.impl.SsaUserDetailsServiceImpl;
 import org.jasig.cas.authentication.principal.Response;
 import org.jasig.cas.web.support.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.webflow.action.AbstractAction;
-import org.springframework.webflow.core.collection.MutableAttributeMap;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
