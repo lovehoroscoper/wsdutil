@@ -31,11 +31,14 @@ public class AclFilterInvocationSecurityMetadataSource implements FilterInvocati
 
 	private String systemid = "-1";
 
-	@Resource(name = "systemid")
 	public void setSystemid(String systemid) {
 		this.systemid = systemid;
 	}
 
+	public void setSecurityMetadataSourceService(SecurityMetadataSourceService securityMetadataSourceService) {
+		this.securityMetadataSourceService = securityMetadataSourceService;
+	}
+	
 	/**
 	 * 返回这个URL需要访问权限
 	 */
@@ -71,11 +74,6 @@ public class AclFilterInvocationSecurityMetadataSource implements FilterInvocati
 
 	public boolean supports(Class<?> clazz) {
 		return true;
-	}
-
-	@Resource(name = "securityMetadataSourceService")
-	public void setSecurityMetadataSourceService(SecurityMetadataSourceService securityMetadataSourceService) {
-		this.securityMetadataSourceService = securityMetadataSourceService;
 	}
 
 	private String getRequestPath(final HttpServletRequest request) {

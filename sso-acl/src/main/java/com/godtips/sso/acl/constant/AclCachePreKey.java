@@ -10,10 +10,6 @@ package com.godtips.sso.acl.constant;
  */
 public class AclCachePreKey {
 
-	//用户登录来源
-	public final static String CACHE_USER_KEY_LOACL = "local@";
-	public final static String CACHE_USER_KEY_THIRD = "third@";
-
 	//用户权限
 	public final static String CACHE_USERDETAILS_KEY_USERDETAIL = "userdetail@";
 	public final static String CACHE_USERDETAILS_KEY_AUTHORITY = "authority@";

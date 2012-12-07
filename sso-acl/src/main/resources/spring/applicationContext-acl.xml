@@ -8,6 +8,13 @@
 		Security configuration for client
 	</description>
 
+	<bean id="securityMetadataSourceDao" class="com.godtips.sso.acl.dao.impl.SecurityMetadataSourceDaoImpl" autowire="byName"/>
+
+	<bean id="securityMetadataSourceService" class="com.godtips.sso.acl.service.impl.SecurityMetadataSourceServiceImpl">
+		<property name="securityMetadataSourceDao" ref="securityMetadataSourceDao"/>
+	</bean>
+
+
 	<!-- As of Spring SEC 3.1 -->
 	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， -->
 	<!-- 认证管理器，实现用户认证的入口 -->
@@ -39,6 +46,7 @@
 	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
 	<bean id="myAclFilterInvocationSecurityMetadataSource" class="com.godtips.sso.acl.intercept.AclFilterInvocationSecurityMetadataSource">
 		<property name="systemid" value="1"/>
+		<property name="securityMetadataSourceService" ref="securityMetadataSourceService"/>
 	</bean>
 	
 	<bean id="aclCacheManager" class="com.godtips.sso.acl.cache.AclCacheManager">

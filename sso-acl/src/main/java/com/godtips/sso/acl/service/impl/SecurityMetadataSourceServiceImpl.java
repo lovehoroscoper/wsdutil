@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.util.AntPathRequestMatcher;
 import org.springframework.security.web.util.RequestMatcher;
-import org.springframework.stereotype.Service;
 
-import com.godtips.common.UtilString;
 import com.godtips.sso.acl.cache.AclCacheManager;
 import com.godtips.sso.acl.constant.AclCacheName;
 import com.godtips.sso.acl.constant.AclCachePreKey;
@@ -29,7 +30,6 @@ import com.godtips.sso.acl.service.SecurityMetadataSourceService;
  * @author weisd E-mail:weisd@junbao.net
  * @version 创建时间：2012-7-29 下午12:05:32
  */
-@Service("securityMetadataSourceService")
 public class SecurityMetadataSourceServiceImpl implements SecurityMetadataSourceService {
 
 	private static Logger logger = Logger.getLogger(SecurityMetadataSourceServiceImpl.class);
@@ -134,13 +134,33 @@ public class SecurityMetadataSourceServiceImpl implements SecurityMetadataSource
 	}
 
 	@Override
+	public UserDetails queryUserDetailsByAclUser(String username_unique, AclUserVo user) {
+		String cache_key = AclCachePreKey.CACHE_USERDETAILS_KEY_USERDETAIL + username_unique;
+		UserDetails resVo = (UserDetails) AclCacheManager.get(UserDetails.class, AclCacheName.CACHE_USERDETAILS, cache_key);
+		if (null == resVo) {
+			List<AclGrantedAuthority> dbAuths = queryUserAuthorities(user.getId_user(), username_unique);
+			if (null == dbAuths || dbAuths.size() == 0) {
+				String str = "用户[" + username_unique + "]无任何访问权限!!!";
+				logger.error(str);
+				throw new UsernameNotFoundException(str);
+			}
+			resVo = createUserDetails(username_unique, user, dbAuths);
+			AclCacheManager.set(AclCacheName.CACHE_USERDETAILS, cache_key, resVo);
+		}
+		return resVo;
+	}
+
+	protected UserDetails createUserDetails(String username, AclUserVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
+		return new User(username, userFromUserQuery.getPassword(), userFromUserQuery.getValidtype() == 0, true, true, true, combinedAuthorities);
+	}
+
+	@Override
 	public MatcherInfo querySubSysId(MatcherInfo queryVo) {
 		return null;
 	}
 
 	private SecurityMetadataSourceDao securityMetadataSourceDao;
 
-	@Resource(name = "securityMetadataSourceDao")
 	public void setSecurityMetadataSourceDao(SecurityMetadataSourceDao securityMetadataSourceDao) {
 		this.securityMetadataSourceDao = securityMetadataSourceDao;
 	}
