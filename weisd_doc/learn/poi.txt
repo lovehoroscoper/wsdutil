@@ -1,0 +1,6 @@
+http://hi.baidu.com/angelstroll/item/cb045f48e06fb8e71381daa7
+
+解决办法:
+1.tomcat自己启动的时候，更改默认jvm运行空间。(具体方法请搜索).
+2.myeclipse手动设置,如果:preferenred--->myeclipse---->server---->tomcatx.x---->JDK(必须到这里)---->在空白栏里面设置参数，如:
+-Xmx1024M -Xms512M -XX:MaxPermSize=256m（这里不解释参数的含义了。猜也能猜到么）。
