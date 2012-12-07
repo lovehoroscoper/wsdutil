@@ -30,6 +30,7 @@
 		<commons.io.version>2.0</commons.io.version>
 		<mockito.version>1.9.0</mockito.version>
 		<cas.version>3.5.0</cas.version>
+		<commons.configuration.version>1.9</commons.configuration.version>
 	</properties>
 
 	<dependencies>
@@ -540,6 +541,12 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>${commons.lang.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${commons.configuration.version}</version>
 		</dependency>
 
 		<dependency>
