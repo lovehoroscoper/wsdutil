@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+	<typeAliases>
+		<typeAlias alias="aclUserVo" type="com.godtips.sso.acl.entity.AclUserVo" />
+		<typeAlias alias="matcherInfo" type="com.godtips.sso.acl.entity.MatcherInfo" />
+		<typeAlias alias="dbRoleAttribute" type="com.godtips.sso.acl.entity.DbRoleAttribute" />
+		<typeAlias alias="aclGrantedAuthority" type="com.godtips.sso.acl.entity.AclGrantedAuthority" />
+	</typeAliases>
+
+	<mappers>
+		<mapper resource="db/mybatis/acl/MatcherInfoMapper.xml" />
+	</mappers>
+
+</configuration>

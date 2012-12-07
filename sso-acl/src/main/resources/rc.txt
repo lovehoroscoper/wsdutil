@@ -1,0 +1,3 @@
+<typeAlias alias="matcherInfo" type="org.gonetbar.ssa.entity.MatcherInfo" />
+<typeAlias alias="dbRoleAttribute" type="org.gonetbar.ssa.entity.DbRoleAttribute" />
+<typeAlias alias="aclGrantedAuthority" type="org.gonetbar.ssa.entity.AclGrantedAuthority" />

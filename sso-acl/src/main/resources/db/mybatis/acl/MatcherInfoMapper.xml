@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godtips.sso.acl.entity.MatcherInfo">
+
+	<resultMap id="queryRequestUrlListId_resultmap" type="matcherInfo">
+		<result column="menuid" property="menuid" />
+		<result column="subsysid" property="subsysid" />
+		<result column="menuname" property="menuname" />
+		<result column="status" property="status" />
+		<result column="linkurl" property="linkurl" />
+		<result column="sort" property="sort" />
+		<result column="systype" property="systype" />
+		<result column="isadmin" property="isadmin" />
+	</resultMap>
+
+	<resultMap id="queryConfigAttributeCollectionValueId_resultmap" type="dbRoleAttribute">
+		<result column="id_acl" property="idAcl" />
+		<result column="principal_type" property="principalType" />
+		<result column="principal_id" property="principalId" />
+		<result column="id_role" property="idRole" />
+		<result column="acl_state" property="aclState" />
+		<result column="valid_type" property="validType" />
+		<result column="role_key" property="roleKey" />
+		<result column="role_status" property="roleStatus" />
+		<result column="role_sort" property="roleSort" />
+	</resultMap>
+
+	<resultMap id="queryConfigAttributeCollectionNullId_resultmap" type="dbRoleAttribute">
+		<result column="id_role" property="idRole" />
+		<result column="role_key" property="roleKey" />
+		<result column="role_status" property="roleStatus" />
+		<result column="role_sort" property="roleSort" />
+	</resultMap>
+
+	<resultMap id="queryUserAuthoritiesId_resultmap" type="aclGrantedAuthority">
+		<result column="role_key" property="role" />
+		<result column="id_user" property="userid" />
+		<result column="id_role" property="roleid" />
+		<result column="role_status" property="rolestatus" />
+	</resultMap>	
+
+	<select id="queryRequestUrlListId" parameterType="matcherInfo" resultMap="queryRequestUrlListId_resultmap">
+		SELECT
+			s.menuid,
+			s.menuname,
+			s.subsysid,
+			s.`status`,
+			s.linkurl,
+			s.sort,
+			s.systype,
+			s.isadmin
+		FROM
+			sys_menu s
+        WHERE s.levelflag = 3 
+        <if test="null != subsysid and subsysid != ''">
+        	AND s.subsysid = #{subsysid} 	
+        </if>
+		ORDER BY
+			s.parentid,
+			s.sort,
+			s.createtime DESC
+	</select>
+
+	<select id="queryConfigAttributeCollectionValueId" parameterType="matcherInfo" resultMap="queryConfigAttributeCollectionValueId_resultmap">
+		SELECT
+			t.id_acl,
+			t.principal_type,
+			t.principal_id,
+			t.id_role,
+			t.acl_state,
+			t.valid_type,
+			r.role_key,
+			r.role_status,
+			r.role_sort
+		FROM
+			sso_sys_acl_sourcerole t,
+			sso_sys_role r
+		WHERE
+			t.id_role = r.id_role
+		AND t.principal_id = #{menuid} 
+	</select>
+
+	<select id="queryConfigAttributeCollectionNullId" parameterType="dbRoleAttribute" resultMap="queryConfigAttributeCollectionNullId_resultmap">
+		SELECT
+			r.id_role,
+			r.role_key,
+			r.role_status,
+			r.role_sort
+		FROM
+			sso_sys_role r
+		WHERE
+			r.role_key = 'ROLE_DEFAULT_NULL' 
+		ORDER BY
+			r.role_sort DESC
+		LIMIT 0,10 
+	</select>
+
+	<select id="queryUserAuthoritiesId" parameterType="aclUserVo" resultMap="queryUserAuthoritiesId_resultmap">
+		SELECT
+			ur.id_user,
+			ur.id_role,
+			r.role_key,
+			r.role_status
+		FROM
+			sso_sys_user_role AS ur,
+			sso_sys_role AS r
+		WHERE
+			ur.id_role = r.id_role
+		AND r.role_status
+		AND ur.id_user = #{id_user}
+		ORDER BY
+			ur.orderno ASC,
+			r.role_sort ASC
+	</select>
+
+</mapper>
