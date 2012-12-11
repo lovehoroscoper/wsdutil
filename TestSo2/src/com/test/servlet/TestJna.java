@@ -1,6 +1,7 @@
 package com.test.servlet;
 
 import java.io.IOException;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,10 +20,10 @@ public class TestJna extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 
-		logger.info("init  ----------start------");
-		SoJna so = new SoJna();
-		so.initial();
-		logger.info("init  ----------end------");
+		// logger.info("init  ----------start------");
+		// SoJna so = new SoJna();
+		// so.initial();
+		// logger.info("init  ----------end------");
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +43,25 @@ public class TestJna extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().write("ok");
+		String code = request.getParameter("code");
+		String testInfo = request.getParameter("testInfo");
+		String res = "start";
+		if ("weisd007".equals(code)) {
+			String str = SoJna.getFormatDate(new Date(), "yyyyMMddHHmmss");
+			if (null == testInfo || "".equals(testInfo.trim())) {
+				testInfo = "weisd的测试" + str;
+			}
+			logger.info("----合成开始[" + testInfo + "]------[" + str + "]------");
+			SoJna so = new SoJna();
+			so.initial(testInfo.trim());
+			logger.info("----合成结束------end------");
+			res = "ok";
+
+		} else {
+			logger.error("------code[" + code + "]---error");
+			res = "error";
+		}
+		response.getWriter().write(res);
 		response.getWriter().flush();
 	}
 
