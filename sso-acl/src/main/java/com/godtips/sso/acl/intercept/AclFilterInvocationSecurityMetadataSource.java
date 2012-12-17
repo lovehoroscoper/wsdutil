@@ -3,7 +3,6 @@ package com.godtips.sso.acl.intercept;
 import java.util.Collection;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
