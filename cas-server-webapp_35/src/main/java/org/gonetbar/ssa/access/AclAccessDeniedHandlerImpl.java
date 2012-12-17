@@ -47,8 +47,12 @@ public class AclAccessDeniedHandlerImpl implements AccessDeniedHandler {
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 
 				// forward to error page.
-				RequestDispatcher dispatcher = request.getRequestDispatcher(errorPage);
-				dispatcher.forward(request, response);
+				//RequestDispatcher dispatcher = request.getRequestDispatcher(errorPage);
+				//dispatcher.forward(request, response);
+				//TODO weisd 
+				String url = request.getContextPath() + errorPage;
+				response.sendRedirect(url);
+				return;				
 			} else {
 				response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.getMessage());
 			}
