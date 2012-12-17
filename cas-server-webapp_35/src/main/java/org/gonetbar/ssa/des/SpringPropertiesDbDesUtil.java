@@ -247,19 +247,19 @@ public class SpringPropertiesDbDesUtil {
 	public static void main(String[] args) throws IOException {
 //		String infoStr = "";
 //		String infoStr = "";
-		String infoStr = "jdbc:mysql://127.0.0.1:3306/mysso?characterEncoding=UTF-8";
+		String infoStr = "jdbc:mysql://172.25.61.79:3306/ssomg?characterEncoding=UTF-8";
 //		String infoStr = "root";
 		
 		
 		//String keyStr = PropertyEncodeConfigurer.keyStr;
 		String keyStr = "0123456789";
 //		System.out.println("解密前：" + infoStr);
-//		String encodeStr = getEncodeByInfo(infoStr, keyStr);
-//		System.out.println("加密串：" + encodeStr);
-//		String old_str = getDecodeByEncode(encodeStr, keyStr);
-//		String old_str = getDecodeByEncode("o6MmjOWFp06PZyEvAogtt1B5Vt37Xjm9OErP2x+FfcCCIujFK+NgmJe/OA5ZcylP7AG/1IF7RU6xKFDG41v5KA==", keyStr);
-		String old_str = getDecodeByEncode("O3fenWzoK2c=", keyStr);
-		System.out.println("解密后：" + old_str);
+		String encodeStr = getEncodeByInfo(infoStr, keyStr);
+		System.out.println("加密串[" + encodeStr + "]");
+		String old_str = getDecodeByEncode(encodeStr, keyStr);
+//		String old_str = getDecodeByEncode("o6MmjOWFp06tn8PLAgrJCMWJuVaLcqebT9ymPJAyI0qxXmL2dmfegF2GSmAXSh/9X0BHwkh9rWy/p/574nKFEg==", keyStr);
+//		String old_str = getDecodeByEncode("O3fenWzoK2c=", keyStr);
+		System.out.println("解密后[" + old_str + "]");
 
 	}
 }

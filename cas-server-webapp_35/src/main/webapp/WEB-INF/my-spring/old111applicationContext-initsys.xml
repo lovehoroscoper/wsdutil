@@ -27,23 +27,56 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 	
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
+	<bean id="mybatisDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean">
+		<property name="uniqueResourceName" value="mybaits_jndi1" />
+		<property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+		<property name="poolSize" value="${cpool.minPoolSize}" />
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}" />
+		<property name="minPoolSize" value="${cpool.minPoolSize}" />
+		<property name="testQuery" value="select 1" />
+		<property name="xaProperties">
+			<props>
+				<prop key="user">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+				<prop key="url">${jdbc.url}</prop>
+			</props>
+		</property>
+	</bean>
 	
-	<bean id="ssomgDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-	    <property name="url" value="${jdbc.url}" />
-	    <property name="username" value="${jdbc.username}" />
-	    <property name="password" value="${jdbc.password}" />
-	    <property name="initialSize" value="1" />
-	    <property name="maxActive" value="20" />
-	    <property name="validationQuery" value="SELECT 'x'" />
-	    <property name="testWhileIdle" value="true" />
-	    <property name="testOnBorrow" value="false" />
-	    <property name="testOnReturn" value="false" />
+	<bean id="otherDataSource" class="com.atomikos.jdbc.AtomikosDataSourceBean">
+		<property name="uniqueResourceName" value="other_jndi1" />
+		<property name="xaDataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlXADataSource" />
+		<property name="poolSize" value="${cpool.minPoolSize}" />
+		<property name="maxPoolSize" value="${cpool.maxPoolSize}" />
+		<property name="minPoolSize" value="${cpool.minPoolSize}" />
+		<property name="testQuery" value="select 1" />
+		<property name="xaProperties">
+			<props>
+				<prop key="user">${jdbc.username}</prop>
+				<prop key="password">${jdbc.password}</prop>
+				<prop key="url">${jdbc.url}</prop>
+			</props>
+		</property>
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="ssomgDataSource" />
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+		<property name="forceShutdown" value="true"/>
 	</bean>
 
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+		<property name="transactionTimeout" value="300" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+		<property name="transactionManager">
+			<ref bean="atomikosTransactionManager" />
+		</property>
+		<property name="userTransaction">
+			<ref bean="atomikosUserTransaction" />
+		</property>
+	</bean>
+	
 	<!-- mybaits -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="mybatisDataSource" />

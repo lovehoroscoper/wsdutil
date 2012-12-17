@@ -565,6 +565,12 @@
 			<version>${commons.configuration.version}</version>
 		</dependency>
 
+	    <dependency>
+	        <groupId>com.alibaba</groupId>
+	        <artifactId>druid</artifactId>
+	        <version>0.2.9</version>
+	    </dependency>
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

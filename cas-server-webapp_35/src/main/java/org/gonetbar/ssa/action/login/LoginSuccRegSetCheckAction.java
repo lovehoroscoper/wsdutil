@@ -9,7 +9,6 @@ import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
-import org.jasig.cas.authentication.principal.Response;
 import org.jasig.cas.web.support.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,12 +32,12 @@ public final class LoginSuccRegSetCheckAction extends AbstractAction {
 		String returncode = (String)context.getRequestScope().get("returncode");
 		// 检查是本地登录还是第三方接口
 		// String providertype = request.getParameter(OAUTH_PROVIDER);
-//		String providertype = "yahoo1";
-//		String providerid = "yahoo1";
+		// String providertype = "yahoo1";
+		//String providerid = "yahoo1";
 		String providertype = "";
 		String providerid = "";
 		
-		logger.info("-------------LoginSuccRegSetCheckAction--------------start------------------");
+		logger.debug("-------------LoginSuccRegSetCheckAction--------------start------------------");
 		
 		String[] username_arr = request.getParameterValues("username");
 
@@ -71,21 +70,11 @@ public final class LoginSuccRegSetCheckAction extends AbstractAction {
 			}
 		}
 		
-		logger.info("-------------LoginSuccRegSetCheckAction--------------end---------[" + returncode + "]---------");
+		logger.debug("-------------LoginSuccRegSetCheckAction--------------end---------[" + returncode + "]---------");
 		
 		if(StringUtils.isBlank(returncode)){
 			return result("regSetCheckError");
-		}else{
-			
-			logger.info("-------------需要在这里检测所访问的URL是否具有权限------");
-			Response cas_resp = (Response)context.getRequestScope().get("response");
-			if(null != cas_resp){
-				String url = cas_resp.getUrl();
-				logger.info(url);
-				logger.info("-------------需要在这里检测所访问的URL是否具有权限------[" + url + "]");
-			}
-
-			
+		}else{	
 			return result(returncode);
 		}
 	}

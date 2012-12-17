@@ -33,7 +33,7 @@
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
 		p:location="/WEB-INF/cas.properties" />
      -->
-<!--  -->
+
 	<bean id="propertyPlaceholderConfigurer" class="org.gonetbar.ssa.des.PropertyEncodeConfigurer">
 		<property name="locations">
 			<list>

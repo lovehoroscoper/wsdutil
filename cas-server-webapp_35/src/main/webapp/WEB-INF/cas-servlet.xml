@@ -103,8 +103,7 @@
         <prop key="/showerror/*">showErrorController</prop>
       </props>
     </property>
-    <property
-        name="alwaysUseFullPath" value="true"/>
+    <property name="alwaysUseFullPath" value="true"/>
     <!--
      uncomment this to enable sending PageRequest events.
      <property
