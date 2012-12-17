@@ -45,7 +45,7 @@
 
 	<!-- 资源源数据定义，即定义某一资源可以被哪些角色访问 -->
 	<bean id="myAclFilterInvocationSecurityMetadataSource" class="com.godtips.sso.acl.intercept.AclFilterInvocationSecurityMetadataSource">
-		<property name="systemid" value="1"/>
+		<property name="systemid" value="${subsysid}"/>
 		<property name="securityMetadataSourceService" ref="securityMetadataSourceService"/>
 	</bean>
 	

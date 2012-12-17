@@ -75,7 +75,7 @@
 			r.role_status,
 			r.role_sort
 		FROM
-			sso_sys_acl_sourcerole t,
+			sso_sys_acl_menurole t,
 			sso_sys_role r
 		WHERE
 			t.id_role = r.id_role

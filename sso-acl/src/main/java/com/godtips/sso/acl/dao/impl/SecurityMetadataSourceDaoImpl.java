@@ -15,25 +15,25 @@ public class SecurityMetadataSourceDaoImpl extends AclBaseDaoImpl implements Sec
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<MatcherInfo> queryRequestUrlList(MatcherInfo queryVo) {
-		return this.queryList("org.gonetbar.ssa.entity.MatcherInfo.queryRequestUrlListId", queryVo);
+		return this.queryList("com.godtips.sso.acl.entity.MatcherInfo.queryRequestUrlListId", queryVo);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ConfigAttribute> queryConfigAttributeCollectionValue(MatcherInfo queryVo) {
-		return this.queryList("org.gonetbar.ssa.entity.MatcherInfo.queryConfigAttributeCollectionValueId", queryVo);
+		return this.queryList("com.godtips.sso.acl.entity.MatcherInfo.queryConfigAttributeCollectionValueId", queryVo);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ConfigAttribute> queryConfigAttributeCollectionNull(DbRoleAttribute queryVo) {
-		return this.queryList("org.gonetbar.ssa.entity.MatcherInfo.queryConfigAttributeCollectionNullId", queryVo);
+		return this.queryList("com.godtips.sso.acl.entity.MatcherInfo.queryConfigAttributeCollectionNullId", queryVo);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AclGrantedAuthority> queryUserAuthorities(AclUserVo findVo) {
-		return this.queryList("org.gonetbar.ssa.entity.UserInfoVoMapper.queryUserAuthoritiesId", findVo);
+		return this.queryList("com.godtips.sso.acl.entity.MatcherInfo.queryUserAuthoritiesId", findVo);
 	}
 
 }
