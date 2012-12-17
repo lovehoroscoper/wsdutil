@@ -46,7 +46,7 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 
 	<!-- mybaits -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="mybatisDataSource" />
+		<property name="dataSource" ref="ssomgDataSource" />
 		<property name="configLocation" value="/WEB-INF/my-spring/mybatis-config.xml" />
 	</bean>
 	
@@ -54,7 +54,7 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 		<aop:pointcut id="serviceOperation" 
 					expression="execution(* org.gonetbar.ssa.service.*.*(..)) 
 					or  
-					execution(* org.gonetbar.v2.service.*.*(..))" />
+					execution(* com.godtips.sso.acl.service.*.*(..))" />
 		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />
 	</aop:config>
 	
