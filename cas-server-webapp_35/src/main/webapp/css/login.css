@@ -1,5 +1,5 @@
 html {
-	background: #f7f5f5 url(/img/bg.gif) repeat
+	background: #f7f5f5 url(../images/bg.gif) repeat
 }
 
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td
@@ -379,7 +379,7 @@ a:hover {
 	padding-left: 25px;
 	height: 19px;
 	line-height: 1.1;
-	background: url(/img/collaborative-icons.png) 0 0 no-repeat;
+	background: url(../images/collaborative-icons.png) 0 0 no-repeat;
 	margin-right: 30px
 }
 
@@ -387,7 +387,7 @@ a:hover {
 	padding-left: 45px;
 	height: 19px;
 	line-height: 1.1;
-	background: url(/img/collaborative-icons.png) 0 -19px no-repeat
+	background: url(../images/collaborative-icons.png) 0 -19px no-repeat
 }
 
 .Form input[type=text]:focus,.Form input[type=password]:focus,.Form textarea:focus
@@ -503,7 +503,7 @@ div#login,div#signup {
 }
 
 h1#login_logo {
-	background: url('/img/login_logo.png') no-repeat 10px 0;
+	background: url('../images/login_logo.png') no-repeat 10px 0;
 	margin: 0 auto 10px auto;
 	text-align: center;
 	height: 90px;
@@ -515,7 +515,7 @@ a#login_return {
 	left: 30px;
 	width: 55px;
 	height: 37px;
-	background: url(/img/login_return.png) left top no-repeat;
+	background: url(../images/login_return.png) left top no-repeat;
 	font-size: 18px;
 	line-height: 37px;
 	padding-left: 25px;
@@ -541,7 +541,7 @@ a#login_return:active {
 	display: block;
 	width: 600px;
 	clear: both;
-	background: url(/img/login_bar2.png) no-repeat center center
+	background: url(../images/login_bar2.png) no-repeat center center
 }
 
 .login_bar .or {
