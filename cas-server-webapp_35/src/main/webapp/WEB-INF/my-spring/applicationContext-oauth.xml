@@ -33,7 +33,6 @@
         <property name="secret" value="6QCZZBhbokJ2YWfbK2F9vBgvGthtKijwaMRP8x57NWjPW2CXFsJJukt2RWvhlKaQ" />
     </bean>
 
-<!--  -->
     <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
         <property name="loginUrl" value="http://localhost:8080/cas/login" />
         <property name="providers">
@@ -45,7 +44,6 @@
             </list>
         </property>
     </bean>
-
 
 	<!--  oauth step2 login-webflow.xml -->
 	<!--  oauth step3 cas-servlet.xml -->
