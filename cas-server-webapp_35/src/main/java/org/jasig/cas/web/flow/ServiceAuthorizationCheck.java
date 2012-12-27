@@ -18,8 +18,6 @@
  */
 package org.jasig.cas.web.flow;
 
-import javax.validation.constraints.NotNull;
-
 import org.jasig.cas.authentication.principal.Service;
 import org.jasig.cas.services.RegisteredService;
 import org.jasig.cas.services.ServicesManager;
@@ -30,6 +28,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
+import org.springframework.webflow.test.MockRequestContext;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * Performs a basic check if an authentication request for a provided service is authorized to proceed
@@ -58,7 +59,6 @@ public final class ServiceAuthorizationCheck extends AbstractAction {
 		}
 		final RegisteredService registeredService = this.servicesManager.findServiceBy(service);
 
-		
 		if (registeredService == null) {
 			logger.warn("Unauthorized Service Access for Service: [ {} ] - service is not defined in the service registry.", service.getId());
 			throw new UnauthorizedServiceException();
