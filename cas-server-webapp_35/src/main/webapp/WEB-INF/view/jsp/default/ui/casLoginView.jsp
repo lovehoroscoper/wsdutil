@@ -1,27 +1,23 @@
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <%--
-  ~ Licensed to Jasig under one or more contributor license
-  ~ agreements. See the NOTICE file distributed with this work
-  ~ for additional information regarding copyright ownership.
-  ~ Jasig licenses this file to you under the Apache License,
-  ~ Version 2.0 (the "License"); you may not use this file
-  ~ except in compliance with the License.  You may obtain a
-  ~ copy of the License at the following location:
-  ~
-  ~   http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing,
-  ~ software distributed under the License is distributed on an
-  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  ~ KIND, either express or implied.  See the License for the
-  ~ specific language governing permissions and limitations
-  ~ under the License.
-  --%>
 
-<%@ page contentType="text/html; charset=UTF-8" %>
+    Licensed to Jasig under one or more contributor license
+    agreements. See the NOTICE file distributed with this work
+    for additional information regarding copyright ownership.
+    Jasig licenses this file to you under the Apache License,
+    Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License.  You may obtain a
+    copy of the License at the following location:
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+--%>
 <jsp:directive.include file="includes/top.jsp" />
 
 <c:if test="${not pageContext.request.secure}">
@@ -74,6 +70,7 @@
             </form:form>
           </div>
             <div id="sidebar">
+				<div class="sidebar-content">
                 <p class="fl-panel fl-note fl-bevel-white fl-font-size-80"><spring:message code="screen.welcome.security" /></p>
                 <div id="list-languages" class="fl-panel">
                 <%final String queryString = request.getQueryString() == null ? "" : request.getQueryString().replaceAll("&locale=([A-Za-z][A-Za-z]_)?[A-Za-z][A-Za-z]|^locale=([A-Za-z][A-Za-z]_)?[A-Za-z][A-Za-z]", "");%>
@@ -89,7 +86,7 @@
                                <option value="fr">French</option>
                                <option value="ru">Russian</option>
                                <option value="nl">Nederlands</option>
-                               <option value="sv">Svenskt</option>
+                               <option value="sv">Svenska</option>
                                <option value="it">Italiano</option>
                                <option value="ur">Urdu</option>
                                <option value="zh_CN">Chinese (Simplified)</option>
@@ -104,6 +101,8 @@
                                <option value="mk">Macedonian</option>
                                <option value="fa">Farsi</option>
                                <option value="ar">Arabic</option>
+                               <option value="pt_PT">Portuguese</option>
+                               <option value="pt_BR">Portuguese (Brazil)</option>
                            </select>
                            <input type="submit" value="Switch">
                         </form>
@@ -116,7 +115,7 @@
 							><li><a href="${loginUrl}fr">French</a></li
 							><li><a href="${loginUrl}ru">Russian</a></li
 							><li><a href="${loginUrl}nl">Nederlands</a></li
-							><li><a href="${loginUrl}sv">Svenskt</a></li
+							><li><a href="${loginUrl}sv">Svenska</a></li
 							><li><a href="${loginUrl}it">Italiano</a></li
 							><li><a href="${loginUrl}ur">Urdu</a></li
 							><li><a href="${loginUrl}zh_CN">Chinese (Simplified)</a></li
@@ -130,10 +129,36 @@
                             ><li><a href="${loginUrl}mk">Macedonian</a></li
                             ><li><a href="${loginUrl}fa">Farsi</a></li
                             ><li><a href="${loginUrl}ar">Arabic</a></li
+                            ><li><a href="${loginUrl}pt_PT">Portuguese</a></li
+                            ><li><a href="${loginUrl}pt_BR">Portuguese (Brazil)</a></li
 							><li class="last"><a href="${loginUrl}pl">Polish</a></li
 						></ul>
                      </c:otherwise>
                    </c:choose>
+                   
+                               
+            <a href="${FacebookProviderUrl}">Authenticate with Facebook</a> <br />
+<br /> 
+<a href="${TwitterProviderUrl}">Authenticate with Twitter</a><br />
+<br />
+<a href="${GoogleProviderUrl}">Authenticate with Google</a><br /> 
+<br />
+<a href="${YahooProviderUrl}">Authenticate with Yahoo</a><br /> 
+<br />
+<a href="${LinkedInProviderUrl}">Authenticate with LinkedIn</a><br /> 
+<br />
+<a href="${GitHubProviderUrl}">Authenticate with GitHub</a><br />
+<br />
+<a href="${WindowsLiveProviderUrl}">Authenticate with Windows Live</a><br />
+<br />
+<a href="${WordPressProviderUrl}">Authenticate with WordPress</a><br />
+<br />
+<a href="${CasWrapperProvider20Url}">Authenticate with another CAS server using OAuth v2.0 protocol wrapper</a><br />
+<br />
                 </div>
+				</div>
             </div>
+
+            
+            
 <jsp:directive.include file="includes/bottom.jsp" />
