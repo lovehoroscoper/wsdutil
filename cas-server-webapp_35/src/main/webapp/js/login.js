@@ -1,6 +1,6 @@
 $(document).ready(function(){
     //focus username field
-    $("input:visible:enabled:first").focus();
+    //$("input:visible:enabled:first").focus();
     //flash error box
     $('#msg.errors').animate({ backgroundColor: 'rgb(187,0,0)' }, 30).animate({ backgroundColor: 'rgb(255,238,221)' }, 500);
 
@@ -11,5 +11,16 @@ $(document).ready(function(){
     	$("#fm1")[0].reset();
     });    
 
+    $("div[class=input] input").each(function(){
+    	$(this).focus(function(){
+    		$(this).next("label").hide();
+    	})
+    	.blur(function(){
+    		if($.trim($(this).val()) == ""){
+    			$(this).val("").next("label").show();
+    		}
+    	});
+    });
+    
 });
 

@@ -1,47 +1,485 @@
-(function(rt){
-	var templates=rt.templates,
-	attrs=function(){
-		return rt.attrs.apply(rt,arguments)
-		},_=function(){return rt._.apply(rt,arguments)},
-		img=function(){return rt.img.apply(rt,arguments)},
-		imgURL=function(){return rt.imgURL.apply(rt,arguments)},
-		imgSize=function(){return rt.imgSize.apply(rt,arguments)},
-		avatar=function(){return rt.avatar.apply(rt,arguments)},
-		url=function(){return rt.url.apply(rt,arguments)},
-		mkurl=function(){return rt.mkurl.apply(rt,arguments)},
-		escape=function(){return rt.escape.apply(rt,arguments)},
-		__t=rt.templates,emerge=function(){
-			return rt.renderSync.apply(rt,arguments)};
-			__t["signup/signup_step2"]=function(locals){var buf=[];with(locals||{}){var interp,_user=page.user|
-				|page.user_info;page.referer&&(buf.push("<a"),buf.push(attrs({id:"login_return",href:""+page.referer+""}))
-						,buf.push(">返回</a>")),buf.push("<div"),buf.push(attrs({id:"signup"})),
-						buf.push("><a"),buf.push(attrs({href:"/"})),buf.push("><h1"),
-						buf.push(attrs({id:"login_logo"})),buf.push("></h1></a><div"),
-						buf.push(attrs({"class":"login_bar"})),buf.push("></div>"),_user?buf.push("<h3>欢迎你！"
-								
-								+escape((interp=_user.username)==null?"":interp)+"，完善下你的信息" +
-										"，以后你也可以使用该邮箱和密码来登录花瓣了。</h3>"):buf.push("<h3>欢" +
-												"迎你！"+escape((interp=page.user_info.realname||page.user_info
-														.username)==null?"":interp)+"，接下来只要简单设置以下信息就可以" +
-																"了</h3>"),buf.push("<div"),buf.push(attrs({"class":"av" +
-																		"atar"})),buf.push("><img"),buf.push(attrs({id:"curren" +
-																				"t_avatar",src:avatar(_user,"fw192")}))
-,buf.push("/></div><div"),buf.push(attrs({"class":"signup_form"})),buf.push("><form")
-,buf.push(attrs({action:"/signup/",method:"post","class":"Form FancyForm AuthForm"})),
-buf.push("><ul><li><div"),buf.push(attrs({"class":"input"})),buf.push(">");
-								var uname=_user.realname||_user.username;buf.push("<input"),
-								buf.push(attrs({id:"id_username",name:"username",type:"text",value:""+uname+""})),
-								buf.push("/><label>昵称</label><span"),buf.push(attrs({"class":"fff"})),
-								buf.push("></span><div"),buf.push(attrs({id:"username_msgr","class":"msgr left-arrow"})),
-								buf.push("><span"),buf.push(attrs({"class":"txt"})),buf.push("></span><span"),
-								buf.push(attrs({"class":"arrow"})),buf.push(">◣</span><span"),
-								buf.push(attrs({"class":"arrow-mask"})),buf.push("></span></div></div></li><li><div"),
-								buf.push(attrs({"class":"input"})),buf.push(">");var uemail=_user?_user.email||"":"";bu
-								f.push("<input"),buf.push(attrs({id:"id_email",name:"email",type:"text",value:""+uemail+""})
-										),buf.push("/><label>登陆邮箱地址</label><span"),buf.push(attrs({"class":"fff"})),
-										buf.push("></span><div"),buf.push(attrs({id:"email_msgr","class":"msgr left-arrow"}))
-										,buf.push("><span"),buf.push(attrs({"class":"txt"})),buf.push("></span><span"),buf.push
-										(attrs({"class":"arrow"})),buf.push(">◣</span><span"),buf.push(attrs({"class":"arrow-m" +
-												"ask"})),buf.push("></span></div></div></li><li><div"),buf.push(attrs({"class":"input"})),buf.push("><input"),buf.push(attrs({id:"id_password",name:"password",type:"password"})),buf.push("/><label>密码</label><span"),buf.push(attrs({"class":"fff"})),buf.push("></span><div"),buf.push(attrs({id:"password_msgr","class":"msgr left-arrow"})),buf.push("><span"),buf.push(attrs({"class":"txt"})),buf.push("></span><span"),buf.push(attrs({"class":"arrow"})),buf.push(">◣</span><span"),buf.push(attrs({"class":"arrow-mask"})),buf.push("></span></div></div></li></ul>"),page.binding.service_name=="weibo"&&!page.following?(buf.push("<div"),buf.push(attrs({"class":"non_inputs group"})),buf.push("><label"),buf.push(attrs({"class":"follow"})),buf.push("><input"),buf.push(attrs({id:"follow_huaban",type:"checkbox",name:"follow_huaban",value:"1"})),buf.push("/><span>关注花瓣网的新浪微博</span></label></div>")):page.binding.service_name=="qzone"&&!page.following&&(buf.push("<div"),buf.push(attrs({"class":"non_inputs group"})),buf.push("><label"),buf.push(attrs({"class":"follow"})),buf.push("><input"),buf.push(attrs({id:"follow_huaban",type:"checkbox",name:"follow_huaban",value:"1",checked:"checked"})),buf.push("/><span>关注花瓣网的腾讯微博</span></label><label"),buf.push(attrs({"class":"follow"})),buf.push('>在QQ空间上关注我们：<iframe src="http://open.qzone.qq.com/like?url=http%3A%2F%2Fuser.qzone.qq.com%2F1802552897&type=button&style=2" allowtransparency="true" scrolling="no" border="0" frameborder="0"></iframe></label></div>')),buf.push("<div"),buf.push(attrs({"class":"non_inputs"})),buf.push("><label"),buf.push(attrs({"class":"follow disclaimer"})),buf.push("><input"),buf.push(attrs({id:"disclaimer",type:"checkbox",name:"disclaimer",value:"1",checked:"checked"})),buf.push('/><span>我已经认真阅读并接受<a href="/about/disclaimer/" target="_blank">《花瓣网免责声明》</a></span></label></div><div'),buf.push(attrs({"class":"non_inputs"})),buf.push("><a"),buf.push(attrs({id:"submit",href:"#",onclick:"return false;","class":"btn btn18 rbtn"})),buf.push("><strong> "+escape((interp=_user?"提交":"注册")==null?"":interp)+'</strong><span></span></a></div></form></div></div><script>(
-														
-														function(a){function f(b,c){var d=a(b+"_msgr");return d.getFirst("span").set("html",c),d.getParent().addClass("showmsgr"),d.show(),!1}function g(b){var c=a(b+"_msgr");c&&c.hide()}var b,c,d,e,h=this.submitForm=function(){var g=b.get("value"),h=c.get("value"),i=d.get("value"),j=a("follow_huaban"),k=a("tweet_weibo"),l=a("id_tweet_weibo");if(g.trim()=="")return f("username","请输入昵称");if(h.trim()=="")return f("email","请输入您的邮箱地址");if(!~h.indexOf("@"))return f("email","邮箱格式不正确");if(i.trim()=="")return f("password","请输入密码");var m={username:g,email:h,password:i};return j&&j.get("checked")&&(m.follow_huaban=1),k&&k.get("checked")&&(m.tweet_weibo=1,m.tweet_weibo_text=l.value),e.disable(),(new Request.JSON({url:"/signup/",data:m,onSuccess:function(a){if(a.err){e.enable();if(a.fieldErrors){for(var b in a.fieldErrors)f(b,a.fieldErrors[b].join("<br/>"));return}return f("email",a.msg)}app.req.user&&app.req.user.status&&app.req.user.status.sts&&Cookie.write("newbietask",1,{path:"/",domain:"."+app.host}),setTimeout(function(){a.redirect?window.location.href=a.redirect:window.location.href="http://"+app.host+"/guide/follow/"},1e3)}})).post(),!1};window.addEvent("domready",function(){b=a("id_username"),c=a("id_email"),d=a("id_password"),b&&new FancyInput(b),new FancyInput(c),new FancyInput(d),e=new Button("submit",{click:h});try{b&&b.focus()}catch(f){}$$("input").addEvent("blur",function(a){g(a.target.get("name"))}),document.id("disclaimer").addEvent("click",function(){this.checked?e.enable():e.disable()})})})(document.id)</script>')}return buf.join("")},__t["signup/signup"]=function(locals){var buf=[];with(locals||{}){var interp,binding=page.binding;buf.push("<div"),buf.push(attrs({id:"signup"})),buf.push("><a"),buf.push(attrs({href:"/"})),buf.push("><h1"),buf.push(attrs({id:"login_logo"})),buf.push("></h1></a><div"),buf.push(attrs({id:"mv_item","class":"slow-transition"})),buf.push("><a"),buf.push(attrs({id:"show_huaban_video","class":"sexy-button"})),buf.push("><span>观看介绍视频</span></a><div"),buf.push(attrs({style:"display: none","class":"mv"})),buf.push('><embed src="http://player.youku.com/player.php/sid/XMzIxMjU2OTY4/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" type="application/x-shockwave-flash" flashvars="winType=index"></embed></div></div><div'),buf.push(attrs({"class":"login_bar"})),buf.push("></div>"),binding?(buf.push("<h3>对不起！"+escape((interp=binding.user_info.username)==null?"":interp)+"，"),binding.service_name=="weibo"?buf.push("这个微博帐号已经注册过花瓣，请先退出微博登录，"):binding.service_name=="douban"?buf.push("这个豆瓣帐号已经注册过花瓣，请先退出豆瓣登录，"):binding.service_name=="renren"?buf.push("这个人人帐号已经注册过花瓣，请先退出人人登录，"):binding.service_name=="qzone"?buf.push("这个QQ空间帐号已经注册过花瓣，请先退出QQ空间登录，"):binding.service_name=="tqq"&&buf.push("这个腾讯微博帐号已经注册过花瓣，请先退出腾讯微博登录，"),buf.push("重新注册。或者<a"),buf.push(attrs({href:"/login/"})),buf.push(">从这里登录</a></h3><div"),buf.push(attrs({"class":"avatar"})),buf.push("><img"),buf.push(attrs({id:"current_avatar",src:avatar(binding.user_info,"fw192"),"class":"fl"})),buf.push("/></div>")):buf.push("<h3>嗨！你可以选择下方合作网站帐号直接登录花瓣，一分钟完成注册</h3>"),buf.push("<div"),buf.push(attrs({"class":"social_buttons"})),buf.push("><div"),buf.push(attrs({"class":"inset"})),buf.push("><a"),buf.push(attrs({href:"/oauth/weibo/signup/","class":"weibo login-button"})),buf.push("><div"),buf.push(attrs({"class":"logo_wrapper"})),buf.push("><span"),buf.push(attrs({"class":"logo"})),buf.push("></span></div><span>用微博帐号注册</span></a></div><div"),buf.push(attrs({style:"margin-right:0","class":"inset"})),buf.push("><a"),buf.push(attrs({href:"/oauth/douban/signup/","class":"douban login-button"})),buf.push("><div"),buf.push(attrs({"class":"logo_wrapper"})),buf.push("><span"),buf.push(attrs({"class":"logo"})),buf.push("></span></div><span>用豆瓣帐号注册</span></a></div><div"),buf.push(attrs({"class":"inset"})),buf.push("><a"),buf.push(attrs({href:"/oauth/renren/signup/","class":"renren login-button"})),buf.push("><div"),buf.push(attrs({"class":"logo_wrapper"})),buf.push("><span"),buf.push(attrs({"class":"logo"})),buf.push("></span></div><span>用人人帐号注册</span></a></div><div"),buf.push(attrs({style:"margin-right:0","class":"inset"})),buf.push("><a"),buf.push(attrs({href:"/oauth/qzone/signup/","class":"qzone login-button"})),buf.push("><div"),buf.push(attrs({"class":"logo_wrapper"})),buf.push("><span"),buf.push(attrs({"class":"logo"})),buf.push('></span></div><span>用QQ帐号注册</span></a></div></div></div><script>(function(){window.addEvent("domready",function(){$$("#show_huaban_video")[0].addEvent("click",function(){this.hide().getParent("#mv_item").addClass("full"),function(){this.getNext("div.mv").show()}.delay(500,this)})})})()</script>')}return buf.join("")}})(app);
+fml.define("component/windowResize", ["jquery"],
+function(a, b) {
+	function f() {
+		e && clearTimeout(e),
+		e = window.setTimeout(function() {
+			var a = d.length;
+			for (var b = 0; b < a; b++) d[b]()
+		},
+		240)
+	}
+	var c = a("jquery"),
+	d = [],
+	e;
+	if (c.browser.msie) {
+		var g = document.createElement("div");
+		g.style.cssText = "width:100%;height:0px;position:absolute;bottom:0px;left:0px;overflow:hidden",
+		document.body.appendChild(g),
+		g.onresize = f
+	} else window.onresize = f;
+	b.bind = function(a) {
+		d.push(a)
+	}
+});
+fml.define("component/animate", ["jquery"],
+function(a, b) {
+	var c = a("jquery");
+	b.twinkle = function(a, b, d, e) {
+		b || (b = 500),
+		d || (d = 0),
+		e || (e = !0),
+		d = -d,
+		a = c(a);
+		if (!a.length) return;
+		var f = a.get(0),
+		g = 0,
+		h = null,
+		i = !1;
+		clearTimeout(h),
+		h = window.setTimeout(function() {
+			i || (i = !0, a.show());
+			var c = f.style.visibility;
+			f.style.visibility = c == "hidden" ? "visible": "hidden",
+			g--;
+			if (g <= d) return window.clearTimeout(h),
+			e ? a.show() : (a.hide(), i = !1),
+			g = 0,
+			!1;
+			h = window.setTimeout(arguments.callee, b)
+		},
+		b)
+	}
+});
+fml.define("component/userstate", ["jquery", "component/iStorage"],
+function(a, b) {
+	var c = a("jquery"),
+	d = a("component/iStorage"),
+	e = new Date,
+	f = c.browser,
+	g = {};
+	c(document).bind("mousemove",
+	function() {
+		e = new Date
+	}),
+	b.browser = function(a, b) {
+		a = {
+			ie: "msie"
+		} [a] || a;
+		var c = g[a + b];
+		return undefined !== c ? c: f[a] ? b && b != f.version ? c = !1 : c = !0 : c = !1
+	},
+	b.activity = function(a) {
+		return a || (a = 30),
+		new Date - e < a * 1e3
+	},
+	b.isNew = function() {
+		var a = new Date,
+		b = "0" + (a.getMonth() + 1),
+		c = "0" + a.getDate(),
+		e = a.getFullYear().toString().substr(2) + b.substr(b.length - 2) + c.substr(c.length - 2),
+		f = d.getCookie("MEILISHUO_GLOBAL_KEY");
+		if (!f) return ! 1;
+		var g = f.substr(17, 6) == e;
+		return g
+	}
+});
+fml.define("component/iStorage", [],
+function(a, b) {
+	var c = !1,
+	d = !1,
+	e = {
+		cookieArr: {},
+		options: {
+			domain: ".meilishuo.com",
+			path: "/"
+		},
+		setCookie: function(a, b, c) {
+			c = c || {};
+			var d = a + "=" + encodeURIComponent(b);
+			c.domain || (c.domain = this.options.domain),
+			c.path || (c.path = this.options.path),
+			d += "; domain=" + c.domain,
+			c.path && (d += "; path=" + c.path);
+			if (c.duration) {
+				var e = new Date;
+				e.setTime(e.getTime() + c.duration * 1e3),
+				d += "; expires=" + e.toGMTString()
+			}
+			return c.secure && (d += "; secure"),
+			document.cookie = d + ";"
+		},
+		getCookie: function(a) {
+			return this.cookieArr[a] = this.cookieArr[a] ||
+			function() {
+				var b = window.document.cookie.match("(?:^|;)\\s*" + a.replace(/([-.*+?^${}()|[\]\/\\])/g, "\\$1") + "=([^;]*)");
+				return b ? decodeURIComponent(b[1]) : undefined
+			} (),
+			this.cookieArr[a]
+		},
+		removeCookie: function(a) {
+			return this.setCookie(a, "", {
+				duration: -1
+			})
+		}
+	},
+	f = {
+		set: function(a, b, c, d) {
+			c ? sessionStorage.setItem(a, b) : localStorage.setItem(a, b),
+			typeof d == "function" && d()
+		},
+		get: function(a, b, c) {
+			b ? c(sessionStorage.getItem(a)) : c(localStorage.getItem(a))
+		},
+		remove: function(a, b) {
+			b ? sessionStorage.removeItem(a) : localStorage.removeItem(a)
+		}
+	},
+	g = {
+		flash: document.getElementById("storage"),
+		sessionId: "",
+		callback: [],
+		init: function(a) {
+			a && (this.sessionId = this.sessionId || e.getCookie("PHPSESSID"));
+			if (c || d) return;
+			d = !0;
+			var b = new Date,
+			f = document.createElement("div"),
+			g = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" id="storage"';
+			g += 'codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=7,0,19,0" width="1" height="1">',
+			g += '<param name="movie" value="http://i.meilishuo.net/css/images/window/storage.swf?d=' + b.getTime() + '" />',
+			g += '<param name="quality" value="high" />',
+			g += '<param name="allowScriptAccess" value="always" />',
+			g += "</object>",
+			f.innerHTML = g,
+			document.body.appendChild(f),
+			this.flash = document.getElementById("storage")
+		},
+		detectIE: function() {
+			var a = navigator.userAgent.toLowerCase();
+			if (window.ActiveXObject) {
+				var b = a.match(/msie ([\d.]+)/)[1];
+				if (b >= 5.5 && b < 8) return ! 0
+			}
+			return ! 1
+		},
+		set: function(a, b, d, e) {
+			function g(a, b, c) {
+				if (c) {
+					var d = new Date;
+					d = parseInt(d.getTime() / 36e5),
+					f.flash.setSessionTime(d),
+					f.flash.setSessionVal(f.sessionId + a, d),
+					f.flash.set(f.sessionId + a, b)
+				} else f.flash.set(a, b)
+			}
+			var f = this;
+			f.init(d),
+			c ? (g(a, b, d), typeof e == "function" && e()) : f.callback.push(function() {
+				g(a, b, d),
+				typeof e == "function" && e()
+			})
+		},
+		get: function(a, b, d) {
+			function f(a, b) {
+				return b ? (e.flash.removeAllSession(), e.flash.get(e.sessionId + a)) : e.flash.get(a)
+			}
+			var e = this;
+			e.init(b),
+			c ? d(f(a, b)) : e.callback.push(function() {
+				d(f(a, b))
+			})
+		},
+		remove: function(a, b) {
+			var d = this;
+			d.init(b);
+			if (!c) {
+				var d = this;
+				window.setTimeout(function() {
+					d.remove(a, b)
+				},
+				100);
+				return
+			}
+			b ? d.flash.remove(d.sessionId + a) : d.flash.remove(a)
+		}
+	},
+	h = {
+		set: function(a, b, c, d) {
+			c ? e.setCookie(a, b) : e.setCookie(a, b, {
+				duration: 15552e3
+			}),
+			typeof d == "function" && d()
+		},
+		get: function(a, b, c) {
+			c(e.getCookie(a))
+		},
+		remove: function(a, b) {
+			e.removeCookie(a)
+		}
+	},
+	i = g.detectIE() ?
+	function() {
+		try {
+			var a = new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+			return a ? g: h
+		} catch(b) {
+			return h
+		}
+	} () : f;
+	return {
+		isJSReady: function() {
+			return ! 0
+		},
+		getAllowDomain: function() {
+			var a = a || ["www.meilishuo.com", "newlab.meilishuo.com", "newtest.meilishuo.com", "wwwtest.meilishuo.com", "cdjdev.meilishuo.com", "xhdev.meilishuo.com", "rwdev.meilishuo.com", "nanodev.meilishuo.com"];
+			return a
+		},
+		flashReadyHandler: function() {
+			c = !0;
+			for (var a = 0,
+			b = g.callback.length; a < b; a++) g.callback[a]()
+		},
+		setCookie: function(a, b, c) {
+			return e.setCookie(a, b, c)
+		},
+		getCookie: function(a) {
+			return e.getCookie(a)
+		},
+		removeCookie: function(a) {
+			return e.removeCookie(a)
+		},
+		setSession: function(a, b, c)... ("jquery"),
+		d = a("component/urlHandle"),
+		e = a("component/dialog"),
+		f = a("component/shareTmp"),
+		g = a("app/eventHover"),
+		h = a("app/followSome");
+		return {
+			success: function() {
+				c("#sendemail").bind("click",
+				function() {
+					var a = "/user/reg/sendemail",
+					b = {
+						email: c(".regEmail").text()
+					},
+					d = function(a) {
+						alert("发送成功，请稍后注意查收哦！")
+					};
+					c.post(a, b, d, "json")
+				})
+			},
+			selectStyle: function(a, b) {
+				var e = a || ".registerLikeStyle li",
+				f = b || "span";
+				g.hoverShow(e, f),
+				c(e).bind("click",
+				function(a) {
+					var b = encodeURIComponent(c(this).find("h4").text()),
+					e = Meilishuo.config.server_url + "user/register/step4" + "?type_name=" + b + "&frm=" + b;
+					d.redirect(e)
+				})
+			},
+			selectGroup: function() {
+				h({
+					addBtn: ".addGroupFollow",
+					removeBtn: ".removeGroupFollow",
+					hoverBtn: ".removeGroupFollow",
+					followStyle: "btn",
+					unfollowStyle: "followed",
+					submitBtn: "#registerLikeGroupBtn",
+					url: "/user/reg/finish"
+				}),
+				c(".removeGroupFollow").live("click",
+				function() {
+					if (c(".removeGroupFollow").size() === 0) {
+						var a = this,
+						b = f("registerLikeInfoTpl");
+						e.meiliDialog({
+							dialogTitle: "提示",
+							dialogWidth: 330,
+							dialogContent: b,
+							onStart: function() {
+								c(a).click(),
+								c(".registerLikeInfoWin .btn").bind("click",
+								function() {
+									c(".close_z").click()
+								})
+							}
+						})
+					}
+				}),
+				c(".groupCon").click(function() {
+					c("#registerLikeGroupBtn").click()
+				})
+			}
+		}
+	}); fml.define("app/register", ["jquery", "component/validate", "component/focus", "component/passFocus", "component/urlHandle", "component/dialog", "component/shareTmp", "app/checkcode"],
+	function(a, b) {
+		var c = a("jquery"),
+		d = a("component/focus"),
+		e = a("component/passFocus"),
+		f = a("component/urlHandle"),
+		g = a("component/validate"),
+		h = a("component/shareTmp"),
+		j = a("component/dialog"),
+		k = a("app/checkcode"),
+		l = f.getParams(window.location.href.toString());
+		return function() {
+			var a = ["#mlsEmail", "#mlsName", "#vmPass", "#vmConfirmPass", "#checkcode"],
+			b = [["#vmPass", "#mlsPass"], ["#vmConfirmPass", "#mlsConfirmPass"]];
+			for (i in a) d.inputFocus(a[i]);
+			for (i in b) e.passwordFocus(b[i][1], b[i][0]);
+			c("#mlsPass").focus(function() {
+				c("#vmConfirmPass").parent().show(),
+				c("#checkcode").parent().show(),
+				c(".checkImage").find("img").attr("isblank") === "true" && (c(".checkImage").find("img").attr("isblank", "false"), c(".checkImage").click())
+			});
+			var m = function() {
+				c(".genderBox").children("input, label").unbind("click", m),
+				c(".genderBox .registerInfoMessage").css("display", "inline");
+				var a = setTimeout(function() {
+					c(".genderBox .registerInfoMessage").fadeOut(100,
+					function() {
+						c(".genderBox").children("input, label").bind("click", m)
+					})
+				},
+				4e3)
+			};
+			c(".genderBox").children("input, label").bind("click", m);
+			var n = function() {
+				k(function() {
+					c(".checkImage").unbind("click").parents(".checkImage").next(".good, .bad").attr("class", "").next(".registerErrorMessage").hide();
+					var a = setTimeout(function() {
+						c(".checkImage").bind("click", n)
+					},
+					600)
+				})
+			};
+			c(".checkImage").bind("click", n);
+			var o = function() {
+				var a = "/user/reg/action",
+				b = {
+					email: c("[name=email]").val(),
+					nickname: c("[name=nickname]").val(),
+					password: c("[name=password]").val(),
+					confirmpassword: c("[name=confirm_password]").val(),
+					gender: c("[name=gender]:checked").val(),
+					agreement: c("[name=agreement]")[0].checked,
+					checkcode: c("[name=checkcode]").val()
+				};
+				l.invitecode != "" && (b.invitecode = l.invitecode);
+				var d = function(a) {
+					var b = Meilishuo.config.server_url;
+					a.url === 1 ? b += "user/register/success": a.url === 2 && (b += "guang/hot"),
+					f.redirect(b)
+				};
+				if (b.gender == "男") {
+					var e = h("noBoyTpl");
+					return j.meiliDialog({
+						dialogTitle: "美丽提示",
+						dialogWidth: 420,
+						dialogContent: e
+					}),
+					!1
+				}
+				if (b.agreement == 0) return ! 1;
+				c.post(a, b, d, "json")
+			},
+			p = "registerForm",
+			q = {
+				email: {
+					"req=电子邮箱": "你还没有填写电子邮箱哦。",
+					email: "电子邮箱格式有误，请重输！"
+				},
+				nickname: {
+					"req=昵称": "你还没有填写昵称哦。",
+					"maxlen=20": "支持中英文、数字、下划线，限长10个汉字。"
+				},
+				password: {
+					"minlen=6": "输入密码需在6位到32位间。",
+					"maxlen=32": "输入密码需在6位到32位间。"
+				},
+				confirm_password: {
+					"compare=password": "两次密码输入不一致，请重新输入。",
+					"minlen=6": "输入密码需在6位到32位间。"
+				},
+				checkcode: {
+					"req=验证码": "你还没有填写验证码哦。",
+					"minlen=4": "输入验证码需要4位。"
+				},
+				agreement: {
+					selectradio: "需要同意美丽说服务使用协议。"
+				}
+			},
+			r = {
+				"showmsgbyline=registerErrorMessage": "",
+				"showmsgforsubmit=registerBtn": o
+			},
+			s = {
+				success: "strong=good",
+				error: "strong=bad",
+				isExist: {
+					email: function(a) {
+						var b = "/user/reg/validate",
+						d = {
+							rule: "email",
+							data: c("[name=email]").val()
+						},
+						e = function(b) {
+							b == 1 ? a("邮箱已经存在。") : b == 3 ? a("邮箱格式错误。") : a("")
+						};
+						c.post(b, d, e, "json")
+					},
+					nickname: function(a) {
+						var b = "/user/reg/validate",
+						d = {
+							rule: "nickname",
+							data: c("[name=nickname]").val()
+						},
+						e = function(b) {
+							b == 2 ? a("用户名已经存在。") : b == 4 ? a("支持中英文、数字、下划线，限长10个汉字。") : b == 5 ? a("用户名已经存在。") : a("")
+						};
+						c.post(b, d, e, "json")
+					},
+					checkcode: function(a) {
+						var b = "/user/reg/validate",
+						d = {
+							rule: "captcha",
+							data: c("[name=checkcode]").val()
+						},
+						e = function(b) {
+							b == 6 ? (c(".checkImage").click(), a("验证码错误。")) : a("")
+						};
+						c.post(b, d, e, "json")
+					}
+				}
+			};
+			g.validate(p, q, r, s)
+		}
+	}); fml.use(["app/register", "app/registerLike"],
+	function() {
+		switch (Meilishuo.config.controller) {
+		case "register_form":
+			$("#login_more").bind("click",
+			function() {
+				$(this).hide().nextAll("a").show()
+			}),
+			this.register();
+			break;
+		case "register_success":
+			this.registerLike.success();
+			break;
+		case "register_step3":
+			this.registerLike.selectStyle();
+			break;
+		case "register_step4":
+			this.registerLike.selectGroup();
+			break;
+		default:
+		}
+	}), fml.use("app/cleanMsg",
+	function(a) {
+		a.msgFunc()
+	}), fml.use("app/setting",
+	function() {}), fml.define("page/register", [],
+	function() {});

@@ -29,12 +29,10 @@
 					<input type="hidden" name="execution" value="${flowExecutionKey}" />
 					<input type="hidden" name="_eventId" value="submit" />
 					<ul>
-						<li>邮箱:
+						<li>
 							<div class="input">
 								<form:input id="username" accesskey="${userNameAccessKey}" path="username" htmlEscape="true" />
-								<%--
 								<label>登陆邮箱地址</label>
-								 --%>
 								<span class="fff"></span>
 								<div id="email_msgr" class="msgr left-arrow">
 									<span class="txt"></span>
@@ -43,12 +41,10 @@
 								</div>
 							</div>
 						</li>
-						<li>密码:
+						<li>
 							<div class="input">
 								<form:password id="password" path="password"  accesskey="${passwordAccessKey}" htmlEscape="true"/>
-								<%--
 								<label>密码</label>
-								 --%>
 								<span class="fff"></span>
 								<div id="password_msgr" class="msgr left-arrow">
 									<span class="txt"></span>
@@ -73,6 +69,27 @@
 			</div>
 		</div>
 	</div>
+	
+
+<a href="${FacebookProviderUrl}">Authenticate with Facebook</a> <br />
+<br /> 
+<a href="${TwitterProviderUrl}">Authenticate with Twitter</a><br />
+<br />
+<a href="${GoogleProviderUrl}">Authenticate with Google</a><br /> 
+<br />
+<a href="${YahooProviderUrl}">Authenticate with Yahoo</a><br /> 
+<br />
+<a href="${LinkedInProviderUrl}">Authenticate with LinkedIn</a><br /> 
+<br />
+<a href="${GitHubProviderUrl}">Authenticate with GitHub</a><br />
+<br />
+<a href="${WindowsLiveProviderUrl}">Authenticate with Windows Live</a><br />
+<br />
+<a href="${WordPressProviderUrl}">Authenticate with WordPress</a><br />
+<br />
+<a href="${CasWrapperProvider20Url}">Authenticate with another CAS server using OAuth v2.0 protocol wrapper</a><br />
+<br />
+	
 	<!-- // page -->
 	<div class="clear"></div>
 	<script type="text/javascript" src="<c:url value="/js/jquery-1.8.3.min.js" />"></script>

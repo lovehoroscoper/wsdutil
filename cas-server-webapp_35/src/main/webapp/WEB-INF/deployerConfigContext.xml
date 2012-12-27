@@ -59,13 +59,12 @@
 		   </list>
 		</property>
 		 -->
-		 <!-- 
-		<property name="authenticationMetaDataPopulators">
-			<list>
-				<bean class="org.jasig.cas.support.oauth.authentication.OAuthAuthenticationMetaDataPopulator" />
-			</list>
-		</property>
-		 -->
+        <property name="authenticationMetaDataPopulators">
+            <list>
+                <bean
+                    class="org.jasig.cas.support.oauth.authentication.OAuthAuthenticationMetaDataPopulator" />
+            </list>
+        </property>
 		<!--
 			| This is the List of CredentialToPrincipalResolvers that identify what Principal is trying to authenticate.
 			| The AuthenticationManagerImpl considers them in order, finding a CredentialToPrincipalResolver which 
@@ -105,9 +104,10 @@
 					class="org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver" />
 				
 				<!-- oauth step5  deployerConfigContext.xml OAuthCredentialsToPrincipalResolver  
-				<bean
-					class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver" />
 				-->					
+                <bean
+                    class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver" />
+
 			</list>
 		</property>
 
@@ -134,17 +134,16 @@
 					+-->
 				<!-- 
 					<bean class="org.jasig.cas.authentication.handler.support.SimpleTestUsernamePasswordAuthenticationHandler" />
-				<bean class="org.jasig.cas.support.oauth.authentication.handler.support.OAuthAuthenticationHandler"> 
-					<property name="providers">       
-						<list>         
-						    <ref bean="yahoo1" />         			      
-						</list>     
-					</property>   
-				</bean>
 				 -->
 				<bean class="org.gonetbar.ssa.cas.jdbc.AclAuthenticationHandler">
 					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
 				</bean>
+				
+				<!-- 
+				 -->
+                <bean class="org.jasig.cas.support.oauth.authentication.handler.support.OAuthAuthenticationHandler">
+                    <property name="configuration" ref="providersDefinition" />
+                </bean>
 
 			</list>
 		</property>
@@ -219,6 +218,67 @@
                         <property name="description" value="Allows HTTP(S) and IMAP(S) protocols" />
                         <property name="serviceId" value="^(https?|imaps?)://.*" />
                         <property name="evaluationOrder" value="10000001" />
+                        <property name="allowedAttributes">                        
+                             <list>
+                                <!-- github -->
+                                <value>company</value>
+                                <value>following</value>
+                                <value>blog</value>
+                                <value>public_repos</value>
+                                <value>public_gists</value>
+                                <value>disk_usage</value>
+                                <value>collaborators</value>
+                                <value>plan</value>
+                                <value>owned_private_repos</value>
+                                <value>total_private_repos</value>
+                                <value>private_gists</value>
+                                <value>login</value>
+                                <value>followers</value>
+                                <value>created_at</value>
+                                <value>type</value>
+                                <value>html_url</value>
+                                <value>avatar_url</value>
+                                <value>gravatar_id</value>
+                                <value>hireable</value>
+                                <!-- github -->
+                                <!-- google -->
+                                <value>profileUrl</value>
+                                <value>isViewer</value>
+                                <value>thumbnailUrl</value>
+                                <value>formatted</value>
+                                <value>familyName</value>
+                                <value>givenName</value>
+                                <value>displayName</value>
+                                <value>urls</value>
+                                <value>photos</value>
+                                <!-- google -->
+                                <!-- yahoo -->
+                                <value>aboutMe</value>
+                                <value>addresses</value>
+                                <value>birthYear</value>
+                                <value>birthdate</value>
+                                <value>created</value>
+                                <value>displayAge</value>
+                                <value>disclosures</value>
+                                <value>emails</value>
+                                <value>image</value>
+                                <value>interests</value>
+                                <value>isConnected</value>
+                                <value>memberSince</value>
+                                <value>nickname</value>
+                                <value>timeZone</value>
+                                <value>updated</value>
+                                <value>uri</value>
+                                <!-- yahoo -->
+                                <!-- wordpress -->
+                                <value>display_name</value>
+                                <value>primary_blog</value>
+                                <value>avatar_URL</value>
+                                <value>profile_URL</value>
+                                <value>links</value>
+                                <!-- wordpress -->
+                            </list>
+                        </property>
                     </bean>
                     <!--
                     Use the following definition instead of the above to further restrict access
