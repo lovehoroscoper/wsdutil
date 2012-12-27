@@ -43,3 +43,8 @@ AccessDeniedHandlerImpl
 
 使用在ExceptionTranslationFilter
 可以自己定义各种异常然后针对处理
+
+2012-12-27 13:21:45,296 INFO [org.gonetbar.ssa.des.PropertyEncodeConfigurer] - <Loading properties file from ServletContext resource [/WEB-INF/my-spring/jdbc.properties]>
+2012-12-27 13:21:45,296 INFO [org.gonetbar.ssa.des.PropertyEncodeConfigurer] - <Loading properties file from ServletContext resource [/WEB-INF/cas.properties]>
+
+重复加载了
