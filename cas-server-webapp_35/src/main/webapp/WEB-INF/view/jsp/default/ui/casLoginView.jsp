@@ -71,24 +71,11 @@
 	</div>
 	
 
-<a href="${FacebookProviderUrl}">Authenticate with Facebook</a> <br />
-<br /> 
-<a href="${TwitterProviderUrl}">Authenticate with Twitter</a><br />
-<br />
-<a href="${GoogleProviderUrl}">Authenticate with Google</a><br /> 
-<br />
-<a href="${YahooProviderUrl}">Authenticate with Yahoo</a><br /> 
-<br />
-<a href="${LinkedInProviderUrl}">Authenticate with LinkedIn</a><br /> 
+<a href="${WeiboProviderUrl}">Authenticate with Weibo</a><br /> 
 <br />
 <a href="${GitHubProviderUrl}">Authenticate with GitHub</a><br />
 <br />
-<a href="${WindowsLiveProviderUrl}">Authenticate with Windows Live</a><br />
-<br />
-<a href="${WordPressProviderUrl}">Authenticate with WordPress</a><br />
-<br />
-<a href="${CasWrapperProvider20Url}">Authenticate with another CAS server using OAuth v2.0 protocol wrapper</a><br />
-<br />
+
 	
 	<!-- // page -->
 	<div class="clear"></div>

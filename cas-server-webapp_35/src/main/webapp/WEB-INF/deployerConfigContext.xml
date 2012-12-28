@@ -239,43 +239,7 @@
                                 <value>avatar_url</value>
                                 <value>gravatar_id</value>
                                 <value>hireable</value>
-                                <!-- github -->
-                                <!-- google -->
-                                <value>profileUrl</value>
-                                <value>isViewer</value>
-                                <value>thumbnailUrl</value>
-                                <value>formatted</value>
-                                <value>familyName</value>
-                                <value>givenName</value>
-                                <value>displayName</value>
-                                <value>urls</value>
-                                <value>photos</value>
-                                <!-- google -->
-                                <!-- yahoo -->
-                                <value>aboutMe</value>
-                                <value>addresses</value>
-                                <value>birthYear</value>
-                                <value>birthdate</value>
-                                <value>created</value>
-                                <value>displayAge</value>
-                                <value>disclosures</value>
-                                <value>emails</value>
-                                <value>image</value>
-                                <value>interests</value>
-                                <value>isConnected</value>
-                                <value>memberSince</value>
-                                <value>nickname</value>
-                                <value>timeZone</value>
-                                <value>updated</value>
-                                <value>uri</value>
-                                <!-- yahoo -->
-                                <!-- wordpress -->
-                                <value>display_name</value>
-                                <value>primary_blog</value>
-                                <value>avatar_URL</value>
-                                <value>profile_URL</value>
-                                <value>links</value>
-                                <!-- wordpress -->
+                                <!-- github -->   
                             </list>
                         </property>
                     </bean>

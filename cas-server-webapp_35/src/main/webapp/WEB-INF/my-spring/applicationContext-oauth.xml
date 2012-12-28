@@ -13,14 +13,10 @@
 		<constructor-arg index="0" value="weisd"/>
 	</bean>
 
-    <bean id="google1" class="org.scribe.up.provider.impl.GoogleProvider">
-        <property name="key" value="anonymous" />
-        <property name="secret" value="anonymous" />
-    </bean>
-
-    <bean id="yahoo1" class="org.scribe.up.provider.impl.YahooProvider">
-        <property name="key" value="dj0yJmk9MzhNZWFkeXQxN09GJmQ9WVdrOVRrbzNVVVJMTkdrbWNHbzlNVGc0TURNek5EVTJNZy0tJnM9Y29uc3VtZXJzZWNyZXQmeD1lNw--" />
-        <property name="secret" value="2f3146ac90d60b9f79125b1167437b6c64657a0b" />
+    <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
+        <property name="key" value="xxxxx" />
+        <property name="secret" value="1111" />
+        <property name="callbackUrl" value="http://http://localhost:8080/cas/login" />
     </bean>
 
     <bean id="github1" class="org.scribe.up.provider.impl.GitHubProvider">
@@ -28,19 +24,12 @@
         <property name="secret" value="15a6f06329945e1ac5b6f715dcae5314bf88b005" />
     </bean>
 
-    <bean id="wordpress1" class="org.scribe.up.provider.impl.WordPressProvider">
-        <property name="key" value="251" />
-        <property name="secret" value="6QCZZBhbokJ2YWfbK2F9vBgvGthtKijwaMRP8x57NWjPW2CXFsJJukt2RWvhlKaQ" />
-    </bean>
-
     <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
         <property name="loginUrl" value="http://localhost:8080/cas/login" />
         <property name="providers">
             <list>
-                <ref bean="google1" />
-                <ref bean="yahoo1" />
+                <ref bean="weibo" />
                 <ref bean="github1" />
-                <ref bean="wordpress1" />
             </list>
         </property>
     </bean>

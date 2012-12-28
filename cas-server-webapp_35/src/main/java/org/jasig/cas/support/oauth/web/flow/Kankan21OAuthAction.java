@@ -43,16 +43,6 @@ import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
 
-/**
- * This class represents an action in the webflow to retrieve OAuth information on the callback url which is the webflow url (/login). The
- * {@link org.jasig.cas.support.oauth.OAuthConstants.OAUTH_PROVIDER} and the other OAuth parameters are expected after OAuth authentication.
- * Providers are defined by configuration. The {@link org.jasig.cas.support.oauth.OAuthConstants.SERVICE},
- * {@link org.jasig.cas.support.oauth.OAuthConstants.THEME}, {@link org.jasig.cas.support.oauth.OAuthConstants.LOCALE} and
- * {@link org.jasig.cas.support.oauth.OAuthConstants.METHOD} parameters are saved and restored from web session after OAuth authentication.
- * 
- * @author Jerome Leleu
- * @since 3.5.0
- */
 public final class Kankan21OAuthAction extends AbstractAction {
     
     private static final Logger logger = LoggerFactory.getLogger(OAuthAction.class);
@@ -76,11 +66,16 @@ public final class Kankan21OAuthAction extends AbstractAction {
         
         // it's an authentication
         if (StringUtils.isNotBlank(providerType)) {
+        	
+        	//1、请求登录：https://api.weibo.com/oauth2/authorize
+        	//2、登录后返回 http://www.example.com/response&code=CODE
+        	
             // get provider
             final OAuthProvider provider = OAuthUtils
                 .getProviderByType(this.configuration.getProviders(), providerType);
             logger.debug("provider : {}", provider);
             
+            // 这里面或到code 和         this.verifier-->code ; this.providerType-->GitHubProvider;
             // get credential
             @SuppressWarnings("unchecked")
             final OAuthCredential credential = provider.getCredential(new HttpUserSession(request),
