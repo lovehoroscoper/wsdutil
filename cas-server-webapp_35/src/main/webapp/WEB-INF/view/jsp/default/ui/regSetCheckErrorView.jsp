@@ -1,5 +1,4 @@
 <jsp:directive.include file="includes/top.jsp" />
-2222222222
 		<div id="msg" class="success">
 			<h2><spring:message code="screen.logout.header" /></h2>
 
