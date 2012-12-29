@@ -142,8 +142,9 @@
 					<property name="sscPasswordEncoder" ref="passwordEncoder"/>
 				</bean>
 
-                <bean class="org.jasig.cas.support.oauth.authentication.handler.support.OAuthAuthenticationHandler">
+                <bean class="org.jasig.cas.support.oauth.authentication.handler.support.KanKan21OAuthAuthenticationHandler">
                     <property name="configuration" ref="providersDefinition" />
+                    <property name="ssaUserService" ref="userDetailsService" />
                 </bean>
 
 			</list>

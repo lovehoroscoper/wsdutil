@@ -119,8 +119,15 @@
 	
 	<action-state id="generateLoginTicket">
         <evaluate expression="generateLoginTicketAction.generate(flowRequestContext)" />
+        <!-- by weisd
 		<transition on="generated" to="viewLoginForm" />
+         -->
+		<transition on="generated" to="chectRegisterDecision" />
 	</action-state>
+	
+    <decision-state id="chectRegisterDecision">
+        <if test="requestScope.register == 'yes'" then="registerView" else="viewLoginForm" />
+    </decision-state>
     
 	<view-state id="viewLoginForm" view="casLoginView" model="credentials">
         <binder>
@@ -217,6 +224,9 @@
 	<end-state id="viewServiceErrorView" view="viewServiceErrorView" />
     
     <end-state id="viewServiceSsoErrorView" view="viewServiceSsoErrorView" />
+
+    <!-- 第三方用户登录时候未绑定账户时候 -->
+    <end-state id="registerView" view="externalRedirect:/register/" />
 
 	<global-transitions>
         <!-- CAS-1023 This one is simple - redirects to a login page (same as renew) when 'ssoEnabled' flag is unchecked
