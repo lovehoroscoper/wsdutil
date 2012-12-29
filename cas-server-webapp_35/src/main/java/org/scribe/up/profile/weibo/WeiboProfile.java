@@ -53,8 +53,4 @@ public class WeiboProfile extends UserProfile {
 	public String getProfileUrl() {
 		return (String) attributes.get(WeiboAttributesDefinition.PROFILE_URL);
 	}
-
-	public WeiboLinks getLinks() {
-		return (WeiboLinks) attributes.get(WeiboAttributesDefinition.LINKS);
-	}
 }

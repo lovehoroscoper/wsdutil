@@ -11,7 +11,6 @@ public class WeiboAttributesDefinition extends AttributesDefinition {
 	public static final String PRIMARY_BLOG = "primary_blog";
 	public static final String AVATAR_URL = "avatar_URL";
 	public static final String PROFILE_URL = "profile_URL";
-	public static final String LINKS = "links";
 
 	public WeiboAttributesDefinition() {
 		addAttribute(DISPLAY_NAME, Converters.stringConverter);
@@ -20,6 +19,5 @@ public class WeiboAttributesDefinition extends AttributesDefinition {
 		addAttribute(PRIMARY_BLOG, Converters.integerConverter);
 		addAttribute(AVATAR_URL, Converters.urlConverter);
 		addAttribute(PROFILE_URL, Converters.urlConverter);
-		addAttribute(LINKS, WeiboConverters.linksConverter, false);
 	}
 }
