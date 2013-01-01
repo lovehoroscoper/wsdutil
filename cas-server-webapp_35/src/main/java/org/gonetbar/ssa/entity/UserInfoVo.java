@@ -24,7 +24,16 @@ public class UserInfoVo implements Serializable {
 	private String createdate;
 	private int encrypttype;
 	private String thirdloginid;
+	private String thirdtype;
 	private String email;
+	
+	public final String getThirdtype() {
+		return thirdtype;
+	}
+
+	public final void setThirdtype(String thirdtype) {
+		this.thirdtype = thirdtype;
+	}
 
 	public long getId_user() {
 		return id_user;
