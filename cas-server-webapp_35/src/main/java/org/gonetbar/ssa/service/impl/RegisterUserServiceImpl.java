@@ -1,7 +1,8 @@
 package org.gonetbar.ssa.service.impl;
 
+import java.util.Map;
+
 import org.gonetbar.ssa.dao.RegisterUserDao;
-import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.service.RegisterUserService;
 
 /**
@@ -15,8 +16,8 @@ public class RegisterUserServiceImpl implements RegisterUserService {
 	private RegisterUserDao registerUserDao;
 
 	@Override
-	public void addUser(UserInfoVo user) {
-		registerUserDao.addUser(user);
+	public void addUser(Map param) {
+		registerUserDao.addUser(param);
 	}
 
 	public final void setRegisterUserDao(RegisterUserDao registerUserDao) {

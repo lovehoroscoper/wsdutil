@@ -8,6 +8,7 @@ import org.gonetbar.ssa.cache.SsoCacheManager;
 import org.gonetbar.ssa.constant.SsoCacheName;
 import org.gonetbar.ssa.constant.SsoCachePreKey;
 import org.gonetbar.ssa.dao.SsaUserDao;
+import org.gonetbar.ssa.entity.ThirdProvider;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
@@ -74,34 +75,33 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		findVo.setUsername(username);
 		return findUserByVo(findVo);
 	}
-
+	
 	@Override
-	public UserProviderInfoVo findUserByProviderType(String providertype, String providerid) {
+	public UserProviderInfoVo findUserByProviderId(String providerId, String thirdUserId){
 		UserProviderInfoVo findVo = new UserProviderInfoVo();
-		findVo.setProvidertype(providertype);
-		findVo.setProviderid(providerid);
-		return findUserByProviderType(findVo);
+		findVo.setProviderid(providerId);
+		findVo.setThirduserid(thirdUserId);
+		return findUserByProviderId(findVo);
 	}
 
 	@Override
-	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
+	public UserProviderInfoVo findUserByProviderId(UserProviderInfoVo findVo) {
 		if (null == findVo) {
 			return null;
 		}
-		String providertype = findVo.getProvidertype();
-		String providerid = findVo.getProviderid();
-		if (UtilString.isEmptyOrNullByTrim(providertype) || UtilString.isEmptyOrNullByTrim(providerid)) {
+		String providerId = findVo.getProviderid();
+		String thirdUserId = findVo.getThirduserid();
+		if (UtilString.isEmptyOrNullByTrim(providerId) || UtilString.isEmptyOrNullByTrim(thirdUserId)) {
 			return null;
 		}
-		String cache_key = SsoCachePreKey.CACHE_USER_KEY_THIRD + providertype + "#" + providerid;
+		String cache_key = SsoCachePreKey.CACHE_USER_KEY_THIRD + providerId + "#" + thirdUserId;
 		UserProviderInfoVo resVo = SsoCacheManager.get(UserProviderInfoVo.class, SsoCacheName.CACHE_USER, cache_key);
 		if (null == resVo) {
-			resVo = ssaUserDao.findUserByProviderType(findVo);
+			resVo = ssaUserDao.findUserByProviderId(findVo);
 			SsoCacheManager.set(SsoCacheName.CACHE_USER, cache_key, resVo);
 		}
 		return resVo;
 	}
-
 
 	protected UserDetails createUserDetails(String username, UserInfoVo userFromUserQuery, List<AclGrantedAuthority> combinedAuthorities) {
 		return new User(username, userFromUserQuery.getPassword(), userFromUserQuery.getValidtype() == 0, true, true, true, combinedAuthorities);
@@ -116,7 +116,17 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 	public void setSecurityMetadataSourceService(SecurityMetadataSourceService securityMetadataSourceService) {
 		this.securityMetadataSourceService = securityMetadataSourceService;
 	}
-	
-	
+
+	@Override
+	public ThirdProvider findProviderIdByType(String providerType) {
+		ThirdProvider findVo = new ThirdProvider();
+		findVo.setProviderType(providerType);
+		return findProviderIdByType(findVo);
+	}
+
+	@Override
+	public ThirdProvider findProviderIdByType(ThirdProvider findVo) {
+		return ssaUserDao.findProviderIdByType(findVo);
+	}
 
 }
