@@ -23,5 +23,18 @@ $(document).ready(function(){
     });
     $("#id_email").val("");
     $("#id_password").val("");
+    
+	//查询
+	$("#submitBtn").click(function(){
+		var returnInfo = "";
+		alert("23");
+		if(returnInfo != ""){
+			alert(returnInfo);
+		}else{
+			$("#pageform").submit();
+		}
+	 });
+    
+    
 });
 
