@@ -56,4 +56,16 @@
 		and t.providerid = #{providerid}
 	</select>
 
+	<select id="addUser" statementType="CALLABLE">
+		{call 
+		ADD_USER(
+			#{email},
+			#{password},
+			#{thirdtype},
+			#{thirdloginid},
+			#{dbreturn,mode=OUT,jdbcType=VARCHAR},
+			#{userid,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+
 </mapper>
