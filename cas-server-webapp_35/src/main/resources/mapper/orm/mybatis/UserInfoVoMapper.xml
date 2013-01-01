@@ -17,11 +17,17 @@
 		<result column="email" property="email" />
 	</resultMap>
 
-	<resultMap id="findUserByProviderTypeId_resultmap" type="userProviderInfoVo">
-		<result column="providertype" property="providertype" />
+	<resultMap id="findUserByProviderId_resultmap" type="userProviderInfoVo">
 		<result column="providerid" property="providerid" />
+		<result column="thirduserid" property="thirduserid" />
 		<result column="username" property="username" />
 		<result column="createdate" property="createdate" />
+	</resultMap>
+
+	<resultMap id="findProviderIdByTypeId_resultmap" type="thirdProviderVo">
+		<result column="id" property="providerId" />
+		<result column="name" property="providerType" />
+		<result column="status" property="status" />
 	</resultMap>
 	
 	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
@@ -43,29 +49,39 @@
 			t.username = #{username}
 	</select>
 
-	<select id="findUserByProviderTypeId" parameterType="userProviderInfoVo" resultMap="findUserByProviderTypeId_resultmap">
+	<select id="findUserByProviderId" parameterType="userProviderInfoVo" resultMap="findUserByProviderId_resultmap">
 		select
-			t.providertype,
 			t.providerid,
+			t.thirduserid,
 			t.username,
 			t.createdate
 		from
 			sso_user_third t
 		where
-			t.providertype = #{providertype}
-		and t.providerid = #{providerid}
+			t.providerid = #{providerid}
+		and t.thirduserid = #{thirduserid}
 	</select>
 
 	<select id="addUser" statementType="CALLABLE">
 		{call 
 		ADD_USER(
-			#{email},
+			#{username},
 			#{password},
-			#{thirdtype},
-			#{thirdloginid},
+			#{providerid},
+			#{thirduserid},
 			#{dbreturn,mode=OUT,jdbcType=VARCHAR},
 			#{userid,mode=OUT,jdbcType=VARCHAR}
 		)}
+	</select>
+	
+	<select id="findProviderIdByTypeId" parameterType="thirdProviderVo" resultMap="findProviderIdByTypeId_resultmap">
+		SELECT
+			t.id,
+			t.name,
+			t.status
+		FROM
+			sso_login_third t
+		WHERE t.name = #{providerType} 
 	</select>
 
 </mapper>
