@@ -29,13 +29,14 @@
 			</div>
 			<div class="signup_form">
 				<form id="pageform" action="add.do" method="post" class="Form FancyForm AuthForm">
+					<input type="hidden" id="my_code" name="my_code" value="${THIRD_REG_MY_CODE}" >
 					<ul>
 						<li>
 							<div class="input">
-								<input id="id_username" name="username" type="text" value="">
+								<input id="id_nikename" name="nikename" type="text" value="">
 								<label>昵称</label>
 								<span class="fff"></span>
-								<div id="username_msgr" class="msgr left-arrow">
+								<div id="nikename_msgr" class="msgr left-arrow">
 									<span class="txt"></span>
 									<span class="arrow">◣</span>
 									<span class="arrow-mask"></span>
@@ -68,7 +69,7 @@
 						</li>
 					</ul>
 					<div class="non_inputs">
-						<a id="submitBtn" href="#" onclick="return false;" class="btn btn18 rbtn"><strong> 注册</strong><span></span></a>
+						<a id="submitBtn" href="javascript:void(0);" class="btn btn18 rbtn"><strong> 注册</strong><span></span></a>
 					</div>
 				</form>
 			</div>
