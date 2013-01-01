@@ -52,7 +52,7 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 	
 	<aop:config>
 		<aop:pointcut id="serviceOperation" 
-					expression="execution(* org.gonetbar.ssa.service.*.*(..)) 
+					expression="execution(* org.gonetbar.ssa.service.*.*(..))
 					or  
 					execution(* com.godtips.sso.acl.service.*.*(..))" />
 		<aop:advisor pointcut-ref="serviceOperation" advice-ref="txAdvice" />

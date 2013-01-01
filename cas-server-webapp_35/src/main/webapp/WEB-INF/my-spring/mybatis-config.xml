@@ -11,6 +11,7 @@
 	<typeAliases>
 		<typeAlias alias="userInfoVo" type="org.gonetbar.ssa.entity.UserInfoVo" />
 		<typeAlias alias="userProviderInfoVo" type="org.gonetbar.ssa.entity.UserProviderInfoVo" />
+		<typeAlias alias="thirdProviderVo" type="org.gonetbar.ssa.entity.ThirdProvider" />
 		
 		<!-- import sso-acl -->
 		<typeAlias alias="aclUserVo" type="com.godtips.sso.acl.entity.AclUserVo" />
