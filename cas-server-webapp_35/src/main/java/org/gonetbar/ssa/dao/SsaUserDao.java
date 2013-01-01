@@ -1,5 +1,6 @@
 package org.gonetbar.ssa.dao;
 
+import org.gonetbar.ssa.entity.ThirdProvider;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 
@@ -15,6 +16,8 @@ public interface SsaUserDao {
 
 	public UserInfoVo findUserByVo(UserInfoVo findVo);
 
-	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo);
+	public UserProviderInfoVo findUserByProviderId(UserProviderInfoVo findVo);
+
+	public ThirdProvider findProviderIdByType(ThirdProvider findVo);
 
 }

@@ -1,6 +1,6 @@
 package org.gonetbar.ssa.dao;
 
-import org.gonetbar.ssa.entity.UserInfoVo;
+import java.util.Map;
 
 /**
  * 
@@ -9,6 +9,6 @@ import org.gonetbar.ssa.entity.UserInfoVo;
  */
 public interface RegisterUserDao {
 
-	public void addUser(UserInfoVo user);
+	public void addUser(Map param);
 
 }
