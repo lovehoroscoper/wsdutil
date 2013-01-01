@@ -24,13 +24,7 @@ public final class NotRedirectViewController extends AbstractController {
 	private String viewName;
 
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		
-	HttpSession session = request.getSession(false);
-		
-		Object obj = session.getAttribute("weisd");
-		
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 		return new ModelAndView(this.viewName);
 	}
 
