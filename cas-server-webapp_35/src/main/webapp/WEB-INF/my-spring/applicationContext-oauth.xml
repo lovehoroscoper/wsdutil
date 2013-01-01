@@ -34,6 +34,15 @@
         </property>
     </bean>
 
+    <bean id="initOpenLoginConfig" class="org.gonetbar.ssa.oauth.InitOpenLoginConfig">
+        <property name="typeMapping">
+        	<map>
+        		<entry key="github" value="GitHubProvider" />
+        		<entry key="weibo" value="WeiboProvider" />
+        	</map>
+        </property>
+    </bean>
+
 	<!--  oauth step2 login-webflow.xml -->
 	<!--  oauth step3 cas-servlet.xml -->
 	<!--  oauth step4  deployerConfigContext.xml authenticationHandlers -->
