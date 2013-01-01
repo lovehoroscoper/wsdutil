@@ -1,7 +1,8 @@
 package org.gonetbar.ssa.dao.impl;
 
+import java.util.Map;
+
 import org.gonetbar.ssa.dao.RegisterUserDao;
-import org.gonetbar.ssa.entity.UserInfoVo;
 
 /**
  * @desc 描述：
@@ -12,8 +13,8 @@ import org.gonetbar.ssa.entity.UserInfoVo;
 public class RegisterUserDaoImpl extends BaseDaoImpl implements RegisterUserDao {
 
 	@Override
-	public void addUser(UserInfoVo user) {
-		this.addObject("org.gonetbar.ssa.entity.UserInfoVoMapper.addUser", user);
+	public void addUser(Map param) {
+		this.addObject("org.gonetbar.ssa.entity.UserInfoVoMapper.addUser", param);
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.gonetbar.ssa.dao.impl;
 
 import org.gonetbar.ssa.dao.SsaUserDao;
+import org.gonetbar.ssa.entity.ThirdProvider;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 
@@ -20,8 +21,13 @@ public class SsaUserDaoImpl extends BaseDaoImpl implements SsaUserDao {
 	}
 
 	@Override
-	public UserProviderInfoVo findUserByProviderType(UserProviderInfoVo findVo) {
-		return (UserProviderInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByProviderTypeId", findVo);
+	public UserProviderInfoVo findUserByProviderId(UserProviderInfoVo findVo) {
+		return (UserProviderInfoVo) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findUserByProviderId", findVo);
+	}
+
+	@Override
+	public ThirdProvider findProviderIdByType(ThirdProvider findVo) {
+		return (ThirdProvider) this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.findProviderIdByTypeId", findVo);
 	}
 
 }
