@@ -1,14 +1,11 @@
 package org.gonetbar.ssa.cas.exception;
 
+import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.jasig.cas.authentication.handler.AuthenticationException;
-import org.scribe.up.credential.OAuthCredential;
-import org.scribe.up.profile.UserProfile;
 
 public class CheckNotRegisterException extends AuthenticationException {
 
-	private OAuthCredential credential;
-
-	private UserProfile userProfile;
+	private ThirdRegVo thirdRegVo;
 
 	public static final CheckNotRegisterException ERROR = new CheckNotRegisterException();
 
@@ -16,10 +13,9 @@ public class CheckNotRegisterException extends AuthenticationException {
 
 	public static final String CODE = "error.authentication.credentials.bad";
 
-	public CheckNotRegisterException(final String code, OAuthCredential credential, UserProfile userProfile) {
+	public CheckNotRegisterException(final String code, ThirdRegVo thirdRegVo) {
 		super(code);
-		this.credential = credential;
-		this.userProfile = userProfile;
+		this.thirdRegVo = thirdRegVo;
 	}
 
 	public CheckNotRegisterException() {
@@ -38,13 +34,8 @@ public class CheckNotRegisterException extends AuthenticationException {
 		super(code, throwable);
 	}
 
-	public final OAuthCredential getCredential() {
-		return credential;
+	public final ThirdRegVo getThirdRegVo() {
+		return thirdRegVo;
 	}
 
-	public final UserProfile getUserProfile() {
-		return userProfile;
-	}
-	
-	
 }
