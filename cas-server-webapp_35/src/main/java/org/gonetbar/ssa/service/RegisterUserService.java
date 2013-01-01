@@ -1,6 +1,6 @@
 package org.gonetbar.ssa.service;
 
-import org.gonetbar.ssa.entity.UserInfoVo;
+import java.util.Map;
 
 /**
  * 
@@ -9,6 +9,6 @@ import org.gonetbar.ssa.entity.UserInfoVo;
  */
 public interface RegisterUserService {
 
-	public void addUser(UserInfoVo user);
+	public void addUser(Map param);
 
 }
