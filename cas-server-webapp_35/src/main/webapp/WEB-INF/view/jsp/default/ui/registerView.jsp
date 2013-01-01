@@ -25,15 +25,15 @@
 			<div class="login_bar"></div>
 			<h3>欢迎你！缘来等你，接下来只要简单设置以下信息就可以了</h3>
 			<div class="avatar">
-				<img id="current_avatar" src="zhuce_files/default_buddy_icon.jpg">
+				<img id="current_avatar" src="<c:url value="/images/default_buddy_icon.jpg"/>">
 			</div>
 			<div class="signup_form">
-				<form action="#" method="post" class="Form FancyForm AuthForm">
+				<form id="pageform" action="add.do" method="post" class="Form FancyForm AuthForm">
 					<ul>
 						<li>
 							<div class="input">
-								<input id="id_username" name="username" value="缘来等你" type="text">
-								<label style="display: none;">昵称</label>
+								<input id="id_username" name="username" type="text" value="">
+								<label>昵称</label>
 								<span class="fff"></span>
 								<div id="username_msgr" class="msgr left-arrow">
 									<span class="txt"></span>
@@ -44,7 +44,7 @@
 						</li>
 						<li>
 							<div class="input">
-								<input id="id_email" name="email" type="text">
+								<input id="id_email" name="email" type="text" value="">
 								<label>登陆邮箱地址</label>
 								<span class="fff"></span>
 								<div id="email_msgr" class="msgr left-arrow">
@@ -56,17 +56,19 @@
 						</li>
 						<li>
 							<div class="input">
-								<input id="id_password" name="password" type="password">
+								<input id="id_password" name="password" type="password" value="">
 								<label>密码</label>
 								<span class="fff"></span>
 								<div id="password_msgr" class="msgr left-arrow">
-									<span class="txt"></span><span class="arrow">◣</span><span class="arrow-mask"></span>
+									<span class="txt"></span>
+									<span class="arrow">◣</span>
+									<span class="arrow-mask"></span>
 								</div>
 							</div>
 						</li>
 					</ul>
 					<div class="non_inputs">
-						<a id="submit" href="#" onclick="return false;" class="btn btn18 rbtn"><strong> 注册</strong><span></span></a>
+						<a id="submitBtn" href="#" onclick="return false;" class="btn btn18 rbtn"><strong> 注册</strong><span></span></a>
 					</div>
 				</form>
 			</div>
@@ -75,5 +77,7 @@
 	</div>
 	<!-- // page -->
 	<div class="clear"></div>
+	<script type="text/javascript" src="<c:url value="/js/jquery-1.8.3.min.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/js/register.js" />"></script>
 </body>
 </html>
