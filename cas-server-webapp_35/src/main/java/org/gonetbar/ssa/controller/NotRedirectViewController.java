@@ -2,6 +2,7 @@ package org.gonetbar.ssa.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
 import org.slf4j.Logger;
@@ -24,6 +25,12 @@ public final class NotRedirectViewController extends AbstractController {
 
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+	HttpSession session = request.getSession(false);
+		
+		Object obj = session.getAttribute("weisd");
+		
 		return new ModelAndView(this.viewName);
 	}
 
