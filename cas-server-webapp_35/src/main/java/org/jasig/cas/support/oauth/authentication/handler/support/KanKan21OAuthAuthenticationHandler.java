@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang.StringUtils;
 import org.gonetbar.ssa.cas.exception.CheckNotRegisterException;
+import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
 import org.jasig.cas.authentication.handler.AuthenticationException;
@@ -62,7 +63,8 @@ public final class KanKan21OAuthAuthenticationHandler extends AbstractPreAndPost
 			UserProviderInfoVo third_user = ssaUserService.findUserByProviderType(providertype, providerid);
 			if (null == third_user || UtilString.isEmptyOrNullByTrim(third_user.getUsername())) {
 				logger.warn("第三方[" + providertype + "]登录用户[" + providerid + "]未绑定我方平台信息");
-				throw new CheckNotRegisterException("NOT_BOUND_USER", credential, userProfile);
+				ThirdRegVo thirdRegVo = new ThirdRegVo(credential.getVerifier(), userProfile);
+				throw new CheckNotRegisterException("NOT_BOUND_USER", thirdRegVo);
 			} else {
 				oauthCredentials.setUserProfile(userProfile);
 				return true;
