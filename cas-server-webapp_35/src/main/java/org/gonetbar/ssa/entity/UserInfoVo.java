@@ -23,16 +23,24 @@ public class UserInfoVo implements Serializable {
 	private int validtype;
 	private String createdate;
 	private int encrypttype;
-	private String thirdloginid;
-	private String thirdtype;
 	private String email;
+	private String providerid;
+	private String thirduserid;
 	
-	public final String getThirdtype() {
-		return thirdtype;
+	public final String getProviderid() {
+		return providerid;
 	}
 
-	public final void setThirdtype(String thirdtype) {
-		this.thirdtype = thirdtype;
+	public final void setProviderid(String providerid) {
+		this.providerid = providerid;
+	}
+
+	public final String getThirduserid() {
+		return thirduserid;
+	}
+
+	public final void setThirduserid(String thirduserid) {
+		this.thirduserid = thirduserid;
 	}
 
 	public long getId_user() {
@@ -105,14 +113,6 @@ public class UserInfoVo implements Serializable {
 
 	public void setEncrypttype(int encrypttype) {
 		this.encrypttype = encrypttype;
-	}
-
-	public String getThirdloginid() {
-		return thirdloginid;
-	}
-
-	public void setThirdloginid(String thirdloginid) {
-		this.thirdloginid = thirdloginid;
 	}
 
 	public String getEmail() {

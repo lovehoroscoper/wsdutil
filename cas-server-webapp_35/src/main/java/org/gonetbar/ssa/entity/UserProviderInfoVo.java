@@ -10,9 +10,9 @@ import java.io.Serializable;
  */
 public class UserProviderInfoVo implements Serializable {
 
-	private String providertype;
 	private String providerid;
-	private String username;
+	private String thirduserid;
+	private String username;// my systemid
 	private String createdate;
 
 	public final String getProviderid() {
@@ -23,12 +23,12 @@ public class UserProviderInfoVo implements Serializable {
 		this.providerid = providerid;
 	}
 
-	public final String getProvidertype() {
-		return providertype;
+	public final String getThirduserid() {
+		return thirduserid;
 	}
 
-	public final void setProvidertype(String providertype) {
-		this.providertype = providertype;
+	public final void setThirduserid(String thirduserid) {
+		this.thirduserid = thirduserid;
 	}
 
 	public final String getUsername() {

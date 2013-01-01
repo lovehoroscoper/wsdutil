@@ -12,10 +12,16 @@ public class ThirdRegVo {
 
 	private String code;
 
+	private String providerId;
+
+	private String providerType;
+
 	private UserProfile userProfile;
 
-	public ThirdRegVo(String code, UserProfile userProfile) {
+	public ThirdRegVo(String providerId, String providerType, String code, UserProfile userProfile) {
 		this.code = code;
+		this.providerId = providerId;
+		this.providerType = providerType;
 		this.userProfile = userProfile;
 	}
 
@@ -36,6 +42,22 @@ public class ThirdRegVo {
 
 	public final void setUserProfile(UserProfile userProfile) {
 		this.userProfile = userProfile;
+	}
+
+	public final String getProviderId() {
+		return providerId;
+	}
+
+	public final void setProviderId(String providerId) {
+		this.providerId = providerId;
+	}
+
+	public final String getProviderType() {
+		return providerType;
+	}
+
+	public final void setProviderType(String providerType) {
+		this.providerType = providerType;
 	}
 
 }
