@@ -10,30 +10,51 @@ import org.scribe.up.profile.UserProfile;
  */
 public class ThirdRegVo {
 
-	private String code;
+	private String keyStr;
+
+	private String md5Valid;	
+
+	private String accessToken;
 
 	private String providerId;
 
 	private String providerType;
-
+	
 	private UserProfile userProfile;
 
-	public ThirdRegVo(String providerId, String providerType, String code, UserProfile userProfile) {
-		this.code = code;
+	public ThirdRegVo(String providerId, String providerType, String accessToken, UserProfile userProfile,String keyStr) {
+		this.accessToken = accessToken;
 		this.providerId = providerId;
 		this.providerType = providerType;
 		this.userProfile = userProfile;
+		this.keyStr = keyStr;
+	}
+
+	public final String getKeyStr() {
+		return keyStr;
+	}
+
+	public final void setKeyStr(String keyStr) {
+		this.keyStr = keyStr;
+	}
+
+	public final String getMd5Valid() {
+		return md5Valid;
+	}
+
+	public final void setMd5Valid(String md5Valid) {
+		this.md5Valid = md5Valid;
 	}
 
 	public ThirdRegVo() {
 	}
 
-	public final String getCode() {
-		return code;
+	public final String getAccessToken() {
+		return accessToken;
 	}
 
-	public final void setCode(String code) {
-		this.code = code;
+	public final void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 	public final UserProfile getUserProfile() {

@@ -19,6 +19,10 @@ public class ModelRecordStrUtil {
 	
 	public static final String THIRD_REG_MD5VALID = "THIRD_REG_MY_CODE";
 	
+	public static final String THIRD_REG_AFTER_MD5VALID = "THIRD_REG_AFTER_MY_CODE";
+
+	public static final String THIRD_REG_AFTER_KEYSTR = "THIRD_REG_AFTER_KEYSTR";
+
 	public static final String THIRD_OAUTH_CODE = "THIRD_OAUTH_CODE";
 
 }

@@ -14,12 +14,15 @@ public class RegisterMd5 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 
-	public static String getRegisterMd5(String providerId, String code, String typedId) {
-		return KeyedDigestMD5.getKeyedDigest(providerId + code + typedId, SystemPropertiesUtils.globals.getString("THIRD_REG_MD5_KEY"), "UTF-8");
+	public static String getRegisterMd5(String providerId, String code, String typedId, String keyStr) {
+		return KeyedDigestMD5.getKeyedDigest(providerId + code + typedId + keyStr, SystemPropertiesUtils.globals.getString("THIRD_REG_MD5_KEY"), "UTF-8");
+	}
+
+	public static String getRegisterAfterMd5(String accessToken, String typedId, String keyStr) {
+		return KeyedDigestMD5.getKeyedDigest(accessToken + typedId + keyStr, SystemPropertiesUtils.globals.getString("THIRD_REG_AFTER_MD5_KEY"), "UTF-8");
 	}
 
 }

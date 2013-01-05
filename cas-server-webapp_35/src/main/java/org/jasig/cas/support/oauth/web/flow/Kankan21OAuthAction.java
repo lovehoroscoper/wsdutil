@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.StringUtils;
 import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.cas.exception.CheckNotRegisterException;
+import org.gonetbar.ssa.constant.RegisterMd5;
 import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.jasig.cas.CentralAuthenticationService;
 import org.jasig.cas.authentication.principal.Credentials;
@@ -20,6 +21,7 @@ import org.jasig.cas.web.support.WebUtils;
 import org.scribe.up.credential.OAuthCredential;
 import org.scribe.up.profile.UserProfile;
 import org.scribe.up.provider.BaseOAuth10Provider;
+import org.scribe.up.provider.BaseOAuth20Provider;
 import org.scribe.up.provider.BaseOAuthProvider;
 import org.scribe.up.provider.OAuthProvider;
 import org.scribe.up.session.HttpUserSession;
@@ -28,6 +30,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.webflow.action.AbstractAction;
 import org.springframework.webflow.execution.Event;
 import org.springframework.webflow.execution.RequestContext;
+
+import com.godtips.common.RequestUtil;
+import com.godtips.common.UtilString;
 
 public final class Kankan21OAuthAction extends AbstractAction {
 
@@ -76,12 +81,35 @@ public final class Kankan21OAuthAction extends AbstractAction {
 			restoreRequestAttribute(request, session, OAuthConstants.METHOD);
 
 			OAuthCredentials temp = new OAuthCredentials(credential);
+
 			final ThirdRegVo thirdRegVo = (ThirdRegVo) session.getAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
 			if (null != thirdRegVo) {
 				session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
+				String after_my_md5_valid = thirdRegVo.getMd5Valid();
+				thirdRegVo.setMd5Valid("");
 				UserProfile userProfile = thirdRegVo.getUserProfile();
 				if (null != userProfile) {
-					temp.setUserProfile(userProfile);
+					String accessToken = userProfile.getAccessToken();
+					String typedId = userProfile.getTypedId();
+					String keyStr = RequestUtil.getParam(request, BaseOAuth20Provider.OAUTH_CODE, "");
+					// md5 验证下
+					if (!UtilString.isEmptyOrNullByTrim(after_my_md5_valid) && !UtilString.isEmptyOrNullByTrim(accessToken) && !UtilString.isEmptyOrNullByTrim(typedId)
+							&& !UtilString.isEmptyOrNullByTrim(keyStr)) {
+						String after_md5_valid = RegisterMd5.getRegisterAfterMd5(accessToken, typedId, keyStr);
+						if (after_my_md5_valid.equals(after_md5_valid)) {
+							// 存在 继续往下执行
+							temp.setUserProfile(userProfile);
+						} else {
+							// weisd 说明有问题
+							return error();
+						}
+					} else {
+						// weisd 说明有问题
+						return error();
+					}
+				} else {
+					// weisd 说明有问题
+					return error();
 				}
 			}
 			// create credentials

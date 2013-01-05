@@ -2,6 +2,7 @@ package org.gonetbar.ssa.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.jasig.cas.support.oauth.OAuthConstants;
 import org.scribe.up.profile.UserProfile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,12 +45,14 @@ public final class RegisterAction {
 			// remove
 			session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
 			UserProfile userProfile = thirdRegVo.getUserProfile();
-			String code = thirdRegVo.getCode();
+			String code = thirdRegVo.getAccessToken();
 			String providerId = thirdRegVo.getProviderId();
+			String keyStr = UUID.randomUUID().toString();
+			thirdRegVo.setKeyStr(keyStr);
 			if (null != userProfile) {
 				String typedId = userProfile.getTypedId();
 				if (!UtilString.isEmptyOrNullByTrim(providerId) && !UtilString.isEmptyOrNullByTrim(code) && !UtilString.isEmptyOrNullByTrim(typedId)) {
-					String md5_valid = RegisterMd5.getRegisterMd5(providerId, code, typedId);
+					String md5_valid = RegisterMd5.getRegisterMd5(providerId, code, typedId, keyStr);
 					model.put(ModelRecordStrUtil.THIRD_REG_MD5VALID, md5_valid);// md5code
 					session.setAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO, thirdRegVo);
 					nextUrl = "registerView";
@@ -70,28 +74,31 @@ public final class RegisterAction {
 			final ThirdRegVo thirdRegVo = (ThirdRegVo) session.getAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
 			if (null != thirdRegVo) {
 				session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
+				String keyStr = thirdRegVo.getKeyStr();
+				thirdRegVo.setKeyStr("");//删除避免重复提交
 				UserProfile userProfile = thirdRegVo.getUserProfile();
+				//是否需要验证是否已经存在
 				if (null != userProfile && !UtilString.isEmptyOrNullByTrim(my_md5_valid)) {
 					String providerId = thirdRegVo.getProviderId();
-					String code = thirdRegVo.getCode();
+					String code = thirdRegVo.getAccessToken();
 					String typedId = userProfile.getTypedId();
-					if (!UtilString.isEmptyOrNullByTrim(providerId) && !UtilString.isEmptyOrNullByTrim(code) && !UtilString.isEmptyOrNullByTrim(typedId)) {
-						String md5_valid = RegisterMd5.getRegisterMd5(providerId, code, typedId);
+					if (!UtilString.isEmptyOrNullByTrim(providerId) && !UtilString.isEmptyOrNullByTrim(code) && !UtilString.isEmptyOrNullByTrim(typedId) && !UtilString.isEmptyOrNullByTrim(keyStr)) {
+						String md5_valid = RegisterMd5.getRegisterMd5(providerId, code, typedId, keyStr);
 						if (my_md5_valid.equals(md5_valid)) {
 							// 验证通过
 							String[] third_info = typedId.split(UserProfile.SEPARATOR);
 							String email = RequestUtil.getParam(request, "email", "");
-							String password = RequestUtil.getParam(request, "password", "");
+							String password_t = RequestUtil.getParam(request, "password", "");
 							String thirduserid = third_info[1];
 							// valid user info
 							if (null != third_info && third_info.length == 2) {
 								// 注册用户
+								String password = passwordEncoder.encode(password_t);
 								UserInfoVo user = new UserInfoVo();
 								user.setUsername(email);
 								user.setPassword(password);
 								user.setProviderid(providerId);
 								user.setThirduserid(thirduserid);
-
 								Map<String, String> param = new HashMap<String, String>();
 								param.put("username", email);
 								param.put("password", password);
@@ -102,9 +109,10 @@ public final class RegisterAction {
 								registerUserService.addUser(param);
 								String dbreturn = param.get("dbreturn");
 								if (DBResultCode.SUCC.equals(dbreturn)) {
-									
+									String after_my_md5_valid = RegisterMd5.getRegisterAfterMd5(userProfile.getAccessToken(), typedId, my_md5_valid);
+									thirdRegVo.setMd5Valid(after_my_md5_valid);
 									session.setAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO, thirdRegVo);
-									nextUrl += "?code=&" + OAuthConstants.OAUTH_PROVIDER + "=" + thirdRegVo.getProviderType();
+									nextUrl += "?code=" + my_md5_valid + "&" + OAuthConstants.OAUTH_PROVIDER + "=" + thirdRegVo.getProviderType();
 									// 跳转登录界面带上参数
 									// code
 									logger.info("注册成功完成跳转nextUrl[" + nextUrl + "]");
@@ -124,6 +132,13 @@ public final class RegisterAction {
 	private static final Logger logger = LoggerFactory.getLogger(ShowErrorController.class);
 
 	private RegisterUserService registerUserService;
+	
+	private PasswordEncoder passwordEncoder;
+	
+	@Resource(name = "passwordEncoder")
+	public final void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Resource(name = "registerUserService")
 	public final void setRegisterUserService(RegisterUserService registerUserService) {
