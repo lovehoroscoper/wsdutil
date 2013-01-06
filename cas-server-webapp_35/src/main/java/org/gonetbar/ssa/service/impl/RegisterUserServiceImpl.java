@@ -24,4 +24,9 @@ public class RegisterUserServiceImpl implements RegisterUserService {
 		this.registerUserDao = registerUserDao;
 	}
 
+	@Override
+	public void queryCheckUserUnique(Map param) {
+		registerUserDao.queryCheckUserUnique(param);
+	}
+
 }

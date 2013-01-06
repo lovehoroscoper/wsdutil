@@ -9,6 +9,13 @@ package org.gonetbar.ssa.constant;
 public class DBResultCode {
 
 	public static final String SUCC = "0000";
+	
+	public static final String PARAM_VALID = "0100";//非法操作
+	
+	public static final String A_USER_FAIL = "1000";
+	
+	public static final String FAIL_USERNAME = "0001";
+	public static final String FAIL_THIRD = "0002";
 
 	/**
 	 * @param args

@@ -1,12 +1,14 @@
 package org.gonetbar.ssa.entity;
 
+import java.io.Serializable;
+
 /**
  * @desc 描述：
  * 
  * @author weisd E-mail:xiyangdewuse@gmail.com
  * @version 创建时间：2013-1-1 下午3:21:21
  */
-public class ThirdProvider {
+public class ThirdProvider implements Serializable {
 
 	private String providerId;
 	private String providerType;

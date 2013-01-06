@@ -13,5 +13,7 @@ public class SsoCachePreKey {
 	//用户登录来源
 	public final static String CACHE_USER_KEY_LOACL = "local@";
 	public final static String CACHE_USER_KEY_THIRD = "third@";
+	//OAUTH登录类型缓存
+	public final static String CACHE_PROVIDER_KEY_OAUTH = "oauth@";
 
 }

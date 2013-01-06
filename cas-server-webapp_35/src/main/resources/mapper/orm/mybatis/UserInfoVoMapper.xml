@@ -69,6 +69,7 @@
 			#{password},
 			#{providerid},
 			#{thirduserid},
+			#{nikename},
 			#{dbreturn,mode=OUT,jdbcType=VARCHAR},
 			#{userid,mode=OUT,jdbcType=VARCHAR}
 		)}
@@ -82,6 +83,19 @@
 		FROM
 			sso_login_third t
 		WHERE t.name = #{providerType} 
+	</select>
+
+	<select id="queryCheckUserUnique" statementType="CALLABLE">
+		{call 
+		CHECK_USER_UNIQUE(
+				#{type},
+				#{username},
+				#{providerid},
+				#{thirduserid},
+				#{nikename},
+				#{dbreturn,mode=OUT,jdbcType=VARCHAR},
+				#{dbcode,mode=OUT,jdbcType=VARCHAR}
+		)}
 	</select>
 
 </mapper>

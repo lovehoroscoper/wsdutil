@@ -1,3 +1,51 @@
+html {
+	background: #f7f5f5 url(../images/bg.gif) repeat;
+	height: 100%
+}
+
+body #page {
+	height: 100%;
+	position: relative
+}
+
+div#login,div#signup {
+	margin-top: 30px
+}
+
+h1#login_logo {
+	background: url('../images/login_logo.png') no-repeat 10px 0;
+	margin: 0 auto 10px auto;
+	text-align: center;
+	height: 90px;
+	width: 270px
+}
+
+.login_bar {
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	padding: 20px 0 25px 0;
+	margin: 0 auto;
+	display: block;
+	width: 600px;
+	clear: both;
+	background: url(../images/login_bar2.png) no-repeat center center
+}
+
+.login_bar .or {
+	margin: -10px auto 0 auto;
+	display: block
+}
+
+#login,#signup {
+	margin-top: 3%;
+	margin: 0 auto;
+	width: 600px
+}
+
+/*  ntab.css */
 /* global settings */
 * {
 	padding: 0;

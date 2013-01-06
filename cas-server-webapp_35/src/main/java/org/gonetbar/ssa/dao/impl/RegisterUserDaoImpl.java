@@ -14,7 +14,12 @@ public class RegisterUserDaoImpl extends BaseDaoImpl implements RegisterUserDao 
 
 	@Override
 	public void addUser(Map param) {
-		this.addObject("org.gonetbar.ssa.entity.UserInfoVoMapper.addUser", param);
+		this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.addUser", param);
+	}
+
+	@Override
+	public void queryCheckUserUnique(Map param) {
+		this.findObject("org.gonetbar.ssa.entity.UserInfoVoMapper.queryCheckUserUnique", param);
 	}
 
 }

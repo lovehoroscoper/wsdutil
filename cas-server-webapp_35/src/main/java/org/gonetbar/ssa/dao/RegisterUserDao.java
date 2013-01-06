@@ -10,5 +10,7 @@ import java.util.Map;
 public interface RegisterUserDao {
 
 	public void addUser(Map param);
+	
+	public void queryCheckUserUnique(Map param);
 
 }

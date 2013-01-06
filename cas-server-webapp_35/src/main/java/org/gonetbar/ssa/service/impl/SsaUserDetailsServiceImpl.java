@@ -75,9 +75,9 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 		findVo.setUsername(username);
 		return findUserByVo(findVo);
 	}
-	
+
 	@Override
-	public UserProviderInfoVo findUserByProviderId(String providerId, String thirdUserId){
+	public UserProviderInfoVo findUserByProviderId(String providerId, String thirdUserId) {
 		UserProviderInfoVo findVo = new UserProviderInfoVo();
 		findVo.setProviderid(providerId);
 		findVo.setThirduserid(thirdUserId);
@@ -126,7 +126,13 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 
 	@Override
 	public ThirdProvider findProviderIdByType(ThirdProvider findVo) {
-		return ssaUserDao.findProviderIdByType(findVo);
+		String cache_key = SsoCachePreKey.CACHE_PROVIDER_KEY_OAUTH + findVo.getProviderType();
+		ThirdProvider resVo = SsoCacheManager.get(ThirdProvider.class, SsoCacheName.CACHE_USER, cache_key);
+		if (null == resVo) {
+			resVo = ssaUserDao.findProviderIdByType(findVo);
+			SsoCacheManager.set(SsoCacheName.CACHE_USER, cache_key, resVo);
+		}
+		return resVo;
 	}
 
 }
