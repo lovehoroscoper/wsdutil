@@ -13,7 +13,6 @@
 		<result column="logintype" property="logintype" />
 		<result column="validtype" property="validtype" />
 		<result column="encrypttype" property="encrypttype" />
-		<result column="thirdloginid" property="thirdloginid" />
 		<result column="email" property="email" />
 	</resultMap>
 
@@ -41,7 +40,6 @@
 			t.validtype,
 			t.createdate,
 			t.encrypttype,
-			t.thirdloginid,
 			t.email
 		from
 			sso_user t

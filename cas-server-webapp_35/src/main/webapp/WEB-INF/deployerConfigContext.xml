@@ -107,8 +107,9 @@
 				<bean
 					class="org.jasig.cas.authentication.principal.HttpBasedServiceCredentialsToPrincipalResolver" />
 
-				<bean
-                    class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver" />
+				<bean class="org.jasig.cas.support.oauth.authentication.principal.OAuthCredentialsToPrincipalResolver">
+                    <property name="attributeRepository" ref="attributeRepository" />
+                </bean>
 
 			</list>
 		</property>
@@ -170,6 +171,7 @@
 	Bean that defines the attributes that a service may return.  This example uses the Stub/Mock version.  A real implementation
 	may go against a database or LDAP server.  The id should remain "attributeRepository" though.
 	 -->
+	 <!-- weisd
 	<bean id="attributeRepository"
 		class="org.jasig.services.persondir.support.StubPersonAttributeDao">
 		<property name="backingMap">
@@ -180,8 +182,8 @@
 			</map>
 		</property>
 	</bean>
-	 
-	 <!-- 还需要开启 registeredServices的一个属性
+	  -->
+	 <!-- 还需要开启 registeredServices的一个属性 -->
 	<bean id="attributeRepository" class="org.jasig.services.persondir.support.jdbc.SingleRowJdbcPersonAttributeDao">
         <constructor-arg index="0" ref="mybatisDataSource"/>
         <constructor-arg index="1" value="select * from sso_user where {0}"/>
@@ -200,7 +202,7 @@
             </map>
         </property>
     </bean>
-	 -->
+	
 
 	<!-- 
 	Sample, in-memory data store for the ServiceRegistry. A real implementation
