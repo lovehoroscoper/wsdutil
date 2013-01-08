@@ -7,9 +7,17 @@ import java.util.Set;
 import javax.sql.DataSource;
 
 import org.apache.commons.lang.Validate;
+import org.gonetbar.ssa.cas.exception.LoginTypeException;
+import org.gonetbar.ssa.constant.UserLoginType;
+import org.gonetbar.ssa.entity.ThirdProvider;
+import org.gonetbar.ssa.entity.UserProviderInfoVo;
+import org.gonetbar.ssa.service.SsaUserService;
+import org.gonetbar.ssa.util.CheckUserLoginType;
 import org.jasig.services.persondir.IPersonAttributes;
 import org.jasig.services.persondir.support.NamedPersonImpl;
 import org.springframework.dao.support.DataAccessUtils;
+
+import com.godtips.common.UtilString;
 
 public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAttributeDao {
 
@@ -18,33 +26,58 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 	}
 
 	@Override
-	public IPersonAttributes getPerson(String uid) {
-        Validate.notNull(uid, "uid may not be null.");
-        
-        // weisd 因为是第三方登录那么可能是第三方的uid 查询的时候需要转换成我方
-        // 同时需要验证 第三方的id和我方一致
-        
-        //Generate the seed map for the uid
-        final Map<String, List<Object>> seed = this.toSeedMap(uid);
-        
-        //Run the query using the seed
-        final Set<IPersonAttributes> people = this.getPeopleWithMultivaluedAttributes(seed);
-        
-        //Ensure a single result is returned
-        IPersonAttributes person = (IPersonAttributes)DataAccessUtils.singleResult(people);
-        if (person == null) {
-            return null;
-        }
-        
-        //Force set the name of the returned IPersonAttributes if it isn't provided in the return object
-        if (person.getName() == null) {
-            person = new NamedPersonImpl(uid, person.getAttributes());
-        }
-        
-        return person;
-		
+	public IPersonAttributes getPerson(String p_uid) {
+		Validate.notNull(p_uid, "uid may not be null.");
+
+		// weisd 第三方登录很可能是其他的ID
+		String loginType = CheckUserLoginType.getLoginTypeByUid(p_uid);
+		String username = "";
+		if (UserLoginType.LOGIN_TYPE_LOACL.equals(loginType)) {
+			// 是本地用户
+			username = p_uid;
+		} else if (UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)) {
+			// 是第三方用户
+			String providerType = CheckUserLoginType.getProviderTypeByUid(p_uid);
+			ThirdProvider provider = ssaUserService.findProviderIdByType(providerType);
+			if (null != provider && !UtilString.isEmptyOrNullByTrim(providerType) && !UtilString.isEmptyOrNullByTrim(provider.getProviderId())) {
+				UserProviderInfoVo thirdUser = ssaUserService.findUserByProviderId(provider.getProviderId(), CheckUserLoginType.getThirdUserIdTypeByUid(p_uid));
+				if (null != thirdUser) {
+					username = thirdUser.getUsername();
+				}
+			}
+		}
+		if (!UserLoginType.LOGIN_TYPE_LOACL.equals(CheckUserLoginType.getLoginTypeByUid(username))) {
+			throw new LoginTypeException("非法或无效的登录UID");
+		}
+
+		// Generate the seed map for the uid
+		final Map<String, List<Object>> seed = this.toSeedMap(username);
+
+		// Run the query using the seed
+		final Set<IPersonAttributes> people = this.getPeopleWithMultivaluedAttributes(seed);
+
+		// Ensure a single result is returned
+		IPersonAttributes person = (IPersonAttributes) DataAccessUtils.singleResult(people);
+		if (person == null) {
+			return null;
+		}
+
+		// Force set the name of the returned IPersonAttributes if it isn't
+		// provided in the return object
+		if (person.getName() == null) {
+			person = new NamedPersonImpl(p_uid, person.getAttributes());
+		}
+
+		// person.getAttributes().put("", "");
+
+		return person;
+
 	}
 
-	
-	
+	private SsaUserService ssaUserService;
+
+	public final void setSsaUserService(SsaUserService ssaUserService) {
+		this.ssaUserService = ssaUserService;
+	}
+
 }

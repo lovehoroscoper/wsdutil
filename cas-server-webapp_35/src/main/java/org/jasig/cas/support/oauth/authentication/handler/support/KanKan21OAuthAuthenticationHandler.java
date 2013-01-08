@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang.StringUtils;
 import org.gonetbar.ssa.cas.exception.CheckNotRegisterException;
 import org.gonetbar.ssa.entity.ThirdProvider;
 import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.SsaUserService;
+import org.gonetbar.ssa.util.CheckUserLoginType;
 import org.jasig.cas.authentication.handler.AuthenticationException;
 import org.jasig.cas.authentication.handler.support.AbstractPreAndPostProcessingAuthenticationHandler;
 import org.jasig.cas.authentication.principal.Credentials;
@@ -66,19 +66,22 @@ public final class KanKan21OAuthAuthenticationHandler extends AbstractPreAndPost
 		final UserProfile userProfile = temp_userProfile;
 		logger.debug("userProfile : {}", userProfile);
 
-		if (userProfile != null && StringUtils.isNotBlank(userProfile.getId()) && !UtilString.isEmptyOrNullByTrim(providerType)) {
-			ThirdProvider thirdProvider = ssaUserService.findProviderIdByType(providerType);// 第三方登录类型ID
-			if (thirdProvider != null) {
-				String thirdUserId = userProfile.getId();// 第三方用户ID
-				UserProviderInfoVo third_user = ssaUserService.findUserByProviderId(thirdProvider.getProviderId(), thirdUserId);
-				if (null == third_user || UtilString.isEmptyOrNullByTrim(third_user.getUsername())) {
-					logger.warn("第三方[" + providerType + "]登录用户[" + thirdUserId + "]未绑定我方平台信息");
-					String keyStr = UUID.randomUUID().toString();
-					final ThirdRegVo thirdRegVo = new ThirdRegVo(thirdProvider.getProviderId(), providerType, userProfile.getAccessToken(), userProfile, keyStr);
-					throw new CheckNotRegisterException("NOT_BOUND_USER", thirdRegVo);
-				} else {
-					oauthCredentials.setUserProfile(userProfile);
-					return true;
+		if (userProfile != null && !UtilString.isEmptyOrNullByTrim(userProfile.getId()) && !UtilString.isEmptyOrNullByTrim(providerType)) {
+			String loginType = CheckUserLoginType.getProviderTypeByUid(userProfile.getTypedId());
+			if (!UtilString.isEmptyOrNullByTrim(loginType)) {
+				ThirdProvider thirdProvider = ssaUserService.findProviderIdByType(loginType);// 第三方登录类型ID
+				if (thirdProvider != null) {
+					String thirdUserId = userProfile.getId();// 第三方用户ID
+					UserProviderInfoVo third_user = ssaUserService.findUserByProviderId(thirdProvider.getProviderId(), thirdUserId);
+					if (null == third_user || UtilString.isEmptyOrNullByTrim(third_user.getUsername())) {
+						logger.warn("第三方[" + thirdProvider.getProviderType() + "]登录用户[" + thirdUserId + "]未绑定我方平台信息");
+						String keyStr = UUID.randomUUID().toString();
+						final ThirdRegVo thirdRegVo = new ThirdRegVo(thirdProvider.getProviderId(), thirdProvider.getProviderType(), userProfile.getAccessToken(), userProfile, keyStr);
+						throw new CheckNotRegisterException("NOT_BOUND_USER", thirdRegVo);
+					} else {
+						oauthCredentials.setUserProfile(userProfile);
+						return true;
+					}
 				}
 			}
 		}

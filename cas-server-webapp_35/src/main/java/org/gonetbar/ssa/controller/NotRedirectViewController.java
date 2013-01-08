@@ -2,11 +2,13 @@ package org.gonetbar.ssa.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
+import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -24,7 +26,19 @@ public final class NotRedirectViewController extends AbstractController {
 	private String viewName;
 
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {		
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Authentication cc = SecurityContextHolder.getContext().getAuthentication();
+		SecurityContextHolder.getContext();
+		System.out.println(cc);
+
+		AttributePrincipal principal = (AttributePrincipal) request.getUserPrincipal();
+		System.out.println(principal);
+		if (null != principal) {
+			Object obj = principal.getAttributes();
+			System.out.println(obj);
+		}
+
 		return new ModelAndView(this.viewName);
 	}
 

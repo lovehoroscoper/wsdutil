@@ -2,17 +2,17 @@ package org.gonetbar.ssa.cas.exception;
 
 import org.springframework.security.access.AccessDeniedException;
 
-public class AccessFailException extends AccessDeniedException {
+public class LoginTypeException extends AccessDeniedException {
 
 	private static final long serialVersionUID = 1L;
 
 	private String redirectUrl;
 
-	public AccessFailException(String msg) {
+	public LoginTypeException(String msg) {
 		super(msg);
 	}
 
-	public AccessFailException(String msg, Throwable t) {
+	public LoginTypeException(String msg, Throwable t) {
 		super(msg, t);
 	}
 
