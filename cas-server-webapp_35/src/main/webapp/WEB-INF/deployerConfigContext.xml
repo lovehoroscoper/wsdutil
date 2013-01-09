@@ -222,12 +222,13 @@
                         <property name="description" value="Allows HTTP(S) and IMAP(S) protocols" />
                         <property name="serviceId" value="^(https?|imaps?)://.*" />
                         <property name="evaluationOrder" value="10000001" />
-                        <property name="ignoreAttributes" value="true" />
+                        <property name="ignoreAttributes" value="true" /><!-- 2个不能同时使用生效 -->
                         <property name="allowedAttributes">                        
                              <list>
                                 <!-- github -->
                                 <value>company</value>
                                 <value>following</value>
+                                <!-- 
                                 <value>blog</value>
                                 <value>public_repos</value>
                                 <value>public_gists</value>
@@ -245,6 +246,7 @@
                                 <value>avatar_url</value>
                                 <value>gravatar_id</value>
                                 <value>hireable</value>
+                                	 -->
                                 <!-- github -->   
                             </list>
                         </property>
