@@ -23,6 +23,15 @@
     <filter-name>CAS Client Info Logging Filter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <filter>
     <filter-name>springSecurityFilterChain</filter-name>
@@ -36,19 +45,6 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/services/*</url-pattern>
   </filter-mapping>
-
-	<filter>
-		<filter-name>SpringEncodingFilter</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<init-param>
-			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</init-param>
-	</filter>
-	<filter-mapping>
-		<filter-name>SpringEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
 
   <!--
     - Loads the CAS ApplicationContext.
