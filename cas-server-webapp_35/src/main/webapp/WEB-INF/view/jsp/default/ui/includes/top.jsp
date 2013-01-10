@@ -32,5 +32,5 @@
         <div class="fl-screenNavigator-view">
             <div id="header" class="flc-screenNavigator-navbar fl-navbar fl-table">
                 <h1 id="app-name" class="fl-table-cell">看看而已(kankan21.com)&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;&nbsp;&nbsp;&nbsp;登录中心</h1>
-            </div>		
+            </div>
             <div id="content" class="fl-screenNavigator-scroll-container">
