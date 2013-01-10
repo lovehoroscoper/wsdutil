@@ -1,3 +1,4 @@
+解决版本覆盖源文件乱码显示
 我所做的改动
 WEB-INF\my-spring
 WEB-INF\spring-configuration\propertyFileConfigurer.xml
