@@ -32,7 +32,7 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 		// weisd 第三方登录很可能是其他的ID
 		String loginType = CheckUserLoginType.getLoginTypeByUid(p_uid);
 		String username = "";
-		if (UserLoginType.LOGIN_TYPE_LOACL.equals(loginType)) {
+		if (UserLoginType.LOGIN_TYPE_LOCAL.equals(loginType)) {
 			// 是本地用户
 			username = p_uid;
 		} else if (UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)) {
@@ -46,7 +46,7 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 				}
 			}
 		}
-		if (!UserLoginType.LOGIN_TYPE_LOACL.equals(CheckUserLoginType.getLoginTypeByUid(username))) {
+		if (!UserLoginType.LOGIN_TYPE_LOCAL.equals(CheckUserLoginType.getLoginTypeByUid(username))) {
 			throw new LoginTypeException("非法或无效的登录UID");
 		}
 
@@ -65,10 +65,10 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 		// Force set the name of the returned IPersonAttributes if it isn't
 		// provided in the return object
 		if (person.getName() == null) {
-			person = new NamedPersonImpl(p_uid, person.getAttributes());
+			//person = new NamedPersonImpl(p_uid, person.getAttributes());
+			//weisd 
+			person = new NamedPersonImpl(username, person.getAttributes());
 		}
-
-		// person.getAttributes().put("", "");
 
 		return person;
 

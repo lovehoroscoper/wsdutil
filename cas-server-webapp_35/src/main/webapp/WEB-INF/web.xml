@@ -45,6 +45,10 @@
     <filter-name>springSecurityFilterChain</filter-name>
     <url-pattern>/services/*</url-pattern>
   </filter-mapping>
+  <filter-mapping>
+    <filter-name>springSecurityFilterChain</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
 
   <!--
     - Loads the CAS ApplicationContext.

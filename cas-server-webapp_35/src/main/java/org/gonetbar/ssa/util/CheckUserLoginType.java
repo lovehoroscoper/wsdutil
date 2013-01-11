@@ -20,7 +20,7 @@ public class CheckUserLoginType {
 		}
 		String[] u_arr = uid.split(UserProfile.SEPARATOR);
 		if (UtilRegex.checkEmail(uid)) {
-			return UserLoginType.LOGIN_TYPE_LOACL;
+			return UserLoginType.LOGIN_TYPE_LOCAL;
 		} else if (null != u_arr && u_arr.length == 2) {
 			return UserLoginType.LOGIN_TYPE_OAUTH;
 		} else {

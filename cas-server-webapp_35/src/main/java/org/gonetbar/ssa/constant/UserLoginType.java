@@ -8,7 +8,7 @@ package org.gonetbar.ssa.constant;
  */
 public class UserLoginType {
 
-	public static final String LOGIN_TYPE_LOACL = "local";
+	public static final String LOGIN_TYPE_LOCAL = "local";
 
 	public static final String LOGIN_TYPE_OAUTH = "oauth";
 

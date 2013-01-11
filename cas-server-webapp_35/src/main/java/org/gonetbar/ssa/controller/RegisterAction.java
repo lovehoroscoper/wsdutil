@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.constant.DBResultCode;
 import org.gonetbar.ssa.constant.RegisterMd5;
+import org.gonetbar.ssa.constant.user.UserCheckCode;
 import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.service.RegisterUserService;
@@ -61,9 +62,15 @@ public final class RegisterAction {
 		return nextUrl;
 	}
 
+	/**
+	 * 绑定逻辑还有问题,如果是多个第三方绑定同一个帐号
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value = "/register/add.do")
 	public String registerAdd(HttpServletRequest request, ModelMap model) {
-		logger.info("进入到registerView add");
 		String nextUrl = "redirect:/login";
 		HttpSession session = request.getSession(false);
 		String my_md5_valid = RequestUtil.getParam(request, "my_code", "");
@@ -91,27 +98,26 @@ public final class RegisterAction {
 							// valid user info
 							if (null != third_info && third_info.length == 2) {
 								// 注册用户
-								String password = passwordEncoder.encode(password_t);
+								String encodedpassword = passwordEncoder.encode(password_t);
 								UserInfoVo user = new UserInfoVo();
 								user.setUsername(email);
-								user.setPassword(password);
+								user.setPassword(encodedpassword);
 								user.setProviderid(providerId);
 								user.setThirduserid(thirduserid);
 								user.setNikename(nikename);
 								Map<String, String> param = new HashMap<String, String>();
+								param.put("bindtype", "");
 								param.put("username", email);
-								param.put("password", password);
+								param.put("password", encodedpassword);
 								param.put("providerid", providerId);
 								param.put("thirduserid", thirduserid);
 								param.put("nikename", nikename);
 								param.put("dbreturn", "");
-								param.put("dbcode", "");
 								param.put("userid", "");
-								String checkRes = checkUserUnique(param, password_t);
-								if ("".equals(checkRes)) {
-									param.put("dbreturn", "");
-									param.put("dbcode", "");
-									param.put("userid", "");
+								param.put("info1", "");
+								String checkRes = checkUserUnique(param, email, password_t, providerId, thirduserid, nikename);
+								String bindtype = param.get("bindtype");
+								if ("".equals(checkRes) && UtilString.notEmptyOrNullByTrim(bindtype)) {
 									registerUserService.addUser(param);
 									String dbreturn = param.get("dbreturn");
 									if (DBResultCode.SUCC.equals(dbreturn)) {
@@ -123,7 +129,8 @@ public final class RegisterAction {
 										// code
 										logger.info("注册成功完成跳转nextUrl[" + nextUrl + "]");
 									} else {
-										logger.error("注册用户失败[" + dbreturn + "]");
+										String info1 = param.get("info1");
+										logger.error("注册用户失败[" + dbreturn + "][" + info1 + "]");
 									}
 								}
 							}
@@ -135,15 +142,11 @@ public final class RegisterAction {
 		return nextUrl;
 	}
 
-	private String checkUserUnique(Map<String, String> param, String password_t) {
-		String username = param.get("username");
-		String providerid = param.get("providerid");
-		String thirduserid = param.get("thirduserid");
-		String nikename = param.get("nikename");
+	private String checkUserUnique(Map<String, String> param, String username, String password, String providerid, String thirduserid, String nikename) {
 		if (UtilString.isEmptyOrNullByTrim(username) || !UtilRegex.checkEmail(username)) {
 			return "邮箱不合法";
 		}
-		if (UtilString.isEmptyOrNullByTrim(password_t) || password_t.length() < 6 || password_t.length() > 30) {
+		if (UtilString.isEmptyOrNullByTrim(password) || password.length() < 6 || password.length() > 30) {
 			return "密码不合法";
 		}
 		if (UtilString.isEmptyOrNullByTrim(providerid)) {
@@ -155,29 +158,54 @@ public final class RegisterAction {
 		if (UtilString.isEmptyOrNullByTrim(nikename) || nikename.length() > 50) {
 			return "昵称不合法";
 		}
-		param.put("type", "0");
-		registerUserService.queryCheckUserUnique(param);
-		param.remove("type");
-		String dbreturn = param.get("dbreturn");
-		String dbcode = param.get("dbcode");
-		param.put("dbreturn", "");
-		param.put("dbcode", "");
-		param.put("userid", "");
+		Map<String, String> param_check = new HashMap<String, String>();
+		param_check.put("checktype", "1");
+		param_check.put("username", username);
+		param_check.put("password", password);
+		param_check.put("providerid", providerid);
+		param_check.put("thirduserid", thirduserid);
+		param_check.put("nikename", nikename);
+		param_check.put("dbreturn", "");
+		param_check.put("localexist", "");// 我方是否存在
+		param_check.put("thirdexist", "");// 对方是否存在
+		param_check.put("info1", "");// 冗余信息1
+		param_check.put("info2", "");// 冗余信息2
+		registerUserService.queryCheckUserUnique(param_check);
+		String dbreturn = param_check.get("dbreturn");
 		if (DBResultCode.SUCC.equals(dbreturn)) {
-			return "";
-		} else if (DBResultCode.A_USER_FAIL.equals(dbreturn)) {
-			if (DBResultCode.FAIL_USERNAME.equals(dbcode)) {
-				return "已经存在的用户标识[" + username + "]";
-			} else if (DBResultCode.FAIL_THIRD.equals(dbcode)) {
-				return "第三方登录帐户已经在我方平台绑定过";
+			// 查询数据库正常
+			String localexist = param_check.get("localexist");
+			String thirdexist = param_check.get("thirdexist");
+			if (UserCheckCode.CUN_0000.equals(thirdexist)) {
+				/* 第三方不存在 */
+				if (UserCheckCode.CUN_0000.equals(localexist)) {
+					// 我方不存在
+					// 双方都添加
+					param.put("bindtype", "1");
+				} else if (UserCheckCode.CUN_0001.equals(localexist)) {
+					// 我方用户存在
+					// 验证密码是否正确
+					String dbEncodedPassword = param_check.get("info1");
+					if (passwordEncoder.matches(password, dbEncodedPassword)) {
+						// 添加第三方
+						param.put("bindtype", "2");
+					} else {
+						return "密码验证失败[" + localexist + "]";
+					}
+				} else if (UserCheckCode.CUN_0003.equals(localexist)) {
+					return "本平台账户已经绑定过该第三方登录的账户[" + localexist + "]";
+				} else {
+					return "登录ID验证异常[" + localexist + "]";
+				}
 			} else {
-				return "其他错误[" + dbcode + "]";
+				return "第三方登录ID已经在我方平台绑定过";
 			}
 		} else if (DBResultCode.PARAM_VALID.equals(dbreturn)) {
-			return "DB参数错误[" + dbcode + "]";
+			return "操作DB参数验证失败[" + dbreturn + "]";
 		} else {
-			return dbreturn;
+			return "操作DB错误[" + dbreturn + "]";
 		}
+		return "其他错误[OTHER]";
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(ShowErrorController.class);

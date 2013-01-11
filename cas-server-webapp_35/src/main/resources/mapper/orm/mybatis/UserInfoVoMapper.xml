@@ -63,6 +63,7 @@
 	<select id="addUser" statementType="CALLABLE">
 		{call 
 		ADD_USER(
+			#{bindtype},
 			#{username},
 			#{password},
 			#{providerid},
@@ -72,7 +73,7 @@
 			#{userid,mode=OUT,jdbcType=VARCHAR}
 		)}
 	</select>
-	
+
 	<select id="findProviderIdByTypeId" parameterType="thirdProviderVo" resultMap="findProviderIdByTypeId_resultmap">
 		SELECT
 			t.id,
@@ -86,13 +87,17 @@
 	<select id="queryCheckUserUnique" statementType="CALLABLE">
 		{call 
 		CHECK_USER_UNIQUE(
-				#{type},
+				#{checktype},
 				#{username},
+				#{password},
 				#{providerid},
 				#{thirduserid},
 				#{nikename},
 				#{dbreturn,mode=OUT,jdbcType=VARCHAR},
-				#{dbcode,mode=OUT,jdbcType=VARCHAR}
+				#{localexist,mode=OUT,jdbcType=VARCHAR},
+				#{thirdexist,mode=OUT,jdbcType=VARCHAR},
+				#{info1,mode=OUT,jdbcType=VARCHAR},
+				#{info2,mode=OUT,jdbcType=VARCHAR}
 		)}
 	</select>
 

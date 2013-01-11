@@ -98,7 +98,6 @@ xmlns:aop="http://www.springframework.org/schema/aop"
         <prop key="/authorizationFailure.html">passThroughController</prop>
         <prop key="/403.html">passThroughController</prop>
         <prop key="/status">healthCheckController</prop>
-        <prop key="/showplat/*">notRedirectViewController</prop>
         <prop key="/showerror/*">showErrorController</prop>
       </props>
     </property>
@@ -278,9 +277,6 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 
   <bean id="credentialsValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:messageInterpolator-ref="messageInterpolator"/>
-
-	<bean id="notRedirectViewController" class="org.gonetbar.ssa.controller.NotRedirectViewController"
-        p:viewName="notRedirectView"/>
 
 	<bean id="showErrorController" class="org.gonetbar.ssa.controller.ShowErrorController"
         p:viewName="showErrorView"/>

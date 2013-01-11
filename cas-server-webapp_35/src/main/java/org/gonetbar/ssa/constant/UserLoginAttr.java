@@ -1,0 +1,20 @@
+package org.gonetbar.ssa.constant;
+
+/**
+ * @desc 描述：登录后必须设置的基础属性
+ * 
+ * @author weisd E-mail:xiyangdewuse@gmail.com
+ * @version 创建时间：2013-1-8 下午2:32:38
+ */
+public class UserLoginAttr {
+
+	/**
+	 * 我方数据库中id_user 自增长数字类型
+	 */
+	public static final String USER_LOCAL_ID = "USER_LOCAL_SEQID";
+	
+	public static final String USER_LOCAL_UNIQUEKEY = "USER_LOCAL_UNIQUEKEY";//注册的唯一邮箱username
+
+	public static final String USER_LOGIN_TYPE = "USER_LOGIN_TYPE";//UserLoginType.xxx
+
+}

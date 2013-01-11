@@ -27,51 +27,33 @@ public final class Kan21OAuthAuthenticationMetaDataPopulator implements Authenti
 	public Authentication populateAttributes(final Authentication authentication, final Credentials credentials) {
 		
 		//TODO 还有一个不明确的是否需要把ID修改为我这边的ID
-		
 		if (credentials instanceof OAuthCredentials) {
 			OAuthCredentials oauthCredentials = (OAuthCredentials) credentials;
-			
 			
 			//TODO weisd 这里遗漏了我自己从数据库查询出来的属性
 			final Principal pri = authentication.getPrincipal();
 			String id = pri.getId();
 			Map<String, Object> temp_map = new HashMap<String, Object>();
+			String new_id = (String)pri.getAttributes().get("username");
 			temp_map.putAll(pri.getAttributes());
 			temp_map.putAll(oauthCredentials.getUserProfile().getAttributes());
 			
 			//final Principal simplePrincipal = new SimplePrincipal(authentication.getPrincipal().getId(), oauthCredentials.getUserProfile().getAttributes());
 			
-			//
-			final Principal simplePrincipal = new SimplePrincipal(id, temp_map);
+			//final Principal simplePrincipal = new SimplePrincipal(id, temp_map);
+			final Principal simplePrincipal = new SimplePrincipal(new_id, temp_map);
 			
 			
 			
 			final MutableAuthentication mutableAuthentication = new MutableAuthentication(simplePrincipal, authentication.getAuthenticatedDate());
 			
 			
-			Map map1 = mutableAuthentication.getAttributes();
-			logger.info("map_1:" + map1.size() + "");
-			logger.info("map_1:" + map1.toString());
-			
-			
-			Map map_t = authentication.getAttributes();
-			logger.info("map_t:" + map_t.size() + "");
-			logger.info("map_t:" + map_t.toString());
-			
 			mutableAuthentication.getAttributes().putAll(authentication.getAttributes());
 			
-			Map map2 = mutableAuthentication.getAttributes();
-			logger.info("map_2:" + map2.size() + "");
-			logger.info("map_2:" + map2.toString());
-			
-			Object PROVIDER_TYPE = map2.get(OAuthConstants.PROVIDER_TYPE);
-			logger.info("PROVIDER_TYPE:" + PROVIDER_TYPE);
 			
 			
 			mutableAuthentication.getAttributes().put(OAuthConstants.PROVIDER_TYPE, oauthCredentials.getCredential().getProviderType());
 			
-			Object PROVIDER_TYPE2 = map2.get(OAuthConstants.PROVIDER_TYPE);
-			logger.info("PROVIDER_TYPE2:" + PROVIDER_TYPE2);
 			
 			
 			return mutableAuthentication;

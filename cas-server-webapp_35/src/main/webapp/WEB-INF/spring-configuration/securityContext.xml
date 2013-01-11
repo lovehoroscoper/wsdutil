@@ -37,6 +37,8 @@
   
   <sec:http pattern="/services/loggedout.html" security="none"/>
 
+  <sec:http pattern="/oauth20/*/initlogin.do" security="none"/>
+
   <sec:http pattern="/status/**" entry-point-ref="notAuthorizedEntryPoint" use-expressions="true" auto-config="true">
     <sec:intercept-url pattern="/status" access="hasIpAddress('${cas.securityContext.status.allowedSubnet}')" />
   </sec:http>
@@ -61,8 +63,8 @@
         p:filterProcessesUrl="/services/j_acegi_cas_security_check">
     <property name="authenticationSuccessHandler">
       <bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"
-            p:alwaysUseDefaultTargetUrl="true"
-            p:defaultTargetUrl="/services/manage.html"/>
+            p:alwaysUseDefaultTargetUrl="false"
+            p:defaultTargetUrl="/user/index.do"/><!-- false weisd -->
     </property>
     <property name="authenticationFailureHandler">
       <bean class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler">
