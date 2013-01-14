@@ -37,6 +37,7 @@ import org.app.ticket.bean.OrderRequest;
 import org.app.ticket.bean.TrainQueryInfo;
 import org.app.ticket.bean.UserInfo;
 import org.app.ticket.constants.Constants;
+import org.app.ticket.logic.KeepCookieThread;
 import org.app.ticket.logic.LoginThread;
 import org.app.ticket.logic.SubmitThread;
 import org.app.ticket.logic.TicketThread;
@@ -107,15 +108,22 @@ public class MainWin extends JFrame {
 	private List<UserInfo> userInfoList;
 	// 存放查询火车实体
 	private OrderRequest req;
-
+	// 项目根路径
 	public static String path;
+	// 类本身
 	private MainWin mainWin = null;
 	// 登录验证码路径
 	public String loginUrl;
+	// 提交订单验证码路径
 	public String submitUrl;
+	// 是否登录成功
 	public static boolean isLogin = false;
+	// 传入参数
 	private static String tessPath = null;
+	// 线程是否运行
 	public boolean isRunThread = false;
+	// 是否点击了停止按钮
+	public boolean isStopRun = false;
 
 	// 静态构造块
 	static {
@@ -482,7 +490,8 @@ public class MainWin extends JFrame {
 
 	public static void main(String[] arg0) {
 		// TODO
-		// tessPath = arg0[0];
+		tessPath = arg0[0];
+		// tessPath = "D:\\Program Files\\Tesseract-OCR";
 		tessPath = "D:\\Program Files\\Tesseract-OCR";
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -498,15 +507,13 @@ public class MainWin extends JFrame {
 
 		try {
 			// TODO
-			// File file = new File(path + "config.properties");
-//			File file = new File("E:\\" + "config.properties");
-			File file = new File("F:\\auto-scheduleticket\\config.properties");
+			File file = new File(path + "config.properties");
+			// File file = new File("E:\\" + "config.properties");
 			if (!file.exists()) {
 				return;
 			}
-			// ResManager.initProperties(path + "config.properties");
-//			ResManager.initProperties("E:\\" + "config.properties");
-			ResManager.initProperties("F:\\auto-scheduleticket\\config.properties");
+			ResManager.initProperties(path + "config.properties");
+			// ResManager.initProperties("E:\\" + "config.properties");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -627,7 +634,8 @@ public class MainWin extends JFrame {
 							mainWin.isLogin = true;
 							showMsg("导入session成功!");
 							messageOut.setText(messageOut.getText() + "本次一共为您筛选到" + trainQueryInfo.size() + "趟列车信息\n");
-							// autoGetTrainInfo = getAutoGetTrainInfo();
+							// 启动cookie保持线程
+							new KeepCookieThread().start();
 						} else {
 							showMsg("导入session失败,请仔细检查session!");
 						}
@@ -680,6 +688,9 @@ public class MainWin extends JFrame {
 					new TicketThread(userInfoList, req, mainWin).start();
 				}
 			}
+			if (ResManager.getString("RobotTicket.btn.stop").equals(btn.getText())) {
+				isStopRun = true;
+			}
 		}
 	}
 
@@ -726,7 +737,44 @@ public class MainWin extends JFrame {
 				list.add(userInfo3);
 			}
 		}
-		userInfoList = list;
+		try {
+			userInfoList = getUserInfo(list);
+		} catch (IOException e) {
+			e.printStackTrace();
+			showMsg("配置文件中联系人解析错误,自动为您选择界面上的用户!");
+			userInfoList = list;
+			logger.error("解析配置中联系人错误,原因为:[" + e.getMessage() + "]");
+		}
+		return list;
+	}
+
+	/**
+	 * 获取配置文件中的联系人
+	 * 
+	 * @param list
+	 * @return
+	 * @throws IOException
+	 */
+	private List<UserInfo> getUserInfo(List<UserInfo> list) throws IOException {
+		// 获取配置文件中的联系人
+		String userString = ResManager.getByKey(Constants.SYS_USER_INFO);
+		if (!StringUtil.isEmptyString(userString)) {
+			String[] userList = userString.split("\\|");
+			if (userList.length > 0) {
+				for (int i = 0; i < userList.length; i++) {
+					String[] user = userList[i].split("\\,");
+					UserInfo userInfo = new UserInfo();
+					if (!StringUtil.isEmptyString(user[0]) && !StringUtil.isEmptyString(user[1])) {
+						userInfo.setName(user[0]);
+						userInfo.setCardID(user[1]);
+					}
+					if (!StringUtil.isEmptyString(user[2])) {
+						userInfo.setPhone(user[2]);
+					}
+					list.add(userInfo);
+				}
+			}
+		}
 		return list;
 	}
 
