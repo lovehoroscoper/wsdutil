@@ -12,9 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -305,18 +303,19 @@ public class ClientCore {
 		// 创建客户端
 		HttpClient httpclient = getHttpClient();
 		HttpPost post = getHttpPost(Constants.POST_URL_SUBMUTORDERREQUEST);
-		// 提交预定的车次 一共24个参数
+		// 提交预定的车次 一共25个参数
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair(Constants.ORDER_ARRIVE_TIME, trainQueryInfo.getEndTime()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_FROM_STATION_NAME, trainQueryInfo.getFromStation()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_FROM_STATION_NO, trainQueryInfo.getFormStationNo()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_FROM_STATION_TELECODE, trainQueryInfo.getFromStationCode()));
-		parameters.add(new BasicNameValuePair(Constants.ORDER_FROM_STATION_TELECODE_NAME, trainQueryInfo.getFromStation()));
+		parameters.add(new BasicNameValuePair(Constants.ORDER_FROM_STATION_TELECODE_NAME, trainQueryInfo.getFromStationName()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_INCLUDE_STUDENT, orderRequest.getIncludeStudent()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_LISHI, trainQueryInfo.getTakeTime()));
+		parameters.add(new BasicNameValuePair(Constants.ORDER_LOCATIONCODE, trainQueryInfo.getLocationCode()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_MMSTR, trainQueryInfo.getMmStr()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_ROUND_START_TIME_STR, orderRequest.getStart_time_str()));
-		parameters.add(new BasicNameValuePair(Constants.ORDER_ROUND_TRAIN_DATE, orderRequest.getQuery_date()));
+		parameters.add(new BasicNameValuePair(Constants.ORDER_ROUND_TRAIN_DATE, orderRequest.getTrain_date()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_SEATTYPE_NUM, orderRequest.getSeatTypeAndNum()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_SINGLE_ROUND_TYPE, trainQueryInfo.getSingle_round_type()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_START_TIME_STR, orderRequest.getStart_time_str()));
@@ -324,7 +323,7 @@ public class ClientCore {
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TO_STATION_NAME, trainQueryInfo.getToStation()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TO_STATION_NO, trainQueryInfo.getToStationNo()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TO_STATION_TELECODE, trainQueryInfo.getToStationCode()));
-		parameters.add(new BasicNameValuePair(Constants.ORDER_TO_STATION_TELECODE_NAME, trainQueryInfo.getToStation()));
+		parameters.add(new BasicNameValuePair(Constants.ORDER_TO_STATION_TELECODE_NAME, trainQueryInfo.getToStationName()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TRAIN_CLASS_ARR, orderRequest.getTrainClass()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TRAIN_DATE, orderRequest.getTrain_date()));
 		parameters.add(new BasicNameValuePair(Constants.ORDER_TRAIN_PASS_TYPE, orderRequest.getTrainPassType()));
@@ -333,6 +332,11 @@ public class ClientCore {
 		parameters.add(new BasicNameValuePair(Constants.ORDER_YPINFODETAIL, trainQueryInfo.getYpInfoDetail()));
 		String responseBody;
 		try {
+			String p = "";
+			for (NameValuePair n : parameters) {
+				p += n.getName() + " => " + n.getValue() + " ";
+			}
+			logger.debug("submitOrderRequest params : " + p);
 			UrlEncodedFormEntity uef = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
 			logger.debug(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER + Constants.SIGN + URLEncodedUtils.format(parameters, HTTP.UTF_8));
 			post.setEntity(uef);
@@ -458,235 +462,24 @@ public class ClientCore {
 	 * @throws KeyManagementException
 	 * @throws NoSuchAlgorithmException
 	 */
-	public static String confirmSingleForQueueOrder(TrainQueryInfo trainQueryInfo, OrderRequest orderRequest, List<UserInfo> userInfoList, String randCode) throws KeyManagementException, NoSuchAlgorithmException {
-		
-		
-		
-		checkOrderInfo(trainQueryInfo, orderRequest, userInfoList, randCode);
-		getConfirmPassengerAction(trainQueryInfo, orderRequest, userInfoList, randCode);
-		
-		
-		logger.debug("-------------------confirmSingleForQueueOrder start-------------------");
-		// 创建客户端
-		HttpClient httpclient = getHttpClient();
-		
-		HttpPost post = getHttpPost(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER);
-		
-//		Accept	application/json, text/javascript, */*
-//		Accept-Charset	GB2312,utf-8;q=0.7,*;q=0.7
-//		Accept-Encoding	gzip, deflate
-//		Accept-Language	zh-cn,zh;q=0.5
-//		Cache-Control	no-cache
-//		Connection	keep-alive
-//		Content-Length	1319
-//		Content-Type	application/x-www-form-urlencoded; charset=UTF-8
-//		Cookie	JSESSIONID=B1C19E86F16DDA7C4213E6F5F4B8A381; BIGipServerotsweb=2664694026.62495.0000
-//		Host	dynamic.12306.cn
-//		Pragma	no-cache
-//		Referer	https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init
-//		User-Agent	Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1
-//		X-Requested-With	XMLHttpRequest
-		
-		post.setHeader("Accept", "application/json, text/javascript, */*");
-		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-		post.setHeader("Accept-Encoding", "gzip, deflate");
-		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		post.setHeader("Cache-Control", "no-cache");
-		post.setHeader("Connection", "keep-alive");
-		//Content-Length	1319
-		post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-		post.setHeader("Host", "dynamic.12306.cn");
-		post.setHeader("Pragma", "no-cache");
-		post.setHeader("Referer", "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init");
-		post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1");
-		post.setHeader("X-Requested-With", "XMLHttpRequest");
-		
-		// 提交订单
-		String orderUrl = "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=confirmSingleForQueueOrder";
-//		Header referHeader = Utils.makeReferHeader("https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init");
-//		Header[] headers = Utils.buildHeader(referHeader, httpsCookieHeaders);
-		Map<String, String> orderData = new HashMap<String, String>();
-		
-		String leftTicketToken = Constants.LEFTTICKETSTR;
-		
-		orderData.put("checkbox0", "0");
-		//orderData.put("checkbox0", "0");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("leftTicketStr", leftTicketToken);
-		//1019203104405370002610192000233033900043
-		orderData.put("oldPassengers", userInfoList.get(0).getSimpleText());
-//		orderData.put("oldPassengers", Utils.getPassengerTickets4oldPassengers(orderData));
-		//orderData.put("oldPassengers=韦胜迪,1,452723198604122813", Utils.getPassengerTickets4oldPassengers(orderData));
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("orderRequest.bed_level_order_num", "000000000000000000000000000000");
-		//orderData.put("orderRequest.bed_level_order_num", "000000000000000000000000000000");
-		orderData.put("orderRequest.cancel_flag", "1");
-		//orderData.put("orderRequest.cancel_flag=1", "1");
-		orderData.put("orderRequest.end_time",trainQueryInfo.getEndTime());
-		//orderData.put("orderRequest.end_time=17:37", ticketinfoArr[1]);
-		orderData.put("orderRequest.from_station_name", trainQueryInfo.getFromStation());
-		//orderData.put("orderRequest.from_station_name=杭州南", pb.getFromStationName());
-		orderData.put("orderRequest.from_station_telecode", trainQueryInfo.getFromStationCode());
-		//orderData.put("orderRequest.from_station_telecode=XHH", StationNameUtil.getStationTelecode(pb.getFromStationName()));
-		orderData.put("orderRequest.id_mode", "Y");
-		//orderData.put("orderRequest.id_mode=Y", "Y");
-		orderData.put("orderRequest.reserve_flag", "A");
-		//orderData.put("orderRequest.reserve_flag=A", "A");
-		orderData.put("orderRequest.seat_detail_type_code", "");
-		//orderData.put("orderRequest.seat_detail_type_code=", "");
-		orderData.put("orderRequest.seat_type_code", "");
-		//orderData.put("orderRequest.seat_type_code=", "");
-		orderData.put("orderRequest.start_time", trainQueryInfo.getStartTime());
-		//orderData.put("orderRequest.start_time=19:01", ticketinfoArr[0]);
-		orderData.put("orderRequest.station_train_code", trainQueryInfo.getTrainNo());
-		//orderData.put("orderRequest.station_train_code=K537", pb.getTrainCode());
-		orderData.put("orderRequest.ticket_type_order_num", "");
-		//orderData.put("orderRequest.ticket_type_order_num=", "");
-		orderData.put("orderRequest.to_station_name", trainQueryInfo.getToStation());
-		//orderData.put("orderRequest.to_station_name=柳州", pb.getToStationName());
-		orderData.put("orderRequest.to_station_telecode", trainQueryInfo.getToStationCode());
-		//orderData.put("orderRequest.to_station_telecode=LZZ", StationNameUtil.getStationTelecode(pb.getToStationName()));
-		orderData.put("orderRequest.train_date", orderRequest.getTrain_date());
-		//orderData.put("orderRequest.train_date=2013-01-09", pb.getTicketDate());
-		orderData.put("orderRequest.train_no", trainQueryInfo.getTrainno4());
-		//orderData.put("orderRequest.train_no=550000K53752", pb.getTrainNo());
-		orderData.put("org.apache.struts.taglib.html.TOKEN", Constants.TOKEN);
-		orderData.put("passengerTickets", userInfoList.get(0).getText());
-		//orderData.put("passengerTickets=1,0,1,韦胜迪,1,452723198604122813,15201386005,Y", Utils.getPassengerTickets(orderData));
-		//orderData.put("passengerTickets=3,0,1,韦胜迪,1,452723198604122813,15201386005,Y", Utils.getPassengerTickets(orderData));
-		orderData.put("passenger_1_cardno", userInfoList.get(0).getCardID());
-		//orderData.put("passenger_1_cardno=452723198604122813", pb.getIdcard());
-		orderData.put("passenger_1_cardtype", "1");// 身份证
-		//orderData.put("passenger_1_cardtype=1", "1");// 身份证
-		orderData.put("passenger_1_mobileno", userInfoList.get(0).getPhone());// 手机号
-		//orderData.put("passenger_1_mobileno=15201386005", pb.getTel());// 手机号
-		orderData.put("passenger_1_name", userInfoList.get(0).getName());// 姓名
-		//orderData.put("passenger_1_name=韦胜迪", pb.getName());// 姓名
-		
-		orderData.put("passenger_1_seat", userInfoList.get(0).getSeatType());// 座位类别
-		//orderData.put("passenger_1_seat=1", buySeatNo);// 座位类别
-		orderData.put("passenger_1_seat_detail", "0");// 上下铺，0表示随机
-		//orderData.put("passenger_1_seat_detail=0", "0");// 上下铺，0表示随机
-		orderData.put("passenger_1_seat_detail_select", "0");
-		//orderData.put("passenger_1_seat_detail_select=0", "0");
-		orderData.put("passenger_1_ticket", "1");// 票数目？
-		//orderData.put("passenger_1_ticket=1", "1");// 票数目？
-		orderData.put("randCode", randCode);
-		orderData.put("textfield", "中文或拼音首字母");
-		//textfield=中文或拼音首字母
-		//orderData.put("randCode=SHCA", orderRandCode);
-		//-----------------
-		
-		
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		for(Map.Entry<String,String> entry : orderData.entrySet()){
-			String key = entry.getKey();
-			String value = entry.getValue();
-			parameters.add(new BasicNameValuePair(key,value ));
-		}
-		
-		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-	
-		
-		for (int i = 0; i < parameters.size(); i++) {
-			NameValuePair  v = parameters.get(i);
-			logger.info(v.getName() + ":" + v.getValue());
-		}
-		
-		
-		logger.info("提交参数结束------------------------");
-		String responseBody = "";
-		try {
-			UrlEncodedFormEntity uef = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
-			logger.debug(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER + Constants.SIGN + URLEncodedUtils.format(parameters, HTTP.UTF_8));
-			post.setEntity(uef);
-			responseBody = httpclient.execute(post, responseHandler);
-			logger.info("Response is " + responseBody);
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
-		
-		logger.debug("-------------------confirmSingleForQueueOrder end-------------------");
-		return responseBody;
-	}
-	
-	/**
-	 * 提交订单信息
-	 * 
-	 * @param trainQueryInfo
-	 * @param orderRequest
-	 * @param userInfoList
-	 * @param randCode
-	 * @throws KeyManagementException
-	 * @throws NoSuchAlgorithmException
-	 */
-	public static String confirmSingleForQueueOrder_bak(TrainQueryInfo trainQueryInfo, OrderRequest orderRequest, List<UserInfo> userInfoList, String randCode) throws KeyManagementException, NoSuchAlgorithmException {
-		
-		
-		checkOrderInfo(trainQueryInfo, orderRequest, userInfoList, randCode);
-		getConfirmPassengerAction(trainQueryInfo, orderRequest, userInfoList, randCode);
-		
-		
+	public static String confirmSingleForQueueOrder(TrainQueryInfo trainQueryInfo, OrderRequest orderRequest, List<UserInfo> userInfoList, String randCode, String url) throws KeyManagementException, NoSuchAlgorithmException {
 		logger.debug("-------------------confirmSingleForQueueOrder start-------------------");
 		// 创建客户端
 		HttpClient httpclient = getHttpClient();
 
-		HttpPost post = getHttpPost(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER);
-		
-//		Accept	application/json, text/javascript, */*
-//		Accept-Charset	GB2312,utf-8;q=0.7,*;q=0.7
-//		Accept-Encoding	gzip, deflate
-//		Accept-Language	zh-cn,zh;q=0.5
-//		Cache-Control	no-cache
-//		Connection	keep-alive
-//		Content-Length	1319
-//		Content-Type	application/x-www-form-urlencoded; charset=UTF-8
-//		Cookie	JSESSIONID=B1C19E86F16DDA7C4213E6F5F4B8A381; BIGipServerotsweb=2664694026.62495.0000
-//		Host	dynamic.12306.cn
-//		Pragma	no-cache
-//		Referer	https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init
-//		User-Agent	Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1
-//		X-Requested-With	XMLHttpRequest
-		
-		post.setHeader("Accept", "application/json, text/javascript, */*");
-		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-		post.setHeader("Accept-Encoding", "gzip, deflate");
-		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		post.setHeader("Cache-Control", "no-cache");
-		post.setHeader("Connection", "keep-alive");
-		//Content-Length	1319
-		post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-		post.setHeader("Host", "dynamic.12306.cn");
-		post.setHeader("Pragma", "no-cache");
-		post.setHeader("Referer", "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init");
-		post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1");
-		post.setHeader("X-Requested-With", "XMLHttpRequest");
-		
+		// 检查订单
+		boolean checkRand = checkRand(url);
+		if (checkRand) {
+			url += randCode;
+		}
+
+		logger.debug("url = " + url);
+
+		HttpPost post = getHttpPost(url);
 
 		ResponseHandler<String> responseHandler = new BasicResponseHandler();
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		
-		logger.info("提交参数开始------------------------");
 
 		parameters.add(new BasicNameValuePair("checkbox9", "Y"));
 		parameters.add(new BasicNameValuePair("checkbox9", "Y"));
@@ -730,22 +523,18 @@ public class ClientCore {
 			parameters.add(new BasicNameValuePair("passenger_" + (i + 1) + "_ticket", userInfoList.get(i).getTickType()));
 			parameters.add(new BasicNameValuePair(Constants.SUBMIT_PASSENGERTICKETS, userInfoList.get(i).getText()));
 		}
-		
-		parameters.add(new BasicNameValuePair("passenger_1_seat_detail_select", "0"));
-		
 		parameters.add(new BasicNameValuePair(Constants.SUBMIT_RANDCODE, randCode));
 		parameters.add(new BasicNameValuePair(Constants.SUBMIT_TEXTFIELD, "中文或拼音首字母"));
-		
-		
-		for (int i = 0; i < parameters.size(); i++) {
-			NameValuePair  v = parameters.get(i);
-			logger.info(v.getName() + ":" + v.getValue());
+		// 检查订单
+		if (checkRand) {
+			parameters.add(new BasicNameValuePair(Constants.SUBMIT_TFLAG, "dc"));
 		}
-		
-		
-		logger.info("提交参数结束------------------------");
-		
 		try {
+			String p = "";
+			for (NameValuePair n : parameters) {
+				p += n.getName() + " => " + n.getValue() + " ";
+			}
+			logger.debug("confirmSingleForQueueOrder params : " + p);
 			UrlEncodedFormEntity uef = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
 			logger.debug(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER + Constants.SIGN + URLEncodedUtils.format(parameters, HTTP.UTF_8));
 			post.setEntity(uef);
@@ -760,235 +549,6 @@ public class ClientCore {
 
 		logger.debug("-------------------confirmSingleForQueueOrder end-------------------");
 		return responseBody;
-	}
-	
-	public static String checkOrderInfo(TrainQueryInfo trainQueryInfo, OrderRequest orderRequest, List<UserInfo> userInfoList, String randCode) throws KeyManagementException, NoSuchAlgorithmException{
-		
-		
-		// 创建客户端
-		HttpClient httpclient = getHttpClient();
-		
-		String url = "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=checkOrderInfo&rand=" + randCode;
-
-		HttpPost post = getHttpPost(url);
-		
-		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-		
-		
-		logger.debug("-------------------confirmSingleForQueueOrder start-------------------");
-		// 创建客户端
-		
-		
-//		Accept	application/json, text/javascript, */*
-//		Accept-Charset	GB2312,utf-8;q=0.7,*;q=0.7
-//		Accept-Encoding	gzip, deflate
-//		Accept-Language	zh-cn,zh;q=0.5
-//		Cache-Control	no-cache
-//		Connection	keep-alive
-//		Content-Length	1319
-//		Content-Type	application/x-www-form-urlencoded; charset=UTF-8
-//		Cookie	JSESSIONID=B1C19E86F16DDA7C4213E6F5F4B8A381; BIGipServerotsweb=2664694026.62495.0000
-//		Host	dynamic.12306.cn
-//		Pragma	no-cache
-//		Referer	https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init
-//		User-Agent	Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1
-//		X-Requested-With	XMLHttpRequest
-		
-		post.setHeader("Accept", "application/json, text/javascript, */*");
-		post.setHeader("Accept-Charset", "GB2312,utf-8;q=0.7,*;q=0.7");
-		post.setHeader("Accept-Encoding", "gzip, deflate");
-		post.setHeader("Accept-Language", "zh-cn,zh;q=0.5");
-		post.setHeader("Cache-Control", "no-cache");
-		post.setHeader("Connection", "keep-alive");
-		//Content-Length	1319
-		post.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-		post.setHeader("Host", "dynamic.12306.cn");
-		post.setHeader("Pragma", "no-cache");
-		post.setHeader("Referer", "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init");
-		post.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 5.1; rv:9.0.1) Gecko/20100101 Firefox/9.0.1");
-		post.setHeader("X-Requested-With", "XMLHttpRequest");
-		
-		// 提交订单
-		String orderUrl = "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=confirmSingleForQueueOrder";
-//		Header referHeader = Utils.makeReferHeader("https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=init");
-//		Header[] headers = Utils.buildHeader(referHeader, httpsCookieHeaders);
-		Map<String, String> orderData = new HashMap<String, String>();
-		
-		String leftTicketToken = Constants.LEFTTICKETSTR;
-		
-		orderData.put("checkbox0", "0");
-		//orderData.put("checkbox0", "0");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("checkbox9", "Y");
-		//orderData.put("checkbox9=Y", "");
-		orderData.put("leftTicketStr", leftTicketToken);
-		//1019203104405370002610192000233033900043
-		orderData.put("oldPassengers", userInfoList.get(0).getSimpleText());
-//		orderData.put("oldPassengers", Utils.getPassengerTickets4oldPassengers(orderData));
-		//orderData.put("oldPassengers=韦胜迪,1,452723198604122813", Utils.getPassengerTickets4oldPassengers(orderData));
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("oldPassengers", "");
-		//orderData.put("oldPassengers=", "");
-		orderData.put("orderRequest.bed_level_order_num", "000000000000000000000000000000");
-		//orderData.put("orderRequest.bed_level_order_num", "000000000000000000000000000000");
-		orderData.put("orderRequest.cancel_flag", "1");
-		//orderData.put("orderRequest.cancel_flag=1", "1");
-		orderData.put("orderRequest.end_time",trainQueryInfo.getEndTime());
-		//orderData.put("orderRequest.end_time=17:37", ticketinfoArr[1]);
-		orderData.put("orderRequest.from_station_name", trainQueryInfo.getFromStation());
-		//orderData.put("orderRequest.from_station_name=杭州南", pb.getFromStationName());
-		orderData.put("orderRequest.from_station_telecode", trainQueryInfo.getFromStationCode());
-		//orderData.put("orderRequest.from_station_telecode=XHH", StationNameUtil.getStationTelecode(pb.getFromStationName()));
-		orderData.put("orderRequest.id_mode", "Y");
-		//orderData.put("orderRequest.id_mode=Y", "Y");
-		orderData.put("orderRequest.reserve_flag", "A");
-		//orderData.put("orderRequest.reserve_flag=A", "A");
-		orderData.put("orderRequest.seat_detail_type_code", "");
-		//orderData.put("orderRequest.seat_detail_type_code=", "");
-		orderData.put("orderRequest.seat_type_code", "");
-		//orderData.put("orderRequest.seat_type_code=", "");
-		orderData.put("orderRequest.start_time", trainQueryInfo.getStartTime());
-		//orderData.put("orderRequest.start_time=19:01", ticketinfoArr[0]);
-		orderData.put("orderRequest.station_train_code", trainQueryInfo.getTrainNo());
-		//orderData.put("orderRequest.station_train_code=K537", pb.getTrainCode());
-		orderData.put("orderRequest.ticket_type_order_num", "");
-		//orderData.put("orderRequest.ticket_type_order_num=", "");
-		orderData.put("orderRequest.to_station_name", trainQueryInfo.getToStation());
-		//orderData.put("orderRequest.to_station_name=柳州", pb.getToStationName());
-		orderData.put("orderRequest.to_station_telecode", trainQueryInfo.getToStationCode());
-		//orderData.put("orderRequest.to_station_telecode=LZZ", StationNameUtil.getStationTelecode(pb.getToStationName()));
-		orderData.put("orderRequest.train_date", orderRequest.getTrain_date());
-		//orderData.put("orderRequest.train_date=2013-01-09", pb.getTicketDate());
-		orderData.put("orderRequest.train_no", trainQueryInfo.getTrainno4());
-		//orderData.put("orderRequest.train_no=550000K53752", pb.getTrainNo());
-		orderData.put("org.apache.struts.taglib.html.TOKEN", Constants.TOKEN);
-		orderData.put("passengerTickets", userInfoList.get(0).getText());
-		//orderData.put("passengerTickets=1,0,1,韦胜迪,1,452723198604122813,15201386005,Y", Utils.getPassengerTickets(orderData));
-		//orderData.put("passengerTickets=3,0,1,韦胜迪,1,452723198604122813,15201386005,Y", Utils.getPassengerTickets(orderData));
-		orderData.put("passenger_1_cardno", userInfoList.get(0).getCardID());
-		//orderData.put("passenger_1_cardno=452723198604122813", pb.getIdcard());
-		orderData.put("passenger_1_cardtype", "1");// 身份证
-		//orderData.put("passenger_1_cardtype=1", "1");// 身份证
-		orderData.put("passenger_1_mobileno", userInfoList.get(0).getPhone());// 手机号
-		//orderData.put("passenger_1_mobileno=15201386005", pb.getTel());// 手机号
-		orderData.put("passenger_1_name", userInfoList.get(0).getName());// 姓名
-		//orderData.put("passenger_1_name=韦胜迪", pb.getName());// 姓名
-		
-		orderData.put("passenger_1_seat", userInfoList.get(0).getSeatType());// 座位类别
-		//orderData.put("passenger_1_seat=1", buySeatNo);// 座位类别
-		orderData.put("passenger_1_seat_detail", "0");// 上下铺，0表示随机
-		//orderData.put("passenger_1_seat_detail=0", "0");// 上下铺，0表示随机
-		orderData.put("passenger_1_seat_detail_select", "0");
-		//orderData.put("passenger_1_seat_detail_select=0", "0");
-		orderData.put("passenger_1_ticket", "1");// 票数目？
-		//orderData.put("passenger_1_ticket=1", "1");// 票数目？
-		orderData.put("randCode", randCode);
-		orderData.put("textfield", "中文或拼音首字母");
-		orderData.put("tFlag", "dc");
-		//textfield=中文或拼音首字母
-		//orderData.put("randCode=SHCA", orderRandCode);
-		//-----------------
-		
-		
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		for(Map.Entry<String,String> entry : orderData.entrySet()){
-			String key = entry.getKey();
-			String value = entry.getValue();
-			parameters.add(new BasicNameValuePair(key,value ));
-		}
-		
-	
-		
-		for (int i = 0; i < parameters.size(); i++) {
-			NameValuePair  v = parameters.get(i);
-			logger.info(v.getName() + ":" + v.getValue());
-		}
-		
-		
-		logger.info("提交参数结束------------------------");
-		String responseBody = "";
-		try {
-			UrlEncodedFormEntity uef = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
-			logger.debug(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER + Constants.SIGN + URLEncodedUtils.format(parameters, HTTP.UTF_8));
-			post.setEntity(uef);
-			responseBody = httpclient.execute(post, responseHandler);
-			logger.info("Response is " + responseBody);
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
-		
-		logger.debug("-------------------confirmSingleForQueueOrder end-------------------");
-		return responseBody;
-	}
-	
-	public static String getConfirmPassengerAction(TrainQueryInfo trainQueryInfo, OrderRequest orderRequest, List<UserInfo> userInfoList, String randCode) throws KeyManagementException, NoSuchAlgorithmException{
-		
-		
-		// 创建客户端
-		HttpClient httpclient = getHttpClient();
-
-		String url = "https://dynamic.12306.cn/otsweb/order/confirmPassengerAction.do?method=getQueueCount";
-//				"train_date=2013-01-23&" +
-//				"train_no=5500000T8110&" +
-//				"station=T81&" +
-//				"seat=3&" +
-//				"from=XHH&" +
-//				"to=LZZ&" +
-//				"ticket=1019203104405370002610192000233033900043";
-		HttpPost post = getHttpPost(url);
-
-		ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		
-
-		parameters.add(new BasicNameValuePair("train_date", orderRequest.getTrain_date()));
-		parameters.add(new BasicNameValuePair("train_no", trainQueryInfo.getTrainno4()));
-		parameters.add(new BasicNameValuePair("station", trainQueryInfo.getTrainNo()));
-		parameters.add(new BasicNameValuePair("seat", userInfoList.get(0).getSeatType()));
-		parameters.add(new BasicNameValuePair("from", trainQueryInfo.getFromStationCode()));
-		parameters.add(new BasicNameValuePair("to", trainQueryInfo.getToStationCode()));
-		parameters.add(new BasicNameValuePair("ticket", Constants.LEFTTICKETSTR));
-
-		logger.info("提交参数结束------------------------");
-		for (int i = 0; i < parameters.size(); i++) {
-			NameValuePair  v = parameters.get(i);
-			logger.info(v.getName() + ":" + v.getValue());
-		}
-		
-		
-		
-		logger.info("提交参数结束------------------------");
-		String responseBody = "";
-		try {
-			UrlEncodedFormEntity uef = new UrlEncodedFormEntity(parameters, HTTP.UTF_8);
-			logger.debug(Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER + Constants.SIGN + URLEncodedUtils.format(parameters, HTTP.UTF_8));
-			post.setEntity(uef);
-			responseBody = httpclient.execute(post, responseHandler);
-			logger.info("Response is " + responseBody);
-		} catch (Exception e) {
-			logger.warn(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			httpclient.getConnectionManager().shutdown();
-		}
-		
-		return "";
 	}
 
 	/**
@@ -1006,5 +566,10 @@ public class ClientCore {
 			buffer.append(line + "\n");
 		is.close();
 		return buffer.toString();
+	}
+
+	// 是否检查订单
+	private static boolean checkRand(String url) {
+		return url.contains(Constants.RAND);
 	}
 }
