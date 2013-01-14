@@ -25,9 +25,19 @@ import org.app.ticket.util.ToolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * 
+ * @Title: TicketThread.java
+ * @Description: 订票线程类
+ * @Package org.app.ticket.logic
+ * @author hncdyj123@163.com
+ * @date 2013-1-9
+ * @version V1.0
+ * 
+ */
 public class TicketThread extends Thread {
 
-	private static final Logger logger = LoggerFactory.getLogger(MainWin.class);
+	private static final Logger logger = LoggerFactory.getLogger(TicketThread.class);
 
 	private List<TrainQueryInfo> trainQueryInfoList;
 
@@ -39,9 +49,11 @@ public class TicketThread extends Thread {
 
 	private TrainQueryInfo trainQueryInfo;
 
-	private static boolean isSuccess = false;
+	private boolean isSuccess = false;
 
 	private int sum = 0;
+
+	private int querySum = 0;
 
 	public TicketThread() {
 
@@ -56,11 +68,39 @@ public class TicketThread extends Thread {
 	@Override
 	public void run() {
 		mainWin.getStartButton().setText(ResManager.getString("RobotTicket.btn.stop"));
+		if (userInfos.size() > 5) {
+			mainWin.showMsg("联系人不能大于5个!");
+		}
 		while (!isSuccess) {
 			mainWin.isRunThread = true;
+			if (mainWin.isStopRun) {
+				mainWin.showMsg("停止线程成功!");
+				mainWin.isStopRun = false;
+				mainWin.isRunThread = false;
+				break;
+			}
 			try {
 				// 查询火车信息
 				trainQueryInfoList = ClientCore.queryTrain(req);
+				if (trainQueryInfoList.size() == 0) {
+					mainWin.showMsg("请查看乘车日期是否输入正确!");
+					mainWin.isRunThread = false;
+					break;
+				}
+
+				trainQueryInfoList = ToolUtil.isSellPoint(trainQueryInfoList);
+				// 判断是否到了放票时间点
+				if (trainQueryInfoList.size() == 0) {
+					if (querySum < 1) {
+						mainWin.showMsg("您所要求预定的城市还未到放票时间点!");
+					}
+					querySum++;
+					// 休眠线程1S(避免频繁查询导致ip被封)
+					sleep(Integer.parseInt(StringUtil.isEmptyString(ResManager.getByKey("sleeptime")) ? "1000" : ResManager.getByKey("sleeptime")));
+					return;
+					// mainWin.isRunThread = false;
+					// break;
+				}
 				mainWin.messageOut.setText(mainWin.messageOut.getText() + "火车信息\n");
 				if (trainQueryInfoList.size() > 0) {
 					for (TrainQueryInfo t : trainQueryInfoList) {
@@ -126,19 +166,25 @@ public class TicketThread extends Thread {
 						} else {
 							try {
 								if (trainQueryInfo != null) {
-									msg = ClientCore.confirmSingleForQueueOrder(trainQueryInfo, req, userInfos, randcode);
+									// 检查订单
+									msg = ClientCore.confirmSingleForQueueOrder(trainQueryInfo, req, userInfos, randcode, Constants.POST_URL_CHECKORDERINFO);
+									logger.debug("最后输出消息:" + randcode + "----------" + msg);
+									if (msg.contains("验证码")) {
+										mainWin.messageOut.setText(mainWin.messageOut.getText() + "验证码错误！\n");
+									} else {
+										// 提交订单
+										msg = ClientCore.confirmSingleForQueueOrder(trainQueryInfo, req, userInfos, randcode, Constants.POST_URL_CONFIRMSINGLEFORQUEUEORDER);
+									}
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
-							}
-							logger.debug("最后输出消息:" + randcode + "----------" + msg);
-							if (msg.contains("验证码")) {
-								mainWin.messageOut.setText(mainWin.messageOut.getText() + "验证码错误！\n");
 							}
 							if (msg.contains("Y")) {
 								isSuccess = true;
 								mainWin.isRunThread = false;
 								mainWin.showMsg("订票成功!");
+								// 订票成功后输出cookie
+								mainWin.messageOut.setText(mainWin.messageOut.getText() + "Cookie:[" + Constants.JSESSIONID + "=" + Constants.JSESSIONID_VALUE + ";" + Constants.BIGIPSERVEROTSWEB + "=" + Constants.BIGIPSERVEROTSWEB_VALUE + "]\n");
 								mainWin.getStartButton().setText(ResManager.getString("RobotTicket.btn.start"));
 							}
 							randcodeDialog.setVisible(false);
@@ -154,6 +200,7 @@ public class TicketThread extends Thread {
 				container.add(p_randcode);
 				container.add(p_confirm);
 				randcodeDialog.setVisible(true);
+				logger.debug("线程休眠时间为:" + ResManager.getByKey("sleeptime"));
 				// 休眠线程1S
 				sleep(Integer.parseInt(StringUtil.isEmptyString(ResManager.getByKey("sleeptime")) ? "1000" : ResManager.getByKey("sleeptime")));
 
@@ -161,5 +208,6 @@ public class TicketThread extends Thread {
 				e.printStackTrace();
 			}
 		}
+		mainWin.getStartButton().setText(ResManager.getString("RobotTicket.btn.start"));
 	}
 }
