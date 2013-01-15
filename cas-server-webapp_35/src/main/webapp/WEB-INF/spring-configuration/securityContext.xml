@@ -33,11 +33,15 @@
 
   <!-- As of Spring SEC 3.1 -->
   
-    <sec:http pattern="/regSet.jsp" security="none"/>
-  
   <sec:http pattern="/services/loggedout.html" security="none"/>
 
   <sec:http pattern="/oauth20/*/initlogin.do" security="none"/>
+  
+  <sec:http pattern="/loginerror/**" security="none"/>
+  
+  <sec:http pattern="/showerror/**" security="none"/>
+  
+  <sec:http pattern="/register/**" security="none"/>
 
   <sec:http pattern="/status/**" entry-point-ref="notAuthorizedEntryPoint" use-expressions="true" auto-config="true">
     <sec:intercept-url pattern="/status" access="hasIpAddress('${cas.securityContext.status.allowedSubnet}')" />

@@ -161,12 +161,7 @@
 	
 	The name of this should remain "userDetailsService" in order for Spring Security to find it.
 	 -->
-    <!-- <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />-->
-<!--
-    <sec:user-service id="userDetailsService">
-        <sec:user name="@@THIS SHOULD BE REPLACED@@" password="notused" authorities="ROLE_ADMIN" />
-    </sec:user-service>
--->
+
     <bean id="userDetailsService" class="org.gonetbar.ssa.service.impl.SsaUserDetailsServiceImpl" autowire="byName"/>
 	
 	<!-- 
@@ -197,8 +192,8 @@
         </property>
         <property name="resultAttributeMapping">
             <map>
-                <entry key="id_user" value="userid"/>
-                <entry key="username" value="username"/>
+                <entry key="id_user" value="user_local_seqid"/>
+                <entry key="username" value="user_local_uniquekey"/>
                 <entry key="nikename" value="nikename"/>
                 <entry key="email" value="email"/>
                 <entry key="id_site" value="siteid"/>
@@ -222,7 +217,7 @@
                         <property name="description" value="Allows HTTP(S) and IMAP(S) protocols" />
                         <property name="serviceId" value="^(https?|imaps?)://.*" />
                         <property name="evaluationOrder" value="10000001" />
-                        <property name="usernameAttribute" value="username" /><!--  -->
+                        <property name="usernameAttribute" value="user_local_uniquekey" /><!--  -->
                         <property name="ignoreAttributes" value="true" /><!-- 2个不能同时使用生效 -->
                         <property name="allowedAttributes">                        
                              <list>

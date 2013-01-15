@@ -27,6 +27,16 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 
 	<mvc:annotation-driven />
 
+	<mvc:interceptors> 
+		<mvc:interceptor>
+			<mvc:mapping path="/login" />
+			<bean class="org.gonetbar.ssa.interceptor.LoginRedirectInterceptor">
+				<property name="loginUrl" value="/login"/>
+				<property name="redirectUrl" value="/user/index.do"/>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 	<bean id="oauthAction" class="org.jasig.cas.support.oauth.web.flow.Kankan21OAuthAction">
 		<property name="centralAuthenticationService" ref="centralAuthenticationService" />
 	 	<property name="configuration" ref="providersDefinition" />
@@ -98,7 +108,6 @@ xmlns:aop="http://www.springframework.org/schema/aop"
         <prop key="/authorizationFailure.html">passThroughController</prop>
         <prop key="/403.html">passThroughController</prop>
         <prop key="/status">healthCheckController</prop>
-        <prop key="/showerror/*">showErrorController</prop>
       </props>
     </property>
     <property name="alwaysUseFullPath" value="true"/>
@@ -277,8 +286,5 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 
   <bean id="credentialsValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:messageInterpolator-ref="messageInterpolator"/>
-
-	<bean id="showErrorController" class="org.gonetbar.ssa.controller.ShowErrorController"
-        p:viewName="showErrorView"/>
 
 </beans>

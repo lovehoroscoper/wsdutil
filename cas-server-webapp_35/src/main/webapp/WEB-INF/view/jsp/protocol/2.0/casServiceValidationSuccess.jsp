@@ -23,11 +23,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <cas:serviceResponse xmlns:cas='http://www.yale.edu/tp/cas'>
 	<cas:authenticationSuccess>
-		<!-- 
 		<cas:user>${fn:escapeXml(assertion.chainedAuthentications[fn:length(assertion.chainedAuthentications)-1].principal.id)}</cas:user>
-		-->
-		<cas:user>admin@163.com</cas:user>
-  		
   		<c:if test="${fn:length(assertion.chainedAuthentications[fn:length(assertion.chainedAuthentications)-1].principal.attributes) > 0}">
             <cas:attributes>
                 <c:forEach var="attr" items="${assertion.chainedAuthentications[fn:length(assertion.chainedAuthentications)-1].principal.attributes}">
@@ -38,7 +34,6 @@
                 </c:forEach>
             </cas:attributes>
         </c:if>
-		
 		<c:if test="${not empty pgtIou}">
 				<cas:proxyGrantingTicket>${pgtIou}</cas:proxyGrantingTicket>
 		</c:if>
