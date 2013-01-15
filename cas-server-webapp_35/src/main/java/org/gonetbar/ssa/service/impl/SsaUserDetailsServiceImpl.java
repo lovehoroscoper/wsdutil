@@ -118,15 +118,15 @@ public class SsaUserDetailsServiceImpl implements SsaUserService {
 	}
 
 	@Override
-	public ThirdProvider findProviderIdByType(String providerType) {
+	public ThirdProvider findProviderIdByType(String profileType) {
 		ThirdProvider findVo = new ThirdProvider();
-		findVo.setProviderType(providerType);
+		findVo.setProfileType(profileType);
 		return findProviderIdByType(findVo);
 	}
 
 	@Override
 	public ThirdProvider findProviderIdByType(ThirdProvider findVo) {
-		String cache_key = SsoCachePreKey.CACHE_PROVIDER_KEY_OAUTH + findVo.getProviderType();
+		String cache_key = SsoCachePreKey.CACHE_PROVIDER_KEY_OAUTH + findVo.getProfileType();
 		ThirdProvider resVo = SsoCacheManager.get(ThirdProvider.class, SsoCacheName.CACHE_USER, cache_key);
 		if (null == resVo) {
 			resVo = ssaUserDao.findProviderIdByType(findVo);

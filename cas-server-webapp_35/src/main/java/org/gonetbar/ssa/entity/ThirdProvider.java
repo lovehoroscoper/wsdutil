@@ -11,8 +11,26 @@ import java.io.Serializable;
 public class ThirdProvider implements Serializable {
 
 	private String providerId;
+	private String profileType;//name
 	private String providerType;
 	private String status;
+	private String ext0;
+
+	public final String getProfileType() {
+		return profileType;
+	}
+
+	public final void setProfileType(String profileType) {
+		this.profileType = profileType;
+	}
+
+	public final String getExt0() {
+		return ext0;
+	}
+
+	public final void setExt0(String ext0) {
+		this.ext0 = ext0;
+	}
 
 	public final String getProviderId() {
 		return providerId;

@@ -35,8 +35,18 @@ public interface SsaUserService extends UserDetailsService {
 
 	public UserProviderInfoVo findUserByProviderId(UserProviderInfoVo findVo);
 
+	/**
+	 * 通过profileType
+	 * @param findVo
+	 * @return
+	 */
 	public ThirdProvider findProviderIdByType(ThirdProvider findVo);
 
-	public ThirdProvider findProviderIdByType(String providerType);
+	/**
+	 * 通过profileType
+	 * @param providerType
+	 * @return
+	 */
+	public ThirdProvider findProviderIdByType(String profileType);
 
 }

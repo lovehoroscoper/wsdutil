@@ -3,6 +3,9 @@ package org.jasig.cas.support.oauth.authentication;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.gonetbar.ssa.constant.UserLoginAttr;
+import org.gonetbar.ssa.constant.UserLoginType;
+import org.gonetbar.ssa.util.CheckUserLoginType;
 import org.jasig.cas.authentication.Authentication;
 import org.jasig.cas.authentication.AuthenticationMetaDataPopulator;
 import org.jasig.cas.authentication.MutableAuthentication;
@@ -14,50 +17,59 @@ import org.jasig.cas.support.oauth.authentication.principal.OAuthCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.godtips.common.UtilString;
+
 /**
  * 默认的类没有包含我方的基础信息
+ * 
+ * 我自己从数据库查询出来的属性
  * 
  * OAuthAuthenticationMetaDataPopulator
  * 
  */
 public final class Kan21OAuthAuthenticationMetaDataPopulator implements AuthenticationMetaDataPopulator {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(Kan21OAuthAuthenticationMetaDataPopulator.class);
 
 	public Authentication populateAttributes(final Authentication authentication, final Credentials credentials) {
-		
-		//TODO 还有一个不明确的是否需要把ID修改为我这边的ID
-		if (credentials instanceof OAuthCredentials) {
+		final Principal pri = authentication.getPrincipal();
+		String user_local_uniquekey = (String) pri.getAttributes().get(UserLoginAttr.USER_LOCAL_UNIQUEKEY);
+		String p_uid = pri.getId();
+		String loginType = CheckUserLoginType.getLoginTypeByUid(p_uid);
+		if (UtilString.notEmptyOrNullByTrim(user_local_uniquekey) && (UserLoginType.LOGIN_TYPE_LOCAL.equals(loginType) || UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType))) {
+			// 是本地用户 // 是第三方用户
+		} else {
+			logger.error("异常的登录方式[" + user_local_uniquekey + "][" + authentication + "]");
+			return null;
+		}
+		if (credentials instanceof OAuthCredentials && UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)) {
+			// GitHubProfile#xxxxxx
 			OAuthCredentials oauthCredentials = (OAuthCredentials) credentials;
-			
-			//TODO weisd 这里遗漏了我自己从数据库查询出来的属性
-			final Principal pri = authentication.getPrincipal();
-			String id = pri.getId();
+			String third_login_type = UtilString.getStringFromEmpty(oauthCredentials.getUserProfile().getTypedId());
+			String user_third_uniquekey = UtilString.getStringFromEmpty(oauthCredentials.getUserProfile().getId());
 			Map<String, Object> temp_map = new HashMap<String, Object>();
-			String new_id = (String)pri.getAttributes().get("username");
 			temp_map.putAll(pri.getAttributes());
-			temp_map.putAll(oauthCredentials.getUserProfile().getAttributes());
+			//TODO weisd 暂时注释第三方属性
+			//temp_map.putAll(oauthCredentials.getUserProfile().getAttributes());
+			temp_map.put(UserLoginAttr.USER_LOGIN_TYPE, loginType);//登录类型
+			temp_map.put(UserLoginAttr.THIRD_LOGIN_TYPE, third_login_type);// 第三方登录类型
+			temp_map.put(UserLoginAttr.USER_THIRD_UNIQUEKEY, user_third_uniquekey);// 第三方登录ID
 			
-			//final Principal simplePrincipal = new SimplePrincipal(authentication.getPrincipal().getId(), oauthCredentials.getUserProfile().getAttributes());
-			
-			//final Principal simplePrincipal = new SimplePrincipal(id, temp_map);
-			final Principal simplePrincipal = new SimplePrincipal(new_id, temp_map);
-			
-			
-			
+			// final Principal simplePrincipal = new
+			// SimplePrincipal(authentication.getPrincipal().getId(),
+			// oauthCredentials.getUserProfile().getAttributes());
+			final Principal simplePrincipal = new SimplePrincipal(user_local_uniquekey, temp_map);
+
 			final MutableAuthentication mutableAuthentication = new MutableAuthentication(simplePrincipal, authentication.getAuthenticatedDate());
-			
-			
+
 			mutableAuthentication.getAttributes().putAll(authentication.getAttributes());
-			
-			
-			
+
 			mutableAuthentication.getAttributes().put(OAuthConstants.PROVIDER_TYPE, oauthCredentials.getCredential().getProviderType());
-			
-			
-			
+
 			return mutableAuthentication;
 		}
+		authentication.getAttributes().put(UserLoginAttr.USER_LOGIN_TYPE, loginType);
 		return authentication;
 	}
+
 }

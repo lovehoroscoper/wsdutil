@@ -28,7 +28,6 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 	@Override
 	public IPersonAttributes getPerson(String p_uid) {
 		Validate.notNull(p_uid, "uid may not be null.");
-
 		// weisd 第三方登录很可能是其他的ID
 		String loginType = CheckUserLoginType.getLoginTypeByUid(p_uid);
 		String username = "";
@@ -37,9 +36,9 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 			username = p_uid;
 		} else if (UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)) {
 			// 是第三方用户
-			String providerType = CheckUserLoginType.getProviderTypeByUid(p_uid);
-			ThirdProvider provider = ssaUserService.findProviderIdByType(providerType);
-			if (null != provider && !UtilString.isEmptyOrNullByTrim(providerType) && !UtilString.isEmptyOrNullByTrim(provider.getProviderId())) {
+			String profileType = CheckUserLoginType.getProviderTypeByUid(p_uid);
+			ThirdProvider provider = ssaUserService.findProviderIdByType(profileType);
+			if (null != provider && !UtilString.isEmptyOrNullByTrim(profileType) && !UtilString.isEmptyOrNullByTrim(provider.getProviderId())) {
 				UserProviderInfoVo thirdUser = ssaUserService.findUserByProviderId(provider.getProviderId(), CheckUserLoginType.getThirdUserIdTypeByUid(p_uid));
 				if (null != thirdUser) {
 					username = thirdUser.getUsername();
@@ -69,7 +68,6 @@ public class Kan21SingleRowJdbcPersonAttributeDao extends SingleRowJdbcPersonAtt
 			//weisd 
 			person = new NamedPersonImpl(username, person.getAttributes());
 		}
-
 		return person;
 
 	}

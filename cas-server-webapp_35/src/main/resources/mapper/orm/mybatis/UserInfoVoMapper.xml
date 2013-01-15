@@ -25,8 +25,10 @@
 
 	<resultMap id="findProviderIdByTypeId_resultmap" type="thirdProviderVo">
 		<result column="id" property="providerId" />
-		<result column="name" property="providerType" />
+		<result column="name" property="profileType" />
+		<result column="providertype" property="providerType" />
 		<result column="status" property="status" />
+		<result column="ext0" property="ext0" />		
 	</resultMap>
 	
 	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
@@ -70,7 +72,8 @@
 			#{thirduserid},
 			#{nikename},
 			#{dbreturn,mode=OUT,jdbcType=VARCHAR},
-			#{userid,mode=OUT,jdbcType=VARCHAR}
+			#{userid,mode=OUT,jdbcType=VARCHAR},
+			#{info1,mode=OUT,jdbcType=VARCHAR}
 		)}
 	</select>
 
@@ -78,7 +81,9 @@
 		SELECT
 			t.id,
 			t.name,
-			t.status
+			t.providertype,
+			t.status,
+			t.ext0 
 		FROM
 			sso_login_third t
 		WHERE t.name = #{providerType} 
