@@ -28,6 +28,6 @@ public final class UserAction {
 		return "user_index";
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(ShowErrorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserAction.class);
 
 }

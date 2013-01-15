@@ -44,13 +44,13 @@ public final class LoginInitAction {
 			logger.error("初始化登录[" + providerKey + "]信息异常", e);
 		}
 		if (UtilString.isEmptyOrNullByTrim(nextUrl)) {
-			return "/showerror/index.html";
+			return "/showerror/index.do";
 		} else {
 			return "redirect:" + nextUrl;
 		}
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(ShowErrorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(LoginInitAction.class);
 
 	@NotNull
 	private OAuthConfiguration providersDefinition;

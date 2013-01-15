@@ -182,13 +182,15 @@ public final class RegisterAction {
 					// 我方不存在
 					// 双方都添加
 					param.put("bindtype", "1");
+					return "";
 				} else if (UserCheckCode.CUN_0001.equals(localexist)) {
 					// 我方用户存在
 					// 验证密码是否正确
 					String dbEncodedPassword = param_check.get("info1");
-					if (passwordEncoder.matches(password, dbEncodedPassword)) {
+					if (UtilString.notEmptyOrNullByTrim(dbEncodedPassword) && passwordEncoder.matches(password, dbEncodedPassword)) {
 						// 添加第三方
 						param.put("bindtype", "2");
+						return "";
 					} else {
 						return "密码验证失败[" + localexist + "]";
 					}
@@ -205,10 +207,10 @@ public final class RegisterAction {
 		} else {
 			return "操作DB错误[" + dbreturn + "]";
 		}
-		return "其他错误[OTHER]";
+		//return "其他错误[OTHER]";
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(ShowErrorController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);
 
 	private RegisterUserService registerUserService;
 

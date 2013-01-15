@@ -11,10 +11,14 @@ public class UserLoginAttr {
 	/**
 	 * 我方数据库中id_user 自增长数字类型
 	 */
-	public static final String USER_LOCAL_ID = "USER_LOCAL_SEQID";
-	
-	public static final String USER_LOCAL_UNIQUEKEY = "USER_LOCAL_UNIQUEKEY";//注册的唯一邮箱username
+	public static final String USER_LOCAL_ID = "user_local_seqid";
 
-	public static final String USER_LOGIN_TYPE = "USER_LOGIN_TYPE";//UserLoginType.xxx
+	public static final String USER_LOCAL_UNIQUEKEY = "user_local_uniquekey";// 注册的唯一邮箱username
+
+	public static final String USER_LOGIN_TYPE = "user_login_type";// UserLoginType.xxx
+
+	public static final String USER_THIRD_UNIQUEKEY = "user_third_uniquekey";// 第三方登录ID
+
+	public static final String THIRD_LOGIN_TYPE = "third_login_type";// 第三方登录类型
 
 }
