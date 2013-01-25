@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:jee="http://www.springframework.org/schema/jee" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:webflow="http://www.springframework.org/schema/webflow-config"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/beans
+     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+     http://www.springframework.org/schema/context  
+     http://www.springframework.org/schema/context/spring-context-3.1.xsd
+     http://www.springframework.org/schema/mvc 
+     http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+     http://www.springframework.org/schema/webflow-config 
+     http://www.springframework.org/schema/webflow-config/spring-webflow-config-2.3.xsd
+     ">
+
+	<bean
+	    name="authenticationFilter"
+	    class="org.jasig.cas.client.authentication.AuthenticationFilter"
+	    p:casServerLoginUrl="http://127.0.0.1:8080/cas/login"
+	    p:renew="false"
+	    p:gateway="false"
+	    p:service="http://127.0.0.1:9001/casclient" />
+	    
+
+	<bean
+	    name="ticketValidationFilter"
+	    class="org.jasig.cas.client.validation.Cas10TicketValidationFilter"
+	    p:service="http://127.0.0.1:9001/casclient">
+	    <property name="ticketValidator">
+	        <bean class="org.jasig.cas.client.validation.Cas10TicketValidator">
+	            <constructor-arg index="0" value="http://127.0.0.1:8080/cas" />
+	        </bean>
+	    </property>
+	</bean>
+
+</beans>
