@@ -13,23 +13,30 @@
 		<constructor-arg index="0" value="weisd"/>
 	</bean>
 
-    <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
-        <property name="key" value="xxxxx" />
-        <property name="secret" value="1111" />
-        <property name="callbackUrl" value="http://http://localhost:8080/cas/login" />
+    <bean id="qq" class="org.scribe.up.provider.impl.QQProvider">
+        <property name="key" value="100353207" />
+        <property name="secret" value="d8e342b3053c13c986d4305816ea2e97" />
+        <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
     </bean>
 
-    <bean id="github1" class="org.scribe.up.provider.impl.GitHubProvider">
+    <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
+        <property name="key" value="556836712" />
+        <property name="secret" value="a510bc59f5e9173a1cbb011f2beeadd8" />
+        <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
+    </bean>
+
+    <bean id="github" class="org.scribe.up.provider.impl.GitHubProvider">
         <property name="key" value="bb7977b9e7f892c115c3" />
         <property name="secret" value="15a6f06329945e1ac5b6f715dcae5314bf88b005" />
     </bean>
 
     <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
-        <property name="loginUrl" value="http://localhost:8080/cas/login" />
+        <property name="loginUrl" value="http://ssl.kankan21.net/cas/login" />
         <property name="providers">
             <list>
+                <ref bean="qq" />
                 <ref bean="weibo" />
-                <ref bean="github1" />
+                <ref bean="github" />
             </list>
         </property>
     </bean>
@@ -37,6 +44,7 @@
     <bean id="initOpenLoginConfig" class="org.gonetbar.ssa.oauth.InitOpenLoginConfig">
         <property name="typeMapping">
         	<map>
+        		<entry key="qq" value="QQProvider" />
         		<entry key="github" value="GitHubProvider" />
         		<entry key="weibo" value="WeiboProvider" />
         	</map>

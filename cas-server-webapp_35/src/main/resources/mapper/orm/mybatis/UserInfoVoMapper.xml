@@ -86,7 +86,7 @@
 			t.ext0 
 		FROM
 			sso_login_third t
-		WHERE t.name = #{providerType} 
+		WHERE t.name = #{profileType} 
 	</select>
 
 	<select id="queryCheckUserUnique" statementType="CALLABLE">

@@ -204,12 +204,12 @@
   
   <servlet-mapping>
     <servlet-name>cas</servlet-name>
-    <url-pattern>/showplat/*</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
   <servlet-mapping>
     <servlet-name>cas</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.htm</url-pattern>
   </servlet-mapping>
 
   <session-config>

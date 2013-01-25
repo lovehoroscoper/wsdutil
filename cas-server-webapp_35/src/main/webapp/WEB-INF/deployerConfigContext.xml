@@ -67,7 +67,9 @@
             	<!-- 
                 <bean class="org.jasig.cas.support.oauth.authentication.OAuthAuthenticationMetaDataPopulator" />
             	 -->
-                <bean class="org.jasig.cas.support.oauth.authentication.Kan21OAuthAuthenticationMetaDataPopulator" />
+                <bean class="org.jasig.cas.support.oauth.authentication.Kan21OAuthAuthenticationMetaDataPopulator">
+                	<property name="ssaUserService" ref="userDetailsService"/>
+                </bean>
             </list>
         </property>
 		<!--

@@ -32,4 +32,10 @@
 		<property name="cacheManager" ref="cacheManager"/>
 	</bean>
 
+	<bean id="logoutHandler" class="org.gonetbar.ssa.handler.LogoutCacheHandler">
+		<property name="logoutCacheService" ref="logoutCacheService"/>
+		<property name="ticketGrantingTicketCookieGenerator" ref="ticketGrantingTicketCookieGenerator"/>
+		<property name="ticketRegistry" ref="ticketRegistry"/>
+	</bean>
+
 </beans>

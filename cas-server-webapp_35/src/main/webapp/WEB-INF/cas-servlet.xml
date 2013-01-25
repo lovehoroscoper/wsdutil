@@ -212,13 +212,15 @@ xmlns:aop="http://www.springframework.org/schema/aop"
     <constructor-arg index="0" ref="ticketRegistry"/>
   </bean>
 
-  <bean id="logoutController" class="org.jasig.cas.web.LogoutController"
+  <bean id="logoutController" class="org.jasig.cas.web.Kan21LogoutController"
         p:centralAuthenticationService-ref="centralAuthenticationService"
         p:logoutView="casLogoutView"
         p:warnCookieGenerator-ref="warnCookieGenerator"
         p:ticketGrantingTicketCookieGenerator-ref="ticketGrantingTicketCookieGenerator"
         p:servicesManager-ref="servicesManager"
-        p:followServiceRedirects="${cas.logout.followServiceRedirects:false}"/>
+        p:followServiceRedirects="${cas.logout.followServiceRedirects:false}">
+        <property name="handler" ref="logoutHandler"/>
+  </bean>
 
   <bean id="healthCheckController" class="org.jasig.cas.web.HealthCheckController"
         p:healthCheckMonitor-ref="healthCheckMonitor"/>

@@ -15,5 +15,7 @@
      ">
 
 	<bean id="registerUserService" class="org.gonetbar.ssa.service.impl.RegisterUserServiceImpl" autowire="byName"/>
+
+	<bean id="logoutCacheService" class="org.gonetbar.ssa.service.impl.LogoutCacheServiceImpl" autowire="byName"/>
 			
 </beans>
