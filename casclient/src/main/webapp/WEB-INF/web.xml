@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>TestMinaClient</display-name>
 
-<!--  -->
+<!-- 
 	<filter>
 		<filter-name>CAS Authentication Filter</filter-name>
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
@@ -30,8 +30,8 @@
 			<param-value>http://localhost:9001</param-value>
 		</init-param>
 	</filter>
-
-<!-- 
+ -->
+<!--  -->
 	<filter>
 		<filter-name>CAS Authentication Filter</filter-name>
 		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
@@ -58,7 +58,7 @@
 			<param-value>http://localhost:9001</param-value>
 		</init-param>
 	</filter>
- -->
+
 
 	<filter-mapping>
 		<filter-name>CAS Authentication Filter</filter-name>
