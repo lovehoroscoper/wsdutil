@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>战略合作伙伴</title>
-<link rel="stylesheet" href="<c:url value="/css/notRedirect.css"/>">
+<title>用户信息</title>
+<link rel="stylesheet" href="<c:url value="/css/user.css"/>">
 </head>
 <body>
 	<!-- page -->
