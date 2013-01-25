@@ -7,6 +7,9 @@ keytool -import -keystore %JAVA_HOME%/JRE/LIB/SECURITY/CACERTS -file cas_new.cer
 keytool -import -file cas_new.cer -keypass changeit -alias new_key
 
 
+注意：keytool 生成tomcat_new.jks 时候用户名不能写IP只能写域名,
+本地测试可以用      localhost
+
 tomcat-6.0
 
 <Connector port="8443" minSpareThreads="5" maxSpareThreads="75" 
