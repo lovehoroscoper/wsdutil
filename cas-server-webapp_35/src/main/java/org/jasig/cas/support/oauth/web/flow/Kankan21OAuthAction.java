@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang.StringUtils;
 import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.cas.exception.CheckNotRegisterException;
+import org.gonetbar.ssa.constant.LoginInitMd5;
+import org.gonetbar.ssa.constant.Oauth20Attr;
 import org.gonetbar.ssa.constant.RegisterMd5;
 import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.jasig.cas.CentralAuthenticationService;
@@ -36,7 +38,7 @@ import com.godtips.common.UtilString;
 
 public final class Kankan21OAuthAction extends AbstractAction {
 
-	private static final Logger logger = LoggerFactory.getLogger(OAuthAction.class);
+	private static final Logger logger = LoggerFactory.getLogger(Kankan21OAuthAction.class);
 
 	@NotNull
 	private OAuthConfiguration configuration;
@@ -83,8 +85,17 @@ public final class Kankan21OAuthAction extends AbstractAction {
 			OAuthCredentials temp = new OAuthCredentials(credential);
 
 			final ThirdRegVo thirdRegVo = (ThirdRegVo) session.getAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
+			final String oauth_keyStr = (String) session.getAttribute(Oauth20Attr.OAUTH_KEYSTR);
+			String third_state = request.getParameter(Oauth20Attr.OAUTH_STATE);
+			session.removeAttribute(Oauth20Attr.OAUTH_KEYSTR);
+			session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
+			String my_state = LoginInitMd5.getLoginInitMd5("", "", provider.getType(), oauth_keyStr);
+			if (UtilString.isEmptyOrNullByTrim(third_state) || !third_state.equals(my_state)) {
+				// 被CSRF
+				logger.error("可能出现[CSRF][provider : {},credential : {}]", provider, credential);
+				return error();
+			}
 			if (null != thirdRegVo) {
-				session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
 				String after_my_md5_valid = thirdRegVo.getMd5Valid();
 				thirdRegVo.setMd5Valid("");
 				UserProfile userProfile = thirdRegVo.getUserProfile();
