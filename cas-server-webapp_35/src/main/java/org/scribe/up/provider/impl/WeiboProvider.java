@@ -11,6 +11,8 @@ import org.scribe.up.profile.weibo.WeiboProfile;
 import org.scribe.up.provider.BaseOAuth20Provider;
 import org.scribe.up.util.StringHelper;
 
+import com.godtips.common.UtilString;
+
 public class WeiboProvider extends BaseOAuth20Provider {
 
 	@Override
@@ -33,21 +35,25 @@ public class WeiboProvider extends BaseOAuth20Provider {
 	public UserProfile getUserProfile(Token accessToken) {
 		// get the guid :
 		String body = sendRequestForData(accessToken, "https://api.weibo.com/2/account/get_uid.json");
-		if (body == null) {
+		if (UtilString.isEmptyOrNullByTrim(body)) {
 			return null;
 		}
-		JsonNode uidNode = JsonHelper.getFirstNode("uid");
-		logger.debug("uid : {}", uidNode);
-		// then the profile with the uid
-		if (null != uidNode && StringHelper.isNotBlank(uidNode.getTextValue())) {
-			body = sendRequestForData(accessToken, getProfileUrl() + "?uid=" + uidNode.getTextValue());
-			if (body == null) {
-				return null;
+		JsonNode json = JsonHelper.getFirstNode(body);
+		if(null != json){
+			String uid = (String)JsonHelper.get(json, "uid");
+			logger.debug("uid : {}", uid);
+			// then the profile with the uid
+			if (StringHelper.isNotBlank(uid)) {
+				body = sendRequestForData(accessToken, getProfileUrl() + "?uid=" + uid);
+				if (UtilString.isEmptyOrNullByTrim(body)) {
+					return null;
+				}
 			}
+			UserProfile profile = extractUserProfile(body);
+			addAccessTokenToProfile(profile, accessToken);
+			return profile;
 		}
-		UserProfile profile = extractUserProfile(body);
-		addAccessTokenToProfile(profile, accessToken);
-		return profile;
+		return null;
 	}
 
 	@Override
