@@ -10,10 +10,19 @@ package org.gonetbar.ssa.constant;
  */
 public class SsoCachePreKey {
 
-	//用户登录来源
+	/**
+	 * 用户登录来源:本地
+	 */
 	public final static String CACHE_USER_KEY_LOACL = "local@";
+
+	/**
+	 * 用户登录来源:第三方
+	 */
 	public final static String CACHE_USER_KEY_THIRD = "third@";
-	//OAUTH登录类型缓存
+
+	/**
+	 * OAUTH登录类型缓存
+	 */
 	public final static String CACHE_PROVIDER_KEY_OAUTH = "oauth@";
 
 }

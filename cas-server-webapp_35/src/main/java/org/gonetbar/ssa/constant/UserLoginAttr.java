@@ -13,12 +13,29 @@ public class UserLoginAttr {
 	 */
 	public static final String USER_LOCAL_ID = "user_local_seqid";
 
-	public static final String USER_LOCAL_UNIQUEKEY = "user_local_uniquekey";// 注册的唯一邮箱username
+	/**
+	 * 注册的唯一邮箱username
+	 */
+	public static final String USER_LOCAL_UNIQUEKEY = "user_local_uniquekey";
 
-	public static final String USER_LOGIN_TYPE = "user_login_type";// UserLoginType.xxx
+	/**
+	 *  UserLoginType.xxx
+	 */
+	public static final String USER_LOGIN_TYPE = "user_login_type";
 
-	public static final String USER_THIRD_UNIQUEKEY = "user_third_uniquekey";// 第三方登录ID
+	/**
+	 * 第三方登录ID
+	 */
+	public static final String USER_THIRD_UNIQUEKEY = "user_third_uniquekey";
 
-	public static final String THIRD_LOGIN_TYPE = "third_login_type";// 第三方登录类型
+	/**
+	 * 第三方登录类型
+	 */
+	public static final String THIRD_LOGIN_TYPE = "third_login_type";
+	
+	/**
+	 * 第三方登录类型编号
+	 */
+	public static final String THIRD_LOGIN_PROVIDERID = "third_login_providerid";
 
 }
