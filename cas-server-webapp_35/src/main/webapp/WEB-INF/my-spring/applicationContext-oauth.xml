@@ -14,14 +14,14 @@
 	</bean>
 
     <bean id="qq" class="org.scribe.up.provider.impl.QQProvider">
-        <property name="key" value="100353207" />
-        <property name="secret" value="d8e342b3053c13c986d4305816ea2e97" />
+        <property name="key" value="12345" />
+        <property name="secret" value="12345" />
         <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
     </bean>
 
     <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
-        <property name="key" value="556836712" />
-        <property name="secret" value="a510bc59f5e9173a1cbb011f2beeadd8" />
+        <property name="key" value="123456" />
+        <property name="secret" value="123456" />
         <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
     </bean>
 
