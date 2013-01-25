@@ -22,7 +22,7 @@ public final class NotRedirectAction {
 
 	private static final Logger logger = LoggerFactory.getLogger(NotRedirectAction.class);
 
-	@RequestMapping(value = "/showplat/*")
+	@RequestMapping(value = "/showplat/index.htm")
 	public String handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Authentication cc = SecurityContextHolder.getContext().getAuthentication();

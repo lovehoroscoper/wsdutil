@@ -10,11 +10,13 @@ import javax.servlet.http.HttpSession;
 
 import org.gonetbar.ssa.base.entity.ModelRecordStrUtil;
 import org.gonetbar.ssa.constant.DBResultCode;
+import org.gonetbar.ssa.constant.Oauth20Attr;
 import org.gonetbar.ssa.constant.RegisterMd5;
 import org.gonetbar.ssa.constant.user.UserCheckCode;
 import org.gonetbar.ssa.entity.ThirdRegVo;
 import org.gonetbar.ssa.entity.UserInfoVo;
 import org.gonetbar.ssa.service.RegisterUserService;
+import org.gonetbar.ssa.util.OauthLoginMustParam;
 import org.jasig.cas.support.oauth.OAuthConstants;
 import org.scribe.up.profile.UserProfile;
 import org.slf4j.Logger;
@@ -124,13 +126,15 @@ public final class RegisterAction {
 										String after_my_md5_valid = RegisterMd5.getRegisterAfterMd5(userProfile.getAccessToken(), typedId, my_md5_valid);
 										thirdRegVo.setMd5Valid(after_my_md5_valid);
 										session.setAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO, thirdRegVo);
-										nextUrl += "?code=" + my_md5_valid + "&" + OAuthConstants.OAUTH_PROVIDER + "=" + thirdRegVo.getProviderType();
-										// 跳转登录界面带上参数
-										// code
-										logger.info("注册成功完成跳转nextUrl[" + nextUrl + "]");
+										String reg_state = OauthLoginMustParam.getMd5State(request, thirdRegVo.getProviderType(), false);
+										StringBuffer sb = new StringBuffer();
+										sb.append("?").append("code=").append(my_md5_valid).append("&").append(OAuthConstants.OAUTH_PROVIDER).append("=").append(thirdRegVo.getProviderType())
+												.append("&").append(Oauth20Attr.OAUTH_STATE).append("=").append(reg_state);
+										nextUrl += sb.toString();
+										logger.info("用户绑定成功完成跳转nextUrl[" + nextUrl + "]");
 									} else {
 										String info1 = param.get("info1");
-										logger.error("注册用户失败[" + dbreturn + "][" + info1 + "]");
+										logger.error("用户绑定失败[" + dbreturn + "][" + info1 + "]");
 									}
 								}
 							}
@@ -207,7 +211,7 @@ public final class RegisterAction {
 		} else {
 			return "操作DB错误[" + dbreturn + "]";
 		}
-		//return "其他错误[OTHER]";
+		// return "其他错误[OTHER]";
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(RegisterAction.class);

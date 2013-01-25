@@ -5,9 +5,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import org.gonetbar.ssa.oauth.InitOpenLoginConfig;
+import org.gonetbar.ssa.util.OauthLoginMustParam;
 import org.jasig.cas.support.oauth.OAuthConfiguration;
 import org.jasig.cas.support.oauth.OAuthUtils;
 import org.scribe.up.provider.OAuthProvider;
+import org.scribe.up.session.HttpUserSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -27,15 +29,17 @@ import com.godtips.common.UtilString;
 public final class LoginInitAction {
 
 	@RequestMapping(value = "/oauth20/{providerKey}/initlogin.do")
-	public String initlogin(@PathVariable("providerKey") String providerKey,HttpServletRequest request,  ModelMap model) {
-		String nextUrl = null;		
+	public String initlogin(@PathVariable("providerKey") String providerKey, HttpServletRequest request, ModelMap model) {
+		String nextUrl = null;
 		try {
 			String providerType = initOpenLoginConfig.getProviderTypeByKey(providerKey);
 			if (!UtilString.isEmptyOrNullByTrim(providerType)) {
 				final OAuthProvider provider = OAuthUtils.getProviderByType(this.providersDefinition.getProviders(), providerType);
 				logger.debug("provider : {}", provider);
 				if (null != provider) {
-					nextUrl = provider.getAuthorizationUrl(null);
+					HttpUserSession userSession = new HttpUserSession(request);
+					OauthLoginMustParam.getMd5State(request, provider.getType(),true);
+					nextUrl = provider.getAuthorizationUrl(userSession);
 				}
 			} else {
 				logger.error("无效的登录操作!!![" + providerKey + "]信息异常");
