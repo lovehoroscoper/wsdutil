@@ -10,15 +10,34 @@ package com.godtips.sso.acl.constant;
  */
 public class AclCachePreKey {
 
-	//用户权限
+	/**
+	 * 用户权限:userdetail
+	 */
 	public final static String CACHE_USERDETAILS_KEY_USERDETAIL = "userdetail@";
+
+	/**
+	 * 用户权限:authority
+	 */
 	public final static String CACHE_USERDETAILS_KEY_AUTHORITY = "authority@";
-	
-	//菜单
+
+	/**
+	 * 菜单:menu_all
+	 */
 	public final static String CACHE_MENU_KEY_ALL = "menu_all@";
+
+	/**
+	 * 菜单:menu_one
+	 */
 	public final static String CACHE_MENU_KEY_ONE = "menu_one@";
-	
+
+	/**
+	 * 权限:role_menu
+	 */
 	public final static String CACHE_ROLE_KEY_MENU = "role_menu@";
+
+	/**
+	 * 权限:role_default
+	 */
 	public final static String CACHE_ROLE_KEY_DEFAULT = "role_default@";
 
 }
