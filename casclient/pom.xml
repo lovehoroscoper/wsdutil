@@ -253,7 +253,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
-					<warName>cas</warName>
+					<warName>casclient</warName>
 					<webResources>
 						<resource>
 							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
