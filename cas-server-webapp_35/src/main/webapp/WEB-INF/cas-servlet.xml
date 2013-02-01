@@ -32,6 +32,7 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 			<mvc:mapping path="/login" />
 			<bean class="org.gonetbar.ssa.interceptor.LoginRedirectInterceptor">
 				<property name="loginUrl" value="/login"/>
+				<property name="redirect" value="true"/>
 				<property name="redirectUrl" value="/user/index.do"/>
 			</bean>
 		</mvc:interceptor>
@@ -94,20 +95,22 @@ xmlns:aop="http://www.springframework.org/schema/aop"
     <property name="mappings">
       <props>
         <prop key="/logout">logoutController</prop>
-        <prop key="/serviceValidate">serviceValidateController</prop>
         <prop key="/validate">legacyValidateController</prop>
+        <prop key="/serviceValidate">serviceValidateController</prop>
+        <prop key="/authorizationFailure.html">passThroughController</prop>
+        <prop key="/403.html">passThroughController</prop>
+        <prop key="/services/loggedOut.html">serviceLogoutViewController</prop>
+        <prop key="/services/*">manageRegisteredServicesMultiActionController</prop>
+        <prop key="/services/add.html">addRegisteredServiceSimpleFormController</prop>
+        <!-- 
         <prop key="/proxy">proxyController</prop>
         <prop key="/proxyValidate">proxyValidateController</prop>
         <prop key="/samlValidate">samlValidateController</prop>
-        <prop key="/services/add.html">addRegisteredServiceSimpleFormController</prop>
         <prop key="/services/edit.html">editRegisteredServiceSimpleFormController</prop>
-        <prop key="/services/loggedOut.html">serviceLogoutViewController</prop>
         <prop key="/services/viewStatistics.html">viewStatisticsController</prop>
-        <prop key="/services/*">manageRegisteredServicesMultiActionController</prop>
         <prop key="/openid/*">openIdProviderController</prop>
-        <prop key="/authorizationFailure.html">passThroughController</prop>
-        <prop key="/403.html">passThroughController</prop>
         <prop key="/status">healthCheckController</prop>
+         -->
       </props>
     </property>
     <property name="alwaysUseFullPath" value="true"/>
