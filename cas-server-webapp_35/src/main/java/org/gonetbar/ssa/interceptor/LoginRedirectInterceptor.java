@@ -22,7 +22,7 @@ public class LoginRedirectInterceptor extends HandlerInterceptorAdapter {
 		final String acc_url = req.getServletPath();
 		final String queryString = req.getQueryString();// 未空
 		String nextUrl = "";
-		if (UtilString.isEmptyOrNullByTrim(queryString) && UtilString.notEmptyOrNullByTrim(redirectUrl) && UtilString.notEmptyOrNullByTrim(loginUrl) && loginUrl.equals(acc_url)) {
+		if (redirect && UtilString.isEmptyOrNullByTrim(queryString) && UtilString.notEmptyOrNullByTrim(redirectUrl) && UtilString.notEmptyOrNullByTrim(loginUrl) && loginUrl.equals(acc_url)) {
 			nextUrl = req.getContextPath() + redirectUrl;
 		} else {
 			final String providerType = req.getParameter(OAuthConstants.OAUTH_PROVIDER);
@@ -55,10 +55,16 @@ public class LoginRedirectInterceptor extends HandlerInterceptorAdapter {
 			return true;
 		}
 	}
+	
+	private boolean redirect;
 
 	private String loginUrl;
 
 	private String redirectUrl;
+	
+	public final void setRedirect(boolean redirect) {
+		this.redirect = redirect;
+	}
 
 	public final void setLoginUrl(String loginUrl) {
 		this.loginUrl = loginUrl;
