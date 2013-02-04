@@ -51,18 +51,18 @@ public final class Kan21OAuthAuthenticationMetaDataPopulator implements Authenti
 			String user_third_uniquekey = UtilString.getStringFromEmpty(oauthCredentials.getUserProfile().getId());
 			String profileType = CheckUserLoginType.getProviderTypeByUid(p_uid);
 			ThirdProvider provider = ssaUserService.findProviderIdByType(profileType);
-			if(null == provider){
+			if (null == provider) {
 				return null;
 			}
 			Map<String, Object> temp_map = new HashMap<String, Object>();
 			temp_map.putAll(pri.getAttributes());
-			//TODO weisd 暂时注释第三方属性
-			//temp_map.putAll(oauthCredentials.getUserProfile().getAttributes());
-			temp_map.put(UserLoginAttr.USER_LOGIN_TYPE, loginType);//登录类型
+			// TODO weisd 暂时注释第三方属性
+			// temp_map.putAll(oauthCredentials.getUserProfile().getAttributes());
+			temp_map.put(UserLoginAttr.USER_LOGIN_TYPE, loginType);// 登录类型
 			temp_map.put(UserLoginAttr.USER_THIRD_UNIQUEKEY, user_third_uniquekey);
 			temp_map.put(UserLoginAttr.THIRD_LOGIN_TYPE, third_login_type);
 			temp_map.put(UserLoginAttr.THIRD_LOGIN_PROVIDERID, provider.getProviderId());
-			
+
 			// final Principal simplePrincipal = new
 			// SimplePrincipal(authentication.getPrincipal().getId(),
 			// oauthCredentials.getUserProfile().getAttributes());
@@ -75,9 +75,15 @@ public final class Kan21OAuthAuthenticationMetaDataPopulator implements Authenti
 			mutableAuthentication.getAttributes().put(OAuthConstants.PROVIDER_TYPE, oauthCredentials.getCredential().getProviderType());
 
 			return mutableAuthentication;
+		} else {
+			Map<String, Object> temp_map = new HashMap<String, Object>();
+			temp_map.putAll(pri.getAttributes());
+			temp_map.put(UserLoginAttr.USER_LOGIN_TYPE, loginType);// 登录类型
+			final Principal simplePrincipal = new SimplePrincipal(user_local_uniquekey, temp_map);
+			final MutableAuthentication mutableAuthentication = new MutableAuthentication(simplePrincipal, authentication.getAuthenticatedDate());
+			mutableAuthentication.getAttributes().putAll(authentication.getAttributes());
+			return mutableAuthentication;
 		}
-		authentication.getAttributes().put(UserLoginAttr.USER_LOGIN_TYPE, loginType);
-		return authentication;
 	}
 
 	private SsaUserService ssaUserService;

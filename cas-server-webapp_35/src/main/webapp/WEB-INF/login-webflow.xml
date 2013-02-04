@@ -181,12 +181,17 @@
 	</action-state>
 	
 	<action-state id="sendTicketGrantingTicket">
+        <evaluate expression="addLoginTicketCookieAction" />
+		<transition to="sendTicketGrantingTicket_2" />
+	</action-state>
+
+	<action-state id="sendTicketGrantingTicket_2">
         <evaluate expression="sendTicketGrantingTicketAction" />
 		<transition to="serviceCheck" />
 	</action-state>
 
 	<decision-state id="serviceCheck">
-		<if test="flowScope.service != null" then="generateServiceTicket" else="viewGenericLoginSuccess" />
+		<if test="flowScope.service != null" then="generateServiceTicket" else="viewGenericLoginSuccess_2" />
 	</decision-state>
 	
 	<action-state id="generateServiceTicket">
@@ -210,11 +215,16 @@
         <if test="requestScope.response.responseType.name() == 'POST'" then="postView" else="redirectView" />
     </decision-state>
 
+	<action-state id="viewGenericLoginSuccess">
+        <evaluate expression="addLoginTicketCookieAction" />
+		<transition to="viewGenericLoginSuccess_2" />
+	</action-state>
+
 	<!-- 
 		the "viewGenericLogin" is the end state for when a user attempts to login without coming directly from a service.
 		They have only initialized their single-sign on session.
 	-->
-	<end-state id="viewGenericLoginSuccess" view="casLoginGenericSuccessView" />
+	<end-state id="viewGenericLoginSuccess_2" view="casLoginGenericSuccessView" />
 
 	<!-- 
 		The "showWarningView" end state is the end state for when the user has requested privacy settings (to be "warned") to be turned on.  It delegates to a 

@@ -1,5 +1,9 @@
 package org.gonetbar.ssa.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.gonetbar.ssa.constant.UserLoginAttr;
 import org.gonetbar.ssa.constant.UserLoginType;
 import org.scribe.up.profile.UserProfile;
 
@@ -50,6 +54,20 @@ public class CheckUserLoginType {
 		} else {
 			return "";
 		}
+	}
+
+	public static Map<String, String> getLoginMainAttr(String attr_str) {
+		Map<String, String> m = new HashMap<String, String>();
+		if (UtilString.notEmptyOrNullByTrim(attr_str)) {
+			String[] attr_arry = attr_str.trim().split("[\n]");
+			for (int i = 0; i < attr_arry.length; i++) {
+				String key = UtilString.getStringFromEmpty(attr_arry[i]);
+				if (UserLoginAttr.THIRD_LOGIN_PROVIDERID.equals(key) || UserLoginAttr.USER_THIRD_UNIQUEKEY.equals(key)) {
+					m.put(key, UtilString.getStringFromEmpty(attr_arry[i + 1]));
+				}
+			}
+		}
+		return m;
 	}
 
 }

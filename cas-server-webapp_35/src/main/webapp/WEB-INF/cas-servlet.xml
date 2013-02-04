@@ -30,6 +30,10 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 	<mvc:interceptors> 
 		<mvc:interceptor>
 			<mvc:mapping path="/login" />
+			<bean class="org.gonetbar.ssa.interceptor.ThirdLoginValidInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/login" />
 			<bean class="org.gonetbar.ssa.interceptor.LoginRedirectInterceptor">
 				<property name="loginUrl" value="/login"/>
 				<property name="redirect" value="true"/>
@@ -291,5 +295,9 @@ xmlns:aop="http://www.springframework.org/schema/aop"
 
   <bean id="credentialsValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"
         p:messageInterpolator-ref="messageInterpolator"/>
+
+  <bean id="addLoginTicketCookieAction" class="org.gonetbar.ssa.cookie.AddLoginTicketCookieAction"
+        p:ticketRegistry-ref="ticketRegistry"
+        p:cacheUserCookieGenerator-ref="cacheUserCookieGenerator"/>
 
 </beans>

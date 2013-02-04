@@ -11,7 +11,6 @@ import org.gonetbar.ssa.constant.UserLoginAttr;
 import org.gonetbar.ssa.cookie.CacheUserCookieGenerator;
 import org.gonetbar.ssa.entity.UserProviderInfoVo;
 import org.gonetbar.ssa.service.LogoutCacheService;
-import org.gonetbar.ssa.util.CheckUserLoginType;
 import org.gonetbar.ssa.util.LgotucaCookie;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 import org.jasig.cas.web.support.CookieRetrievingCookieGenerator;
@@ -34,7 +33,7 @@ import com.godtips.common.UtilString;
  * @author Administrator
  * 
  */
-public class LogoutCacheHandler implements LogoutHandler {
+public class CopyOfLogoutCacheHandler implements LogoutHandler {
 	protected final Log logger = LogFactory.getLog(this.getClass());
 
 	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication auth) {
@@ -44,48 +43,46 @@ public class LogoutCacheHandler implements LogoutHandler {
 		String user_third_uniquekey = "";
 		String lgotucaCookieValue = "";
 		try {
-			// 借助TGT获取
-			logger.error("无法清除用户缓存,必须借助TGT获取");
-			try {
-				// 这个则是登录cas-client
-				ticketGrantingTicketId = this.ticketGrantingTicketCookieGenerator.retrieveCookieValue(request);
-			} catch (Exception e) {
-				logger.error("logout查找ticketGrantingTicketId异常", e);
-			}
-			try {
-				lgotucaCookieValue = cacheUserCookieGenerator.retrieveCookieValue(request);
-			} catch (Exception e) {
-				logger.error("logout查找lgotuca异常", e);
-			}
-			if (UtilString.notEmptyOrNullByTrim(lgotucaCookieValue) && UtilString.notEmptyOrNullByTrim(ticketGrantingTicketId)) {
-				UserProviderInfoVo co_vo = LgotucaCookie.decodeCookieValue(lgotucaCookieValue, ticketGrantingTicketId);
-				user_local_uniquekey = co_vo.getUsername();
-				third_login_providerid = co_vo.getProviderid();
-				user_third_uniquekey = co_vo.getThirduserid();
-			}
-			if (UtilString.isEmptyOrNullByTrim(user_local_uniquekey)) {
-				if (null != auth) {
-					try {
-						if (auth instanceof CasAuthenticationToken) {
-							CasAuthenticationToken cas_auth = (CasAuthenticationToken) auth;
-							org.jasig.cas.client.validation.Assertion ass = cas_auth.getAssertion();
-							if (null != ass) {
-								AttributePrincipal attrPri = ass.getPrincipal();
-								if (null != attrPri) {
-									user_local_uniquekey = attrPri.getName();
-									Map<String, Object> attr_map = attrPri.getAttributes();
-									if (null != attr_map) {
-										String attr_str = (String) attr_map.get("attribute");
-										Map<String, String> sp_m = CheckUserLoginType.getLoginMainAttr(attr_str);
-										third_login_providerid = UtilString.getStringFromEmpty(sp_m.get(UserLoginAttr.THIRD_LOGIN_PROVIDERID));
-										user_third_uniquekey = UtilString.getStringFromEmpty(sp_m.get(UserLoginAttr.USER_THIRD_UNIQUEKEY));
-									}
+			if (null != auth) {
+				try {
+					if (auth instanceof CasAuthenticationToken) {
+						CasAuthenticationToken cas_auth = (CasAuthenticationToken) auth;
+						org.jasig.cas.client.validation.Assertion ass = cas_auth.getAssertion();
+						if (null != ass) {
+							AttributePrincipal attrPri = ass.getPrincipal();
+							if (null != attrPri) {
+								Map<String, Object> attr_map = attrPri.getAttributes();
+								if (null != attr_map) {
+									third_login_providerid = UtilString.getStringFromEmpty((String) attr_map.get(UserLoginAttr.THIRD_LOGIN_PROVIDERID));
+									user_third_uniquekey = UtilString.getStringFromEmpty((String) attr_map.get(UserLoginAttr.USER_THIRD_UNIQUEKEY));
 								}
 							}
 						}
-					} catch (Exception e) {
-						logger.error("logout查找CasAuthenticationToken异常", e);
 					}
+				} catch (Exception e) {
+					logger.error("logout查找CasAuthenticationToken异常", e);
+				}
+			}
+			if (UtilString.isEmptyOrNullByTrim(user_local_uniquekey) || UtilString.isEmptyOrNullByTrim(third_login_providerid) || UtilString.isEmptyOrNullByTrim(user_third_uniquekey)) {
+				// 借助TGT获取
+				logger.error("无法清除用户缓存,必须借助TGT获取");
+				try {
+					// 这个则是登录cas-client
+					ticketGrantingTicketId = this.ticketGrantingTicketCookieGenerator.retrieveCookieValue(request);
+				} catch (Exception e) {
+					logger.error("logout查找ticketGrantingTicketId异常", e);
+				}
+				try {
+					//
+					lgotucaCookieValue = cacheUserCookieGenerator.retrieveCookieValue(request);
+				} catch (Exception e) {
+					logger.error("logout查找lgotuca异常", e);
+				}
+				if (UtilString.notEmptyOrNullByTrim(lgotucaCookieValue) && UtilString.notEmptyOrNullByTrim(ticketGrantingTicketId)) {
+					UserProviderInfoVo co_vo = LgotucaCookie.decodeCookieValue(lgotucaCookieValue, ticketGrantingTicketId);
+					user_local_uniquekey = co_vo.getUsername();
+					third_login_providerid = co_vo.getProviderid();
+					user_third_uniquekey = co_vo.getThirduserid();
 				}
 			}
 			logoutCacheService.removeLoginCacheBy(user_local_uniquekey, third_login_providerid, user_third_uniquekey);
