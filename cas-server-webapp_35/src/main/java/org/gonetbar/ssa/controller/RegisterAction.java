@@ -200,6 +200,8 @@ public final class RegisterAction {
 					}
 				} else if (UserCheckCode.CUN_0003.equals(localexist)) {
 					return "本平台账户已经绑定过该第三方登录的账户[" + localexist + "]";
+				} else if (UserCheckCode.CUN_0004.equals(localexist)) {
+					return "本平台账户被限制绑定第三方账户[" + localexist + "]";
 				} else {
 					return "登录ID验证异常[" + localexist + "]";
 				}

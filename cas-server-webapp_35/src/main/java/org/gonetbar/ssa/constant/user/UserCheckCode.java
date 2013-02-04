@@ -39,6 +39,11 @@ public class UserCheckCode {
 	public static final String CUN_0003 = "CUN0003";
 
 	/**
+	 * 不允许绑定账户
+	 */
+	public static final String CUN_0004 = "CUN0004";
+
+	/**
 	 * 密码不匹配
 	 */
 	public static final String CPASS_0003 = "CPASS0003";
