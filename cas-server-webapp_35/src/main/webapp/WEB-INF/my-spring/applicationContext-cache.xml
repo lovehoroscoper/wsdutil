@@ -35,7 +35,14 @@
 	<bean id="logoutHandler" class="org.gonetbar.ssa.handler.LogoutCacheHandler">
 		<property name="logoutCacheService" ref="logoutCacheService"/>
 		<property name="ticketGrantingTicketCookieGenerator" ref="ticketGrantingTicketCookieGenerator"/>
-		<property name="ticketRegistry" ref="ticketRegistry"/>
+		<property name="cacheUserCookieGenerator" ref="cacheUserCookieGenerator"/>
+	</bean>
+
+	<bean id="cacheUserCookieGenerator" class="org.gonetbar.ssa.cookie.CacheUserCookieGenerator">
+		<property name="cookieSecure" value="false"/>
+		<property name="cookieMaxAge" value="-1"/>
+		<property name="cookieName" value="LGOTUCA"/>
+		<property name="cookiePath" value="/cas"/>
 	</bean>
 
 </beans>
