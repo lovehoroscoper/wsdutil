@@ -49,7 +49,8 @@
 
   <sec:http entry-point-ref="casProcessingFilterEntryPoint" auto-config="true">
   	<sec:access-denied-handler ref="accessDeniedHandler"/>
-    <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html"/>
+    <sec:logout logout-url="/services/logout.html" logout-success-url="/services/loggedOut.html" invalidate-session="true"/>
+    <sec:custom-filter ref="logoutCacheFilter" before="LOGOUT_FILTER"/>
     <sec:custom-filter ref="casProcessingFilter" after="CAS_FILTER"/>
     <sec:custom-filter ref="myAclFilter" before="FILTER_SECURITY_INTERCEPTOR" />
   </sec:http>
@@ -96,6 +97,19 @@
 
 	<bean id="accessDeniedHandler" class="org.gonetbar.ssa.access.AclAccessDeniedHandlerImpl">
 		<property name="errorPage" value="/authorizationFailure.html" />
+	</bean>
+	
+	<bean id="logoutCacheFilter" class="org.gonetbar.ssa.filter.LogoutCacheFilter">
+		<property name="processesUrls">
+	        <list>
+	        	<value>/services/logout.html</value>
+	        </list>
+		</property>
+		<property name="handlers">
+	        <list>
+	        	<ref bean="logoutHandler"/>
+	        </list>
+		</property>
 	</bean>
 
 </beans>

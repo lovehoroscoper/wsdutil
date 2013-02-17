@@ -1,41 +1,44 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<title>登录系统</title>
-<meta name="keywords" content="">
-<meta name="description" content="">
-<link rel="stylesheet" href="<c:url value="/css/login.css"/>">
-</head>
-<body>
-	<!-- page -->
-	<div id="page">
-		<a id="login_return" href=""> 返回 </a>
-		<div id="signup">
-			<a href="#"><h1 id="login_logo"></h1></a>
-			<div class="login_bar"></div>
-			<h3>欢迎您！</h3>
-			<div class="signup_form" style="padding-left: 145px;">
-				<table cellspacing="8" cellpadding="4" id="tb_third">
-					<tbody>
-						<tr>
-							<td id="td_third">
-								<a href="oauth20/github/initlogin.do"><img src="<c:url value="/images/oauth/github/third_github.png"/>"></a> 
-								<a href="oauth20/weibo/initlogin.do"><img src="<c:url value="/images/oauth/weibo/third_weibo.png"/>"></a> 
-								<a href="oauth20/qq/initlogin.do"><img src="<c:url value="/images/oauth/qq/third_qq.png"/>"></a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-	</div>
-	<!-- // page -->
-	<div class="clear"></div>
+<jsp:directive.include file="includes/top.jsp" />
+  <div class="box fl-panel" id="login">
+			<form:form method="post" id="fm1" cssClass="fm-v clearfix" commandName="${commandName}" htmlEscape="true">
+                  <form:errors path="*" id="msg" cssClass="errors" element="div" />
+                <!-- <spring:message code="screen.welcome.welcome" /> -->
+                    <h2><spring:message code="screen.welcome.instructions" /></h2>
+                    <div class="row fl-controls-left">
+                        <label for="username" class="fl-label"><spring:message code="screen.welcome.label.netid" /></label>
+						<c:if test="${not empty sessionScope.openIdLocalId}">
+						<strong>${sessionScope.openIdLocalId}</strong>
+						<input type="hidden" id="username" name="username" value="${sessionScope.openIdLocalId}" />
+						</c:if>
 
-</body>
-</html>
+						<c:if test="${empty sessionScope.openIdLocalId}">
+						<spring:message code="screen.welcome.label.netid.accesskey" var="userNameAccessKey" />
+						<form:input cssClass="required" cssErrorClass="error" id="username" size="25" tabindex="1" accesskey="${userNameAccessKey}" path="username" autocomplete="false" htmlEscape="true" />
+						</c:if>
+                    </div>
+                    <div class="row fl-controls-left">
+                        <label for="password" class="fl-label"><spring:message code="screen.welcome.label.password" /></label>
+						<%--
+						NOTE: Certain browsers will offer the option of caching passwords for a user.  There is a non-standard attribute,
+						"autocomplete" that when set to "off" will tell certain browsers not to prompt to cache credentials.  For more
+						information, see the following web page:
+						http://www.geocities.com/technofundo/tech/web/ie_autocomplete.html
+						--%>
+						<spring:message code="screen.welcome.label.password.accesskey" var="passwordAccessKey" />
+						<form:password cssClass="required" cssErrorClass="error" id="password" size="25" tabindex="2" path="password"  accesskey="${passwordAccessKey}" htmlEscape="true" autocomplete="off" />
+                    </div>
+                    <div class="row check">
+                        <input id="warn" name="warn" value="true" tabindex="3" accesskey="<spring:message code="screen.welcome.label.warn.accesskey" />" type="checkbox" />
+                        <label for="warn"><spring:message code="screen.welcome.label.warn" /></label>
+                    </div>
+                    <div class="row btn-row">
+						<input type="hidden" name="lt" value="${loginTicket}" />
+						<input type="hidden" name="execution" value="${flowExecutionKey}" />
+						<input type="hidden" name="_eventId" value="submit" />
+
+                        <input class="btn-submit" name="submit" accesskey="l" value="<spring:message code="screen.welcome.button.login" />" tabindex="4" type="submit" />
+                        <input class="btn-reset" name="reset" accesskey="c" value="<spring:message code="screen.welcome.button.clear" />" tabindex="5" type="reset" />
+                    </div>
+            </form:form>
+          </div>
+<jsp:directive.include file="includes/bottom.jsp" />
