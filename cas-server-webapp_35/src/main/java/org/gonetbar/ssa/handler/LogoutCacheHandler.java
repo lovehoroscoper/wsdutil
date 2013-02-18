@@ -44,8 +44,6 @@ public class LogoutCacheHandler implements LogoutHandler {
 		String user_third_uniquekey = "";
 		String lgotucaCookieValue = "";
 		try {
-			// 借助TGT获取
-			logger.error("无法清除用户缓存,必须借助TGT获取");
 			try {
 				// 这个则是登录cas-client
 				ticketGrantingTicketId = this.ticketGrantingTicketCookieGenerator.retrieveCookieValue(request);
@@ -64,6 +62,7 @@ public class LogoutCacheHandler implements LogoutHandler {
 				user_third_uniquekey = co_vo.getThirduserid();
 			}
 			if (UtilString.isEmptyOrNullByTrim(user_local_uniquekey)) {
+				logger.error("借助TGT无法清除用户缓存");
 				if (null != auth) {
 					try {
 						if (auth instanceof CasAuthenticationToken) {
