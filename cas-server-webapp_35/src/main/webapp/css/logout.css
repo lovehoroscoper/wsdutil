@@ -1,0 +1,117 @@
+body {
+    background: none repeat scroll 0 0 #FFFFFF;
+    font-size: 12px;
+    line-height: 20px;
+    text-align: center;
+}
+body, input, select, button {
+    font-family: verdana;
+}
+h1, h2, h3, h4, h5, h6, select, input, textarea, button {
+    font-size: 100%;
+}
+body, h1, h2, h3, h4, h5, h6, ul, ol, li, form, p, dl, dt, dd, table, th, td, img, blockquote {
+    border: 0 none;
+    margin: 0;
+    padding: 0;
+}
+hr {
+    margin: 0;
+    padding: 0;
+}
+q:before, q:after {
+    content: "";
+}
+a {
+    color: #959595;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.txt-impt {
+    color: #FF0000;
+}
+body {
+    text-align: center;
+}
+.header .slogan, .info .relogin {
+    background-image: url("../images/btn_bg.png");
+    background-repeat: no-repeat;
+}
+.info .success {
+    background: url("../images/confirm.gif") no-repeat scroll 20px center transparent;
+    color: #339900;
+    padding-left: 100px;
+}
+.header {
+    border-bottom: 1px solid #CFD0D0;
+    height: 111px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    width: 800px;
+}
+.header .links {
+    position: absolute;
+    right: -7px;
+    text-align: right;
+    white-space: nowrap;
+    padding-top: 90px;
+}
+.header .links a {
+    margin: 0 7px;
+}
+.info {
+    height: 101px;
+    margin: 0 auto;
+    position: relative;
+    text-align: left;
+    width: 800px;
+}
+.info .success {
+    background-position: 20 0px;
+    display: block;
+    height: 45px;
+    left: 0;
+    overflow: hidden;
+    position: absolute;
+    text-indent: 1px;
+    top: 21px;
+	white-space: nowrap;
+    width: 435px;
+}
+
+.info .relogin {
+    color: #888F97;
+    display: block;
+    font-size: 14px;
+    height: 40px;
+    left: 307px;
+    line-height: 35px;
+    position: absolute;
+    text-align: center;
+    top: 25px;
+    width: 79px;
+    z-index: 2;
+}
+.info .relogin:hover {
+    background-position: -108px 0px;
+    color: #333333;
+    text-decoration: none;
+}
+.sectionShow {
+    height: 350px;
+    text-align: center;
+}
+.footer {
+    color: #959595;
+    height: 80px;
+    line-height: 80px;
+    text-align: center;
+    white-space: nowrap;
+}
+.footer a {
+    margin: 0 3px;
+}
