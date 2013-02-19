@@ -43,6 +43,7 @@ public class LogoutCacheHandler implements LogoutHandler {
 		String third_login_providerid = "";
 		String user_third_uniquekey = "";
 		String lgotucaCookieValue = "";
+		boolean isTgt = false;
 		try {
 			try {
 				// 这个则是登录cas-client
@@ -74,8 +75,8 @@ public class LogoutCacheHandler implements LogoutHandler {
 									user_local_uniquekey = attrPri.getName();
 									Map<String, Object> attr_map = attrPri.getAttributes();
 									if (null != attr_map) {
-										String attr_str = (String) attr_map.get("attribute");
-										Map<String, String> sp_m = CheckUserLoginType.getLoginMainAttr(attr_str);
+										Object attr_obj = attr_map.get("attribute");
+										Map<String, String> sp_m = CheckUserLoginType.getLoginMainAttr(attr_obj);
 										third_login_providerid = UtilString.getStringFromEmpty(sp_m.get(UserLoginAttr.THIRD_LOGIN_PROVIDERID));
 										user_third_uniquekey = UtilString.getStringFromEmpty(sp_m.get(UserLoginAttr.USER_THIRD_UNIQUEKEY));
 									}
@@ -88,11 +89,28 @@ public class LogoutCacheHandler implements LogoutHandler {
 				}
 			}
 			logoutCacheService.removeLoginCacheBy(user_local_uniquekey, third_login_providerid, user_third_uniquekey);
+			isTgt = isRemoveTGT(request);
 		} catch (Exception e) {
 			logger.error("清除用户缓存最外层异常", e);
 		} finally {
 			cacheUserCookieGenerator.removeCookie(response);
+			if (isTgt) {
+				ticketGrantingTicketCookieGenerator.removeCookie(response);
+			}
 		}
+	}
+
+	private boolean isRemoveTGT(HttpServletRequest request) {
+		String uri = request.getRequestURI();
+		int pathParamIndex = uri.indexOf(';');
+		if (pathParamIndex > 0) {
+			uri = uri.substring(0, pathParamIndex);
+		}
+		int queryParamIndex = uri.indexOf('?');
+		if (queryParamIndex > 0) {
+			uri = uri.substring(0, queryParamIndex);
+		}
+		return uri.endsWith(request.getContextPath() + "/services/logout.html");
 	}
 
 	private LogoutCacheService logoutCacheService;
