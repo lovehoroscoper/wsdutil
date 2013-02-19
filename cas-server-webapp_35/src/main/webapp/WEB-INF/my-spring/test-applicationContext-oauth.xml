@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+    <description>
+		my add oauth
+    </description>
+    
+    	<!-- 密码加密 -->
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
+		<constructor-arg index="0" value="${REG_PASSWORD_KEY}"/>
+	</bean>
+
+    <bean id="qq" class="org.scribe.up.provider.impl.QQProvider">
+        <property name="key" value="12345678" />
+        <property name="secret" value="1234567887654321" />
+        <property name="callbackUrl" value="https://localhost:8443/login" />
+    </bean>
+
+    <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
+        <property name="key" value="12345678" />
+        <property name="secret" value="1234567887654321" />
+        <property name="callbackUrl" value="https://localhost:8443/login" />
+    </bean>
+
+    <bean id="github" class="org.scribe.up.provider.impl.GitHubProvider">
+        <property name="key" value="bb7977b9e7f892c115c3" />
+        <property name="secret" value="15a6f06329945e1ac5b6f715dcae5314bf88b005" />
+    </bean>
+
+    <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
+        <property name="loginUrl" value="https://localhost:8443/login" />
+        <property name="providers">
+            <list>
+                <ref bean="qq" />
+                <ref bean="weibo" />
+                <ref bean="github" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="initOpenLoginConfig" class="org.gonetbar.ssa.oauth.InitOpenLoginConfig">
+        <property name="typeMapping">
+        	<map>
+        		<entry key="qq" value="QQProvider" />
+        		<entry key="weibo" value="WeiboProvider" />
+        		<entry key="github" value="GitHubProvider" />
+        	</map>
+        </property>
+    </bean>
+
+	<!--  oauth step2 login-webflow.xml -->
+	<!--  oauth step3 cas-servlet.xml -->
+	<!--  oauth step4  deployerConfigContext.xml authenticationHandlers -->
+	<!--  oauth step5  deployerConfigContext.xml OAuthCredentialsToPrincipalResolver  -->
+	<!--  oauth step6  deployerConfigContext.xml authenticationMetaDataPopulators  -->
+
+</beans>

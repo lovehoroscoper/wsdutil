@@ -10,19 +10,19 @@
     
     	<!-- 密码加密 -->
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder">
-		<constructor-arg index="0" value="weisd"/>
+		<constructor-arg index="0" value="${REG_PASSWORD_KEY}"/>
 	</bean>
 
     <bean id="qq" class="org.scribe.up.provider.impl.QQProvider">
-        <property name="key" value="12345" />
-        <property name="secret" value="12345" />
-        <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
+        <property name="key" value="12345678" />
+        <property name="secret" value="1234567887654321" />
+        <property name="callbackUrl" value="https://localhost:8443/login" />
     </bean>
 
     <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
-        <property name="key" value="123456" />
-        <property name="secret" value="123456" />
-        <property name="callbackUrl" value="http://ssl.kankan21.net/cas/login" />
+        <property name="key" value="12345678" />
+        <property name="secret" value="1234567887654321" />
+        <property name="callbackUrl" value="https://localhost:8443/login" />
     </bean>
 
     <bean id="github" class="org.scribe.up.provider.impl.GitHubProvider">
@@ -31,7 +31,7 @@
     </bean>
 
     <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
-        <property name="loginUrl" value="http://ssl.kankan21.net/cas/login" />
+        <property name="loginUrl" value="https://localhost:8443/login" />
         <property name="providers">
             <list>
                 <ref bean="qq" />
@@ -45,8 +45,8 @@
         <property name="typeMapping">
         	<map>
         		<entry key="qq" value="QQProvider" />
-        		<entry key="github" value="GitHubProvider" />
         		<entry key="weibo" value="WeiboProvider" />
+        		<entry key="github" value="GitHubProvider" />
         	</map>
         </property>
     </bean>
