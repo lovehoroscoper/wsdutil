@@ -43,14 +43,14 @@
 		<dependency>
 			<groupId>com.godtips.common</groupId>
 			<artifactId>my-common</artifactId>
-			<version>${my.common.version}-SNAPSHOT</version>
+			<version>${my.common.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>com.godtips.sso</groupId>
 			<artifactId>sso-acl</artifactId>
-			<version>${sso.acl.version}-SNAPSHOT</version>
+			<version>${sso.acl.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
