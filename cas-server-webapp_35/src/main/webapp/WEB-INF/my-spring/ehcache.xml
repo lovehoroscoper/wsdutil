@@ -5,7 +5,7 @@
   defaultTransactionTimeoutInSeconds="30" 
   dynamicConfig="true">
 
- <diskStore path="java.io.tmpdir/ssocache1"/>
+ <diskStore path="/app/cache_dir/sso/ssocache1"/>
 
   <cacheManagerPeerProviderFactory
     class="net.sf.ehcache.distribution.jgroups.JGroupsCacheManagerPeerProviderFactory"
@@ -13,19 +13,25 @@
   />
 
     <defaultCache
-        maxElementsInMemory="1000"
+        maxElementsInMemory="200"
+        maxElementsOnDisk="20000"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
         overflowToDisk="true"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="600"
+        memoryStoreEvictionPolicy="LRU"
         />
 	     
     <cache name="cache_users"
-        maxElementsInMemory="10"
+        maxElementsInMemory="300"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
-        overflowToDisk="true">
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        overflowToDisk="true"
+        diskExpiryThreadIntervalSeconds="10"
+        >
         <cacheEventListenerFactory
 		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
 		   properties="replicateAsynchronously=true, replicatePuts=true,
@@ -33,11 +39,13 @@
     </cache>
     
     <cache name="cache_userdetails"
-        maxElementsInMemory="10"
+        maxElementsInMemory="300"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
-        overflowToDisk="true">
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        overflowToDisk="true"
+        diskExpiryThreadIntervalSeconds="10"
+        >
         <cacheEventListenerFactory
 		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
 		   properties="replicateAsynchronously=true, replicatePuts=true,
@@ -45,10 +53,11 @@
     </cache>
     
     <cache name="cache_menu"
-        maxElementsInMemory="10"
+        maxElementsInMemory="200"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        diskPersistent="true"
         overflowToDisk="true">
         <cacheEventListenerFactory
 		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
@@ -57,10 +66,11 @@
     </cache>
     
     <cache name="cache_role"
-        maxElementsInMemory="10"
+        maxElementsInMemory="200"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        diskPersistent="true"
         overflowToDisk="true">
         <cacheEventListenerFactory
 		   class="net.sf.ehcache.distribution.jgroups.JGroupsCacheReplicatorFactory"
