@@ -33,7 +33,7 @@
     </appender>
 
     <appender name="cas" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="D:/log/ssl_server/ssl_server.log"/>
+        <param name="File" value="/mydata/logs/sso/ssl_server.log"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss} [%p] %c{1}:%L - %m%n"/>
@@ -55,7 +55,7 @@
 
     <!-- This file appender is used to output aggregated performance statistics -->
     <appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="File" value="D:/log/ssl_server/perfStats.log"/>
+        <param name="File" value="/mydata/logs/sso/perfStats.log"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%m%n"/>
@@ -94,17 +94,17 @@
         apply DEBUG level logging on a an org.springframework.* package level (i.e. org.springframework.dao)
     -->
     <logger name="org.springframework">
-        <level value="WARN" />
+        <level value="INFO" />
     </logger>
     <logger name="org.springframework.webflow">
-        <level value="WARN" />
+        <level value="INFO" />
     </logger>
     <logger name="org.jasig" additivity="true">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
     <logger name="com.github.inspektr.audit.support.Slf4jLoggingAuditTrailManager">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
 
@@ -114,23 +114,23 @@
         cleartext authentication credentials
     -->
     <logger name="org.jasig.cas.web.flow" additivity="true">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
     <logger name="org.gonetbar" additivity="true">
-        <level value="INFO" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
     <logger name="java.sql.PreparedStatement" additivity="true">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
     <logger name="java.sql.Connection" additivity="true">
-        <level value="WARN" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
     <logger name="org.scribe" additivity="true">
-        <level value="INFO" />
+        <level value="DEBUG" />
         <appender-ref ref="cas" />
     </logger>
 
