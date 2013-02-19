@@ -95,14 +95,13 @@ public class LgotucaCookie {
 
 		}
 	}
-	
-	public static void setCookie(String loginType,HttpServletResponse response,String p_user_local_uniquekey ,TicketGrantingTicket ticket){
-		if(UserLoginType.LOGIN_TYPE_LOCAL.equals(loginType)){
-			
-		}else if(UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)){
-			
+
+	public static void setCookie(String loginType, HttpServletResponse response, String p_user_local_uniquekey, TicketGrantingTicket ticket) {
+		if (UserLoginType.LOGIN_TYPE_LOCAL.equals(loginType)) {
+
+		} else if (UserLoginType.LOGIN_TYPE_OAUTH.equals(loginType)) {
+
 		}
-		
 	}
 
 	/**
@@ -113,20 +112,42 @@ public class LgotucaCookie {
 		String user_local_uniquekey = "111111111111111@163.com";
 		String third_login_providerid = "1234";
 		String user_third_uniquekey = "DFESDFESSSSSSSSSSSSSSSSSSS";
-//		String cookieValue = encodeCookieValue(user_local_uniquekey, third_login_providerid, user_third_uniquekey, tgt);
-//		System.out.println(user_local_uniquekey);
-//		System.out.println(third_login_providerid);
-//		System.out.println(user_third_uniquekey);
-//		System.out.println(cookieValue);
+		// String cookieValue = encodeCookieValue(user_local_uniquekey,
+		// third_login_providerid, user_third_uniquekey, tgt);
+		// System.out.println(user_local_uniquekey);
+		// System.out.println(third_login_providerid);
+		// System.out.println(user_third_uniquekey);
+		// System.out.println(cookieValue);
 
-		
 		String cookieValue = "wpvCJy5kXuqXU%2Fspu5kr%2BR9hN6SP74kfub34T3pkd6kgwGTNE0xi9Wpvouh%2Fnk2T";
-		
-		UserProviderInfoVo vo = decodeCookieValue(cookieValue, tgt);
+
+		tgt = "";
+		cookieValue = "";
+
+		UserProviderInfoVo vo = decodeCookieValue_test(cookieValue, tgt);
 		System.out.println(vo.getUsername());
 		System.out.println(vo.getProviderid());
 		System.out.println(vo.getThirduserid());
 
+	}
+
+	public static UserProviderInfoVo decodeCookieValue_test(String cookieValue, String loginTGT) {
+		UserProviderInfoVo vo = new UserProviderInfoVo();
+		String key = "";
+		if (UtilString.isEmptyOrNullByTrim(key) || UtilString.isEmptyOrNullByTrim(cookieValue) || UtilString.isEmptyOrNullByTrim(loginTGT)) {
+			return vo;
+		}
+		String t_value = "";
+		try {
+			String t_cookieValue = URLDecoder.decode(cookieValue, "UTF-8");
+			t_value = SpringPropertiesDbDesUtil.getDecodeByEncode(t_cookieValue, loginTGT + key);
+		} catch (Exception e) {
+			t_value = "";
+		}
+		if (UtilString.notEmptyOrNullByTrim(t_value)) {
+			splitMsg(t_value, vo);
+		}
+		return vo;
 	}
 
 }
