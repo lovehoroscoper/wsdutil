@@ -1,11 +1,15 @@
 package org.gonetbar.ssa.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.gonetbar.ssa.constant.UserLoginAttr;
 import org.gonetbar.ssa.constant.UserLoginType;
 import org.scribe.up.profile.UserProfile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.godtips.common.UtilRegex;
 import com.godtips.common.UtilString;
@@ -17,6 +21,8 @@ import com.godtips.common.UtilString;
  * @version 创建时间：2013-1-8 下午2:28:47
  */
 public class CheckUserLoginType {
+
+	private static Logger logger = LoggerFactory.getLogger(CheckUserLoginType.class);
 
 	public static String getLoginTypeByUid(String uid) {
 		if (UtilString.isEmptyOrNullByTrim(uid)) {
@@ -31,7 +37,7 @@ public class CheckUserLoginType {
 			return "";
 		}
 	}
-	
+
 	public static String getProviderTypeByUid(String uid) {
 		if (UtilString.isEmptyOrNullByTrim(uid)) {
 			return "";
@@ -56,14 +62,39 @@ public class CheckUserLoginType {
 		}
 	}
 
-	public static Map<String, String> getLoginMainAttr(String attr_str) {
+	@SuppressWarnings("rawtypes")
+	public static Map<String, String> getLoginMainAttr(Object attr_obj) {
 		Map<String, String> m = new HashMap<String, String>();
-		if (UtilString.notEmptyOrNullByTrim(attr_str)) {
-			String[] attr_arry = attr_str.trim().split("[\n]");
-			for (int i = 0; i < attr_arry.length; i++) {
-				String key = UtilString.getStringFromEmpty(attr_arry[i]);
-				if (UserLoginAttr.THIRD_LOGIN_PROVIDERID.equals(key) || UserLoginAttr.USER_THIRD_UNIQUEKEY.equals(key)) {
-					m.put(key, UtilString.getStringFromEmpty(attr_arry[i + 1]));
+		if (null != attr_obj && attr_obj instanceof ArrayList) {
+			List list = (List) attr_obj;
+			for (int i = 0; i < list.size(); i++) {
+				Object one_attr = list.get(i);
+				if (one_attr instanceof String) {
+					String str = (String) one_attr;
+					if (UtilString.notEmptyOrNullByTrim(str)) {
+						String[] one_arry = str.trim().split("[\n]");
+						if (null != one_arry && one_arry.length > 0) {
+							String key = UtilString.getStringFromEmpty(one_arry[0]);
+							String value = "";
+							if (one_arry.length > 1) {
+								value = UtilString.getStringFromEmpty(one_arry[1]);
+							}
+							m.put(key, value);
+						}
+					}
+				} else {
+					logger.error("getLoginMainAttr中为Object属性[" + one_attr + "]");
+				}
+			}
+		} else if (attr_obj instanceof String) {
+			String attr_str = (String) attr_obj;
+			if (UtilString.notEmptyOrNullByTrim(attr_str)) {
+				String[] attr_arry = attr_str.trim().split("[\n]");
+				for (int i = 0; i < attr_arry.length; i++) {
+					String key = UtilString.getStringFromEmpty(attr_arry[i]);
+					if (UserLoginAttr.THIRD_LOGIN_PROVIDERID.equals(key) || UserLoginAttr.USER_THIRD_UNIQUEKEY.equals(key)) {
+						m.put(key, UtilString.getStringFromEmpty(attr_arry[i + 1]));
+					}
 				}
 			}
 		}
