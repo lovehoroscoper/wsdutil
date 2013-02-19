@@ -1,7 +1,5 @@
 package org.jasig.cas.web;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -55,7 +53,7 @@ public final class Kan21LogoutController extends AbstractController {
 
 	// new
 	private LogoutHandler handler;
-	
+
 	protected final Log logger = LogFactory.getLog(this.getClass());
 
 	public Kan21LogoutController() {
@@ -66,12 +64,12 @@ public final class Kan21LogoutController extends AbstractController {
 		final String ticketGrantingTicketId = this.ticketGrantingTicketCookieGenerator.retrieveCookieValue(request);
 		final String service = request.getParameter("service");
 
-		//add by weisd
+		// add by weisd
 		try {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			handler.logout(request, response, auth);
 		} catch (Exception e) {
-			logger.error("Kan21LogoutController退出清除缓存异常",e);
+			logger.error("Kan21LogoutController退出清除缓存异常", e);
 		}
 
 		if (ticketGrantingTicketId != null) {
@@ -123,5 +121,5 @@ public final class Kan21LogoutController extends AbstractController {
 	public final void setHandler(LogoutHandler handler) {
 		this.handler = handler;
 	}
-	
+
 }
