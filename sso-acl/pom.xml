@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.godtips.sso</groupId>
 	<artifactId>sso-acl</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<name>sso-acl</name>
 	<url>http://maven.apache.org</url>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>com.godtips.common</groupId>
 			<artifactId>my-common</artifactId>
-			<version>${my.common.version}-SNAPSHOT</version>
+			<version>${my.common.version}</version>
 			<scope>compile</scope>
 		</dependency>
 
