@@ -19,24 +19,12 @@
         <property name="callbackUrl" value="https://localhost:8443/login" />
     </bean>
 
-    <bean id="weibo" class="org.scribe.up.provider.impl.WeiboProvider">
-        <property name="key" value="12345678" />
-        <property name="secret" value="1234567887654321" />
-        <property name="callbackUrl" value="https://localhost:8443/login" />
-    </bean>
-
-    <bean id="github" class="org.scribe.up.provider.impl.GitHubProvider">
-        <property name="key" value="bb7977b9e7f892c115c3" />
-        <property name="secret" value="15a6f06329945e1ac5b6f715dcae5314bf88b005" />
-    </bean>
 
     <bean id="providersDefinition" class="org.jasig.cas.support.oauth.OAuthConfiguration">
-        <property name="loginUrl" value="https://localhost:8443/login" />
+        <property name="loginUrl" value="http://ssl.kankan21.net/login" />
         <property name="providers">
             <list>
                 <ref bean="qq" />
-                <ref bean="weibo" />
-                <ref bean="github" />
             </list>
         </property>
     </bean>
@@ -45,8 +33,6 @@
         <property name="typeMapping">
         	<map>
         		<entry key="qq" value="QQProvider" />
-        		<entry key="weibo" value="WeiboProvider" />
-        		<entry key="github" value="GitHubProvider" />
         	</map>
         </property>
     </bean>
