@@ -42,6 +42,9 @@
   <sec:http pattern="/showerror/**" security="none"/>
   
   <sec:http pattern="/register/**" security="none"/>
+  
+  <sec:http pattern="/css/**" security="none"/>
+  <sec:http pattern="/images/**" security="none"/>
 
   <sec:http pattern="/status/**" entry-point-ref="notAuthorizedEntryPoint" use-expressions="true" auto-config="true">
     <sec:intercept-url pattern="/status" access="hasIpAddress('${cas.securityContext.status.allowedSubnet}')" />
