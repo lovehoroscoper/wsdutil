@@ -229,7 +229,7 @@
 
   <error-page>
     <error-code>404</error-code>
-    <location>/</location>
+    <location>/error/404/404_1.jsp</location>
   </error-page>
 
   <error-page>
