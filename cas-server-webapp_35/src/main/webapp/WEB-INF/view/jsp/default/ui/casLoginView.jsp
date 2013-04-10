@@ -24,9 +24,9 @@
 					<tbody>
 						<tr>
 							<td id="td_third">
-								<a href="oauth20/weibo/initlogin.do"><img src="<c:url value="/images/oauth/weibo/third_weibo.png"/>"></a> 
 								<a href="oauth20/qq/initlogin.do"><img src="<c:url value="/images/oauth/qq/third_qq.png"/>"></a>
 								<%-- 
+								<a href="oauth20/weibo/initlogin.do"><img src="<c:url value="/images/oauth/weibo/third_weibo.png"/>"></a> 
 								<a href="oauth20/github/initlogin.do"><img src="<c:url value="/images/oauth/github/third_github.png"/>"></a> 
 								 --%>
 							</td>
