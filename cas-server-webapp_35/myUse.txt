@@ -1,3 +1,5 @@
+oauth20/github/initlogin.do  未做限制
+
 /services/logout.html  未删除TGT
 
 
