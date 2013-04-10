@@ -95,7 +95,8 @@ public final class RegisterAction {
 							String[] third_info = typedId.split(UserProfile.SEPARATOR);
 							String email = RequestUtil.getParam(request, "email", "");
 							String password_t = RequestUtil.getParam(request, "password", "");
-							String nikename = RequestUtil.getParam(request, "nikename", "");
+							//String nikename = RequestUtil.getParam(request, "nikename", "");
+							String nikename = email;
 							String thirduserid = third_info[1];
 							// valid user info
 							if (null != third_info && third_info.length == 2) {
