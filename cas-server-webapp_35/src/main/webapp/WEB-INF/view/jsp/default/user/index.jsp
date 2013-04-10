@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>USER</title>
+<title>User Home</title>
 <link rel="stylesheet" href="<c:url value="/css/user.css"/>">
 </head>
 <body>
