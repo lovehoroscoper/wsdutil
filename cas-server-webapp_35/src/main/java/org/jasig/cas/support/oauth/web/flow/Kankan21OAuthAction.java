@@ -90,6 +90,11 @@ public final class Kankan21OAuthAction extends AbstractAction {
 			session.removeAttribute(Oauth20Attr.OAUTH_KEYSTR);
 			session.removeAttribute(ModelRecordStrUtil.THIRD_LOGIN_INFO);
 			String my_state = LoginInitMd5.getLoginInitMd5("", "", provider.getType(), oauth_keyStr);
+			
+//			logger.error("------------------------cessssssssssssssssssssssssssssssss----------");
+//			logger.error("------------------------cessssssssssssssssssssssssssssssss----------");
+//			third_state = my_state;
+//			logger.error("------------------------cessssssssssssssssssssssssssssssss----------");
 			if (UtilString.isEmptyOrNullByTrim(third_state) || !third_state.equals(my_state)) {
 				// 被CSRF
 				logger.error("可能出现[CSRF][provider : {},credential : {}]", provider, credential);
