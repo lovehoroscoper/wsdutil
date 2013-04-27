@@ -7,14 +7,23 @@
 
 
 	<typeAliases>
+		<!-- sso-acl -->
+		<typeAlias alias="userInfoVo" type="org.godtips.sso.user.entity.UserInfoVo" />
+		<typeAlias alias="userProviderInfoVo" type="org.godtips.sso.user.entity.UserProviderInfoVo" />
+		<typeAlias alias="thirdProviderVo" type="org.godtips.sso.user.entity.ThirdProvider" />
 		<typeAlias alias="aclUserVo" type="com.godtips.sso.acl.entity.AclUserVo" />
 		<typeAlias alias="matcherInfo" type="com.godtips.sso.acl.entity.MatcherInfo" />
 		<typeAlias alias="dbRoleAttribute" type="com.godtips.sso.acl.entity.DbRoleAttribute" />
 		<typeAlias alias="aclGrantedAuthority" type="com.godtips.sso.acl.entity.AclGrantedAuthority" />
+		<!-- end sso-acl -->
+		
 	</typeAliases>
 
 	<mappers>
-		<mapper resource="db/mybatis/acl/MatcherInfoMapper.xml" />
+		<!-- sso-acl -->
+		<mapper resource="mapper/com/wode/sso/acl/entity/MatcherInfoMapper.xml" />
+		<mapper resource="mapper/com/wode/sso/user/entity/UserInfoVoMapper.xml" />
+		<!-- end sso-acl -->
 	</mappers>
 
 </configuration>

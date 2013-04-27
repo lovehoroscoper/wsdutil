@@ -14,7 +14,12 @@
 		<property name="securityMetadataSourceDao" ref="securityMetadataSourceDao"/>
 	</bean>
 
-
+	<bean id="ssoUserDao" class="org.godtips.sso.user.dao.impl.SsoUserDaoImpl" autowire="byName"/>
+	
+	<bean id="ssoUserDetailsService" class="org.godtips.sso.user.service.impl.SsoUserDetailsServiceImpl">
+		<property name="ssoUserDao" ref="ssoUserDao"/>
+	</bean>
+	
 	<!-- As of Spring SEC 3.1 -->
 	<!-- 一个自定义的filter，必须包含authenticationManager,accessDecisionManager,securityMetadataSource三个属性， -->
 	<!-- 认证管理器，实现用户认证的入口 -->
@@ -50,6 +55,10 @@
 	</bean>
 	
 	<bean id="aclCacheManager" class="com.godtips.sso.acl.cache.AclCacheManager">
+		<property name="cacheManager" ref="cacheManager"/>
+	</bean>
+
+	<bean id="userCacheManager" class="org.godtips.sso.user.cache.UserCacheManager">
 		<property name="cacheManager" ref="cacheManager"/>
 	</bean>
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wode.sso.user.entity.UserInfoVoMapper">
+	
+	<resultMap id="findUserByVoId_resultmap" type="userInfoVo">
+		<result column="id_user" property="id_user" />
+		<result column="username" property="username" />
+		<result column="password" property="password" />
+		<result column="nikename" property="nikename" />
+		<result column="id_site" property="id_site" />
+		<result column="logintype" property="logintype" />
+		<result column="validtype" property="validtype" />
+		<result column="encrypttype" property="encrypttype" />
+		<result column="email" property="email" />
+	</resultMap>
+
+	<resultMap id="findUserByProviderId_resultmap" type="userProviderInfoVo">
+		<result column="providerid" property="providerid" />
+		<result column="thirduserid" property="thirduserid" />
+		<result column="username" property="username" />
+		<result column="createdate" property="createdate" />
+	</resultMap>
+
+	<resultMap id="findProviderIdByTypeId_resultmap" type="thirdProviderVo">
+		<result column="id" property="providerId" />
+		<result column="name" property="profileType" />
+		<result column="providertype" property="providerType" />
+		<result column="status" property="status" />
+		<result column="ext0" property="ext0" />		
+	</resultMap>
+	
+	<select id="findUserByVoId" parameterType="userInfoVo" resultMap="findUserByVoId_resultmap">
+		select
+			t.id_user,
+			t.username,
+			t.password,
+			t.nikename,
+			t.id_site,
+			t.logintype,
+			t.validtype,
+			t.createdate,
+			t.encrypttype,
+			t.email
+		from
+			sso_user t
+		where
+			t.username = #{username}
+	</select>
+
+	<select id="findUserByProviderId" parameterType="userProviderInfoVo" resultMap="findUserByProviderId_resultmap">
+		select
+			t.providerid,
+			t.thirduserid,
+			t.username,
+			t.createdate
+		from
+			sso_user_third t
+		where
+			t.providerid = #{providerid}
+		and t.thirduserid = #{thirduserid}
+	</select>
+
+	<select id="addUser" statementType="CALLABLE">
+		{call 
+		ADD_USER(
+			#{bindtype},
+			#{username},
+			#{password},
+			#{providerid},
+			#{thirduserid},
+			#{nikename},
+			#{dbreturn,mode=OUT,jdbcType=VARCHAR},
+			#{userid,mode=OUT,jdbcType=VARCHAR},
+			#{info1,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+
+	<select id="findProviderIdByTypeId" parameterType="thirdProviderVo" resultMap="findProviderIdByTypeId_resultmap">
+		SELECT
+			t.id,
+			t.name,
+			t.providertype,
+			t.status,
+			t.ext0 
+		FROM
+			sso_login_third t
+		WHERE t.name = #{profileType} 
+	</select>
+
+	<select id="queryCheckUserUnique" statementType="CALLABLE">
+		{call 
+		CHECK_USER_UNIQUE(
+				#{checktype},
+				#{username},
+				#{password},
+				#{providerid},
+				#{thirduserid},
+				#{nikename},
+				#{dbreturn,mode=OUT,jdbcType=VARCHAR},
+				#{localexist,mode=OUT,jdbcType=VARCHAR},
+				#{thirdexist,mode=OUT,jdbcType=VARCHAR},
+				#{info1,mode=OUT,jdbcType=VARCHAR},
+				#{info2,mode=OUT,jdbcType=VARCHAR}
+		)}
+	</select>
+
+</mapper>

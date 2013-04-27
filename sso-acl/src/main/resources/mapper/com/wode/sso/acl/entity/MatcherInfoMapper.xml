@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.godtips.sso.acl.entity.MatcherInfo">
+<mapper namespace="com.wode.sso.acl.entity.MatcherInfo">
 
 	<resultMap id="queryRequestUrlListId_resultmap" type="matcherInfo">
 		<result column="menuid" property="menuid" />
