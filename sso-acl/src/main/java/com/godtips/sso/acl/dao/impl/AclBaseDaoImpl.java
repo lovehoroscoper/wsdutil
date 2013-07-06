@@ -2,7 +2,9 @@ package com.godtips.sso.acl.dao.impl;
 
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.godtips.sso.acl.dao.AclBaseDao;
 
@@ -15,6 +17,11 @@ import com.godtips.sso.acl.dao.AclBaseDao;
  * @version v1.0
  */
 public class AclBaseDaoImpl extends SqlSessionDaoSupport implements AclBaseDao {
+	
+	@Autowired
+	public void setSqlSessionFactory(SqlSessionFactory sqlSessionFactory) {
+		super.setSqlSessionFactory(sqlSessionFactory);
+	}
 
 	public Object addObject(String sqlid, Object obj) {
 		return this.getSqlSession().insert(sqlid, obj);
