@@ -1,0 +1,7 @@
+MySocketClient
+
+TCPClient
+
+NClient
+
+http://blog.csdn.net/kingquake21/article/details/3876772

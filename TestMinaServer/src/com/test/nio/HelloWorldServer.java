@@ -99,7 +99,7 @@ public class HelloWorldServer {
 					.wrap("Hello !" + name));
 			
 
-			channel.write(block);
+//			channel.write(block);
 
 			//channel.close();
 
@@ -107,7 +107,7 @@ public class HelloWorldServer {
 	}
 
 	public static void main(String[] args) {
-		int port = 8888;
+		int port = 9999;
 		try {
 			HelloWorldServer server = new HelloWorldServer(port);
 			System.out.println("listening on " + port);

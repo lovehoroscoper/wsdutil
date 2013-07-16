@@ -18,7 +18,8 @@ public class ChannelClient {
 //	private final String HOST = "192.168.11.80";
 	private final String HOST = "127.0.0.1";
 //	private final int PORT = 5678;
-	private final int PORT = 9999;
+//	private final int PORT = 9999;
+	private final int PORT = 2345;
 	private Selector selector = null;
 	private InputStream in;
 	private OutputStream out;
@@ -34,7 +35,8 @@ public class ChannelClient {
 			public void run() {
 				String send = "心跳访问";
 				try {
-					sendData(send.getBytes("UTF-16"));
+//					sendData(send.getBytes("UTF-16"));
+					sendData(send.getBytes());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -71,6 +73,8 @@ public class ChannelClient {
 	public static void main(String[] args) throws IOException {
 		ChannelClient c = new ChannelClient();
 		String send = "客户端访问";
-		c.sendData(send.getBytes("UTF-16"));
+//		c.sendData(send.getBytes("UTF-16"));
+//		c.sendData(send.getBytes("UTF-16"));
+		c.sendData(send.getBytes());
 	}
 }

@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 	<display-name>TestMinaServer</display-name>
+	
+	<!-- 
+	<filter>
+		<filter-name>CASFilter</filter-name>
+		<filter-class>org.jasig.cas.client.authentication.AuthenticationFilter</filter-class>
+		<init-param>
+			<param-name>casServerLoginUrl</param-name>
+			<param-value>http://127.0.0.1:8080/cas/login</param-value>
+		</init-param>
+		<init-param>
+			<param-name>serverName</param-name>
+			<param-value>http://127.0.0.1:8081</param-value>
+		</init-param>
+	</filter> 
+	
+    <filter-mapping>
+        <filter-name>CASFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+	 -->
+	
 	<servlet>
 		<description>
 		</description>
@@ -13,6 +34,58 @@
 		<servlet-name>BaseServlet</servlet-name>
 		<url-pattern>/BaseServlet</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>NoticeServletFail</display-name>
+		<servlet-name>NoticeServletFail</servlet-name>
+		<servlet-class>com.test.mina.NoticeServletFail</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NoticeServletFail</servlet-name>
+		<url-pattern>/NoticeServletFail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description>
+		</description>
+		<display-name>NoticeServletSucc</display-name>
+		<servlet-name>NoticeServletSucc</servlet-name>
+		<servlet-class>com.test.mina.NoticeServletSucc</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NoticeServletSucc</servlet-name>
+		<url-pattern>/NoticeServletSucc</url-pattern>
+	</servlet-mapping>
+	<!-- 
+	<servlet>
+		<description>
+		</description>
+		<display-name>QuerenServlet</display-name>
+		<servlet-name>QuerenServlet</servlet-name>
+		<servlet-class>com.test.servlet.webcharge.QuerenServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QuerenServlet</servlet-name>
+		<url-pattern>/QuerenServlet</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<description>
+		</description>
+		<display-name>TijiaoServlet</display-name>
+		<servlet-name>TijiaoServlet</servlet-name>
+		<servlet-class>com.test.servlet.webcharge.TijiaoServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TijiaoServlet</servlet-name>
+		<url-pattern>/TijiaoServlet</url-pattern>
+	</servlet-mapping>
+ -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>

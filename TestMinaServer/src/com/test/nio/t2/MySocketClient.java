@@ -30,8 +30,8 @@ public class MySocketClient implements Runnable{
         try {
             sc = SocketChannel.open();
             sc.configureBlocking(false);
-//            sc.connect(new InetSocketAddress("localhost", 2345));
-            sc.connect(new InetSocketAddress("localhost", 9999));
+            sc.connect(new InetSocketAddress("localhost", 2345));
+//            sc.connect(new InetSocketAddress("localhost", 9999));
            
            
         } catch (IOException ex) {
