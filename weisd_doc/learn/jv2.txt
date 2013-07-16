@@ -1,0 +1,57 @@
+	//收到用户信息查询消息:comm=8004&version=1.0&querysno=10000013303&agentsno=null&accnum=13987114836&ispid=1&servicetype=0&provinceid=25&citycode=0871&channelid=70100003&appcode=7010
+	//用户查询返回:Info=新全球通服务计划80套餐(KM)&accnum=13987114836&agentsno=null&appcode=7010&balance=114.49&channelid=70100003&citycode=0871&comm=8104&custName=任*&custZone=0871&fee=0&ispid=1&provinceid=25&querysno=10000013303&resultmsg=TradeOK&resultno=0000&servicetype=0&version=1.0
+
+
+
+weihua.lu@alipay.com
+
+
+主要实现的接口：
+1、余额查询
+2、欠费查询  允许不查欠费直接充值吗？
+3、充值
+4、订单状态查询 可以作为唯一结果吗？
+5、回调
+6、对账?
+
+未明确：
+
+TcpCont 是干嘛的？
+
+xml 是否允许有空格
+<?xml version="1.0" encoding="UTF-8"?>
+
+3.1.1	TcpCont（会话控制）
+
+文件接口干嘛？
+3.0 订货是什么业务
+4.0 订单管理是充值的吗
+
+3.10 客户资料查询是什么类型的业务，用在什么地方
+产品查询指什么
+
+
+6.0 数据核查
+
+
+另一个文档：
+余额，欠费，充值记录查询是指什么？
+
+
+
+select 
+
+'<entry key="'||t.province_id||'_'||c.city_code||'" value="'||c.city_name||'"/>',
+
+       t.province_name,
+       c.city_name,
+       c.city_code,
+       c.hf_citycode
+  from sys_province t,
+       (select cc.*,
+               row_number() over(partition by cc.city_code order by cc.hf_citycode) rn
+          from sys_city cc) c
+
+ where t.province_id = c.province_id
+   and c.rn = 1
+ order by t.province_id, c.city_code, c.hf_citycode

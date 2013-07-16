@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" 
+	xmlns="http://java.sun.com/xml/ns/javaee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+  
+  	<!-- 测试 -->
+	<filter>
+		<filter-name>TestFilter</filter-name>
+		<filter-class>test.TestFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>TestFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>TestFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>TestFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+  
+	<filter>   
+        <filter-name>encodingFilter</filter-name>   
+        <filter-class>   
+            org.springframework.web.filter.CharacterEncodingFilter</filter-class>   
+        <init-param>   
+            <param-name>encoding</param-name>   
+            <param-value>gb2312</param-value>   
+        </init-param>   
+        <init-param>   
+            <param-name>forceEncoding</param-name>   
+            <param-value>true</param-value>   
+        </init-param>   
+    </filter>   
+    <filter-mapping>   
+        <filter-name>encodingFilter</filter-name>   
+        <url-pattern>/*</url-pattern>   
+    </filter-mapping> 
+    
+	<!-- 权限 
+	<filter>
+		<filter-name>AccessFilter</filter-name>
+		<filter-class>com.speed.speedadmin.base.AccessFilter</filter-class>
+		<init-param>
+			<param-name>query</param-name>
+			<param-value>query</param-value>
+		</init-param>
+		<init-param>
+			<param-name>add</param-name>
+			<param-value>add</param-value>
+		</init-param>
+		<init-param>
+			<param-name>update</param-name>
+			<param-value>update</param-value>
+		</init-param>
+		<init-param>
+			<param-name>delete</param-name>
+			<param-value>delete</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.loginUrl</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_apply.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.validateUrl</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_validateTicket.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.logOutUrl</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_loginOut.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.serverName</param-name>
+			<param-value>192.168.2.96:9001</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.loginUrl2</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_apply.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.validateUrl2</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_validateTicket.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.logOutUrl2</param-name>
+			<param-value>http://192.168.2.95:1000/userLogin_loginOut.do</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.serverName2</param-name>
+			<param-value>192.168.2.96:9001</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.speed.speedadmin.accesscentral.cas.client.filter.otherIpPre</param-name>
+			<param-value>192.168.2.88</param-value>
+		</init-param>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>AccessFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+-->
+	<filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>
+            org.apache.struts2.dispatcher.FilterDispatcher
+        </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+   <!-- 指明spring配置文件在何处 -->
+     <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:applicationContext*</param-value>
+    </context-param>
+
+    <!-- 加载spring配置文件applicationContext.xml -->
+    <listener>
+        <listener-class>
+            org.springframework.web.context.ContextLoaderListener
+        </listener-class>
+    </listener>
+    
+    <!--  param-value>/App/ini/SPEEDADMIN/WEBServer.ini</param-value-->
+	<servlet>
+		<servlet-name>Server_Console</servlet-name>
+		<servlet-class>com.junbao.servlet.Server_Console</servlet-class>
+		<init-param>
+			<param-name>configfile</param-name>
+			<param-value>
+				D:\\junbao_newpro\\jbhfson\\ini\\WEBServer.ini
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+ 	<session-config>
+        <session-timeout>30</session-timeout>
+  	</session-config>
+	
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
