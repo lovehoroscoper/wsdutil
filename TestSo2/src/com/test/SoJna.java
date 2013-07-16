@@ -32,7 +32,7 @@ public class SoJna {
 			logger.info("-------------res_tsttsParamSet------[" + res_tsttsParamSet + "]");
 
 			// buf[0] = '\0';
-			String buf = "\0" + pBuf;
+			String buf = pBuf;
 			TestSoInit.instance.tsttsParamGet(pSessionId, "Speed", buf, buf.length());
 			
 			logger.info("-------------end ---tsttsParamGet---[tsttsParamGet]");
