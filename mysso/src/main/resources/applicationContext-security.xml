@@ -6,7 +6,6 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
     <global-method-security pre-post-annotations="enabled">
-
     </global-method-security>
 
     <http use-expressions="true" auto-config="true" access-denied-page="/accessDenied.jsp"><!-- access-denied-page 无权限跳转 -->
@@ -28,20 +27,23 @@
         scott/wombat
         peter/opal
     -->
+    <!-- 
     <authentication-manager>
-    	<authentication-provider ref=""><!-- 自己的实现 -->
+    	<authentication-provider ref="">
     		<user-service>
     		</user-service>
     		<password-encoder>
     			<salt-source/>
     		</password-encoder>
-    		<!-- 
+    	</authentication-provider>
+    </authentication-manager>
+     -->
+        		<!-- 
     		<property name="userDetailsService" ref="inMemoryDaoImpl"/>
 			<property name="saltSource" ref bean="saltSource"/>
 			<property name="passwordEncoder" ref="passwordEncoder"/>
     		 -->
-    	</authentication-provider>
-    </authentication-manager>
+    
     
     <authentication-manager>
         <authentication-provider>
