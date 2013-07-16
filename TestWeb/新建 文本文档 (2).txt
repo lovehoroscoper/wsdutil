@@ -1,0 +1,24 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>?e...</title>
+<style> 
+#bodydemo{background:url(images/tt.gif);
+backgournd-repeat:repeat-y;}
+</style>
+	</head>
+	 <body id="bodydemo">
+	   <div id="left" style="width:105px;background:#e9e9e9;float:left;height:300px;"></div>
+	   
+    	<div style="text-align:center;float:left;width:960px;border:2px solid red;height:1000px;background:#fff;position:absolute:top:0;left;">
+    	<div style="position:absloute;width:100px;border:2px solid blue;top:0px;left:0;height:300px;display:inline"></div>
+			<div style="height:300px;width:400px;border:1px solid red;margin:2px;background:red;" id="content">center</div>
+		<div style="height:100px;width:100%;border:2px solid red">footer</div>
+		</div>
+ 
+		<div id="right" style="width:105px;background:#e9e9e9;float:right;height:300px;"></div>
+		
+    </body>
+</html>
+

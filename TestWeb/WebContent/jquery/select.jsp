@@ -5,16 +5,16 @@
 <head>
 <title>代理商审核</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="/js/jquery-1.6.1.js"></script>
+<script type="text/javascript" src="/js/jquery-1.6.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.cascadingDropDown.js"></script>
 <script language="javascript">
 	$(document).ready(function() {
 		//查询
 		//$("#profitstatus").CascadingDropDown("#reqProvinceid", '/JqueryAjaxSelect');
-		$("#profitstatus").CascadingDropDown("#reqProvinceid", '/JqueryAjaxSelect', {
+		$("#profitstatus").CascadingDropDown("#reqProvinceid", 'http://localhost:8082/cardStore_queryCityListAjax.do', {
 			promptText : '-- Pick an Order--',
 			postData: function () { 
-			    return { provinceid : $('#reqProvinceid').val() }; 
+			    return { defProvinceid : $('#reqProvinceid').val() }; 
 			},
 			onLoading : function() {
 				$(this).css("background-color", "#ff3");
@@ -25,10 +25,10 @@
 				}, 300);
 			}
 		});
-		$("#orderID").CascadingDropDown("#customerID", '/JqueryAjaxSelect', {
+		$("#orderID").CascadingDropDown("#customerID", 'http://localhost:8082/cardStore_queryCityListAjax.do', {
 			promptText : '-- Pick an Order--',
 			postData: function () { 
-			    return { provinceid : $('#customerID').val() }; 
+			    return { defProvinceid : $('#customerID').val() }; 
 			},
 			onLoading : function() {
 				$(this).css("background-color", "#ff3");

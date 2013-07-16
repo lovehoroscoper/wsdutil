@@ -93,8 +93,8 @@
                                 $.each(data, function () {
                                 	//alert(this.value + "-----------" + this.text);
                                     $this.append($(optionTag)
-                                        .attr("value", this.value)
-                                        .text(this.text));// old :  this.Value  this.Text
+                                        .attr("value", this.id)
+                                        .text(this.name));// old :  this.Value  this.Text
                                 });
                                 methods.loaded();
                                 $.isFunction(config.onLoaded) && config.onLoaded.call($this);
